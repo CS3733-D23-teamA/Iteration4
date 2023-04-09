@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
+<?import net.kurobako.gesturefx.GesturePane?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
    <content>
@@ -30,6 +30,7 @@
                         <VBox prefHeight="200.0" prefWidth="800.0" />
                         <VBox prefHeight="200.0" prefWidth="800.0">
                            <children>
+                              <GesturePane fx:id="mapGesturePane" />
                               <StackPane fx:id="mapStackPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="476.0" prefWidth="700.0">
                                  <children>
                                     <ImageView fx:id="mapImage" fitHeight="500.0" fitWidth="720.0" pickOnBounds="true" preserveRatio="true">
@@ -40,6 +41,7 @@
                                           <Insets />
                                        </StackPane.margin>
                                     </ImageView>
+                                    <AnchorPane fx:id="dotsAnchorPane" prefHeight="200.0" prefWidth="200.0" />
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
