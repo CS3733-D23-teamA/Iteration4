@@ -27,7 +27,52 @@
                <children>
                   <HBox prefHeight="700.0" prefWidth="1600.0">
                      <children>
-                        <VBox prefHeight="200.0" prefWidth="800.0" />
+                        <VBox prefHeight="200.0" prefWidth="800.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="32.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <VBox fx:id="levelMenu" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <MFXButton fx:id="levelGButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L1" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="levelL2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L2" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 1" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 2" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level3Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 3" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children></VBox>
                         <VBox prefHeight="200.0" prefWidth="800.0">
                            <children>
                               <GesturePane fx:id="mapGesturePane" />
