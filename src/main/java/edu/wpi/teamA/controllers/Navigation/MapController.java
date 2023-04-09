@@ -107,7 +107,14 @@ public class MapController implements IPageController {
     floorCol.setCellValueFactory(new PropertyValueFactory<>("floor"));
     buildingCol.setCellValueFactory(new PropertyValueFactory<>("building"));
 
-    nodeTable.setItems(FXCollections.observableArrayList(nodeArray));
+    ArrayList<Node> updatedArray = new ArrayList<Node>();
+    for (int i = 0; i < nodeArray.size(); i++) {
+      if (nodeArray.get(i).getFloor().equals("L1")) {
+        updatedArray.add(nodeArray.get(i));
+      }
+    }
+
+    nodeTable.setItems(FXCollections.observableArrayList(updatedArray));
     nodeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     // nodeTable.getColumns();
   }

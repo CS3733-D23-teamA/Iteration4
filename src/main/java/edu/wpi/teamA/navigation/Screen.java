@@ -10,7 +10,8 @@ public enum Screen {
   PATHFINDING("views/Pathfinding.fxml"),
   HEADER("views/Header.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
-  CONFERENCE_REQUEST("views/ConferenceRequest.fxml");
+  CONFERENCE_REQUEST("views/ConferenceRequest.fxml"),
+  MAP_EDITOR("views/MapEditor.fxml");
 
   private final String filename;
 
