@@ -66,14 +66,14 @@ public class MapController implements IPageController {
 
   @FXML
   public void initialize() {
-    nodeImportButton.setOnMouseClicked(event -> importNodeCSV());
-    nodeExportButton.setOnMouseClicked(event -> exportNodeCSV());
-    locationImportButton.setOnMouseClicked(event -> importLocNameCSV());
-    locationExportButton.setOnMouseClicked(event -> exportLocNameCSV());
-    moveImportButton.setOnMouseClicked(event -> importMoveCSV());
-    moveExportButton.setOnMouseClicked(event -> exportMoveCSV());
-    edgeImportButton.setOnMouseClicked(event -> importEdgeCSV());
-    edgeExportButton.setOnMouseClicked(event -> exportEdgeCSV());
+    // nodeImportButton.setOnMouseClicked(event -> importNodeCSV());
+    // nodeExportButton.setOnMouseClicked(event -> exportNodeCSV());
+    // locationImportButton.setOnMouseClicked(event -> importLocNameCSV());
+    // locationExportButton.setOnMouseClicked(event -> exportLocNameCSV());
+    // moveImportButton.setOnMouseClicked(event -> importMoveCSV());
+    // moveExportButton.setOnMouseClicked(event -> exportMoveCSV());
+    // edgeImportButton.setOnMouseClicked(event -> importEdgeCSV());
+    // edgeExportButton.setOnMouseClicked(event -> exportEdgeCSV());
     displayNodeData(nodeDAO.loadNodesFromDatabase());
     displayLocNameData(locNameDAO.loadLocNamefromDatabase());
     displayMoveData(moveDAO.loadMovesFromDatabase());

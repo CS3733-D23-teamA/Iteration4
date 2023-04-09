@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
+   <top>
+      <AnchorPane prefHeight="100.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
+          <fx:include fx:id="header" source="Header.fxml" />
+
+</AnchorPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="700.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="700.0" prefWidth="1600.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="800.0" />
+                  <VBox prefHeight="200.0" prefWidth="800.0">
+                     <children>
+                        <StackPane prefHeight="600.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fitHeight="600.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map-page/00_thegroundfloor.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0" spacing="24.0">
+                           <children>
+                              <MFXButton fx:id="ImportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Import" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="32.0" />
+                                 </font>
+                              </MFXButton>
+                              <ImageView fx:id="ZoomOut" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map-page/minusIcon.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="ZoomIn" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/map-page/plusIcon.png" />
+                                 </image>
+                              </ImageView>
+                              <MFXButton fx:id="ExportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="32.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
