@@ -226,6 +226,25 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       throw new RuntimeException(e);
     }
   }
+  public LocationName getLocName(String longName, String shortName) {
+    LocationName locationName = null;
+    try {
+      PreparedStatement ps =
+              LocNameProvider.createConnection()
+                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ? AND shortName = ?");
+      ps.setString(1, longName);
+      ps.setString(2, shortName);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String nodeType = rs.getString("nodeType");
+        locationName = new LocationName(longName, shortName, nodeType);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return locationName;
+  }
 }
 
 

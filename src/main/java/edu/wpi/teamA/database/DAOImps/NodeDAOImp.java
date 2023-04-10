@@ -240,7 +240,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
       PreparedStatement ps =
               nodeProvider.createConnection()
-                      .prepareStatement("SELECT * FROM Prototype2_schema.\"Node\" WHERE nodeID = ?");
+                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 

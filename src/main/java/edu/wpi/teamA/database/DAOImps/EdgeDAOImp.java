@@ -236,4 +236,23 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       throw new RuntimeException(e);
     }
   }
+
+  public Edge getEdge(int startNode, int endNode) {
+    Edge edge = null;
+    try {
+      PreparedStatement ps =
+              edgeProvider.createConnection()
+                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE startNode = ? AND endNode = ?");
+      ps.setInt(1, startNode);
+      ps.setInt(2, endNode);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        edge = new Edge(startNode, endNode);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return edge;
+  }
 }
