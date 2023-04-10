@@ -216,7 +216,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
           nodeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE Prototype2_schema.\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeID = ?");
+                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeID = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -237,5 +237,29 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Node getNode(int nodeID) {
+    Node node = null;
+    try {
+      PreparedStatement ps =
+          nodeProvider
+              .createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
+      ps.setInt(1, nodeID);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        node = new Node(nodeID, xcoord, ycoord, floor, building);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return node;
   }
 }

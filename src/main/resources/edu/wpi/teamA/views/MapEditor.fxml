@@ -15,7 +15,7 @@
 
 <ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
    <content>
-      <BorderPane>
+      <BorderPane fx:id="borderPane">
          <top>
             <AnchorPane prefHeight="100.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
                 <fx:include fx:id="header" source="Header.fxml" />
@@ -36,7 +36,7 @@
                                           <Font name="Open Sans Regular" size="48.0" />
                                        </font>
                                     </Text>
-                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #EEBD28;" text="Level G" textFill="#012d5a">
+                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #F0C747;" text="Level G" textFill="#012d5a">
                                        <font>
                                           <Font name="Open Sans Regular" size="32.0" />
                                        </font>
@@ -87,89 +87,6 @@
                                  </VBox.margin>
                               </VBox>
                            </children></VBox>
-                        <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="789.0" translateX="-100.0" translateY="200.0">
-                           <children>
-                              <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="750.0">
-                                 <children>
-                                    <VBox>
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Editor" textAlignment="CENTER" wrappingWidth="341.8850402832031">
-                                             <font>
-                                                <Font name="Open Sans ExtraBold" size="32.0" />
-                                             </font>
-                                          </Text>
-                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
-                                             <children>
-                                                <MFXButton maxHeight="72.0" maxWidth="270.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Node" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets bottom="13.0" left="40.0" right="40.0" top="40.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets left="40.0" right="40.0" top="13.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets bottom="40.0" left="40.0" right="40.0" top="26.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </VBox>
-                                    <VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="26.0" />
-                                    <VBox maxWidth="350.0" prefWidth="350.0">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name Editor" textAlignment="CENTER" wrappingWidth="350.14794921875">
-                                             <font>
-                                                <Font name="Open Sans ExtraBold" size="32.0" />
-                                             </font>
-                                          </Text>
-                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
-                                             <children>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Name" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets bottom="26.0" left="40.0" right="40.0" top="40.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Name" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets bottom="26.0" left="40.0" right="40.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Name" textFill="#012d5a">
-                                                   <font>
-                                                      <Font name="Open Sans Bold" size="32.0" />
-                                                   </font>
-                                                   <VBox.margin>
-                                                      <Insets bottom="40.0" left="40.0" right="40.0" />
-                                                   </VBox.margin>
-                                                </MFXButton>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
                         <VBox prefHeight="200.0" prefWidth="800.0">
                            <children>
                               <GesturePane fx:id="mapGesturePane" />
@@ -193,6 +110,11 @@
                                           <Font name="Open Sans Regular" size="32.0" />
                                        </font>
                                     </MFXButton>
+                                    <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="32.0" />
+                                       </font>
+                                    </Text>
                                     <MFXButton fx:id="ExportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
                                        <font>
                                           <Font name="Open Sans Regular" size="32.0" />

@@ -80,7 +80,7 @@
          </children>
       </GridPane>
       <MFXButton fx:id="clearButton" layoutX="686.0" layoutY="572.0" onAction="#clear" text="Clear" />
-      <MFXButton fx:id="submitButton" defaultButton="true" disable="true" layoutX="939.0" layoutY="543.0" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A;" text="Submit" textFill="#eebd28">
+      <MFXButton fx:id="submitButton" defaultButton="true" disable="true" layoutX="939.0" layoutY="543.0" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A;" text="Submit" textFill="#eebd28">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>

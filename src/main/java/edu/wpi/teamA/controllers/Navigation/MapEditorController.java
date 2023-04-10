@@ -11,14 +11,18 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  MapEditorEntity entity = new MapEditorEntity();
+  private final MapEditorEntity entity = new MapEditorEntity();
 
+  @FXML private BorderPane borderPane;
   @FXML private ImageView mapImage;
   @FXML private StackPane mapStackPane;
   @FXML private AnchorPane dotsAnchorPane;
@@ -33,6 +37,8 @@ public class MapEditorController {
   @FXML private MFXButton level3Button;
 
   @FXML private VBox levelMenu;
+
+  @FXML private Text locationDisplay;
 
   public void initialize() {
     //    double xCoord = mapImage.getBoundsInParent().getMinX();
@@ -53,6 +59,7 @@ public class MapEditorController {
 
     // set up page
     mapGesturePane.setContent(mapStackPane);
+    mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
     levelMenu.setVisible(false);
     changeLevelText(levelGButton);
   }
@@ -89,7 +96,9 @@ public class MapEditorController {
   }
 
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
+    // scalar for determine position on map
     double scalar = 0.144;
+
     for (Node node : nodeArrayForFloor) {
       int originalNodeX = node.getXcoord();
       int originalNodeY = node.getYcoord();
@@ -97,15 +106,22 @@ public class MapEditorController {
       double newYCoord = originalNodeY * scalar;
 
       Circle circle = entity.addCircle(newXCoord, newYCoord);
+      circle.setOnMouseEntered(event -> dotClicked(circle, node.getNodeID()));
+      circle.setOnMouseExited(event -> dotUnclicked(circle, node.getNodeID()));
+      // borderPane.setOnMouseClicked(event -> dotUnclicked(circle, node.getNodeID()));
       dotsAnchorPane.getChildren().add(circle);
     }
 
     App.getPrimaryStage().show();
   }
 
-  @FXML
-  public void zoomOut() {}
+  private void dotClicked(Circle circle, int nodeID) {
+    circle.setFill(Color.web("0xEEBD28"));
+    locationDisplay.setText(entity.getLocationName(nodeID));
+  }
 
   @FXML
-  public void zoomIn() {}
+  public void dotUnclicked(Circle circle, int nodeID) {
+    circle.setFill(Color.web("0x000000"));
+  }
 }

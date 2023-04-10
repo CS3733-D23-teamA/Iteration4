@@ -11,6 +11,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -153,11 +154,108 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
   /** create a new instance of Move and Insert the new object into database */
   @Override
-  public void Add() {}
+  public void Add() {
+    try {
+      Scanner input = new Scanner(System.in);
+      System.out.println("Enter nodeID, longName, and date (MM/dd/yyyy):");
+      int nodeID = input.nextInt();
+      String longName = input.next();
+      String dateString = input.next();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+      LocalDate localDate = LocalDate.parse(dateString, formatter);
+
+      PreparedStatement ps =
+          moveProvider
+              .createConnection()
+              .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
+      ps.setInt(1, nodeID);
+      ps.setString(2, longName);
+      ps.setDate(3, java.sql.Date.valueOf(localDate));
+      ps.executeUpdate();
+
+      MoveArray.add(new Move(nodeID, longName, localDate));
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   @Override
-  public void Delete() {}
+  public void Delete() {
+    try {
+      Scanner input = new Scanner(System.in);
+      System.out.println("Enter the nodeID to delete:");
+      int nodeID = input.nextInt();
+
+      PreparedStatement ps =
+          moveProvider
+              .createConnection()
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Move\" WHERE nodeID = ?");
+      ps.setInt(1, nodeID);
+      ps.executeUpdate();
+
+      MoveArray.removeIf(move -> move.getNodeID() == nodeID);
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   @Override
-  public void Update() {}
+  public void Update() {
+    try {
+      Scanner input = new Scanner(System.in);
+      System.out.println("Enter nodeID, new longName, and new date (MM/dd/yyyy):");
+      int nodeID = input.nextInt();
+      String longName = input.next();
+      String dateString = input.next();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+      LocalDate localDate = LocalDate.parse(dateString, formatter);
+
+      PreparedStatement ps =
+          moveProvider
+              .createConnection()
+              .prepareStatement(
+                  "UPDATE \"Prototype2_schema\".\"Move\" SET longName = ?, localDate = ? WHERE nodeID = ?");
+      ps.setString(1, longName);
+      ps.setDate(2, java.sql.Date.valueOf(localDate));
+      ps.setInt(3, nodeID);
+      ps.executeUpdate();
+
+      MoveArray.forEach(
+          move -> {
+            if (move.getNodeID() == nodeID) {
+              move.setLongName(longName);
+              move.setDate(localDate);
+            }
+          });
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public Move getMove(int nodeID) {
+    Move result = null;
+
+    try {
+      PreparedStatement ps =
+          moveProvider
+              .createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Move\" WHERE nodeID = ?");
+      ps.setInt(1, nodeID);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String longName = rs.getString("longName");
+        LocalDate localDate = rs.getDate("localDate").toLocalDate();
+
+        result = new Move(nodeID, longName, localDate);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return result;
+  }
 }

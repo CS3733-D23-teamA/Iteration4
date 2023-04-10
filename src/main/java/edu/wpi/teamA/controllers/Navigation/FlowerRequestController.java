@@ -8,6 +8,8 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.sql.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
@@ -81,17 +83,8 @@ public class FlowerRequestController implements IPageController, IServiceControl
   }
 
   public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(2);
-    }
-    num = Integer.parseInt(newString);
-    return num;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+    LocalTime localTime = LocalTime.parse(time, formatter);
+    return localTime.getHour() * 60 + localTime.getMinute();
   }
 }

@@ -1,10 +1,15 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
+import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.sql.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
@@ -48,6 +53,7 @@ public class ConferenceRequestController implements IPageController, IServiceCon
     datePicker.setValue(null);
   }
 
+  @FXML
   public void validateButton() {
     if (nameField.getText().isEmpty()
         || datePicker.getValue() == null
@@ -64,5 +70,34 @@ public class ConferenceRequestController implements IPageController, IServiceCon
     }
   }
 
-  public void submit() {}
+  public void submit() {
+    System.out.println("Submit button clicked");
+    try {
+      ConferenceRoomResRequest crrr =
+          new ConferenceRoomResRequest(
+              nameField.getText(),
+              Integer.parseInt(roomField.getText()),
+              Date.valueOf(datePicker.getValue()),
+              convertTime(startCombo.getText()),
+              convertTime(endCombo.getText()),
+              commentField.getText(),
+              "new");
+      System.out.println("ConferenceRoomResRequest created: " + crrr.toString());
+
+      CRRRDAOImp cd = new CRRRDAOImp();
+      cd.addCRRR(crrr);
+      System.out.println("ConferenceRoomResRequest added");
+
+      clear();
+      System.out.println("Fields cleared");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public int convertTime(String time) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+    LocalTime localTime = LocalTime.parse(time, formatter);
+    return localTime.getHour() * 60 + localTime.getMinute();
+  }
 }

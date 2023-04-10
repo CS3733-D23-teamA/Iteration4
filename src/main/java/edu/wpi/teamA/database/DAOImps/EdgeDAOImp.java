@@ -23,16 +23,6 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     // create objects based off of the results
   }
 
-  public static void createSchema() {
-    try {
-      Statement stmtSchema = edgeProvider.createConnection().createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
-      stmtSchema.execute(sqlCreateSchema);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public static Connection createConnection() {
     String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
     String user = "teama";
@@ -77,7 +67,6 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   }
 
   public static ArrayList<Edge> Import(String filePath) {
-    EdgeDAOImp.createSchema();
     ArrayList<Edge> EdgeArray = loadEdgesFromCSV(filePath);
 
     try {
@@ -251,5 +240,26 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Edge getEdge(int startNode, int endNode) {
+    Edge edge = null;
+    try {
+      PreparedStatement ps =
+          edgeProvider
+              .createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE startNode = ? AND endNode = ?");
+      ps.setInt(1, startNode);
+      ps.setInt(2, endNode);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        edge = new Edge(startNode, endNode);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return edge;
   }
 }
