@@ -39,6 +39,9 @@ public class MapEditorController {
   @FXML private VBox levelMenu;
 
   @FXML private Text locationDisplay;
+  private boolean removeNodeClicked;
+  private boolean addNodeClicked;
+  private boolean modifyNodeClicked;
 
   public void initialize() {
     //    double xCoord = mapImage.getBoundsInParent().getMinX();
@@ -62,6 +65,9 @@ public class MapEditorController {
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
     levelMenu.setVisible(false);
     changeLevelText(levelGButton);
+    removeNodeClicked = false;
+    addNodeClicked = false;
+    modifyNodeClicked = false;
   }
 
   /** for level chooser button */
@@ -106,8 +112,9 @@ public class MapEditorController {
       double newYCoord = originalNodeY * scalar;
 
       Circle circle = entity.addCircle(newXCoord, newYCoord);
-      circle.setOnMouseEntered(event -> dotClicked(circle, node.getNodeID()));
-      circle.setOnMouseExited(event -> dotUnclicked(circle, node.getNodeID()));
+      circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
+      circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
+      circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
       // borderPane.setOnMouseClicked(event -> dotUnclicked(circle, node.getNodeID()));
       dotsAnchorPane.getChildren().add(circle);
     }
@@ -115,13 +122,30 @@ public class MapEditorController {
     App.getPrimaryStage().show();
   }
 
-  private void dotClicked(Circle circle, int nodeID) {
+  private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
     locationDisplay.setText(entity.getLocationName(nodeID));
   }
 
   @FXML
-  public void dotUnclicked(Circle circle, int nodeID) {
+  public void dotUnhover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0x000000"));
+  }
+
+  @FXML
+  public void dotClicked(Circle circle, int nodeID) {
+    entity.determineAddAction(addNodeClicked);
+    entity.determineModifyAction(modifyNodeClicked);
+    entity.determineRemoveAction(removeNodeClicked, nodeID);
+    if (removeNodeClicked == true) {
+      circle.setDisable(true);
+      circle.setVisible(false);
+      removeNodeClicked = false;
+    }
+  }
+
+  @FXML
+  public void removeNode() {
+    removeNodeClicked = true;
   }
 }

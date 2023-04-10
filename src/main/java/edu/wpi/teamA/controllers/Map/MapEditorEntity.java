@@ -69,4 +69,12 @@ public class MapEditorEntity {
       return locName.getShortName();
     }
   }
+
+  public void determineAddAction(boolean addNodeClicked) {}
+
+  public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
+    // nodeDAO.Delete(nodeID);
+  }
+
+  public void determineModifyAction(boolean modifyNodeClicked) {}
 }
