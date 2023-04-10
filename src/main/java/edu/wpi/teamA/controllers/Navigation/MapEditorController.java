@@ -13,11 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  MapEditorEntity entity = new MapEditorEntity();
+  private final MapEditorEntity entity = new MapEditorEntity();
 
   @FXML private ImageView mapImage;
   @FXML private StackPane mapStackPane;
@@ -33,6 +35,8 @@ public class MapEditorController {
   @FXML private MFXButton level3Button;
 
   @FXML private VBox levelMenu;
+
+  @FXML private Text locationDisplay;
 
   public void initialize() {
     //    double xCoord = mapImage.getBoundsInParent().getMinX();
@@ -89,7 +93,9 @@ public class MapEditorController {
   }
 
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
+    // scalar for determine position on map
     double scalar = 0.144;
+
     for (Node node : nodeArrayForFloor) {
       int originalNodeX = node.getXcoord();
       int originalNodeY = node.getYcoord();
@@ -97,10 +103,16 @@ public class MapEditorController {
       double newYCoord = originalNodeY * scalar;
 
       Circle circle = entity.addCircle(newXCoord, newYCoord);
+      circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
       dotsAnchorPane.getChildren().add(circle);
     }
 
     App.getPrimaryStage().show();
+  }
+
+  private void dotClicked(Circle circle, int nodeID) {
+    circle.setFill(Color.web("0xEEBD28"));
+    locationDisplay.setText(entity.getLocationName(nodeID));
   }
 
   @FXML
