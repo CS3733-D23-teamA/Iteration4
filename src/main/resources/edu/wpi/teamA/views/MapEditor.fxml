@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
 
 <ScrollPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
@@ -29,14 +30,19 @@
                      <children>
                         <VBox prefHeight="200.0" prefWidth="800.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox maxWidth="-Infinity" prefWidth="200.0" spacing="16.0">
                                  <children>
-                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map Editor">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="48.0" />
+                                       </font>
+                                    </Text>
+                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #EEBD28;" text="Level G" textFill="#012d5a">
                                        <font>
                                           <Font name="Open Sans Regular" size="32.0" />
                                        </font>
                                     </MFXButton>
-                                    <VBox fx:id="levelMenu" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                    <VBox fx:id="levelMenu" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="4.0" style="-fx-background-color: #012D5A;">
                                        <children>
                                           <MFXButton fx:id="levelGButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
                                              <font>
@@ -69,8 +75,17 @@
                                              </font>
                                           </MFXButton>
                                        </children>
+                                       <padding>
+                                          <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                       </padding>
                                     </VBox>
                                  </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets left="16.0" top="16.0" />
+                                 </VBox.margin>
                               </VBox>
                            </children></VBox>
                         <VBox prefHeight="200.0" prefWidth="800.0">
