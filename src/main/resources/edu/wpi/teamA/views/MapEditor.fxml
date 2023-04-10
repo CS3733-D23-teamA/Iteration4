@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -18,118 +24,123 @@
       <fx:include fx:id="navbar" source="NavigationBar.fxml" />
    </top>
    <center>
-      <AnchorPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="700.0" prefWidth="1600.0">
+            <HBox alignment="CENTER" prefHeight="900.0" prefWidth="1600.0" spacing="20.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="800.0">
+                  <HBox fx:id="mapEditorControls" alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <VBox maxWidth="-Infinity" prefWidth="200.0" spacing="16.0">
+                        <VBox alignment="TOP_CENTER" spacing="12.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map Editor">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="48.0" />
-                                 </font>
-                              </Text>
-                              <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #EEBD28;" text="Level G" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="32.0" />
-                                 </font>
-                              </MFXButton>
-                              <VBox fx:id="levelMenu" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="4.0" style="-fx-background-color: #012D5A;">
+                              <VBox maxWidth="-Infinity" prefWidth="200.0" spacing="16.0">
                                  <children>
-                                    <MFXButton fx:id="levelGButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map Editor">
                                        <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L1" textFill="#012d5a">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="levelL2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L2" textFill="#012d5a">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="level1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 1" textFill="#012d5a">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="level2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 2" textFill="#012d5a">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="level3Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 3" textFill="#012d5a">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="32.0" />
-                                       </font>
-                                    </MFXButton>
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                                 </padding>
-                              </VBox>
-                           </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <VBox.margin>
-                              <Insets left="16.0" top="16.0" />
-                           </VBox.margin>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="789.0" translateX="-100.0" translateY="200.0">
-                     <children>
-                        <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="750.0">
-                           <children>
-                              <VBox>
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
-                                       <font>
-                                          <Font name="Open Sans ExtraBold" size="32.0" />
+                                          <Font name="Open Sans Bold" size="48.0" />
                                        </font>
                                     </Text>
-                                    <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
+                                    <MFXButton fx:id="levelButton" onAction="#levelChooser" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #EEBD28;" text="Level G" textFill="#012d5a">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="32.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <VBox fx:id="levelMenu" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="4.0" style="-fx-background-color: #012D5A;">
                                        <children>
-                                          <MFXButton fx:id="AddNodeButton" maxHeight="72.0" maxWidth="270.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
+                                          <MFXButton fx:id="levelGButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level G" textFill="#012d5a">
                                              <font>
-                                                <Font name="Open Sans Bold" size="32.0" />
+                                                <Font name="Open Sans Regular" size="32.0" />
                                              </font>
-                                             <VBox.margin>
-                                                <Insets bottom="13.0" left="40.0" right="40.0" top="40.0" />
-                                             </VBox.margin>
                                           </MFXButton>
-                                          <MFXButton fx:id="ModifyNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
+                                          <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L1" textFill="#012d5a">
                                              <font>
-                                                <Font name="Open Sans Bold" size="32.0" />
+                                                <Font name="Open Sans Regular" size="32.0" />
                                              </font>
-                                             <VBox.margin>
-                                                <Insets left="40.0" right="40.0" top="13.0" />
-                                             </VBox.margin>
                                           </MFXButton>
-                                          <MFXButton fx:id="RemoveNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeNode" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
+                                          <MFXButton fx:id="levelL2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level L2" textFill="#012d5a">
                                              <font>
-                                                <Font name="Open Sans Bold" size="32.0" />
+                                                <Font name="Open Sans Regular" size="32.0" />
                                              </font>
-                                             <VBox.margin>
-                                                <Insets bottom="40.0" left="40.0" right="40.0" top="26.0" />
-                                             </VBox.margin>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level1Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 1" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level2Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 2" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="level3Button" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Level 3" textFill="#012d5a">
+                                             <font>
+                                                <Font name="Open Sans Regular" size="32.0" />
+                                             </font>
                                           </MFXButton>
                                        </children>
+                                       <padding>
+                                          <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                                       </padding>
                                     </VBox>
                                  </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <VBox.margin>
+                                    <Insets left="16.0" top="16.0" />
+                                 </VBox.margin>
                               </VBox>
-                              <VBox maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="26.0" />
                            </children>
-                        </HBox>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="12.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="32.0" />
+                                 </font>
+                              </Text>
+                              <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
+                                 <children>
+                                    <MFXButton fx:id="AddNodeButton" maxHeight="72.0" maxWidth="270.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#addNode" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
+                                       <font>
+                                          <Font name="Open Sans Bold" size="32.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="13.0" left="40.0" right="40.0" top="40.0" />
+                                       </VBox.margin>
+                                    </MFXButton>
+                                    <MFXButton fx:id="ModifyNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" onAction="#modifyNode" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
+                                       <font>
+                                          <Font name="Open Sans Bold" size="32.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets left="40.0" right="40.0" top="13.0" />
+                                       </VBox.margin>
+                                    </MFXButton>
+                                    <MFXButton fx:id="RemoveNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#removeNode" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
+                                       <font>
+                                          <Font name="Open Sans Bold" size="32.0" />
+                                       </font>
+                                       <VBox.margin>
+                                          <Insets bottom="40.0" left="40.0" right="40.0" top="26.0" />
+                                       </VBox.margin>
+                                    </MFXButton>
+                                 </children>
+                              </VBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Directions" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="editMapDirections" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-                  <VBox prefHeight="200.0" prefWidth="800.0">
+                  </HBox>
+                  <VBox alignment="CENTER" spacing="12.0">
                      <children>
                         <GesturePane fx:id="mapGesturePane" />
                         <StackPane fx:id="mapStackPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="476.0" prefWidth="700.0">
@@ -152,6 +163,20 @@
                                     <Font name="Open Sans Regular" size="32.0" />
                                  </font>
                               </MFXButton>
+                              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="20.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
                               <MFXButton fx:id="ExportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans Regular" size="32.0" />
@@ -162,8 +187,72 @@
                      </children>
                   </VBox>
                </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
             </HBox>
+            <MFXGenericDialog fx:id="inputDialog">
+               <center>
+                  <GridPane prefHeight="502.0" prefWidth="533.0" BorderPane.alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="187.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="346.5" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click on map to change position" wrappingWidth="250.0" GridPane.rowIndex="5">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <MFXTextField fx:id="longNameField" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
+                        <MFXTextField fx:id="shortNameField" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <MFXComboBox fx:id="buildingField" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <MFXComboBox fx:id="nodeTypeField" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <MFXComboBox fx:id="floorField" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </GridPane>
+               </center>
+            </MFXGenericDialog>
          </children>
-      </AnchorPane>
+      </StackPane>
    </center>
 </BorderPane>

@@ -5,15 +5,15 @@ import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -39,6 +39,16 @@ public class MapEditorController {
   @FXML private VBox levelMenu;
 
   @FXML private Text locationDisplay;
+  @FXML private Text editMapDirections;
+
+  @FXML private HBox mapEditorControls;
+  @FXML private MFXGenericDialog inputDialog;
+
+  @FXML private MFXTextField longNameField;
+  @FXML private MFXTextField shortNameField;
+  @FXML private MFXComboBox<String> floorField;
+  @FXML private MFXComboBox<String> buildingField;
+  @FXML private MFXComboBox<String> nodeTypeField;
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
@@ -68,6 +78,19 @@ public class MapEditorController {
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+
+    mapEditorControls.setVisible(true);
+    mapEditorControls.setDisable(false);
+    inputDialog.setVisible(false);
+    inputDialog.setDisable(true);
+
+    // set up input grid
+    floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
+    buildingField.getItems().addAll("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
+    nodeTypeField
+        .getItems()
+        .addAll(
+            "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
   }
 
   /** for level chooser button */
@@ -134,18 +157,46 @@ public class MapEditorController {
 
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
-    entity.determineAddAction(addNodeClicked);
-    entity.determineModifyAction(modifyNodeClicked);
-    entity.determineRemoveAction(removeNodeClicked, nodeID);
-    if (removeNodeClicked == true) {
+    if (removeNodeClicked) {
+      entity.determineRemoveAction(removeNodeClicked, nodeID);
       circle.setDisable(true);
       circle.setVisible(false);
       removeNodeClicked = false;
     }
+
+    if (modifyNodeClicked) {
+      mapEditorControls.setVisible(false);
+      mapEditorControls.setDisable(true);
+      inputDialog.setVisible(true);
+      inputDialog.setDisable(false);
+      //while submit button has not been clicked, wait for input
+      //once submit button has been clicked, update database using the line below
+      entity.determineModifyAction(modifyNodeClicked);
+      //update the display to show the updated information
+    }
+
+    if (addNodeClicked) {
+      entity.determineAddAction(addNodeClicked);
+    }
+
+    editMapDirections.setText("");
   }
 
   @FXML
   public void removeNode() {
     removeNodeClicked = true;
+    editMapDirections.setText("Click a dot on the map to remove");
+  }
+
+  @FXML
+  public void modifyNode() {
+    modifyNodeClicked = true;
+    editMapDirections.setText("Click a dot on the map to modify");
+  }
+
+  @FXML
+  public void addNode() {
+    addNodeClicked = true;
+    editMapDirections.setText("Add node");
   }
 }
