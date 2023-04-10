@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="100.0" prefWidth="1600.0" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="90.0">
+               <children>
+                  <ImageView fx:id="bwhLogo" fitHeight="68.0" fitWidth="46.0" preserveRatio="true" HBox.hgrow="ALWAYS">
+                     <image>
+                        <Image url="@stylesheets/icons/bwh-logo-white.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="985.0" spacing="30.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <MFXButton fx:id="serviceRequestsButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Service Requests" textAlignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="18.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="mapEditorButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Map Editor" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Open Sans Bold" size="18.0" />
+                     </font></MFXButton>
+                  <MFXButton fx:id="pathfindingButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Pathfinding" textAlignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="18.0" />
+                     </font></MFXButton>
+                  <MFXButton fx:id="signageButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Signage" textAlignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="18.0" />
+                     </font></MFXButton>
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0">
+               <children>
+                  <Circle fill="#f1f1f1" radius="35.0" stroke="BLACK" strokeType="INSIDE" />
+               </children>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </HBox>
+   </center>
+   <stylesheets>
+      <URL value="@stylesheets/main.css" />
+      <URL value="@stylesheets/navbar.css" />
+   </stylesheets>
+</BorderPane>

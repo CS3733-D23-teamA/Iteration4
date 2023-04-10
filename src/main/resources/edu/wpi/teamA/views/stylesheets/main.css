@@ -1,0 +1,56 @@
+.root{
+    -fx-font-family: "Open Sans";
+    -fx-text-fill: bblue;
+    -fx-background-color: #F1F1F1;
+    bwhite:  #F1F1F1;
+    bblue:  #012D5A;
+    bblack:  #151515;
+    blightblue: #98AABC;
+}
+
+.borderpane{
+    -fx-pref-height: 900;
+    -fx-pref-width: 1600;
+    -fx-scale-shape: true;
+    -fx-background-color: #F1F1F1;
+}
+
+
+.text{
+    -fx-text-fill: #012D5A;
+}
+
+styled.button {
+    -fx-pref-width: 100px;
+    -fx-pref-height: 50px;
+
+    -fx-background-color: #F1F1F1;
+    -fx-background-radius: 10;
+}
+
+styled.button:hover {
+    -fx-underline: true;
+    -fx-border-width: 2px;
+    -fx-border-color: #151515;
+    -fx-border-radius: 10px;
+}
+
+styled.button:pressed {
+    -fx-background-color: #012D5A;
+    -fx-text-fill: #F1F1F1;
+}
+
+.label{
+    -fx-font-size: 32;
+    -fx-font-weight: bold;
+    -fx-font-family: "Open Sans";
+    -fx-text-fill: #012D5A;
+    -fx-text-alignment: center;
+}
+
+#title {
+    -fx-font-size: 48;
+    -fx-font-family: "Georgia";
+    -fx-font-weight: bold;
+    -fx-text-fill: #012D5A;
+}

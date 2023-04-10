@@ -9,8 +9,6 @@ import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import edu.wpi.teamA.navigation.Navigation;
-import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.File;
 import java.time.LocalDate;
@@ -24,7 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-public class MapController implements IPageController {
+public class MapController extends PageController {
 
   // Node table
   private NodeDAOImp nodeDAO = new NodeDAOImp();
@@ -78,11 +76,6 @@ public class MapController implements IPageController {
     displayLocNameData(locNameDAO.loadLocNamefromDatabase());
     displayMoveData(moveDAO.loadMovesFromDatabase());
     displayEdgeData(edgeDAO.loadEdgesFromDatabase());
-  }
-
-  @Override
-  public void back() {
-    Navigation.navigate(Screen.HOME);
   }
 
   private File importHelper() {

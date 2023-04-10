@@ -1,0 +1,22 @@
+.navpane{
+    -fx-pref-height: 150;
+    -fx-pref-width: 1600;
+    -fx-background-color: #012D5A;
+    -fx-scale-shape: true;
+}
+
+.menubutton {
+    -fx-background-color: #98AABC;
+    -fx-text-fill: #012D5A;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-pref-width: 309;
+    -fx-pref-height: 80;
+    -fx-border-radius: 10;
+}
+
+.text{
+    -fx-background-color: #98AABC;
+    -fx-text-fill: #012D5A;
+    -fx-font-size: 20;
+}

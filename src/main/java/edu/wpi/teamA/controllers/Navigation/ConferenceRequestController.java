@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-public class ConferenceRequestController implements IPageController, IServiceController {
+public class ConferenceRequestController extends PageController implements IServiceController {
   @FXML MFXButton submitButton;
   @FXML MFXTextField nameField;
   @FXML MFXTextField roomField;

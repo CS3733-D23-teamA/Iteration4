@@ -2,8 +2,6 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import edu.wpi.teamA.navigation.Navigation;
-import edu.wpi.teamA.navigation.Screen;
 import edu.wpi.teamA.pathfinding.AStar;
 import edu.wpi.teamA.pathfinding.SearchController;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -13,7 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class PathfindingController implements IPageController {
+public class PathfindingController extends PageController {
 
   @FXML private MFXFilterComboBox<Integer> startSelection;
   @FXML private MFXFilterComboBox<Integer> endSelection;
@@ -33,11 +31,6 @@ public class PathfindingController implements IPageController {
 
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
-  }
-
-  @Override
-  public void back() {
-    Navigation.navigate(Screen.HOME);
   }
 
   public void submit() {

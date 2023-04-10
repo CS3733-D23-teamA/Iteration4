@@ -8,7 +8,7 @@ public enum Screen {
   MAP("views/Map.fxml"),
   SIGNAGE("views/Signage.fxml"),
   PATHFINDING("views/Pathfinding.fxml"),
-  HEADER("views/Header.fxml"),
+  HEADER("views/NavigationBar.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   CONFERENCE_REQUEST("views/ConferenceRequest.fxml"),
   MAP_EDITOR("views/MapEditor.fxml");
