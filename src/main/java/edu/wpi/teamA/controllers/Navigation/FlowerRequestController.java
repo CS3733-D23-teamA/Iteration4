@@ -10,7 +10,6 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.sql.Date;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
@@ -27,10 +26,12 @@ public class FlowerRequestController implements IPageController, IServiceControl
   @Override
   public void initialize() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
-    timeCombo.getItems().addAll(
-                    "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-                    "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-                    "19:00", "20:00", "21:00", "22:00", "23:00");
+    timeCombo
+        .getItems()
+        .addAll(
+            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
+            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
+            "19:00", "20:00", "21:00", "22:00", "23:00");
   }
 
   @Override
@@ -41,9 +42,9 @@ public class FlowerRequestController implements IPageController, IServiceControl
   @FXML
   public void validateButton() {
     if (nameField.getText().isEmpty()
-            || datePicker.getValue() == null
-            || timeCombo.getSelectedIndex() == -1
-            || flowerCombo.getSelectedIndex() == -1) {
+        || datePicker.getValue() == null
+        || timeCombo.getSelectedIndex() == -1
+        || flowerCombo.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
       try {
@@ -68,14 +69,14 @@ public class FlowerRequestController implements IPageController, IServiceControl
 
   public void submit() {
     FlowerEntity flower =
-            new FlowerEntity(
-                    nameField.getText(),
-                    Integer.parseInt(roomField.getText()),
-                    Date.valueOf(datePicker.getValue()),
-                    convertTime(timeCombo.getText()),
-                    flowerCombo.getText(),
-                    commentField.getText(),
-                    "new");
+        new FlowerEntity(
+            nameField.getText(),
+            Integer.parseInt(roomField.getText()),
+            Date.valueOf(datePicker.getValue()),
+            convertTime(timeCombo.getText()),
+            flowerCombo.getText(),
+            commentField.getText(),
+            "new");
     FlowerDAOImpl fd = new FlowerDAOImpl();
     fd.addFlower(flower);
     clear();

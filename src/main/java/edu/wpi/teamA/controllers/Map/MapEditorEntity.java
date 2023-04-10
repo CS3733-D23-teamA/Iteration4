@@ -3,6 +3,8 @@ package edu.wpi.teamA.controllers.Map;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
+import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.util.ArrayList;
 import javafx.scene.shape.Circle;
@@ -57,8 +59,14 @@ public class MapEditorEntity {
   }
 
   public String getLocationName(int nodeID) {
-    // find nodeID function in DAO
+    Move move = moveDAO.getMove(nodeID);
+    Node node = nodeDAO.getNode(nodeID);
+    LocationName locName = locNameDAO.getLocName(move.getLongName());
 
-    return "Hallway";
+    if (locName.getNodeType().equals("HALL")) {
+      return locName.getLongName();
+    } else {
+      return locName.getShortName();
+    }
   }
 }

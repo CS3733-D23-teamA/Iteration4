@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,6 +22,7 @@ import net.kurobako.gesturefx.GesturePane;
 public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
 
+  @FXML private BorderPane borderPane;
   @FXML private ImageView mapImage;
   @FXML private StackPane mapStackPane;
   @FXML private AnchorPane dotsAnchorPane;
@@ -57,6 +59,7 @@ public class MapEditorController {
 
     // set up page
     mapGesturePane.setContent(mapStackPane);
+    mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
     levelMenu.setVisible(false);
     changeLevelText(levelGButton);
   }
@@ -103,7 +106,9 @@ public class MapEditorController {
       double newYCoord = originalNodeY * scalar;
 
       Circle circle = entity.addCircle(newXCoord, newYCoord);
-      circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+      circle.setOnMouseEntered(event -> dotClicked(circle, node.getNodeID()));
+      circle.setOnMouseExited(event -> dotUnclicked(circle, node.getNodeID()));
+      // borderPane.setOnMouseClicked(event -> dotUnclicked(circle, node.getNodeID()));
       dotsAnchorPane.getChildren().add(circle);
     }
 
@@ -116,8 +121,7 @@ public class MapEditorController {
   }
 
   @FXML
-  public void zoomOut() {}
-
-  @FXML
-  public void zoomIn() {}
+  public void dotUnclicked(Circle circle, int nodeID) {
+    circle.setFill(Color.web("0x000000"));
+  }
 }

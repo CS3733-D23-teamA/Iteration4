@@ -24,14 +24,18 @@ public class ConferenceRequestController implements IPageController, IServiceCon
 
   @Override
   public void initialize() {
-    startCombo.getItems().addAll(
-                    "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-                    "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-                    "19:00", "20:00", "21:00", "22:00", "23:00");
-    endCombo.getItems().addAll(
-                    "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-                    "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-                    "19:00", "20:00", "21:00", "22:00", "23:00");
+    startCombo
+        .getItems()
+        .addAll(
+            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
+            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
+            "19:00", "20:00", "21:00", "22:00", "23:00");
+    endCombo
+        .getItems()
+        .addAll(
+            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
+            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
+            "19:00", "20:00", "21:00", "22:00", "23:00");
   }
 
   @Override
@@ -52,9 +56,9 @@ public class ConferenceRequestController implements IPageController, IServiceCon
   @FXML
   public void validateButton() {
     if (nameField.getText().isEmpty()
-            || datePicker.getValue() == null
-            || startCombo.getSelectedIndex() == -1
-            || endCombo.getSelectedIndex() == -1) {
+        || datePicker.getValue() == null
+        || startCombo.getSelectedIndex() == -1
+        || endCombo.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
       try {
@@ -70,14 +74,14 @@ public class ConferenceRequestController implements IPageController, IServiceCon
     System.out.println("Submit button clicked");
     try {
       ConferenceRoomResRequest crrr =
-              new ConferenceRoomResRequest(
-                      nameField.getText(),
-                      Integer.parseInt(roomField.getText()),
-                      Date.valueOf(datePicker.getValue()),
-                      convertTime(startCombo.getText()),
-                      convertTime(endCombo.getText()),
-                      commentField.getText(),
-                      "new");
+          new ConferenceRoomResRequest(
+              nameField.getText(),
+              Integer.parseInt(roomField.getText()),
+              Date.valueOf(datePicker.getValue()),
+              convertTime(startCombo.getText()),
+              convertTime(endCombo.getText()),
+              commentField.getText(),
+              "new");
       System.out.println("ConferenceRoomResRequest created: " + crrr.toString());
 
       CRRRDAOImp cd = new CRRRDAOImp();
