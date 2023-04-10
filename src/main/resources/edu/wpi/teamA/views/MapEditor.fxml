@@ -100,7 +100,7 @@
                                           </Text>
                                           <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
                                              <children>
-                                                <MFXButton maxHeight="72.0" maxWidth="270.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Node" textFill="#012d5a">
+                                                <MFXButton fx:id="AddNodeButton" maxHeight="72.0" maxWidth="270.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Node" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
@@ -108,7 +108,7 @@
                                                       <Insets bottom="13.0" left="40.0" right="40.0" top="40.0" />
                                                    </VBox.margin>
                                                 </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
+                                                <MFXButton fx:id="ModifyNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
@@ -116,7 +116,7 @@
                                                       <Insets left="40.0" right="40.0" top="13.0" />
                                                    </VBox.margin>
                                                 </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
+                                                <MFXButton fx:id="RemoveNodeButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
@@ -138,7 +138,7 @@
                                           </Text>
                                           <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="350.0" style="-fx-background-color: #012D5A;">
                                              <children>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Name" textFill="#012d5a">
+                                                <MFXButton fx:id="AddNameButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Add Name" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
@@ -146,7 +146,7 @@
                                                       <Insets bottom="26.0" left="40.0" right="40.0" top="40.0" />
                                                    </VBox.margin>
                                                 </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Name" textFill="#012d5a">
+                                                <MFXButton fx:id="ModifyNameButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Modify Name" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
@@ -154,7 +154,7 @@
                                                       <Insets bottom="26.0" left="40.0" right="40.0" />
                                                    </VBox.margin>
                                                 </MFXButton>
-                                                <MFXButton maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Name" textFill="#012d5a">
+                                                <MFXButton fx:id="RemoveNameButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="270.0" style="-fx-background-color: #98AABC;" text="Remove Name" textFill="#012d5a">
                                                    <font>
                                                       <Font name="Open Sans Bold" size="32.0" />
                                                    </font>
