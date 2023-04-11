@@ -11,7 +11,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -153,14 +152,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   /** create a new instance of Move and Insert the new object into database */
-  @Override
-  public void Add() {
+  public void Add(int nodeID, String longName, String dateString) {
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, longName, and date (MM/dd/yyyy):");
-      int nodeID = input.nextInt();
-      String longName = input.next();
-      String dateString = input.next();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
@@ -180,12 +173,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  @Override
-  public void Delete() {
+  public void Delete(int nodeID) {
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter the nodeID to delete:");
-      int nodeID = input.nextInt();
 
       PreparedStatement ps =
           moveProvider
@@ -201,14 +190,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  @Override
-  public void Update() {
+  public void Update(int nodeID, String longName, String dateString) {
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, new longName, and new date (MM/dd/yyyy):");
-      int nodeID = input.nextInt();
-      String longName = input.next();
-      String dateString = input.next();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
