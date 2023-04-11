@@ -195,8 +195,8 @@
                <center>
                   <GridPane prefHeight="502.0" prefWidth="533.0" BorderPane.alignment="CENTER">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="187.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="346.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="172.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="321.5" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
@@ -232,14 +232,11 @@
                               <Font size="25.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click on map to change position" wrappingWidth="250.0" GridPane.rowIndex="5">
+                        <MFXButton fx:id="changeLocationButton" onAction="#changeMapLocation" style="-fx-background-color: #98AABC;" text="Change Map Position" textFill="#012d5a" wrapText="true" GridPane.rowIndex="5">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Open Sans Regular" size="15.0" />
                            </font>
-                           <GridPane.margin>
-                              <Insets bottom="10.0" />
-                           </GridPane.margin>
-                        </Text>
+                        </MFXButton>
                         <MFXTextField fx:id="longNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
                         <MFXTextField fx:id="shortNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />

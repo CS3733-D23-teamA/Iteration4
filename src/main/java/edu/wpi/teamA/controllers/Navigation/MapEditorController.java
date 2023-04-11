@@ -11,9 +11,12 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -22,6 +25,7 @@ import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
+  public static EventType<MouseEvent> MOUSE_CLICKED;
 
   @FXML private BorderPane borderPane;
   @FXML private ImageView mapImage;
@@ -184,6 +188,27 @@ public class MapEditorController {
       buildingField.setText(node.getBuilding());
       nodeTypeField.setText(locName.getNodeType());
 
+      // new location clicked
+      dotsAnchorPane.setOnMouseClicked(
+          new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+              double X = event.getX();
+              double Y = event.getY();
+              int newX = (int) X;
+              int newY = (int) Y;
+              int[] XYCoords = new int[2];
+              XYCoords[0] = newX;
+              XYCoords[1] = newY;
+              System.out.println("New X:" + newX);
+              System.out.println("New Y:" + newY);
+              // new red circle indicating new location
+
+              Circle circle = entity.addCircle(newX, newY);
+              circle.setFill(Color.rgb(128, 0, 0, 0.87));
+            }
+          });
+
       // update the display to show the updated information
 
     }
@@ -241,11 +266,11 @@ public class MapEditorController {
   public void submit() {
     // once submit button has been clicked, update database
 
-    //TODO add clicking on map to update x and y coord
+    // TODO add clicking on map to update x and y coord
 
     if (modifyNodeClicked) {
       entity.determineModifyAction(
-              currentNodeID,
+          currentNodeID,
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
@@ -264,4 +289,7 @@ public class MapEditorController {
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
   }
+
+  @FXML // id: changeLocationButton
+  public void changeMapLocation() {}
 }
