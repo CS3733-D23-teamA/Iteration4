@@ -55,16 +55,9 @@ public class MapEditorController {
   private boolean modifyNodeClicked;
   @FXML MFXButton submitButton;
 
+  private int currentNodeID;
+
   public void initialize() {
-    submitButton.setDisable(true);
-    //    double xCoord = mapImage.getBoundsInParent().getMinX();
-    //    double yCoord = mapImage.getBoundsInParent().getMinY();
-    //    double width = mapImage.getBoundsInParent().getWidth();
-    //    double height = mapImage.getBoundsInParent().getHeight();
-    //    System.out.println(xCoord);
-    //    System.out.println(yCoord);
-    //    System.out.println(width);
-    //    System.out.println(height);
 
     levelGButton.setOnAction(event -> changeLevelText(levelGButton));
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
@@ -86,6 +79,7 @@ public class MapEditorController {
     mapEditorControls.setDisable(false);
     inputDialog.setVisible(false);
     inputDialog.setDisable(true);
+    submitButton.setDisable(true);
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
@@ -165,6 +159,7 @@ public class MapEditorController {
 
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
+    currentNodeID = nodeID;
     if (removeNodeClicked) {
       entity.determineRemoveAction(removeNodeClicked, nodeID);
       circle.setDisable(true);
@@ -245,23 +240,28 @@ public class MapEditorController {
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
-    if(modifyNodeClicked) {
-      entity.determineModifyAction(longNameField.getText(),
-              shortNameField.getText(),
-              floorField.getText(),
-              buildingField.getText(),
-              nodeTypeField.getText());
-    } else if(addNodeClicked) {
-      entity.determineAddAction(longNameField.getText(),
-              shortNameField.getText(),
-              floorField.getText(),
-              buildingField.getText(),
-              nodeTypeField.getText());
+
+    //TODO add clicking on map to update x and y coord
+
+    if (modifyNodeClicked) {
+      entity.determineModifyAction(
+              currentNodeID,
+          longNameField.getText(),
+          shortNameField.getText(),
+          floorField.getText(),
+          buildingField.getText(),
+          nodeTypeField.getText());
+    } else if (addNodeClicked) {
+      entity.determineAddAction(
+          longNameField.getText(),
+          shortNameField.getText(),
+          floorField.getText(),
+          buildingField.getText(),
+          nodeTypeField.getText());
     }
 
     clear();
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
-
   }
 }

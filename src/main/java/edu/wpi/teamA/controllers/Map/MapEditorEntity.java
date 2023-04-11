@@ -1,11 +1,14 @@
 package edu.wpi.teamA.controllers.Map;
 
+import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.shape.Circle;
 
@@ -14,6 +17,7 @@ public class MapEditorEntity {
   private final NodeDAOImp nodeDAO = new NodeDAOImp();
   private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
+  private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
   private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
   private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
   private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
@@ -58,29 +62,38 @@ public class MapEditorEntity {
     return circle;
   }
 
-  public LocationName getLocationName(int nodeID) {
-    Move move = moveDAO.getMove(nodeID);
-    return locNameDAO.getLocName(move.getLongName());
-
-    /*if (locName.getNodeType().equals("HALL")) {
-      return locName.getLongName();
-    } else {
-      return locName.getShortName();
-    }*/
-  }
-
-  public void determineAddAction(String longName, String shortName, String floor, String building, String nodeType) {}
-
-  public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
-    // nodeDAO.Delete(nodeID);
-  }
-
-  public void determineModifyAction(String longName, String shortName, String floor, String building, String nodeType) {}
-
-  public void modifyNodeDatabase(
-      String longName, String shortName, String floor, String building, String nodeType) {}
-
   public Node getNodeInfo(int nodeID) {
     return nodeDAO.getNode(nodeID);
   }
+
+  public LocationName getLocationName(int nodeID) {
+    Move move = moveDAO.getMove(nodeID);
+    return locNameDAO.getLocName(move.getLongName());
+  }
+
+  public void determineAddAction(
+      String longName, String shortName, String floor, String building, String nodeType) {
+    //TODO figure out nodeID
+//    nodeDAO.Add(0, 0,0, floor, building);
+//    moveDAO.Add(0, longName, "date");
+//    locNameDAO.Add(longName, shortName, nodeType);
+  }
+
+  public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
+    //TODO make it work
+//    nodeDAO.Delete(nodeID);
+//    moveDAO.Delete(nodeID);
+//    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
+  }
+
+  public void determineModifyAction(
+      int nodeID, String longName, String shortName, String floor, String building, String nodeType) {
+    //TODO coords
+    nodeDAO.Update(nodeID, 0,0, floor, building);
+    moveDAO.Update(nodeID, longName, LocalDate.now().getYear() + "-" + LocalDate.now().getMonth() + "-" + LocalDate.now().getDayOfMonth());
+    locNameDAO.Add(longName, shortName, nodeType);
+  }
+
+  public void modifyNodeDatabase(
+      String longName, String shortName, String floor, String building, String nodeType) {}
 }
