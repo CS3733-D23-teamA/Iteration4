@@ -64,7 +64,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
       String sqlCreateNode =
           "Create Table if not exists \"Prototype2_schema\".\"Node\""
-              + "(nodeid   int PRIMARY KEY,"
+              + "(nodeID   int PRIMARY KEY,"
               + "xcoord    int,"
               + "ycoord    int,"
               + "floor     Varchar(600),"
