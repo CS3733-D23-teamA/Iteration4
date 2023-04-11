@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class NodeDAOImp implements IDataBase, INodeDAO {
   ArrayList<Node> NodeArray;
@@ -148,22 +147,15 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  @Override
-  public void Add() {
+  public void Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** Insert new node object to the existing node table */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, xcoord, ycoord, floor, and building:");
-      int nodeID = input.nextInt();
-      int xcoord = input.nextInt();
-      int ycoord = input.nextInt();
-      String floor = input.next();
-      String building = input.next();
 
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("INSERT INTO Prototype2_schema.\"Node\" VALUES (?, ?, ?, ?, ?)");
+              .prepareStatement(
+                  "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
       ps.setInt(3, ycoord);
@@ -178,18 +170,13 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  @Override
-  public void Delete() {
+  public void Delete(int nodeID) {
     /** delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter the nodeID to delete:");
-      int nodeID = input.nextInt();
-
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("DELETE FROM Prototype2_schema.\"Node\" WHERE nodeID = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -200,17 +187,9 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  @Override
-  public void Update() {
+  public void Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** update the node fields in the database and arraylist according to the inserts */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, new xcoord, new ycoord, new floor, and new building:");
-      int nodeID = input.nextInt();
-      int xcoord = input.nextInt();
-      int ycoord = input.nextInt();
-      String floor = input.next();
-      String building = input.next();
 
       PreparedStatement ps =
           nodeProvider

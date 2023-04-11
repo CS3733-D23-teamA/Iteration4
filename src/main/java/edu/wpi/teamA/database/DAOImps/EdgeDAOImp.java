@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   ArrayList<Edge> EdgeArray;
@@ -153,14 +152,9 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  @Override
-  public void Add() {
+  public void Add(int startNode, int endNode) {
     /** Insert new edge object to the existing edge table and the arraylist */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter startNode and endNode:");
-      int startNode = input.nextInt();
-      int endNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider
@@ -177,16 +171,11 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  @Override
-  public void Delete() {
+  public void Delete(int startNode, int endNode) {
     /**
      * delete the edge when specified with a composite key (startNode+endNode) and in the arrayList
      */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter the startNode and endNode to delete:");
-      int startNode = input.nextInt();
-      int endNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider
@@ -204,19 +193,12 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  @Override
-  public void Update() {
+  public void Update(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
     /**
      * update the edge startNode and endNode when specified with a composite key (startNode +
      * ednNode) and In the arrayList
      */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter old startNode, old endNode, new startNode, and new endNode:");
-      int oldStartNode = input.nextInt();
-      int oldEndNode = input.nextInt();
-      int newStartNode = input.nextInt();
-      int newEndNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider

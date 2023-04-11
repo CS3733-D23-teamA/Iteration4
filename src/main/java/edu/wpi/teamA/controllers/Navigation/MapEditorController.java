@@ -55,16 +55,9 @@ public class MapEditorController {
   private boolean modifyNodeClicked;
   @FXML MFXButton submitButton;
 
+  private int currentNodeID;
+
   public void initialize() {
-    submitButton.setDisable(true);
-    //    double xCoord = mapImage.getBoundsInParent().getMinX();
-    //    double yCoord = mapImage.getBoundsInParent().getMinY();
-    //    double width = mapImage.getBoundsInParent().getWidth();
-    //    double height = mapImage.getBoundsInParent().getHeight();
-    //    System.out.println(xCoord);
-    //    System.out.println(yCoord);
-    //    System.out.println(width);
-    //    System.out.println(height);
 
     levelGButton.setOnAction(event -> changeLevelText(levelGButton));
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
@@ -86,6 +79,7 @@ public class MapEditorController {
     mapEditorControls.setDisable(false);
     inputDialog.setVisible(false);
     inputDialog.setDisable(true);
+    submitButton.setDisable(true);
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
@@ -165,6 +159,7 @@ public class MapEditorController {
 
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
+    currentNodeID = nodeID;
     if (removeNodeClicked) {
       entity.determineRemoveAction(removeNodeClicked, nodeID);
       circle.setDisable(true);
@@ -177,18 +172,18 @@ public class MapEditorController {
       mapEditorControls.setDisable(true);
       inputDialog.setVisible(true);
       inputDialog.setDisable(false);
+
       // get node information
       Node node = entity.getNodeInfo(nodeID);
       LocationName locName = entity.getLocationName(nodeID);
+
       // Preload information
       longNameField.setText(locName.getLongName());
       shortNameField.setText(locName.getShortName());
       floorField.setText(node.getFloor());
       buildingField.setText(node.getBuilding());
       nodeTypeField.setText(locName.getNodeType());
-      // while submit button has not been clicked, wait for input
-      // once submit button has been clicked, update database using the line below
-      entity.determineModifyAction(modifyNodeClicked);
+
       // update the display to show the updated information
 
     }
@@ -218,11 +213,6 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = true;
     editMapDirections.setText("Add node");
-    mapEditorControls.setVisible(false);
-    mapEditorControls.setDisable(true);
-    inputDialog.setVisible(true);
-    inputDialog.setDisable(false);
-    entity.determineAddAction(addNodeClicked);
   }
 
   @FXML
@@ -249,12 +239,26 @@ public class MapEditorController {
 
   @FXML
   public void submit() {
-    entity.modifyNodeDatabase(
-        longNameField.getText(),
-        shortNameField.getText(),
-        floorField.getText(),
-        buildingField.getText(),
-        nodeTypeField.getText()); // planning to put the below variables as parameters
+    // once submit button has been clicked, update database
+
+    //TODO add clicking on map to update x and y coord
+
+    if (modifyNodeClicked) {
+      entity.determineModifyAction(
+              currentNodeID,
+          longNameField.getText(),
+          shortNameField.getText(),
+          floorField.getText(),
+          buildingField.getText(),
+          nodeTypeField.getText());
+    } else if (addNodeClicked) {
+      entity.determineAddAction(
+          longNameField.getText(),
+          shortNameField.getText(),
+          floorField.getText(),
+          buildingField.getText(),
+          nodeTypeField.getText());
+    }
 
     clear();
     inputDialog.setDisable(true);

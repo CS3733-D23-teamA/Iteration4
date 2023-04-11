@@ -191,7 +191,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </HBox>
-            <MFXGenericDialog fx:id="inputDialog">
+            <MFXGenericDialog fx:id="inputDialog" StackPane.alignment="CENTER_LEFT">
                <center>
                   <GridPane prefHeight="502.0" prefWidth="533.0" BorderPane.alignment="CENTER">
                      <columnConstraints>
@@ -256,6 +256,9 @@
                      </padding>
                   </GridPane>
                </center>
+               <StackPane.margin>
+                  <Insets left="40.0" />
+               </StackPane.margin>
             </MFXGenericDialog>
          </children>
       </StackPane>
