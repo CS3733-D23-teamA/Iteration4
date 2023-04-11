@@ -173,6 +173,9 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   public void Delete(int nodeID) {
     /** delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
+      EdgeDAOImp edgeDAO = new EdgeDAOImp();
+      edgeDAO.deleteEdgesWithNode(nodeID);
+
       PreparedStatement ps =
           nodeProvider
               .createConnection()
@@ -222,7 +225,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     Node node = null;
     try {
       PreparedStatement ps =
-          nodeProvider.createConnection()
+          nodeProvider
+              .createConnection()
               .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();

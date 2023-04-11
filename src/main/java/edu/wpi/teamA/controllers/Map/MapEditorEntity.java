@@ -7,7 +7,6 @@ import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.shape.Circle;
@@ -73,24 +72,36 @@ public class MapEditorEntity {
 
   public void determineAddAction(
       String longName, String shortName, String floor, String building, String nodeType) {
-    //TODO figure out nodeID
-//    nodeDAO.Add(0, 0,0, floor, building);
-//    moveDAO.Add(0, longName, "date");
-//    locNameDAO.Add(longName, shortName, nodeType);
+    // TODO figure out nodeID
+    //    nodeDAO.Add(0, 0,0, floor, building);
+    //    moveDAO.Add(0, longName, "date");
+    //    locNameDAO.Add(longName, shortName, nodeType);
   }
 
   public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
-    //TODO make it work
-//    nodeDAO.Delete(nodeID);
-//    moveDAO.Delete(nodeID);
-//    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
+    // TODO make it work
+    //    nodeDAO.Delete(nodeID);
+    //    moveDAO.Delete(nodeID);
+    //    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
   }
 
   public void determineModifyAction(
-      int nodeID, String longName, String shortName, String floor, String building, String nodeType) {
-    //TODO coords
-    nodeDAO.Update(nodeID, 0,0, floor, building);
-    moveDAO.Update(nodeID, longName, LocalDate.now().getYear() + "-" + LocalDate.now().getMonth() + "-" + LocalDate.now().getDayOfMonth());
+      int nodeID,
+      String longName,
+      String shortName,
+      String floor,
+      String building,
+      String nodeType) {
+    // TODO coords
+    nodeDAO.Update(nodeID, 0, 0, floor, building);
+    moveDAO.Update(
+        nodeID,
+        longName,
+        LocalDate.now().getYear()
+            + "-"
+            + LocalDate.now().getMonth()
+            + "-"
+            + LocalDate.now().getDayOfMonth());
     locNameDAO.Add(longName, shortName, nodeType);
   }
 

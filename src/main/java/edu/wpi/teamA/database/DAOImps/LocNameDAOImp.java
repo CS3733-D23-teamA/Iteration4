@@ -165,6 +165,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
   public void Delete(String longName) {
     try {
+      MoveDAOImp moveDAO = new MoveDAOImp();
 
       PreparedStatement ps =
           LocNameProvider.createConnection()

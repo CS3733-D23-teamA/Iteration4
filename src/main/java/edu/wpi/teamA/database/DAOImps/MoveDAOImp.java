@@ -79,7 +79,11 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
           "Create Table if not exists \"Prototype2_schema\".\"Move\""
               + "(nodeID   int PRIMARY KEY,"
               + "longName  Varchar(600),"
-              + "localDate      date)";
+              + "localDate      date)"
+              + "CONSTRAINT fk_longName "
+              + "FOREIGN KEY(longName) "
+              + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname) "
+              + "ON DELETE CASCADE";
       Statement stmtMove = moveProvider.createConnection().createStatement();
       stmtMove.execute(sqlCreateEdge);
 

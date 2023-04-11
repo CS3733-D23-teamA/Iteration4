@@ -241,11 +241,11 @@ public class MapEditorController {
   public void submit() {
     // once submit button has been clicked, update database
 
-    //TODO add clicking on map to update x and y coord
+    // TODO add clicking on map to update x and y coord
 
     if (modifyNodeClicked) {
       entity.determineModifyAction(
-              currentNodeID,
+          currentNodeID,
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
