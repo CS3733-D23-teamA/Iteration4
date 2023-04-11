@@ -44,8 +44,7 @@ public class CRRRDAOImp implements ICRRRDAO {
       stmtCRRR.execute(sqlCreateTable);
 
       PreparedStatement ps =
-          crrrProvider
-              .createConnection()
+          crrrProvider.createConnection()
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
@@ -68,8 +67,7 @@ public class CRRRDAOImp implements ICRRRDAO {
   public void deleteCRRR(ConferenceRoomResRequest crrr) {
     try {
       PreparedStatement ps =
-          crrrProvider
-              .createConnection()
+          crrrProvider.createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE name = ?");
       ps.setString(1, crrr.getName());

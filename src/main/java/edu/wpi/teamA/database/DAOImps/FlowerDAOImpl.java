@@ -43,8 +43,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       stmtFlower.execute(sqlCreateEdge);
 
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          flowerProvider.createConnection()
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
@@ -68,8 +67,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
     try {
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          flowerProvider.createConnection()
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE name = ?");
       ps.setString(1, flower.getName());
       ps.executeUpdate();
