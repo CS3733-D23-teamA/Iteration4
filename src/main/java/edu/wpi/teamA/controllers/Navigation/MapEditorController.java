@@ -193,10 +193,6 @@ public class MapEditorController {
 
     }
 
-    if (addNodeClicked) {
-      entity.determineAddAction(addNodeClicked);
-    }
-
     editMapDirections.setText("");
   }
 
@@ -222,6 +218,11 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = true;
     editMapDirections.setText("Add node");
+    mapEditorControls.setVisible(false);
+    mapEditorControls.setDisable(true);
+    inputDialog.setVisible(true);
+    inputDialog.setDisable(false);
+    entity.determineAddAction(addNodeClicked);
   }
 
   @FXML
@@ -248,11 +249,6 @@ public class MapEditorController {
 
   @FXML
   public void submit() {
-    /*longNameField.getText();
-    shortNameField.getText();
-    floorField.getText();
-    buildingField.getText();
-    nodeTypeField.getText();*/
     entity.modifyNodeDatabase(
         longNameField.getText(),
         shortNameField.getText(),
