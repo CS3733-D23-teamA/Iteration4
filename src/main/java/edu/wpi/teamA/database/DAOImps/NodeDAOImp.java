@@ -244,4 +244,26 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
     return node;
   }
+  public Node getLargestNodeID() {
+    Node largestNode = null;
+    try {
+      Statement st = nodeProvider.createConnection().createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeID DESC LIMIT 1");
+
+      if (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        largestNode = new Node(nodeID, xcoord, ycoord, floor, building);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return largestNode;
+  }
+
 }
