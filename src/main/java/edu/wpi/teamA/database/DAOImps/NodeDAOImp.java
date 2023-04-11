@@ -173,6 +173,9 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   public void Delete(int nodeID) {
     /** delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
+      EdgeDAOImp edgeDAO = new EdgeDAOImp();
+      edgeDAO.deleteEdgesWithNode(nodeID);
+
       PreparedStatement ps =
           nodeProvider
               .createConnection()

@@ -82,7 +82,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
               + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid), "
               + "CONSTRAINT fk_endnode "
               + "FOREIGN KEY(endNode)"
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid))";
+              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid))"
+              + "ON DELETE CASCADE";
 
       Statement stmtEdge = edgeProvider.createConnection().createStatement();
       stmtEdge.execute(sqlCreateEdge);
@@ -243,5 +244,23 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       throw new RuntimeException(e);
     }
     return edge;
+  }
+
+  public void deleteEdgesWithNode(int nodeID) {
+    try {
+      PreparedStatement ps =
+          edgeProvider
+              .createConnection()
+              .prepareStatement(
+                  "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startNode = ? OR endNode = ?");
+      ps.setInt(1, nodeID);
+      ps.setInt(2, nodeID);
+      ps.executeUpdate();
+
+      EdgeArray.removeIf(edge -> edge.getStartNode() == nodeID || edge.getEndNode() == nodeID);
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
