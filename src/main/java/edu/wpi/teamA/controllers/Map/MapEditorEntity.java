@@ -58,6 +58,7 @@ public class MapEditorEntity {
     circle.setCenterX(X);
     circle.setCenterY(Y);
     circle.setRadius(2);
+    circle.setVisible(true);
     return circle;
   }
 
@@ -87,6 +88,8 @@ public class MapEditorEntity {
 
   public void determineModifyAction(
       int nodeID,
+      int x,
+      int y,
       String longName,
       String shortName,
       String floor,

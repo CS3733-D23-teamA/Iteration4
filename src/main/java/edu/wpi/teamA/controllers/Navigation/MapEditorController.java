@@ -60,6 +60,7 @@ public class MapEditorController {
   @FXML MFXButton submitButton;
 
   private int currentNodeID;
+  private int[] XYCoords;
 
   public void initialize() {
 
@@ -184,9 +185,9 @@ public class MapEditorController {
       // Preload information
       longNameField.setText(locName.getLongName());
       shortNameField.setText(locName.getShortName());
-      floorField.setText(node.getFloor());
-      buildingField.setText(node.getBuilding());
-      nodeTypeField.setText(locName.getNodeType());
+      floorField.getSelectionModel().selectItem(node.getFloor());
+      buildingField.getSelectionModel().selectItem(node.getBuilding());
+      nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
 
       // new location clicked
       dotsAnchorPane.setOnMouseClicked(
@@ -197,7 +198,7 @@ public class MapEditorController {
               double Y = event.getY();
               int newX = (int) X;
               int newY = (int) Y;
-              int[] XYCoords = new int[2];
+              XYCoords = new int[2];
               XYCoords[0] = newX;
               XYCoords[1] = newY;
               System.out.println("New X:" + newX);
@@ -271,6 +272,8 @@ public class MapEditorController {
     if (modifyNodeClicked) {
       entity.determineModifyAction(
           currentNodeID,
+          XYCoords[0],
+          XYCoords[1],
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
