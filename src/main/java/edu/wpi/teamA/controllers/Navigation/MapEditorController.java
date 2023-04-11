@@ -3,12 +3,17 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
+import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
+import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
+import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.event.EventHandler;
@@ -21,6 +26,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
@@ -57,12 +64,17 @@ public class MapEditorController {
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
-  @FXML MFXButton submitButton;
-  @FXML MFXButton changeLocationButton;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton changeLocationButton;
   private final double scalar = 0.144;
 
   private int currentNodeID;
   private int[] XYCoords = new int[2];
+
+  private boolean imported = false;
+  private boolean exported = false;
+
+  @FXML private MFXGenericDialog impExpDialog;
 
   public void initialize() {
 
@@ -87,6 +99,8 @@ public class MapEditorController {
     inputDialog.setVisible(false);
     inputDialog.setDisable(true);
     submitButton.setDisable(true);
+    impExpDialog.setVisible(false);
+    impExpDialog.setDisable(true);
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
@@ -333,6 +347,92 @@ public class MapEditorController {
     mapEditorControls.setDisable(false);
   }
 
-  @FXML // id: changeLocationButton
-  public void changeMapLocation() {}
+  @FXML
+  public void importFile() {
+    imported = true;
+    impExpDialog.setVisible(true);
+    impExpDialog.setDisable(false);
+  }
+
+  @FXML
+  public void exportFile() {
+    exported = true;
+    impExpDialog.setVisible(true);
+    impExpDialog.setDisable(false);
+  }
+
+  @FXML
+  public void MoveImpExp() {
+    if (imported) {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open CSV File");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
+      MoveDAOImp.Import(selectedFile.getPath());
+    } else if (exported) {
+      DirectoryChooser directoryChooser = new DirectoryChooser();
+      directoryChooser.setTitle("Export CSV File to");
+      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
+      MoveDAOImp.Export(selectedDirectory.getPath());
+    }
+
+    impExpDialog.setVisible(false);
+    impExpDialog.setDisable(true);
+  }
+
+  @FXML
+  public void NodeImpExp() {
+    if (imported) {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open CSV File");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
+      NodeDAOImp.Import(selectedFile.getPath());
+    } else if (exported) {
+      DirectoryChooser directoryChooser = new DirectoryChooser();
+      directoryChooser.setTitle("Export CSV File to");
+      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
+      NodeDAOImp.Export(selectedDirectory.getPath());
+    }
+
+    impExpDialog.setVisible(false);
+    impExpDialog.setDisable(true);
+  }
+
+  @FXML
+  public void LocationImpExp() {
+    if (imported) {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open CSV File");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
+      LocNameDAOImp.Import(selectedFile.getPath());
+    } else if (exported) {
+      DirectoryChooser directoryChooser = new DirectoryChooser();
+      directoryChooser.setTitle("Export CSV File to");
+      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
+      LocNameDAOImp.Export(selectedDirectory.getPath());
+    }
+    impExpDialog.setVisible(false);
+    impExpDialog.setDisable(true);
+  }
+
+  @FXML
+  public void EdgeImpExp() {
+    if (imported) {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open CSV File");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
+      EdgeDAOImp.Import(selectedFile.getPath());
+    } else if (exported) {
+      DirectoryChooser directoryChooser = new DirectoryChooser();
+      directoryChooser.setTitle("Export CSV File to");
+      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
+      EdgeDAOImp.Export(selectedDirectory.getPath());
+    }
+
+    impExpDialog.setVisible(true);
+    impExpDialog.setDisable(false);
+  }
 }

@@ -71,7 +71,7 @@ public class MapEditorEntity {
     return locNameDAO.getLocName(move.getLongName());
   }
 
-  //TODO get largest nodeID
+  // TODO get largest nodeID
   public void determineAddAction(
       int x,
       int y,

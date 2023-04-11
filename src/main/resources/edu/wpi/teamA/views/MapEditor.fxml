@@ -158,7 +158,7 @@
                         </StackPane>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="800.0" spacing="24.0">
                            <children>
-                              <MFXButton fx:id="ImportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Import" textFill="#012d5a">
+                              <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Import" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans Regular" size="32.0" />
                                  </font>
@@ -177,7 +177,7 @@
                                     </Text>
                                  </children>
                               </VBox>
-                              <MFXButton fx:id="ExportButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
+                              <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans Regular" size="32.0" />
                                  </font>
@@ -191,6 +191,46 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </HBox>
+            <MFXGenericDialog fx:id="impExpDialog" translateX="320.0">
+               <center>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="24.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <MFXButton fx:id="MoveButton" onAction="#MoveImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Move" textFill="#012d5a">
+                           <font>
+                              <Font name="Open Sans Regular" size="32.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </MFXButton>
+                        <MFXButton fx:id="NodeButton" layoutX="10.0" layoutY="10.0" onAction="#NodeImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Node" textFill="#012d5a">
+                           <font>
+                              <Font name="Open Sans Regular" size="32.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </MFXButton>
+                        <MFXButton fx:id="LocationButton" layoutX="10.0" layoutY="76.0" onAction="#LocationImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Location" textFill="#012d5a">
+                           <font>
+                              <Font name="Open Sans Regular" size="32.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </MFXButton>
+                        <MFXButton fx:id="EdgeButton" layoutX="10.0" layoutY="76.0" onAction="#EdgeImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Edge" textFill="#012d5a">
+                           <font>
+                              <Font name="Open Sans Regular" size="32.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </MFXButton>
+                     </children>
+                  </VBox>
+               </center>
+            </MFXGenericDialog>
             <MFXGenericDialog fx:id="inputDialog" StackPane.alignment="CENTER_LEFT">
                <center>
                   <GridPane prefHeight="502.0" prefWidth="533.0" BorderPane.alignment="CENTER">
@@ -209,34 +249,34 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name">
                            <font>
-                              <Font size="25.0" />
+                              <Font name="Open Sans Regular" size="24.0" />
                            </font>
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name" GridPane.rowIndex="1">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="24.0" />
                            </font>
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor" GridPane.rowIndex="2">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="24.0" />
                            </font>
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building" GridPane.rowIndex="3">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="24.0" />
                            </font>
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type" GridPane.rowIndex="4">
                            <font>
-                              <Font size="25.0" />
+                              <Font size="24.0" />
                            </font>
                         </Text>
-                        <MFXButton fx:id="changeLocationButton" onAction="#changeMapLocation" style="-fx-background-color: #98AABC;" text="Change Map Position" textFill="#012d5a" wrapText="true" GridPane.rowIndex="5">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Map Position" wrappingWidth="200.0" GridPane.rowIndex="5">
                            <font>
-                              <Font name="Open Sans Regular" size="15.0" />
+                              <Font name="Open Sans Regular" size="24.0" />
                            </font>
-                        </MFXButton>
+                        </Text>
                         <MFXTextField fx:id="longNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
                         <MFXTextField fx:id="shortNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
