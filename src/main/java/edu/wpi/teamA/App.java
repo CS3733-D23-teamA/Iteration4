@@ -41,9 +41,7 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-    // scene.getStylesheets().add("edu/wpi/teamA/stylesheets/main.css");
-
-    Navigation.navigate(Screen.LOGIN);
+    Navigation.navigate(Screen.HOME);
   }
 
   @Override

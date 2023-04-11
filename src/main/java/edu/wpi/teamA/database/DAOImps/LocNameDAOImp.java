@@ -73,7 +73,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"LocationName\""
-              + "(longName     Varchar(600),"
+              + "(longName     Varchar(600) PRIMARY KEY,"
               + "shortName     Varchar(600),"
               + "nodeType      Varchar(600))";
       Statement stmtLocName = LocNameProvider.createConnection().createStatement();
@@ -163,21 +163,17 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     }
   }
 
-  public void Delete(String longName, String shortName) {
+  public void Delete(String longName) {
     try {
 
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ? AND shortName = ?");
+                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ?");
       ps.setString(1, longName);
-      ps.setString(2, shortName);
       ps.executeUpdate();
 
-      LocNameArray.removeIf(
-          locationName ->
-              locationName.getLongName().equals(longName)
-                  && locationName.getShortName().equals(shortName));
+      LocNameArray.removeIf(locationName -> locationName.getLongName().equals(longName));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -218,18 +214,18 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     }
   }
 
-  public LocationName getLocName(String longName, String shortName) {
+  public LocationName getLocName(String longName) {
     LocationName locationName = null;
     try {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ? AND shortName = ?");
+                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ?");
       ps.setString(1, longName);
-      ps.setString(2, shortName);
       ResultSet rs = ps.executeQuery();
 
       if (rs.next()) {
+        String shortName = rs.getString("shortName");
         String nodeType = rs.getString("nodeType");
         locationName = new LocationName(longName, shortName, nodeType);
       }
