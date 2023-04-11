@@ -58,16 +58,17 @@ public class MapEditorEntity {
     return circle;
   }
 
-  public String getLocationName(int nodeID) {
+  public LocationName getLocationName(int nodeID) {
     Move move = moveDAO.getMove(nodeID);
-    Node node = nodeDAO.getNode(nodeID);
     LocationName locName = locNameDAO.getLocName(move.getLongName());
 
-    if (locName.getNodeType().equals("HALL")) {
+    /*if (locName.getNodeType().equals("HALL")) {
       return locName.getLongName();
     } else {
       return locName.getShortName();
-    }
+    }*/
+
+    return locName;
   }
 
   public void determineAddAction(boolean addNodeClicked) {}
@@ -78,7 +79,10 @@ public class MapEditorEntity {
 
   public void determineModifyAction(boolean modifyNodeClicked) {}
 
-  public void modifyNode(String longName, String shortName, String floor, String building, String nodeType){
+  public void modifyNodeDatabase(
+      String longName, String shortName, String floor, String building, String nodeType) {}
 
+  public Node getNodeInfo(int nodeID) {
+    return nodeDAO.getNode(nodeID);
   }
 }

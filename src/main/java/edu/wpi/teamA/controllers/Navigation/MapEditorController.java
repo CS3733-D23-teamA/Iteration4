@@ -3,19 +3,15 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
-import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -59,8 +55,8 @@ public class MapEditorController {
   private boolean modifyNodeClicked;
   @FXML MFXButton submitButton;
 
-
   public void initialize() {
+    submitButton.setDisable(true);
     //    double xCoord = mapImage.getBoundsInParent().getMinX();
     //    double yCoord = mapImage.getBoundsInParent().getMinY();
     //    double width = mapImage.getBoundsInParent().getWidth();
@@ -154,7 +150,12 @@ public class MapEditorController {
 
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-    locationDisplay.setText(entity.getLocationName(nodeID));
+
+    if (entity.getLocationName(nodeID).getNodeType().equals("HALL")) {
+      locationDisplay.setText(entity.getLocationName(nodeID).getLongName());
+    } else {
+      locationDisplay.setText(entity.getLocationName(nodeID).getShortName());
+    }
   }
 
   @FXML
@@ -176,10 +177,20 @@ public class MapEditorController {
       mapEditorControls.setDisable(true);
       inputDialog.setVisible(true);
       inputDialog.setDisable(false);
+      // get node information
+      Node node = entity.getNodeInfo(nodeID);
+      LocationName locName = entity.getLocationName(nodeID);
+      // Preload information
+      longNameField.setText(locName.getLongName());
+      shortNameField.setText(locName.getShortName());
+      floorField.setText(node.getFloor());
+      buildingField.setText(node.getBuilding());
+      nodeTypeField.setText(locName.getNodeType());
       // while submit button has not been clicked, wait for input
       // once submit button has been clicked, update database using the line below
       entity.determineModifyAction(modifyNodeClicked);
       // update the display to show the updated information
+
     }
 
     if (addNodeClicked) {
@@ -213,6 +224,19 @@ public class MapEditorController {
     editMapDirections.setText("Add node");
   }
 
+  @FXML
+  public void validateButton() {
+    if (longNameField.getText().isEmpty()
+        || shortNameField.getText().isEmpty()
+        || floorField.getSelectedIndex() == -1
+        || buildingField.getSelectedIndex() == -1
+        || nodeTypeField.getSelectedIndex() == -1) {
+      submitButton.setDisable(true);
+    } else {
+      submitButton.setDisable(false);
+    }
+  }
+
   public void clear() {
     submitButton.setDisable(true);
     longNameField.clear();
@@ -222,14 +246,22 @@ public class MapEditorController {
     nodeTypeField.getSelectionModel().clearSelection();
   }
 
+  @FXML
   public void submit() {
-    modifyNode(); //planning to put the below variables as parameters
-    longNameField.getText();
+    /*longNameField.getText();
     shortNameField.getText();
     floorField.getText();
     buildingField.getText();
-    nodeTypeField.getText();
+    nodeTypeField.getText();*/
+    entity.modifyNodeDatabase(
+        longNameField.getText(),
+        shortNameField.getText(),
+        floorField.getText(),
+        buildingField.getText(),
+        nodeTypeField.getText()); // planning to put the below variables as parameters
 
     clear();
+    inputDialog.setDisable(true);
+    inputDialog.setVisible(false);
   }
 }
