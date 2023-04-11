@@ -71,19 +71,37 @@ public class MapEditorEntity {
     return locNameDAO.getLocName(move.getLongName());
   }
 
+  //TODO get largest nodeID
   public void determineAddAction(
-      String longName, String shortName, String floor, String building, String nodeType) {
-    // TODO figure out nodeID
-    //    nodeDAO.Add(0, 0,0, floor, building);
-    //    moveDAO.Add(0, longName, "date");
-    //    locNameDAO.Add(longName, shortName, nodeType);
+      int x,
+      int y,
+      String longName,
+      String shortName,
+      String floor,
+      String building,
+      String nodeType) {
+    int newNodeID = nodeDAO.loadNodesFromDatabase().get(nodeArray.size() - 1).getNodeID() + 5;
+    System.out.println(nodeArray.size());
+    System.out.println(newNodeID);
+    nodeDAO.Add(newNodeID, x, y, floor, building);
+    String month = Integer.toString(LocalDate.now().getMonthValue());
+    String day = Integer.toString(LocalDate.now().getDayOfMonth());
+    if (month.length() == 1) {
+      month = "0" + month;
+    }
+    if (day.length() == 1) {
+      day = "0" + day;
+    }
+
+    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
+    moveDAO.Add(newNodeID, longName, dateString);
+    locNameDAO.Add(longName, shortName, nodeType);
   }
 
   public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
-    // TODO make it work
-    //    nodeDAO.Delete(nodeID);
-    //    moveDAO.Delete(nodeID);
-    //    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
+    nodeDAO.Delete(nodeID);
+    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
+    moveDAO.Delete(nodeID);
   }
 
   public void determineModifyAction(
@@ -95,19 +113,18 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
-    // TODO coords
-    nodeDAO.Update(nodeID, 0, 0, floor, building);
-    moveDAO.Update(
-        nodeID,
-        longName,
-        LocalDate.now().getYear()
-            + "-"
-            + LocalDate.now().getMonth()
-            + "-"
-            + LocalDate.now().getDayOfMonth());
+    nodeDAO.Update(nodeID, x, y, floor, building);
+    String month = Integer.toString(LocalDate.now().getMonthValue());
+    String day = Integer.toString(LocalDate.now().getDayOfMonth());
+    if (month.length() == 1) {
+      month = "0" + month;
+    }
+    if (day.length() == 1) {
+      day = "0" + day;
+    }
+
+    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
+    moveDAO.Update(nodeID, longName, dateString);
     locNameDAO.Add(longName, shortName, nodeType);
   }
-
-  public void modifyNodeDatabase(
-      String longName, String shortName, String floor, String building, String nodeType) {}
 }

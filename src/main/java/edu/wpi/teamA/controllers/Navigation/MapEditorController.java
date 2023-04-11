@@ -58,9 +58,11 @@ public class MapEditorController {
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
   @FXML MFXButton submitButton;
+  @FXML MFXButton changeLocationButton;
+  private final double scalar = 0.144;
 
   private int currentNodeID;
-  private int[] XYCoords;
+  private int[] XYCoords = new int[2];
 
   public void initialize() {
 
@@ -128,7 +130,6 @@ public class MapEditorController {
 
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
     // scalar for determine position on map
-    double scalar = 0.144;
 
     for (Node node : nodeArrayForFloor) {
       int originalNodeX = node.getXcoord();
@@ -189,6 +190,8 @@ public class MapEditorController {
       buildingField.getSelectionModel().selectItem(node.getBuilding());
       nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
 
+      validateButton();
+
       // new location clicked
       dotsAnchorPane.setOnMouseClicked(
           new EventHandler<MouseEvent>() {
@@ -199,8 +202,8 @@ public class MapEditorController {
               int newX = (int) X;
               int newY = (int) Y;
               XYCoords = new int[2];
-              XYCoords[0] = newX;
-              XYCoords[1] = newY;
+              XYCoords[0] = (int) (newX / scalar);
+              XYCoords[1] = (int) (newY / scalar);
               System.out.println("New X:" + newX);
               System.out.println("New Y:" + newY);
               // new red circle indicating new location
@@ -239,10 +242,45 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = true;
     editMapDirections.setText("Add node");
+
+    // pop up dialog box
+    mapEditorControls.setVisible(false);
+    mapEditorControls.setDisable(true);
+    inputDialog.setVisible(true);
+    inputDialog.setDisable(false);
+
+    XYCoords[0] = -1;
+    XYCoords[1] = -1;
+
+    // set map click thingy
+    dotsAnchorPane.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            double X = event.getX();
+            double Y = event.getY();
+            int newX = (int) X;
+            int newY = (int) Y;
+            XYCoords[0] = (int) (newX / scalar);
+            XYCoords[1] = (int) (newY / scalar);
+            System.out.println("New X:" + newX);
+            System.out.println("New Y:" + newY);
+            // new red circle indicating new location
+
+            Circle circle = entity.addCircle(newX, newY);
+            circle.setFill(Color.rgb(128, 0, 0, 0.87));
+          }
+        });
   }
 
   @FXML
   public void validateButton() {
+    if (addNodeClicked) {
+      if (XYCoords[0] < 0 || XYCoords[1] < 0) {
+        submitButton.setDisable(true);
+      }
+    }
+
     if (longNameField.getText().isEmpty()
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
@@ -267,8 +305,6 @@ public class MapEditorController {
   public void submit() {
     // once submit button has been clicked, update database
 
-    // TODO add clicking on map to update x and y coord
-
     if (modifyNodeClicked) {
       entity.determineModifyAction(
           currentNodeID,
@@ -281,6 +317,8 @@ public class MapEditorController {
           nodeTypeField.getText());
     } else if (addNodeClicked) {
       entity.determineAddAction(
+          XYCoords[0],
+          XYCoords[1],
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
@@ -291,6 +329,8 @@ public class MapEditorController {
     clear();
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
+    mapEditorControls.setVisible(true);
+    mapEditorControls.setDisable(false);
   }
 
   @FXML // id: changeLocationButton
