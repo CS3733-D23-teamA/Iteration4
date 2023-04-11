@@ -3,14 +3,19 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
+import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -52,6 +57,8 @@ public class MapEditorController {
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
+  @FXML MFXButton submitButton;
+
 
   public void initialize() {
     //    double xCoord = mapImage.getBoundsInParent().getMinX();
@@ -169,10 +176,10 @@ public class MapEditorController {
       mapEditorControls.setDisable(true);
       inputDialog.setVisible(true);
       inputDialog.setDisable(false);
-      //while submit button has not been clicked, wait for input
-      //once submit button has been clicked, update database using the line below
+      // while submit button has not been clicked, wait for input
+      // once submit button has been clicked, update database using the line below
       entity.determineModifyAction(modifyNodeClicked);
-      //update the display to show the updated information
+      // update the display to show the updated information
     }
 
     if (addNodeClicked) {
@@ -185,18 +192,44 @@ public class MapEditorController {
   @FXML
   public void removeNode() {
     removeNodeClicked = true;
+    modifyNodeClicked = false;
+    addNodeClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
   @FXML
   public void modifyNode() {
+    removeNodeClicked = false;
     modifyNodeClicked = true;
+    addNodeClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
   }
 
   @FXML
   public void addNode() {
+    removeNodeClicked = false;
+    modifyNodeClicked = false;
     addNodeClicked = true;
     editMapDirections.setText("Add node");
+  }
+
+  public void clear() {
+    submitButton.setDisable(true);
+    longNameField.clear();
+    shortNameField.clear();
+    floorField.getSelectionModel().clearSelection();
+    buildingField.getSelectionModel().clearSelection();
+    nodeTypeField.getSelectionModel().clearSelection();
+  }
+
+  public void submit() {
+    modifyNode(); //planning to put the below variables as parameters
+    longNameField.getText();
+    shortNameField.getText();
+    floorField.getText();
+    buildingField.getText();
+    nodeTypeField.getText();
+
+    clear();
   }
 }

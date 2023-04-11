@@ -77,4 +77,8 @@ public class MapEditorEntity {
   }
 
   public void determineModifyAction(boolean modifyNodeClicked) {}
+
+  public void modifyNode(String longName, String shortName, String floor, String building, String nodeType){
+
+  }
 }
