@@ -177,24 +177,20 @@ public class MapEditorController {
       mapEditorControls.setDisable(true);
       inputDialog.setVisible(true);
       inputDialog.setDisable(false);
+
       // get node information
       Node node = entity.getNodeInfo(nodeID);
       LocationName locName = entity.getLocationName(nodeID);
+
       // Preload information
       longNameField.setText(locName.getLongName());
       shortNameField.setText(locName.getShortName());
       floorField.setText(node.getFloor());
       buildingField.setText(node.getBuilding());
       nodeTypeField.setText(locName.getNodeType());
-      // while submit button has not been clicked, wait for input
-      // once submit button has been clicked, update database using the line below
-      entity.determineModifyAction(modifyNodeClicked);
+
       // update the display to show the updated information
 
-    }
-
-    if (addNodeClicked) {
-      entity.determineAddAction(addNodeClicked);
     }
 
     editMapDirections.setText("");
@@ -248,20 +244,24 @@ public class MapEditorController {
 
   @FXML
   public void submit() {
-    /*longNameField.getText();
-    shortNameField.getText();
-    floorField.getText();
-    buildingField.getText();
-    nodeTypeField.getText();*/
-    entity.modifyNodeDatabase(
-        longNameField.getText(),
-        shortNameField.getText(),
-        floorField.getText(),
-        buildingField.getText(),
-        nodeTypeField.getText()); // planning to put the below variables as parameters
+    // once submit button has been clicked, update database
+    if(modifyNodeClicked) {
+      entity.determineModifyAction(longNameField.getText(),
+              shortNameField.getText(),
+              floorField.getText(),
+              buildingField.getText(),
+              nodeTypeField.getText());
+    } else if(addNodeClicked) {
+      entity.determineAddAction(longNameField.getText(),
+              shortNameField.getText(),
+              floorField.getText(),
+              buildingField.getText(),
+              nodeTypeField.getText());
+    }
 
     clear();
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
+
   }
 }
