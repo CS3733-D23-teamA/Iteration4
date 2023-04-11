@@ -17,7 +17,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,14 +31,17 @@ import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
-  public static EventType<MouseEvent> MOUSE_CLICKED;
 
-  @FXML private BorderPane borderPane;
+  // larger panes
   @FXML private ImageView mapImage;
   @FXML private StackPane mapStackPane;
   @FXML private AnchorPane dotsAnchorPane;
   @FXML private GesturePane mapGesturePane;
+  @FXML private HBox mapEditorControls;
+  @FXML private MFXGenericDialog inputDialog;
+  @FXML private MFXGenericDialog impExpDialog;
 
+  // level buttons
   @FXML private MFXButton levelButton;
   @FXML private MFXButton levelGButton;
   @FXML private MFXButton levelL1Button;
@@ -47,37 +49,37 @@ public class MapEditorController {
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
-
   @FXML private VBox levelMenu;
 
+  // text displays
   @FXML private Text locationDisplay;
   @FXML private Text editMapDirections;
 
-  @FXML private HBox mapEditorControls;
-  @FXML private MFXGenericDialog inputDialog;
-
+  // input dialog box
   @FXML private MFXTextField longNameField;
   @FXML private MFXTextField shortNameField;
   @FXML private MFXComboBox<String> floorField;
   @FXML private MFXComboBox<String> buildingField;
   @FXML private MFXComboBox<String> nodeTypeField;
+  @FXML private MFXButton submitButton;
+
+  // booleans for add, remove, modify
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
-  @FXML private MFXButton submitButton;
-  @FXML private MFXButton changeLocationButton;
-  private final double scalar = 0.144;
+
+  // booleans to determine importing or exporting
+  private boolean imported = false;
+  private boolean exported = false;
 
   private int currentNodeID;
   private int[] XYCoords = new int[2];
 
-  private boolean imported = false;
-  private boolean exported = false;
+  private final double scalar = 0.144;
 
-  @FXML private MFXGenericDialog impExpDialog;
-
+  /** Used to initialize the screen and inputs */
   public void initialize() {
-
+    // set up level buttons
     levelGButton.setOnAction(event -> changeLevelText(levelGButton));
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
@@ -94,6 +96,7 @@ public class MapEditorController {
     addNodeClicked = false;
     modifyNodeClicked = false;
 
+    // set up dialog box visiblity
     mapEditorControls.setVisible(true);
     mapEditorControls.setDisable(false);
     inputDialog.setVisible(false);
@@ -111,7 +114,7 @@ public class MapEditorController {
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
   }
 
-  /** for level chooser button */
+  /** For level chooser button */
   @FXML
   public void levelChooser() {
     // make Vbox visible
@@ -142,12 +145,16 @@ public class MapEditorController {
     displayNodeData(Objects.requireNonNull(entity.determineArray(button.getText())));
   }
 
+  /**
+   * Displays the node data for that floor in the form as dots on the map
+   *
+   * @param nodeArrayForFloor the array with the data for that floor
+   */
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
-    // scalar for determine position on map
-
     for (Node node : nodeArrayForFloor) {
       int originalNodeX = node.getXcoord();
       int originalNodeY = node.getYcoord();
+      // scales it according to resolution of the photos
       double newXCoord = originalNodeX * scalar;
       double newYCoord = originalNodeY * scalar;
 
@@ -155,13 +162,17 @@ public class MapEditorController {
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
       circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-      // borderPane.setOnMouseClicked(event -> dotUnclicked(circle, node.getNodeID()));
       dotsAnchorPane.getChildren().add(circle);
     }
-
     App.getPrimaryStage().show();
   }
 
+  /**
+   * Defines behavior for when you hover over a dot on the map
+   *
+   * @param circle dot that you are hover over
+   * @param nodeID nodeID of that node the dot is linked too
+   */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
 
@@ -172,14 +183,27 @@ public class MapEditorController {
     }
   }
 
+  /**
+   * Defines behavior for when you are not hovering over a dot on the map
+   *
+   * @param circle dot that you are hover over
+   * @param nodeID nodeID of that node the dot is linked too
+   */
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
-    circle.setFill(Color.web("0x000000"));
+    circle.setFill(Color.web("0x012D5A"));
   }
 
+  /**
+   * Defines behavior for when you click a dot on the map
+   *
+   * @param circle dot that you are clicking
+   * @param nodeID nodeID of that node the dot is linked too
+   */
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
     currentNodeID = nodeID;
+
     if (removeNodeClicked) {
       entity.determineRemoveAction(removeNodeClicked, nodeID);
       circle.setDisable(true);
@@ -188,52 +212,27 @@ public class MapEditorController {
     }
 
     if (modifyNodeClicked) {
-      mapEditorControls.setVisible(false);
-      mapEditorControls.setDisable(true);
-      inputDialog.setVisible(true);
-      inputDialog.setDisable(false);
+      popUpMainDialogBox();
 
       // get node information
       Node node = entity.getNodeInfo(nodeID);
       LocationName locName = entity.getLocationName(nodeID);
 
       // Preload information
-      longNameField.setText(locName.getLongName());
-      shortNameField.setText(locName.getShortName());
-      floorField.getSelectionModel().selectItem(node.getFloor());
-      buildingField.getSelectionModel().selectItem(node.getBuilding());
-      nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
-
+      preLoadDialogInfo(node, locName);
       validateButton();
 
       // new location clicked
-      dotsAnchorPane.setOnMouseClicked(
-          new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-              double X = event.getX();
-              double Y = event.getY();
-              int newX = (int) X;
-              int newY = (int) Y;
-              XYCoords = new int[2];
-              XYCoords[0] = (int) (newX / scalar);
-              XYCoords[1] = (int) (newY / scalar);
-              System.out.println("New X:" + newX);
-              System.out.println("New Y:" + newY);
-              // new red circle indicating new location
-
-              Circle circle = entity.addCircle(newX, newY);
-              circle.setFill(Color.rgb(128, 0, 0, 0.87));
-            }
-          });
+      mouseClickForNewLocation();
 
       // update the display to show the updated information
-
+      App.getPrimaryStage().show();
     }
 
     editMapDirections.setText("");
   }
 
+  /** Sets up screen for the user to remove a node */
   @FXML
   public void removeNode() {
     removeNodeClicked = true;
@@ -242,6 +241,7 @@ public class MapEditorController {
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
+  /** Sets up the screen for the user to modify a node */
   @FXML
   public void modifyNode() {
     removeNodeClicked = false;
@@ -250,43 +250,53 @@ public class MapEditorController {
     editMapDirections.setText("Click a dot on the map to modify");
   }
 
+  /** Pops up the input dialog page and hides map editor controls */
+  private void popUpMainDialogBox() {
+    mapEditorControls.setVisible(false);
+    mapEditorControls.setDisable(true);
+    inputDialog.setVisible(true);
+    inputDialog.setDisable(false);
+  }
+
+  /** Hides the input dialog page and brings back map editor controls */
+  private void shutDownMainDialogBox() {
+    inputDialog.setDisable(true);
+    inputDialog.setVisible(false);
+    mapEditorControls.setVisible(true);
+    mapEditorControls.setDisable(false);
+    removeNodeClicked = false;
+    modifyNodeClicked = false;
+    addNodeClicked = false;
+  }
+
+  /** Preload information in dialog box for the user to modify a node */
+  private void preLoadDialogInfo(Node node, LocationName locName) {
+    longNameField.setText(locName.getLongName());
+    shortNameField.setText(locName.getShortName());
+    floorField.getSelectionModel().selectItem(node.getFloor());
+    buildingField.getSelectionModel().selectItem(node.getBuilding());
+    nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
+  }
+
+  /** Sets up screen for the user to add a node */
   @FXML
   public void addNode() {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
     editMapDirections.setText("Add node");
-
     // pop up dialog box
-    mapEditorControls.setVisible(false);
-    mapEditorControls.setDisable(true);
-    inputDialog.setVisible(true);
-    inputDialog.setDisable(false);
+    popUpMainDialogBox();
 
+    // resets to negative so we know if the user has clicked on a location yet
     XYCoords[0] = -1;
     XYCoords[1] = -1;
 
     // set map click thingy
-    dotsAnchorPane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent event) {
-            double X = event.getX();
-            double Y = event.getY();
-            int newX = (int) X;
-            int newY = (int) Y;
-            XYCoords[0] = (int) (newX / scalar);
-            XYCoords[1] = (int) (newY / scalar);
-            System.out.println("New X:" + newX);
-            System.out.println("New Y:" + newY);
-            // new red circle indicating new location
-
-            Circle circle = entity.addCircle(newX, newY);
-            circle.setFill(Color.rgb(128, 0, 0, 0.87));
-          }
-        });
+    mouseClickForNewLocation();
   }
 
+  /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
     if (addNodeClicked) {
@@ -306,13 +316,17 @@ public class MapEditorController {
     }
   }
 
-  public void clear() {
+  /**
+   * Clears the dialog box selection after submit button is clicked and shuts down the dialog box
+   */
+  private void clear() {
     submitButton.setDisable(true);
     longNameField.clear();
     shortNameField.clear();
     floorField.getSelectionModel().clearSelection();
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
+    shutDownMainDialogBox();
   }
 
   @FXML
@@ -341,12 +355,39 @@ public class MapEditorController {
     }
 
     clear();
-    inputDialog.setDisable(true);
-    inputDialog.setVisible(false);
-    mapEditorControls.setVisible(true);
-    mapEditorControls.setDisable(false);
+    App.getPrimaryStage().show();
   }
 
+  /**
+   * Used to store the coordinates of when the user clicks on the map for adding or modifying a node
+   */
+  private void mouseClickForNewLocation() {
+    dotsAnchorPane.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            double X = event.getX();
+            double Y = event.getY();
+            int newX = (int) X;
+            int newY = (int) Y;
+            XYCoords = new int[2];
+            XYCoords[0] = (int) (newX / scalar);
+            XYCoords[1] = (int) (newY / scalar);
+            System.out.println("New X:" + newX);
+            System.out.println("New Y:" + newY);
+            // new red circle indicating new location
+
+            Circle circle = entity.addCircle(newX, newY);
+            circle.setFill(Color.rgb(128, 0, 0, 0.87));
+            validateButton();
+          }
+        });
+  }
+
+  /**
+   * once import button is clicked, sets import boolean to true and pops up options of what the user
+   * wants to import to the database
+   */
   @FXML
   public void importFile() {
     imported = true;
@@ -354,6 +395,10 @@ public class MapEditorController {
     impExpDialog.setDisable(false);
   }
 
+  /**
+   * once export button is clicked, sets export boolean to true and pops up options of what the user
+   * wants to export to their computer
+   */
   @FXML
   public void exportFile() {
     exported = true;
