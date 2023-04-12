@@ -6,6 +6,7 @@
 }
 
 .menubutton {
+    -fx-text-alignment: center;
     -fx-background-color: #98AABC;
     -fx-text-fill: #012D5A;
     -fx-font-size: 15;
