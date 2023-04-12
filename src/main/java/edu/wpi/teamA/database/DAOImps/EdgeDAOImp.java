@@ -25,17 +25,17 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   public static void createTable() {
     try {
       String sqlCreateEdge =
-              "Create Table if not exists \"Prototype2_schema\".\"Edge\""
-                      + "(startNode   int,"
-                      + "endNode    int,"
-                      + "CONSTRAINT fk_startnode "
-                      + "FOREIGN KEY(startNode) "
-                      + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
-                      + "ON DELETE CASCADE,"
-                      + "CONSTRAINT fk_endnode "
-                      + "FOREIGN KEY(endNode)"
-                      + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
-                      + "ON DELETE CASCADE)";
+          "Create Table if not exists \"Prototype2_schema\".\"Edge\""
+              + "(startNode   int,"
+              + "endNode    int,"
+              + "CONSTRAINT fk_startnode "
+              + "FOREIGN KEY(startNode) "
+              + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+              + "ON DELETE CASCADE,"
+              + "CONSTRAINT fk_endnode "
+              + "FOREIGN KEY(endNode)"
+              + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+              + "ON DELETE CASCADE)";
 
       Statement stmtEdge = edgeProvider.createConnection().createStatement();
       stmtEdge.execute(sqlCreateEdge);

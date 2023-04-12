@@ -1,7 +1,7 @@
 package edu.wpi.teamA;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.DAOImps.UserDAOImp;
+import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import java.io.IOException;
@@ -23,6 +23,10 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    NodeDAOImp.createTable();
+    EdgeDAOImp.createTable();
+    LocNameDAOImp.createTable();
+    MoveDAOImp.createTable();
   }
 
   @Override

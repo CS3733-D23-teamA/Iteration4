@@ -57,19 +57,18 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   public static void createTable() {
     try {
       String sqlCreateNode =
-              "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
-                      + "(nodeID   INT PRIMARY KEY,"
-                      + "xcoord    INT,"
-                      + "ycoord    INT,"
-                      + "floor     VARCHAR(600),"
-                      + "building  VARCHAR(600))";
+          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
+              + "(nodeID   INT PRIMARY KEY,"
+              + "xcoord    INT,"
+              + "ycoord    INT,"
+              + "floor     VARCHAR(600),"
+              + "building  VARCHAR(600))";
       Statement stmtNode = nodeProvider.createConnection().createStatement();
       stmtNode.execute(sqlCreateNode);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
-
 
   public static ArrayList<Node> Import(String filePath) {
     ArrayList<Node> NodeArray = loadNodesFromCSV(filePath);
@@ -195,7 +194,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -214,7 +213,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
           nodeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE \"nodeID\" = ?");
+                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -268,7 +267,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       Statement st = nodeProvider.createConnection().createStatement();
       ResultSet rs =
           st.executeQuery(
-              "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY \"nodeID\" DESC LIMIT 1");
+              "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
 
       if (rs.next()) {
         int nodeID = rs.getInt("nodeID");

@@ -33,7 +33,7 @@ public class NavigationBarController {
     // TODO otherMenu.setOnAction(event -> Navigation.navigate(Screen.SERVICE_REQUEST)); // MAKE
     // SURE TO REFACTOR "OTHER NAME
 
-    mapEditorButton.setOnAction(event -> Navigation.navigate(Screen.MAP));
+    mapEditorButton.setOnAction(event -> Navigation.navigate(Screen.MAP_EDITOR));
     signageButton.setOnAction(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnAction(event -> Navigation.navigate(Screen.PATHFINDING));
     // exitMenu.setOnAction(event -> App.getPrimaryStage().hide());
