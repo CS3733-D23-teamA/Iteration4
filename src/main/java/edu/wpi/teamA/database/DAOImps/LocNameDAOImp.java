@@ -51,8 +51,8 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
         String longName = data[0];
         String shortName = data[1];
-        String nodeType = data[2];
-        LocationName locationName = new LocationName(longName, shortName, nodeType);
+        String nodetype = data[2];
+        LocationName locationName = new LocationName(longName, shortName, nodetype);
         locationNames.add(locationName);
       }
 
@@ -127,9 +127,9 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       while (rs.next()) {
         String longName = rs.getString("longName");
         String shortName = rs.getString("shortName");
-        String nodeType = rs.getString("nodeType");
+        String nodetype = rs.getString("nodetype");
 
-        LocationName locationName = new LocationName(longName, shortName, nodeType);
+        LocationName locationName = new LocationName(longName, shortName, nodetype);
         locationNames.add(locationName);
       }
     } catch (SQLException e) {
@@ -139,7 +139,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     return locationNames;
   }
 
-  public void Add(String longName, String shortName, String nodeType) {
+  public void Add(String longName, String shortName, String nodetype) {
     try {
       PreparedStatement ps =
           LocNameProvider.createConnection()
@@ -147,10 +147,10 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
                   "INSERT INTO \"Prototype2_schema\".\"LocationName\" VALUES (?, ?, ?)");
       ps.setString(1, longName);
       ps.setString(2, shortName);
-      ps.setString(3, nodeType);
+      ps.setString(3, nodetype);
       ps.executeUpdate();
 
-      LocNameArray.add(new LocationName(longName, shortName, nodeType));
+      LocNameArray.add(new LocationName(longName, shortName, nodetype));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -185,7 +185,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET longname = ?, shortname = ?, nodetype = ? WHERE longname = ? AND shortname = ?");
+                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET \"longName\" = ?, \"shortName\" = ?, \"nodeType\" = ? WHERE \"longName\" = ? AND \"shortName\" = ?");
       ps.setString(1, newLongName);
       ps.setString(2, newShortName);
       ps.setString(3, newNodeType);
