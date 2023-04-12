@@ -1,5 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.Main;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.AStar;
@@ -7,8 +8,10 @@ import edu.wpi.teamA.pathfinding.GraphNode;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -31,7 +34,12 @@ public class PathfindingController extends PageController {
 
   @FXML
   private StackPane sp =
-      new StackPane(new ImageView("edu/wpi/teamA/images/map-page/00_thelowerlevel1.png"), topPane);
+      new StackPane(
+          new ImageView(
+              new Image(
+                  Objects.requireNonNull(Main.class.getResource("images/map-page/Level L1.png"))
+                      .toString())),
+          topPane);
 
   @Override
   public void initialize() {
@@ -48,6 +56,7 @@ public class PathfindingController extends PageController {
 
   public void submit() {
     try {
+      topPane.getChildren().clear();
       AStar a = new AStar(startSelection.getSelectedItem(), endSelection.getSelectedItem());
       directions.setText(a.toString());
       directions.setFill(Color.BLACK);
