@@ -30,11 +30,11 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
               + "endNode    int,"
               + "CONSTRAINT fk_startnode "
               + "FOREIGN KEY(startNode) "
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid)"
               + "ON DELETE CASCADE,"
               + "CONSTRAINT fk_endnode "
               + "FOREIGN KEY(endNode)"
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid)"
               + "ON DELETE CASCADE)";
 
       Statement stmtEdge = edgeProvider.createConnection().createStatement();
@@ -152,8 +152,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          edgeProvider.createConnection()
               .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
@@ -173,8 +172,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          edgeProvider.createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, startNode);
@@ -196,8 +194,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          edgeProvider.createConnection()
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Edge\" SET \"startNode\" = ?, \"endNode\" = ? WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, newStartNode);
@@ -223,8 +220,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     Edge edge = null;
     try {
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          edgeProvider.createConnection()
               .prepareStatement(
                   "SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, startNode);
@@ -243,8 +239,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   public void deleteEdgesWithNode(int nodeID) {
     try {
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          edgeProvider.createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? OR \"endNode\" = ?");
       ps.setInt(1, nodeID);
