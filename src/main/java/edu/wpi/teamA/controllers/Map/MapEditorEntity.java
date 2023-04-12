@@ -73,6 +73,7 @@ public class MapEditorEntity {
 
   // TODO get largest nodeID
   public void determineAddAction(
+      String level,
       int x,
       int y,
       String longName,
@@ -96,6 +97,7 @@ public class MapEditorEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Add(longName, shortName, nodeType);
     moveDAO.Add(newNodeID, longName, dateString);
+    determineArray(level).add(nodeDAO.getNode(newNodeID));
   }
 
   public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {

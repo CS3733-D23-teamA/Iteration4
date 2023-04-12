@@ -50,6 +50,7 @@ public class MapEditorController {
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
   @FXML private VBox levelMenu;
+  private String level = "G";
 
   // text displays
   @FXML private Text locationDisplay;
@@ -141,8 +142,11 @@ public class MapEditorController {
     // hide old dots
     dotsAnchorPane.getChildren().clear();
 
+    // button
+    level = button.getText();
+
     // display new dots
-    displayNodeData(Objects.requireNonNull(entity.determineArray(button.getText())));
+    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
   }
 
   /**
@@ -276,6 +280,8 @@ public class MapEditorController {
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
     nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
+    XYCoords[0] = node.getXcoord();
+    XYCoords[1] = node.getYcoord();
   }
 
   /** Sets up screen for the user to add a node */
@@ -345,6 +351,7 @@ public class MapEditorController {
           nodeTypeField.getText());
     } else if (addNodeClicked) {
       entity.determineAddAction(
+          level,
           XYCoords[0],
           XYCoords[1],
           longNameField.getText(),
@@ -355,7 +362,7 @@ public class MapEditorController {
     }
 
     clear();
-    App.getPrimaryStage().show();
+    displayNodeData(entity.determineArray(level));
   }
 
   /**
