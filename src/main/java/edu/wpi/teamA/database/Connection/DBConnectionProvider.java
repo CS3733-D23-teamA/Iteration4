@@ -48,7 +48,7 @@ public class DBConnectionProvider {
   }
 
   // close the connection and exit
-  public void closeConnection() {
+  public static void closeConnection() {
     try {
       if (connection != null && !connection.isClosed()) {
         connection.close();
