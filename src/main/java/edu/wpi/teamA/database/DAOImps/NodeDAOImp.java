@@ -242,8 +242,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 

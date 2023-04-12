@@ -48,7 +48,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
-                  + "ON DELETE CASCADE)";
+              + "ON DELETE CASCADE)";
       Statement stmtMove = moveProvider.createConnection().createStatement();
       stmtMove.execute(sqlCreateEdge);
     } catch (SQLException e) {
