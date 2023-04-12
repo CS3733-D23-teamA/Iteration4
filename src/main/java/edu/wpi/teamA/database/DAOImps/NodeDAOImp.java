@@ -54,9 +54,25 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
+  public static void createTable() {
+    try {
+      String sqlCreateNode =
+              "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
+                      + "(nodeID   INT PRIMARY KEY,"
+                      + "xcoord    INT,"
+                      + "ycoord    INT,"
+                      + "floor     VARCHAR(600),"
+                      + "building  VARCHAR(600))";
+      Statement stmtNode = nodeProvider.createConnection().createStatement();
+      stmtNode.execute(sqlCreateNode);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+
   public static ArrayList<Node> Import(String filePath) {
     ArrayList<Node> NodeArray = loadNodesFromCSV(filePath);
-
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -76,7 +92,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            nodeProvider.createConnection()
+            nodeProvider
+                .createConnection()
                 .prepareStatement(
                     "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
@@ -151,7 +168,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
 
       PreparedStatement ps =
-          nodeProvider.createConnection()
+          nodeProvider
+              .createConnection()
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
@@ -175,7 +193,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       edgeDAO.deleteEdgesWithNode(nodeID);
 
       PreparedStatement ps =
-          nodeProvider.createConnection()
+          nodeProvider
+              .createConnection()
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
@@ -192,7 +211,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
 
       PreparedStatement ps =
-          nodeProvider.createConnection()
+          nodeProvider
+              .createConnection()
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE \"nodeID\" = ?");
       ps.setInt(1, xcoord);
@@ -221,8 +241,10 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     Node node = null;
     try {
       PreparedStatement ps =
-          nodeProvider.createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
+          nodeProvider
+              .createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 

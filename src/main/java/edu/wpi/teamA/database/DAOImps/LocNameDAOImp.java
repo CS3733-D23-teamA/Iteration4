@@ -24,6 +24,20 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     this.LocNameArray = new ArrayList<LocationName>();
   }
 
+  public static void createTable() {
+    try {
+      String sqlCreateEdge =
+              "Create Table if not exists \"Prototype2_schema\".\"LocationName\""
+                      + "(longName     Varchar(600) PRIMARY KEY,"
+                      + "shortName     Varchar(600),"
+                      + "nodeType      Varchar(600))";
+      Statement stmtLocName = LocNameProvider.createConnection().createStatement();
+      stmtLocName.execute(sqlCreateEdge);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public static ArrayList<LocationName> loadLocNamesFromCSV(String filePath) {
     ArrayList<LocationName> locationNames = new ArrayList<>();
 
@@ -57,15 +71,6 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
       String row;
-
-      String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"LocationName\""
-              + "(longName     Varchar(600) PRIMARY KEY,"
-              + "shortName     Varchar(600),"
-              + "nodeType      Varchar(600))";
-      Statement stmtLocName = LocNameProvider.createConnection().createStatement();
-      stmtLocName.execute(sqlCreateEdge);
-
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 

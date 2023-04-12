@@ -22,16 +22,25 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     // create objects based off of the results
   }
 
-  public static Connection createConnection() {
-    String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
-    String user = "teama";
-    String password = "teama10";
-
+  public static void createTable() {
     try {
-      return DriverManager.getConnection(url, user, password);
+      String sqlCreateEdge =
+              "Create Table if not exists \"Prototype2_schema\".\"Edge\""
+                      + "(startNode   int,"
+                      + "endNode    int,"
+                      + "CONSTRAINT fk_startnode "
+                      + "FOREIGN KEY(startNode) "
+                      + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+                      + "ON DELETE CASCADE,"
+                      + "CONSTRAINT fk_endnode "
+                      + "FOREIGN KEY(endNode)"
+                      + "REFERENCES \"Prototype2_schema\".\"Node\"(\"nodeID\")"
+                      + "ON DELETE CASCADE)";
+
+      Statement stmtEdge = edgeProvider.createConnection().createStatement();
+      stmtEdge.execute(sqlCreateEdge);
     } catch (SQLException e) {
-      e.printStackTrace();
-      return null;
+      throw new RuntimeException(e);
     }
   }
 
@@ -73,26 +82,12 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       csvReader.readLine();
       String row;
 
-      String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Edge\""
-              + "(startNode   int,"
-              + "endNode    int,"
-              + "CONSTRAINT fk_startnode "
-              + "FOREIGN KEY(startNode) "
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid), "
-              + "CONSTRAINT fk_endnode "
-              + "FOREIGN KEY(endNode)"
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid))"
-              + "ON DELETE CASCADE";
-
-      Statement stmtEdge = edgeProvider.createConnection().createStatement();
-      stmtEdge.execute(sqlCreateEdge);
-
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            edgeProvider.createConnection()
+            edgeProvider
+                .createConnection()
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
         ps.setInt(2, Integer.parseInt(data[1]));
@@ -157,7 +152,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider.createConnection()
+          edgeProvider
+              .createConnection()
               .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
@@ -177,7 +173,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider.createConnection()
+          edgeProvider
+              .createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, startNode);
@@ -199,7 +196,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     try {
 
       PreparedStatement ps =
-          edgeProvider.createConnection()
+          edgeProvider
+              .createConnection()
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Edge\" SET \"startNode\" = ?, \"endNode\" = ? WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, newStartNode);
@@ -225,7 +223,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     Edge edge = null;
     try {
       PreparedStatement ps =
-          edgeProvider.createConnection()
+          edgeProvider
+              .createConnection()
               .prepareStatement(
                   "SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, startNode);
@@ -244,7 +243,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   public void deleteEdgesWithNode(int nodeID) {
     try {
       PreparedStatement ps =
-          edgeProvider.createConnection()
+          edgeProvider
+              .createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? OR \"endNode\" = ?");
       ps.setInt(1, nodeID);

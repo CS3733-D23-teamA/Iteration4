@@ -18,6 +18,24 @@ public class FlowerDAOImpl implements IFlowerDAO {
     this.flowerArray = flowerArray;
   }
 
+  public static void createTable() {
+    try {
+      String sqlCreateEdge =
+              "Create Table if not exists \"Prototype2_schema\".\"Flower\""
+                      + "(namee   Varchar(600),"
+                      + "room    int,"
+                      + "datee    date,"
+                      + "timee     int,"
+                      + "flowerType     Varchar(600),"
+                      + "comment     Varchar(600),"
+                      + "status  Varchar(600))";
+      Statement stmtFlower = flowerProvider.createConnection().createStatement();
+      stmtFlower.execute(sqlCreateEdge);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public void addFlower(FlowerEntity flower) {
     /** Insert new node object to the existing node table */
@@ -30,21 +48,10 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String comment = flower.getComment();
       String status = flower.getStatus();
 
-      String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Flower\""
-              + "(namee   Varchar(600),"
-              + "room    int,"
-              + "datee    date,"
-              + "timee     int,"
-              + "flowerType     Varchar(600),"
-              + "comment     Varchar(600),"
-              + "status  Varchar(600))";
-      Statement stmtFlower = flowerProvider.createConnection().createStatement();
-      stmtFlower.execute(sqlCreateEdge);
+
 
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          flowerProvider.createConnection()
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
