@@ -185,7 +185,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET \"longName\" = ?, \"shortName\" = ?, \"nodeType\" = ? WHERE \"longName\" = ? AND \"shortName\" = ?");
+                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET longname = ?, shortname = ?, nodetype = ? WHERE longname = ? AND shortname = ?");
       ps.setString(1, newLongName);
       ps.setString(2, newShortName);
       ps.setString(3, newNodeType);
