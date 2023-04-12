@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -23,37 +17,6 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox>
-               <children>
-                  <MFXButton id="back" fx:id="backButton" onAction="#back" prefHeight="53.0" prefWidth="89.0" style="-fx-background-color: #0E5DAD; -fx-background-radius: 15; -fx-text-fill: WHITE;" text="Back" textAlignment="CENTER" textFill="#fcfcfc">
-                      <opaqueInsets>
-                          <Insets />
-                      </opaqueInsets>
-                      <font>
-                          <Font name="Open Sans Bold" size="24.0" />
-                      </font>
-                      <rippleColor>
-                          <LinearGradient endX="1.0" endY="1.0">
-                              <stops>
-                                  <Stop>
-                                      <color>
-                                          <Color />
-                                      </color>
-                                  </Stop>
-                                  <Stop offset="1.0">
-                                      <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                      </color>
-                                  </Stop>
-                              </stops>
-                          </LinearGradient>
-                      </rippleColor>
-                  </MFXButton>
-               </children>
-               <padding>
-                  <Insets left="20.0" top="20.0" />
-               </padding>
-            </HBox>
             <VBox alignment="CENTER" prefHeight="900.0" prefWidth="1600.0" spacing="50.0">
                <children>
                    <Text fx:id="title" fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="Signage" textAlignment="CENTER" wrappingWidth="700.0" x="290.0" y="100.0">

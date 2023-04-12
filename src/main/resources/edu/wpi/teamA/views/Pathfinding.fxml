@@ -21,37 +21,6 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <MFXButton id="back" fx:id="backButton" onAction="#back" prefHeight="53.0" prefWidth="89.0" style="-fx-background-color: #0E5DAD; -fx-background-radius: 15; -fx-text-fill: WHITE;" text="Back" textAlignment="CENTER" textFill="#fcfcfc">
-                      <opaqueInsets>
-                          <Insets />
-                      </opaqueInsets>
-                      <font>
-                          <Font name="Open Sans Bold" size="24.0" />
-                      </font>
-                      <rippleColor>
-                          <LinearGradient endX="1.0" endY="1.0">
-                              <stops>
-                                  <Stop>
-                                      <color>
-                                          <Color />
-                                      </color>
-                                  </Stop>
-                                  <Stop offset="1.0">
-                                      <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" />
-                                      </color>
-                                  </Stop>
-                              </stops>
-                          </LinearGradient>
-                      </rippleColor>
-                  </MFXButton>
-               </children>
-               <padding>
-                  <Insets left="20.0" top="20.0" />
-               </padding>
-            </HBox>
             <VBox prefHeight="356.0" prefWidth="894.0" StackPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" depthTest="DISABLE" pickOnBounds="false" prefHeight="100.0" prefWidth="100.0">
