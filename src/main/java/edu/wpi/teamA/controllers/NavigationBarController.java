@@ -14,7 +14,7 @@ public class NavigationBarController {
   @FXML private MenuButton serviceRequestsButton;
   @FXML private MenuItem flowerMenu;
   @FXML private MenuItem roomMenu;
-  @FXML private MenuItem otherMenu;
+  @FXML private MenuItem furnitureMenu;
   @FXML private MenuItem myRequestsMenu;
 
   @FXML private MFXButton mapEditorButton;
@@ -30,8 +30,7 @@ public class NavigationBarController {
     flowerMenu.setOnAction(event -> Navigation.navigate(Screen.FLOWER_REQUEST));
     roomMenu.setOnAction(event -> Navigation.navigate(Screen.CONFERENCE_REQUEST));
     myRequestsMenu.setOnAction(event -> Navigation.navigate(Screen.SERVICE_REQUEST));
-    // TODO otherMenu.setOnAction(event -> Navigation.navigate(Screen.SERVICE_REQUEST)); // MAKE
-    // SURE TO REFACTOR "OTHER NAME
+    furnitureMenu.setOnAction(event -> Navigation.navigate(Screen.FURNITURE_REQUEST));
 
     mapEditorButton.setOnAction(event -> Navigation.navigate(Screen.MAP));
     signageButton.setOnAction(event -> Navigation.navigate(Screen.SIGNAGE));

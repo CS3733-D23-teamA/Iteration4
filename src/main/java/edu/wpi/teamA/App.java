@@ -44,7 +44,7 @@ public class App extends Application {
 
     // scene.getStylesheets().add("edu/wpi/teamA/stylesheets/main.css");
 
-    Navigation.navigate(Screen.FURNITURE_REQUEST);
+    Navigation.navigate(Screen.LOGIN);
   }
 
   @Override

@@ -37,7 +37,7 @@
                      <items>
                         <MenuItem fx:id="flowerMenu" mnemonicParsing="false" text="Flower Delivery" />
                         <MenuItem fx:id="roomMenu" mnemonicParsing="false" text="Conference Room Request   " />
-                        <MenuItem fx:id="otherMenu" mnemonicParsing="false" text="Other" />
+                        <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" text="Furniture Delivery " />
                         <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" text="My Requests" />
                      </items>
                   </MenuButton>
