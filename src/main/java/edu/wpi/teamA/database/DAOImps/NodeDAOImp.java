@@ -76,8 +76,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            nodeProvider
-                .createConnection()
+            nodeProvider.createConnection()
                 .prepareStatement(
                     "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
@@ -152,8 +151,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
+          nodeProvider.createConnection()
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
@@ -177,9 +175,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       edgeDAO.deleteEdgesWithNode(nodeID);
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
+          nodeProvider.createConnection()
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -195,10 +192,9 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
+          nodeProvider.createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeID = ?");
+                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE \"nodeID\" = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -225,9 +221,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     Node node = null;
     try {
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeID = ?");
+          nodeProvider.createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 
@@ -244,11 +239,14 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
     return node;
   }
+
   public Node getLargestNodeID() {
     Node largestNode = null;
     try {
       Statement st = nodeProvider.createConnection().createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeID DESC LIMIT 1");
+      ResultSet rs =
+          st.executeQuery(
+              "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY \"nodeID\" DESC LIMIT 1");
 
       if (rs.next()) {
         int nodeID = rs.getInt("nodeID");
@@ -265,5 +263,4 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
     return largestNode;
   }
-
 }

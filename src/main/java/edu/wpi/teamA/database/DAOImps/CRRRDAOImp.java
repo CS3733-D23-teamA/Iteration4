@@ -68,8 +68,7 @@ public class CRRRDAOImp implements ICRRRDAO {
   public void deleteCRRR(ConferenceRoomResRequest crrr) {
     try {
       PreparedStatement ps =
-          crrrProvider
-              .createConnection()
+          crrrProvider.createConnection()
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE name = ?");
       ps.setString(1, crrr.getName());
