@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class NodeDAOImp implements IDataBase, INodeDAO {
   ArrayList<Node> NodeArray;
@@ -148,17 +147,9 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  @Override
-  public void Add() {
+  public void Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** Insert new node object to the existing node table */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, xcoord, ycoord, floor, and building:");
-      int nodeID = input.nextInt();
-      int xcoord = input.nextInt();
-      int ycoord = input.nextInt();
-      String floor = input.next();
-      String building = input.next();
 
       PreparedStatement ps =
           nodeProvider
@@ -178,18 +169,13 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  @Override
-  public void Delete() {
+  public void Delete(int nodeID) {
     /** delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter the nodeID to delete:");
-      int nodeID = input.nextInt();
-
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("DELETE FROM Prototype2_schema.\"Node\" WHERE nodeID = ?");
+              .prepareStatement("DELETE FROM Prototype2_schema.\"Node\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -200,23 +186,15 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  @Override
-  public void Update() {
+  public void Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** update the node fields in the database and arraylist according to the inserts */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter nodeID, new xcoord, new ycoord, new floor, and new building:");
-      int nodeID = input.nextInt();
-      int xcoord = input.nextInt();
-      int ycoord = input.nextInt();
-      String floor = input.next();
-      String building = input.next();
 
       PreparedStatement ps =
           nodeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE Prototype2_schema.\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeID = ?");
+                  "UPDATE Prototype2_schema.\"Node\" SET \"xcoord\" = ?, \"ycoord\" = ?, \"floor\" = ?, \"building\" = ? WHERE \"nodeID\" = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -237,5 +215,30 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Node getNode(int nodeID) {
+    Node node = null;
+    try {
+      PreparedStatement ps =
+          nodeProvider
+              .createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
+      ps.setInt(1, nodeID);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        node = new Node(nodeID, xcoord, ycoord, floor, building);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return node;
   }
 }

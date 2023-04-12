@@ -3,6 +3,8 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -31,11 +33,14 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="985.0" spacing="30.0" HBox.hgrow="ALWAYS">
                <children>
-                  <MFXButton fx:id="serviceRequestsButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Service Requests" textAlignment="CENTER">
-                     <font>
-                        <Font name="Open Sans Bold" size="18.0" />
-                     </font>
-                  </MFXButton>
+                  <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" styleClass="menubutton" text="Service Requests" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                     <items>
+                        <MenuItem fx:id="flowerMenu" mnemonicParsing="false" text="Flower Delivery" />
+                        <MenuItem fx:id="roomMenu" mnemonicParsing="false" text="Conference Room Request   " />
+                        <MenuItem fx:id="otherMenu" mnemonicParsing="false" text="Other" />
+                        <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" text="My Requests" />
+                     </items>
+                  </MenuButton>
                   <MFXButton fx:id="mapEditorButton" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Map Editor" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="Open Sans Bold" size="18.0" />

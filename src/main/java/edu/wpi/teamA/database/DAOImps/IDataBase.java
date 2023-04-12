@@ -9,11 +9,11 @@ public interface IDataBase {
 
   static void Export(String s) {};
 
-  void Add();
+  // void Add();
 
-  void Delete();
+  // void Delete();
 
-  void Update();
+  // void Update();
 
   // 1.get all
   // 2.update

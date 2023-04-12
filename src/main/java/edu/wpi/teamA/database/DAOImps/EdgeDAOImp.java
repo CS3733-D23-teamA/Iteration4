@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   ArrayList<Edge> EdgeArray;
@@ -21,16 +20,6 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     // if it exist, populate the array list
     // use select * to get all info from the table
     // create objects based off of the results
-  }
-
-  public static void createSchema() {
-    try {
-      Statement stmtSchema = edgeProvider.createConnection().createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
-      stmtSchema.execute(sqlCreateSchema);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public static Connection createConnection() {
@@ -77,7 +66,6 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   }
 
   public static ArrayList<Edge> Import(String filePath) {
-    EdgeDAOImp.createSchema();
     ArrayList<Edge> EdgeArray = loadEdgesFromCSV(filePath);
 
     try {
@@ -164,14 +152,9 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  @Override
-  public void Add() {
+  public void Add(int startNode, int endNode) {
     /** Insert new edge object to the existing edge table and the arraylist */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter startNode and endNode:");
-      int startNode = input.nextInt();
-      int endNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider
@@ -188,22 +171,17 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  @Override
-  public void Delete() {
+  public void Delete(int startNode, int endNode) {
     /**
      * delete the edge when specified with a composite key (startNode+endNode) and in the arrayList
      */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter the startNode and endNode to delete:");
-      int startNode = input.nextInt();
-      int endNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider
               .createConnection()
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startNode = ? AND endNode = ?");
+                  "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
       ps.executeUpdate();
@@ -215,25 +193,18 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  @Override
-  public void Update() {
+  public void Update(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
     /**
      * update the edge startNode and endNode when specified with a composite key (startNode +
      * ednNode) and In the arrayList
      */
     try {
-      Scanner input = new Scanner(System.in);
-      System.out.println("Enter old startNode, old endNode, new startNode, and new endNode:");
-      int oldStartNode = input.nextInt();
-      int oldEndNode = input.nextInt();
-      int newStartNode = input.nextInt();
-      int newEndNode = input.nextInt();
 
       PreparedStatement ps =
           edgeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Edge\" SET startNode = ?, endNode = ? WHERE startNode = ? AND endNode = ?");
+                  "UPDATE \"Prototype2_schema\".\"Edge\" SET \"startNode\" = ?, \"endNode\" = ? WHERE \"startNode\" = ? AND \"endNode\" = ?");
       ps.setInt(1, newStartNode);
       ps.setInt(2, newEndNode);
       ps.setInt(3, oldStartNode);
@@ -251,5 +222,26 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public Edge getEdge(int startNode, int endNode) {
+    Edge edge = null;
+    try {
+      PreparedStatement ps =
+          edgeProvider
+              .createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE \"startNode\" = ? AND \"endNode\" = ?");
+      ps.setInt(1, startNode);
+      ps.setInt(2, endNode);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        edge = new Edge(startNode, endNode);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return edge;
   }
 }

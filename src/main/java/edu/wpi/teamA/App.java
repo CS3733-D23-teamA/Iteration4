@@ -1,5 +1,6 @@
 package edu.wpi.teamA;
 
+import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.UserDAOImp;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -48,6 +49,8 @@ public class App extends Application {
 
   @Override
   public void stop() {
+
     log.info("Shutting Down");
+    DBConnectionProvider.closeConnection();
   }
 }

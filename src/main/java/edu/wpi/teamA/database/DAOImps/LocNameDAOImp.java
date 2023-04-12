@@ -24,16 +24,6 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     this.LocNameArray = new ArrayList<LocationName>();
   }
 
-  public static void createSchema() {
-    try {
-      Statement stmtSchema = LocNameProvider.createConnection().createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
-      stmtSchema.execute(sqlCreateSchema);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
   public static Connection createConnection() {
     String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
     String user = "teama";
@@ -74,7 +64,6 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
   }
 
   public static ArrayList<LocationName> Import(String filePath) {
-    LocNameDAOImp.createSchema();
     ArrayList<LocationName> LocNameArray = loadLocNamesFromCSV(filePath);
 
     try {
@@ -156,12 +145,118 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     return locationNames;
   }
 
-  @Override
-  public void Add() {}
+  public void Add(String longName, String shortName, String nodeType) {
+    try {
+      PreparedStatement ps =
+          LocNameProvider.createConnection()
+              .prepareStatement(
+                  "INSERT INTO \"Prototype2_schema\".\"LocationName\" VALUES (?, ?, ?)");
+      ps.setString(1, longName);
+      ps.setString(2, shortName);
+      ps.setString(3, nodeType);
+      ps.executeUpdate();
 
-  @Override
-  public void Delete() {}
+      LocNameArray.add(new LocationName(longName, shortName, nodeType));
 
-  @Override
-  public void Update() {}
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void Delete(String longName, String shortName) {
+    try {
+
+      PreparedStatement ps =
+          LocNameProvider.createConnection()
+              .prepareStatement(
+                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE \"longName\" = ? AND \"shortName\" = ?");
+      ps.setString(1, longName);
+      ps.setString(2, shortName);
+      ps.executeUpdate();
+
+      LocNameArray.removeIf(
+          locationName ->
+              locationName.getLongName().equals(longName)
+                  && locationName.getShortName().equals(shortName));
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void Update(
+      String oldLongName,
+      String oldShortName,
+      String newLongName,
+      String newShortName,
+      String newNodeType) {
+    try {
+
+      PreparedStatement ps =
+          LocNameProvider.createConnection()
+              .prepareStatement(
+                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET \"longName\" = ?, \"shortName\" = ?, \"nodeType\" = ? WHERE \"longName\" = ? AND \"shortName\" = ?");
+      ps.setString(1, newLongName);
+      ps.setString(2, newShortName);
+      ps.setString(3, newNodeType);
+      ps.setString(4, oldLongName);
+      ps.setString(5, oldShortName);
+      ps.executeUpdate();
+
+      LocNameArray.forEach(
+          locationName -> {
+            if (locationName.getLongName().equals(oldLongName)
+                && locationName.getShortName().equals(oldShortName)) {
+              locationName.setLongName(newLongName);
+              locationName.setShortName(newShortName);
+              locationName.setNodeType(newNodeType);
+            }
+          });
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public LocationName getLocName(String longName, String shortName) {
+    LocationName locationName = null;
+    try {
+      PreparedStatement ps =
+          LocNameProvider.createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE \"longName\" = ? AND \"shortName\" = ?");
+      ps.setString(1, longName);
+      ps.setString(2, shortName);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String nodeType = rs.getString("nodeType");
+        locationName = new LocationName(longName, shortName, nodeType);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return locationName;
+  }
+
+  public ArrayList<String> filterLocType(String type) {
+    ArrayList<String> lnList = new ArrayList<>();
+    try {
+      PreparedStatement ps =
+          LocNameProvider.createConnection()
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE \"nodeType\" = ?");
+      ps.setString(1, type);
+      ResultSet rs = ps.executeQuery();
+
+      while (rs.next()) {
+        String n = rs.getString("longName");
+        lnList.add(n);
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return lnList;
+  }
 }

@@ -110,16 +110,16 @@
                                     <Insets bottom="10.0" />
                                  </GridPane.margin>
                               </Text>
-                              <MFXTextField fx:id="roomField" onTouchReleased="#validateButton" prefHeight="50.0" prefWidth="111.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <MFXTextField fx:id="nameField" onTouchReleased="#validateButton" prefHeight="51.0" prefWidth="335.0" GridPane.columnIndex="1" />
                               <MFXComboBox fx:id="startCombo" onHiding="#validateButton" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <MFXComboBox fx:id="endCombo" onAction="#validateButton" onHiding="#validateButton" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                               <MFXTextField fx:id="commentField" prefHeight="74.0" prefWidth="336.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                               <DatePicker fx:id="datePicker" onAction="#validateButton" prefHeight="50.0" prefWidth="186.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <MFXComboBox fx:id="roomCombo" prefHeight="50.0" prefWidth="340.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                         <MFXButton fx:id="clearButton" layoutX="686.0" layoutY="572.0" onAction="#clear" text="Clear" />
-                        <MFXButton fx:id="submitButton" defaultButton="true" disable="true" layoutX="939.0" layoutY="543.0" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A;" text="Submit" textFill="#eebd28">
+                        <MFXButton fx:id="submitButton" defaultButton="true" disable="true" layoutX="939.0" layoutY="543.0" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A;" text="Submit" textFill="#eebd28">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
