@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.FurnitureDAOImp;
+import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -8,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.sql.Date;
+import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
@@ -21,6 +23,7 @@ public class FurnitureRequestController extends PageController implements IServi
   @FXML MFXComboBox timeCombo;
   @FXML MFXComboBox furnitureCombo;
   @FXML MFXTextField commentField;
+  LocNameDAOImp locs = new LocNameDAOImp();
 
   @Override
   public void initialize() {
@@ -31,6 +34,13 @@ public class FurnitureRequestController extends PageController implements IServi
             "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
             "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
             "19:00", "20:00", "21:00", "22:00", "23:00");
+    ArrayList<String> rooms = new ArrayList<>();
+    rooms.addAll(locs.filterLocType("BATH"));
+    rooms.addAll(locs.filterLocType("CONF"));
+    rooms.addAll(locs.filterLocType("DEPT"));
+    rooms.addAll(locs.filterLocType("LABS"));
+    rooms.addAll(locs.filterLocType("REST"));
+    roomComboBox.getItems().addAll(rooms);
   }
 
   @Override
