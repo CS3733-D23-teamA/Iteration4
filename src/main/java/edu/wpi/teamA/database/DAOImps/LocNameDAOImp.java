@@ -16,25 +16,12 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
   static DBConnectionProvider LocNameProvider = new DBConnectionProvider();
 
-  public LocNameDAOImp(Connection nodeConnection) {
-    this.LocNameArray = LocNameArray;
+  public LocNameDAOImp(ArrayList<LocationName> locNames) {
+    this.LocNameArray = locNames;
   }
 
   public LocNameDAOImp() {
     this.LocNameArray = new ArrayList<LocationName>();
-  }
-
-  public static Connection createConnection() {
-    String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
-    String user = "teama";
-    String password = "teama10";
-
-    try {
-      return DriverManager.getConnection(url, user, password);
-    } catch (SQLException e) {
-      e.printStackTrace();
-      return null;
-    }
   }
 
   public static ArrayList<LocationName> loadLocNamesFromCSV(String filePath) {
@@ -170,7 +157,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ?");
+                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE \"longName\" = ?");
       ps.setString(1, longName);
       ps.executeUpdate();
 
@@ -192,7 +179,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET longName = ?, shortName = ?, nodeType = ? WHERE longName = ? AND shortName = ?");
+                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET longName = ?, shortName = ?, nodeType = ? WHERE \"longName\" = ? AND \"shortName\" = ?");
       ps.setString(1, newLongName);
       ps.setString(2, newShortName);
       ps.setString(3, newNodeType);
@@ -221,7 +208,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           LocNameProvider.createConnection()
               .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE longName = ?");
+                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE \"longName\" = ?");
       ps.setString(1, longName);
       ResultSet rs = ps.executeQuery();
 

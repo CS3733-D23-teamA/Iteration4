@@ -91,8 +91,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            moveProvider
-                .createConnection()
+            moveProvider.createConnection()
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
         ps.setString(2, data[1]);
@@ -162,8 +161,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          moveProvider.createConnection()
               .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
@@ -183,7 +181,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       PreparedStatement ps =
           moveProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Move\" WHERE nodeID = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Move\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -200,10 +198,9 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          moveProvider.createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Move\" SET longName = ?, localDate = ? WHERE nodeID = ?");
+                  "UPDATE \"Prototype2_schema\".\"Move\" SET longName = ?, localDate = ? WHERE \"nodeID\" = ?");
       ps.setString(1, longName);
       ps.setDate(2, java.sql.Date.valueOf(localDate));
       ps.setInt(3, nodeID);
@@ -227,9 +224,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
     try {
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Move\" WHERE nodeID = ?");
+          moveProvider.createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Move\" WHERE \"nodeID\" = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 
