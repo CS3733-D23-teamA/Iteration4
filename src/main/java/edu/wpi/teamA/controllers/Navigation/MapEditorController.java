@@ -76,6 +76,11 @@ public class MapEditorController {
   private int currentNodeID;
   private int[] XYCoords = new int[2];
 
+  private String oldLongName;
+  private String oldShortName;
+
+  private Circle currentCircle;
+
   private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
@@ -105,6 +110,18 @@ public class MapEditorController {
     submitButton.setDisable(true);
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
+
+    inputDialog.setOnClose(
+        event -> {
+          shutDownMainDialogBox();
+        });
+    impExpDialog.setOnClose(
+        event -> {
+          impExpDialog.setVisible(false);
+          impExpDialog.setDisable(true);
+          imported = false;
+          exported = false;
+        });
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
@@ -207,6 +224,7 @@ public class MapEditorController {
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
     currentNodeID = nodeID;
+    currentCircle = circle;
 
     if (removeNodeClicked) {
       entity.determineRemoveAction(removeNodeClicked, nodeID);
@@ -228,9 +246,6 @@ public class MapEditorController {
 
       // new location clicked
       mouseClickForNewLocation();
-
-      // update the display to show the updated information
-      App.getPrimaryStage().show();
     }
 
     editMapDirections.setText("");
@@ -275,8 +290,10 @@ public class MapEditorController {
 
   /** Preload information in dialog box for the user to modify a node */
   private void preLoadDialogInfo(Node node, LocationName locName) {
-    longNameField.setText(locName.getLongName());
-    shortNameField.setText(locName.getShortName());
+    oldLongName = locName.getLongName();
+    oldShortName = locName.getShortName();
+    longNameField.setText(oldLongName);
+    shortNameField.setText(oldShortName);
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
     nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
@@ -305,12 +322,6 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
-    if (addNodeClicked) {
-      if (XYCoords[0] < 0 || XYCoords[1] < 0) {
-        submitButton.setDisable(true);
-      }
-    }
-
     if (longNameField.getText().isEmpty()
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
@@ -318,7 +329,7 @@ public class MapEditorController {
         || nodeTypeField.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
-      submitButton.setDisable(false);
+      submitButton.setDisable(addNodeClicked && (XYCoords[0] < 0 || XYCoords[1] < 0));
     }
   }
 
@@ -341,14 +352,19 @@ public class MapEditorController {
 
     if (modifyNodeClicked) {
       entity.determineModifyAction(
+          level,
           currentNodeID,
           XYCoords[0],
           XYCoords[1],
+          oldLongName,
+          oldShortName,
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
           buildingField.getText(),
           nodeTypeField.getText());
+      currentCircle.setVisible(false);
+      currentCircle.setDisable(true);
     } else if (addNodeClicked) {
       entity.determineAddAction(
           level,
@@ -386,6 +402,7 @@ public class MapEditorController {
 
             Circle circle = entity.addCircle(newX, newY);
             circle.setFill(Color.rgb(128, 0, 0, 0.87));
+            circle.setVisible(true);
             validateButton();
           }
         });
@@ -427,6 +444,9 @@ public class MapEditorController {
       File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
       MoveDAOImp.Export(selectedDirectory.getPath());
     }
+
+    imported = false;
+    exported = false;
 
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);

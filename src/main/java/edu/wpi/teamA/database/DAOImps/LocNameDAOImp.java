@@ -94,16 +94,17 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
   public static void Export(String filePath) {
     try {
+      String newFile = filePath + "/LocationName.csv";
       Statement st = LocNameProvider.createConnection().createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"LocationName\"");
 
-      FileWriter csvWriter = new FileWriter("LocationName.csv");
-      csvWriter.append("longName,shortName,nodeType\n");
+      FileWriter csvWriter = new FileWriter(newFile);
+      csvWriter.append("longname,shortname,nodetype\n");
 
       while (rs.next()) {
-        csvWriter.append(rs.getString("longName")).append(",");
-        csvWriter.append(rs.getString("shortName")).append(",");
-        csvWriter.append(rs.getString("nodeType")).append("\n");
+        csvWriter.append(rs.getString("longname")).append(",");
+        csvWriter.append(rs.getString("shortname")).append(",");
+        csvWriter.append(rs.getString("nodetype")).append("\n");
       }
 
       csvWriter.flush();

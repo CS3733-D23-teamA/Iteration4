@@ -9,6 +9,7 @@ import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class MapEditorEntity {
@@ -57,6 +58,7 @@ public class MapEditorEntity {
     Circle circle = new Circle();
     circle.setCenterX(X);
     circle.setCenterY(Y);
+    circle.setFill(Color.web("0x012D5A"));
     circle.setRadius(2);
     circle.setVisible(true);
     return circle;
@@ -107,9 +109,12 @@ public class MapEditorEntity {
   }
 
   public void determineModifyAction(
+      String level,
       int nodeID,
       int x,
       int y,
+      String oldLongName,
+      String oldShortName,
       String longName,
       String shortName,
       String floor,
@@ -126,7 +131,28 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    locNameDAO.Add(longName, shortName, nodeType);
+    locNameDAO.Update(oldLongName, oldShortName, longName, shortName, nodeType);
     moveDAO.Update(nodeID, longName, dateString);
+    updateArrays();
+  }
+
+  private Node getNodeFromArray(ArrayList<Node> nodes, int nodeID) {
+    int i = 0;
+    int currentNodeID = nodes.get(0).getNodeID();
+    while (currentNodeID != nodeID) {
+      i++;
+      currentNodeID = nodes.get(i).getNodeID();
+    }
+    return nodes.get(i);
+  }
+
+  private void updateArrays() {
+    nodeArray = nodeDAO.loadNodesFromDatabase();
+    levelGNodeArray = getFloorNodes(nodeArray, "G");
+    levelL1NodeArray = getFloorNodes(nodeArray, "L1");
+    levelL2NodeArray = getFloorNodes(nodeArray, "L2");
+    level1NodeArray = getFloorNodes(nodeArray, "1");
+    level2NodeArray = getFloorNodes(nodeArray, "2");
+    level3NodeArray = getFloorNodes(nodeArray, "3");
   }
 }

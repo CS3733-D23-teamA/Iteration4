@@ -272,9 +272,9 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Map Position" wrappingWidth="200.0" GridPane.rowIndex="5">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Map Position By Clicking On Map" wrappingWidth="150.0" GridPane.rowIndex="5">
                            <font>
-                              <Font name="Open Sans Regular" size="24.0" />
+                              <Font name="Open Sans Regular" size="16.0" />
                            </font>
                         </Text>
                         <MFXTextField fx:id="longNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
