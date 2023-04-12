@@ -80,9 +80,9 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
-    int newNodeID = nodeDAO.loadNodesFromDatabase().get(nodeArray.size() - 1).getNodeID() + 5;
-    System.out.println(nodeArray.size());
-    System.out.println(newNodeID);
+    int newNodeID = nodeDAO.getLargestNodeID().getNodeID() + 5;
+    //    System.out.println(nodeArray.size());
+    //    System.out.println(newNodeID);
     nodeDAO.Add(newNodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
@@ -94,8 +94,8 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    moveDAO.Add(newNodeID, longName, dateString);
     locNameDAO.Add(longName, shortName, nodeType);
+    moveDAO.Add(newNodeID, longName, dateString);
   }
 
   public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
@@ -124,7 +124,7 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    moveDAO.Update(nodeID, longName, dateString);
     locNameDAO.Add(longName, shortName, nodeType);
+    moveDAO.Update(nodeID, longName, dateString);
   }
 }
