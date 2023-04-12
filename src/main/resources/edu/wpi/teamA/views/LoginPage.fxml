@@ -71,7 +71,7 @@
                <children>
                   <ImageView fitHeight="1063.0" fitWidth="920.0" HBox.hgrow="ALWAYS">
                      <image>
-                        <Image url="@../images/home-page/bwh-outside-cropped.jpg" />
+                        <Image url="@../images/home-page/bwh-outside.jpg" />
                      </image>
                   </ImageView>
                </children>

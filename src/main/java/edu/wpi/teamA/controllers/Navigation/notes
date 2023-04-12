@@ -1,0 +1,5 @@
+move table: 3 attributes
+date affected, location its being moved to, the location that is being moved
+querying database to find the most recent date and node associated
+
+physical location(room node) vs the location name

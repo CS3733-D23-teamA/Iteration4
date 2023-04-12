@@ -64,14 +64,14 @@ public class MapController extends PageController {
 
   @FXML
   public void initialize() {
-    nodeImportButton.setOnMouseClicked(event -> importNodeCSV());
-    nodeExportButton.setOnMouseClicked(event -> exportNodeCSV());
-    locationImportButton.setOnMouseClicked(event -> importLocNameCSV());
-    locationExportButton.setOnMouseClicked(event -> exportLocNameCSV());
-    moveImportButton.setOnMouseClicked(event -> importMoveCSV());
-    moveExportButton.setOnMouseClicked(event -> exportMoveCSV());
-    edgeImportButton.setOnMouseClicked(event -> importEdgeCSV());
-    edgeExportButton.setOnMouseClicked(event -> exportEdgeCSV());
+    // nodeImportButton.setOnMouseClicked(event -> importNodeCSV());
+    // nodeExportButton.setOnMouseClicked(event -> exportNodeCSV());
+    // locationImportButton.setOnMouseClicked(event -> importLocNameCSV());
+    // locationExportButton.setOnMouseClicked(event -> exportLocNameCSV());
+    // moveImportButton.setOnMouseClicked(event -> importMoveCSV());
+    // moveExportButton.setOnMouseClicked(event -> exportMoveCSV());
+    // edgeImportButton.setOnMouseClicked(event -> importEdgeCSV());
+    // edgeExportButton.setOnMouseClicked(event -> exportEdgeCSV());
     displayNodeData(nodeDAO.loadNodesFromDatabase());
     displayLocNameData(locNameDAO.loadLocNamefromDatabase());
     displayMoveData(moveDAO.loadMovesFromDatabase());
@@ -100,7 +100,14 @@ public class MapController extends PageController {
     floorCol.setCellValueFactory(new PropertyValueFactory<>("floor"));
     buildingCol.setCellValueFactory(new PropertyValueFactory<>("building"));
 
-    nodeTable.setItems(FXCollections.observableArrayList(nodeArray));
+    ArrayList<Node> updatedArray = new ArrayList<Node>();
+    for (int i = 0; i < nodeArray.size(); i++) {
+      if (nodeArray.get(i).getFloor().equals("L1")) {
+        updatedArray.add(nodeArray.get(i));
+      }
+    }
+
+    nodeTable.setItems(FXCollections.observableArrayList(updatedArray));
     nodeTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     // nodeTable.getColumns();
   }

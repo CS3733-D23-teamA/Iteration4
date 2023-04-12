@@ -32,7 +32,7 @@ public class NavigationBarController {
     //    myRequestsMenu.setOnAction(event -> Navigation.navigate(Screen.SERVICE_REQUEST));
     //    // TODO otherMenu.setOnAction(event -> Navigation.navigate(Screen.SERVICE_REQUEST));
 
-    mapEditorButton.setOnAction(event -> Navigation.navigate(Screen.MAP));
+    mapEditorButton.setOnAction(event -> Navigation.navigate(Screen.MAP_EDITOR));
     signageButton.setOnAction(event -> Navigation.navigate(Screen.SIGNAGE));
     pathfindingButton.setOnAction(event -> Navigation.navigate(Screen.PATHFINDING));
     exitMenu.setOnAction(event -> App.getPrimaryStage().hide());
