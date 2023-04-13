@@ -11,7 +11,7 @@ public enum Screen {
   HEADER("views/NavigationBar.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   CONFERENCE_REQUEST("views/ConferenceRequest.fxml"),
-  FURNITURE_REQUEST("views/FurnitureRequest.fxml");
+  MAP_EDITOR("views/MapEditor.fxml");
 
   private final String filename;
 

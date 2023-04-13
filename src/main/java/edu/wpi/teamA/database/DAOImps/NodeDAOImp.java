@@ -54,9 +54,24 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
+  public static void createTable() {
+    try {
+      String sqlCreateNode =
+          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
+              + "(nodeID   INT PRIMARY KEY,"
+              + "xcoord    INT,"
+              + "ycoord    INT,"
+              + "floor     VARCHAR(600),"
+              + "building  VARCHAR(600))";
+      Statement stmtNode = nodeProvider.createConnection().createStatement();
+      stmtNode.execute(sqlCreateNode);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public static ArrayList<Node> Import(String filePath) {
     ArrayList<Node> NodeArray = loadNodesFromCSV(filePath);
-
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -64,7 +79,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
       String sqlCreateNode =
           "Create Table if not exists \"Prototype2_schema\".\"Node\""
-              + "(nodeid   int PRIMARY KEY,"
+              + "(nodeID   int PRIMARY KEY,"
               + "xcoord    int,"
               + "ycoord    int,"
               + "floor     Varchar(600),"
@@ -154,7 +169,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("INSERT INTO Prototype2_schema.\"Node\" VALUES (?, ?, ?, ?, ?)");
+              .prepareStatement(
+                  "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
       ps.setInt(3, ycoord);
@@ -172,10 +188,13 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   public void Delete(int nodeID) {
     /** delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
+      EdgeDAOImp edgeDAO = new EdgeDAOImp();
+      edgeDAO.deleteEdgesWithNode(nodeID);
+
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement("DELETE FROM Prototype2_schema.\"Node\" WHERE \"nodeID\" = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -194,7 +213,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
           nodeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE Prototype2_schema.\"Node\" SET \"xcoord\" = ?, \"ycoord\" = ?, \"floor\" = ?, \"building\" = ? WHERE \"nodeID\" = ?");
+                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -223,8 +242,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           nodeProvider
               .createConnection()
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE \"nodeID\" = ?");
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
 
@@ -240,5 +258,29 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       throw new RuntimeException(e);
     }
     return node;
+  }
+
+  public Node getLargestNodeID() {
+    Node largestNode = null;
+    try {
+      Statement st = nodeProvider.createConnection().createStatement();
+      ResultSet rs =
+          st.executeQuery(
+              "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
+
+      if (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        largestNode = new Node(nodeID, xcoord, ycoord, floor, building);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return largestNode;
   }
 }

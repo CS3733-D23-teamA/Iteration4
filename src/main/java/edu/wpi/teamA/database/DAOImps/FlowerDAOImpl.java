@@ -71,7 +71,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       PreparedStatement ps =
           flowerProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE name = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE namee = ?");
       ps.setString(1, flower.getName());
       ps.executeUpdate();
 
