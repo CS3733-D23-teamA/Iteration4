@@ -1,11 +1,16 @@
 package edu.wpi.teamA;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -85,47 +90,60 @@ public class mapEntityTest {
     ArrayList<Node> GFloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "G");
     assertEquals(GFloorArrayExpected, GFloorArrayActual);
   }
-  /*
-   @Test
-   public void testDetermineArray() {
-     ArrayList<Node> levelGNodeArray = MEEntity.getFloorNodes(testNodeArray, "G");
-     ArrayList<Node> levelL1NodeArray = MEEntity.getFloorNodes(testNodeArray, "L1");
-     ArrayList<Node> levelL2NodeArray = MEEntity.getFloorNodes(testNodeArray, "L2");
-     levelL2NodeArray.add(node4);
-     levelL2NodeArray.add(node5);
-     levelL2NodeArray.add(node6);
-     levelL2NodeArray.add(node19);
-     ArrayList<Node> Floor1Array = MEEntity.getFloorNodes(testNodeArray, "1");
-     ArrayList<Node> Floor2Array = MEEntity.getFloorNodes(testNodeArray, "2");
-     // assertEquals(GFloorArray, MEEntity.determineArray("G"));
-     // assertEquals(L1FloorArray, MEEntity.determineArray("L1"));
-     assertEquals(levelL2NodeArray, MEEntity.determineArray("L2"));
-     // assertEquals(Floor1Array, MEEntity.determineArray("1"));
-     // assertEquals(Floor2Array, MEEntity.determineArray("2"));
-   }
 
-  */
-  /*
-   @Test
-   public void testAddCircle() {
-     double x = 230.45;
-     double y = 154.33;
-     double r = 2;
-     Circle expected_c = new Circle(x, y, r);
-     expected_c.setFill(Color.web("0x012D5A"));
-     Circle actual_c = MEEntity.addCircle(x, y);
+  @Test
+  public void testDetermineArray() {
+    assertArrayEquals(
+        MEEntity.getLevelGNodeArray().toArray(), MEEntity.determineArray("Level G").toArray());
+    assertArrayEquals(
+        MEEntity.getLevelL1NodeArray().toArray(), MEEntity.determineArray("Level L1").toArray());
+    assertArrayEquals(
+        MEEntity.getLevelL2NodeArray().toArray(), MEEntity.determineArray("Level L2").toArray());
+    assertArrayEquals(
+        MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineArray("Level 1").toArray());
+    assertArrayEquals(
+        MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineArray("Level 2").toArray());
+    assertArrayEquals(
+        MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineArray("Level 3").toArray());
+  }
 
-     assertEquals(expected_c, actual_c);
-   }
-  */
-  /*
-   @Test
-   public void testGetNodeInfo() {
-     int n1ID = node1.getNodeID();
-     Node actual_node = MEEntity.getNodeInfo(n1ID);
+  @Test
+  public void testAddCircle() {
+    double x = 230.45;
+    double y = 154.33;
+    double r = 2;
+    Circle expected_c = new Circle(x, y, r);
+    expected_c.setFill(Color.web("0x012D5A"));
+    Circle actual_c = MEEntity.addCircle(x, y);
 
-     assertEquals(node1, actual_node);
-   }
-  */
+    assertEquals(expected_c.getCenterX(), actual_c.getCenterX());
+    assertEquals(expected_c.getCenterY(), actual_c.getCenterY());
+    assertEquals(expected_c.getFill(), actual_c.getFill());
+    assertEquals(expected_c.getRadius(), actual_c.getRadius());
+  }
 
+  @Test
+  public void testGetNodeInfo() {
+    int n1ID = node1.getNodeID();
+    Node actual_node = MEEntity.getNodeInfo(n1ID);
+
+    assertEquals(node1.getNodeID(), actual_node.getNodeID());
+    assertEquals(node1.getXcoord(), actual_node.getXcoord());
+    assertEquals(node1.getYcoord(), actual_node.getYcoord());
+    assertEquals(node1.getBuilding(), actual_node.getBuilding());
+    assertEquals(node1.getFloor(), actual_node.getFloor());
+  }
+/*
+  @Test
+  public void testGetLocationName() {
+    int nodeID = node1.getNodeID();
+    String longName = "taxi stand";
+    String shortName = "taxi";
+    String nodeType = "HALL";
+    LocalDate localDate = new LocalDate(2023, 1, 1);
+    Move move = new Move(nodeID, longName, localDate);
+    LocationName locName_expected = new LocationName(longName, shortName, nodeType);
+
+    //LocationName(longName, shortName, nodeType)
+  }*/
 }

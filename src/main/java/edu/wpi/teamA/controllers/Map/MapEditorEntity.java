@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import lombok.Getter;
 
 public class MapEditorEntity {
   // MapEditorController controller = new MapEditorController();
@@ -22,13 +23,13 @@ public class MapEditorEntity {
   private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
-  private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
-  private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
-  private ArrayList<Node> levelL2NodeArray = getFloorNodes(nodeArray, "L2");
-  private ArrayList<Node> level1NodeArray = getFloorNodes(nodeArray, "1");
-  private ArrayList<Node> level2NodeArray = getFloorNodes(nodeArray, "2");
-  private ArrayList<Node> level3NodeArray = getFloorNodes(nodeArray, "3");
+  @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
+  @Getter private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
+  @Getter private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
+  @Getter private ArrayList<Node> levelL2NodeArray = getFloorNodes(nodeArray, "L2");
+  @Getter private ArrayList<Node> level1NodeArray = getFloorNodes(nodeArray, "1");
+  @Getter private ArrayList<Node> level2NodeArray = getFloorNodes(nodeArray, "2");
+  @Getter private ArrayList<Node> level3NodeArray = getFloorNodes(nodeArray, "3");
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
