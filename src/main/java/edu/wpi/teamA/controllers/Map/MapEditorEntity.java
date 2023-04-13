@@ -1,5 +1,6 @@
 package edu.wpi.teamA.controllers.Map;
 
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
@@ -7,10 +8,14 @@ import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import lombok.Getter;
 
 public class MapEditorEntity {
   // MapEditorController controller = new MapEditorController();
@@ -18,13 +23,13 @@ public class MapEditorEntity {
   private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
-  private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
-  private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
-  private ArrayList<Node> levelL2NodeArray = getFloorNodes(nodeArray, "L2");
-  private ArrayList<Node> level1NodeArray = getFloorNodes(nodeArray, "1");
-  private ArrayList<Node> level2NodeArray = getFloorNodes(nodeArray, "2");
-  private ArrayList<Node> level3NodeArray = getFloorNodes(nodeArray, "3");
+  @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
+  @Getter private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
+  @Getter private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
+  @Getter private ArrayList<Node> levelL2NodeArray = getFloorNodes(nodeArray, "L2");
+  @Getter private ArrayList<Node> level1NodeArray = getFloorNodes(nodeArray, "1");
+  @Getter private ArrayList<Node> level2NodeArray = getFloorNodes(nodeArray, "2");
+  @Getter private ArrayList<Node> level3NodeArray = getFloorNodes(nodeArray, "3");
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
@@ -102,14 +107,13 @@ public class MapEditorEntity {
     determineArray(level).add(nodeDAO.getNode(newNodeID));
   }
 
-  public void determineRemoveAction(boolean removeNodeClicked, int nodeID) {
+  public void determineRemoveAction(int nodeID) {
     nodeDAO.Delete(nodeID);
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
   }
 
   public void determineModifyAction(
-      String level,
       int nodeID,
       int x,
       int y,
@@ -136,16 +140,6 @@ public class MapEditorEntity {
     updateArrays();
   }
 
-  private Node getNodeFromArray(ArrayList<Node> nodes, int nodeID) {
-    int i = 0;
-    int currentNodeID = nodes.get(0).getNodeID();
-    while (currentNodeID != nodeID) {
-      i++;
-      currentNodeID = nodes.get(i).getNodeID();
-    }
-    return nodes.get(i);
-  }
-
   private void updateArrays() {
     nodeArray = nodeDAO.loadNodesFromDatabase();
     levelGNodeArray = getFloorNodes(nodeArray, "G");
@@ -154,5 +148,36 @@ public class MapEditorEntity {
     level1NodeArray = getFloorNodes(nodeArray, "1");
     level2NodeArray = getFloorNodes(nodeArray, "2");
     level3NodeArray = getFloorNodes(nodeArray, "3");
+  }
+
+  public void importExport(boolean imported, String DAOimp) {
+    if (imported) {
+      FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Open CSV File");
+      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
+      if (DAOimp.equals("Node")) {
+        NodeDAOImp.Import(selectedFile.getPath());
+      } else if (DAOimp.equals("LocationName")) {
+        LocNameDAOImp.Import(selectedFile.getPath());
+      } else if (DAOimp.equals("Move")) {
+        MoveDAOImp.Import(selectedFile.getPath());
+      } else if (DAOimp.equals("Edge")) {
+        EdgeDAOImp.Import(selectedFile.getPath());
+      }
+    } else {
+      DirectoryChooser directoryChooser = new DirectoryChooser();
+      directoryChooser.setTitle("Export CSV File to");
+      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
+      if (DAOimp.equals("Node")) {
+        NodeDAOImp.Export(selectedDirectory.getPath());
+      } else if (DAOimp.equals("LocationName")) {
+        LocNameDAOImp.Export(selectedDirectory.getPath());
+      } else if (DAOimp.equals("Move")) {
+        MoveDAOImp.Export(selectedDirectory.getPath());
+      } else if (DAOimp.equals("Edge")) {
+        EdgeDAOImp.Export(selectedDirectory.getPath());
+      }
+    }
   }
 }
