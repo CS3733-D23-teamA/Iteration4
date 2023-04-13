@@ -21,6 +21,7 @@ public class NavigationBarController {
   @FXML private MFXButton signageButton;
   @FXML private MFXButton pathfindingButton;
   @FXML private MenuItem exitMenu;
+  @FXML private MenuItem furnitureMenu;
   @FXML private ImageView bwhLogo;
   @FXML private Circle profile;
 
@@ -37,6 +38,7 @@ public class NavigationBarController {
     pathfindingButton.setOnAction(event -> Navigation.navigate(Screen.PATHFINDING));
     exitMenu.setOnAction(event -> App.getPrimaryStage().hide());
     bwhLogo.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
+    furnitureMenu.setOnAction(event -> Navigation.navigate(Screen.FURNITURE));
     // profile.setOnMouseClicked();
   }
 
@@ -53,7 +55,9 @@ public class NavigationBarController {
     Navigation.navigate(Screen.CONFERENCE_REQUEST);
   }
 
-  public void openOtherRequest() {}
+  public void openOtherRequest() {
+    Navigation.navigate((Screen.FURNITURE));
+  }
 
   public void openMyRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
