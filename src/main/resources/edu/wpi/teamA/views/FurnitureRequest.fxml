@@ -85,12 +85,12 @@
                                                 <Insets bottom="10.0" />
                                             </GridPane.margin>
                                         </Text>
-                                        <MFXTextField fx:id="nameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="335.0" GridPane.columnIndex="1" />
-                                        <MFXComboBox fx:id="furnitureCombo" onHiding="#validateButton" prefHeight="50.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                        <MFXTextField fx:id="nameField" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="335.0" GridPane.columnIndex="1" />
+                                        <MFXComboBox fx:id="furnitureCombo" onAction="#validateButton" onHiding="#validateButton" prefHeight="50.0" prefWidth="241.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                         <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="80.0" prefWidth="336.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                         <DatePicker fx:id="datePicker" onAction="#validateButton" prefHeight="50.0" prefWidth="186.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <MFXComboBox fx:id="roomComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <MFXComboBox fx:id="timeCombo" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <MFXComboBox fx:id="roomComboBox" onAction="#validateButton" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <MFXComboBox fx:id="timeCombo" onAction="#validateButton" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     </children>
                                 </GridPane>
                                 <MFXButton fx:id="clearButton" layoutX="686.0" layoutY="572.0" onAction="#clear" text="Clear" />

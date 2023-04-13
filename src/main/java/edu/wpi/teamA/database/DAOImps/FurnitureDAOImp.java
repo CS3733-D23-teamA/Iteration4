@@ -23,7 +23,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
     /** Insert new node object to the existing node table */
     try {
       String name = furniture.getName();
-      int room = furniture.getRoom();
+      String room = furniture.getRoom();
       Date date = furniture.getDate();
       int time = furniture.getTime();
       String type = furniture.getFurnitureType();
@@ -33,7 +33,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"Furniture\""
               + "(namee   Varchar(600),"
-              + "room    int,"
+              + "room    Varchar(600),"
               + "datee    date,"
               + "timee     int,"
               + "furnitureType     Varchar(600),"
@@ -48,7 +48,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
-      ps.setInt(2, room);
+      ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, time);
       ps.setString(5, type);

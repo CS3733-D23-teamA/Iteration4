@@ -53,16 +53,11 @@ public class FurnitureRequestController extends PageController implements IServi
     if (nameField.getText().isEmpty()
         || datePicker.getValue() == null
         || timeCombo.getSelectedIndex() == -1
-        || furnitureCombo.getSelectedIndex() == -1) {
+        || furnitureCombo.getSelectedIndex() == -1
+        || roomComboBox.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
-      try {
-        Integer.parseInt(roomComboBox.getText());
-
-        submitButton.setDisable(false);
-      } catch (NumberFormatException error) {
-        submitButton.setDisable(true);
-      }
+      submitButton.setDisable(false);
     }
   }
 
@@ -80,7 +75,7 @@ public class FurnitureRequestController extends PageController implements IServi
     FurnitureRequest furniture =
         new FurnitureRequest(
             nameField.getText(),
-            Integer.parseInt(roomComboBox.getText()),
+            roomComboBox.getText(),
             Date.valueOf(datePicker.getValue()),
             convertTime(timeCombo.getText()),
             furnitureCombo.getText(),
