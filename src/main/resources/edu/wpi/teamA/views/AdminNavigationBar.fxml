@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="900.0" maxWidth="1600.0" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.AdminNavigationBarController">
+    <center>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="90.0">
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                    <children>
+                        <ImageView fx:id="bwhLogo" fitHeight="96.0" fitWidth="96.0" onMouseClicked="#goHome">
+                            <image>
+                                <Image url="@../graphics/icons/bwh-logo-white.png" />
+                            </image>
+                            <HBox.margin>
+                                <Insets left="15.0" right="-10.0" />
+                            </HBox.margin>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="985.0" spacing="30.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#openServiceRequests" styleClass="menubutton" text="Service Requests" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                            <items>
+                                <MenuItem fx:id="flowerMenu" mnemonicParsing="false" onAction="#openFlowerRequest" text="Flower Delivery" />
+                                <MenuItem fx:id="roomMenu" mnemonicParsing="false" onAction="#openRoomRequest" text="Conference Room Request   " />
+                                <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" onAction="#openFurnitureRequest" text="Furniture Request" />
+                                <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" onAction="#openMyRequests" text="My Requests" />
+                            </items>
+                        </MenuButton>
+                        <MFXButton fx:id="mapEditorButton" onAction="#openMapEditor" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Map Editor" textAlignment="CENTER" HBox.hgrow="ALWAYS">
+                            <font>
+                                <Font name="Open Sans Bold" size="18.0" />
+                            </font></MFXButton>
+                        <MFXButton fx:id="pathfindingButton" onAction="#openPathfinding" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Pathfinding" textAlignment="CENTER">
+                            <font>
+                                <Font name="Open Sans Bold" size="18.0" />
+                            </font></MFXButton>
+                        <MFXButton fx:id="signageButton" onAction="#openSignage" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Signage" textAlignment="CENTER">
+                            <font>
+                                <Font name="Open Sans Bold" size="18.0" />
+                            </font></MFXButton>
+                  <MFXButton fx:id="movesButton" onAction="#openMoves" rippleBackgroundOpacity="10.0" style="-fx-background-color: #98AABC; -fx-text-fill: #012D5A;" styleClass="menubutton" text="Moves" textAlignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="18.0" />
+                     </font>
+                  </MFXButton>
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" top="20.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0">
+                    <children>
+                        <MenuButton maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" HBox.hgrow="NEVER">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="My Account" />
+                                <MenuItem mnemonicParsing="false" text="Sign Out" />
+                                <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
+                            </items>
+                        </MenuButton>
+                    </children>
+                    <HBox.margin>
+                        <Insets right="20.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets left="-10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </HBox>
+    </center>
+    <stylesheets>
+        <URL value="@stylesheets/main.css" />
+        <URL value="@stylesheets/navbar.css" />
+    </stylesheets>
+</BorderPane>

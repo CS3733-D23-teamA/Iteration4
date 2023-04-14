@@ -145,7 +145,7 @@ public class MapEditorController {
     levelMenu.setVisible(false);
 
     // change map image
-    String image = "images/map-page/" + button.getText() + ".png";
+    String image = "graphics/map-page/" + button.getText() + ".png";
     mapImage.setImage(new Image(Objects.requireNonNull(Main.class.getResource(image)).toString()));
 
     // hide old dots
