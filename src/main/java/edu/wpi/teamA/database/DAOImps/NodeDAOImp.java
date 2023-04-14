@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class NodeDAOImp implements IDataBase, INodeDAO {
+public class NodeDAOImp implements IDataBase<Node>, INodeDAO {
   ArrayList<Node> NodeArray;
 
   static DBConnectionProvider nodeProvider = new DBConnectionProvider();
@@ -283,4 +283,19 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
     return largestNode;
   }
+
+  @Override
+  public void Import(Node impT) {}
+
+  @Override
+  public void Export(Node exT) {}
+
+  @Override
+  public void Add(Node addT) {}
+
+  @Override
+  public void Delete(Node delT) {}
+
+  @Override
+  public void Update(Node upT) {}
 }

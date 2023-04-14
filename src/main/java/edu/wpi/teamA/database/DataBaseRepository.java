@@ -1,26 +1,27 @@
 package edu.wpi.teamA.database;
 
-import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
-import edu.wpi.teamA.database.ORMclasses.Edge;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
-import edu.wpi.teamA.database.ORMclasses.Move;
-import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.database.DAOImps.*;
+import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseRepository {
   private NodeDAOImp nodeDAOImp;
   private EdgeDAOImp edgeDAOImp;
   private LocNameDAOImp locNameDAOImp;
   private MoveDAOImp moveDAOImp;
+  private FlowerDAOImpl flowerDAOImpl;
+  private CRRRDAOImp crrrDAOImp;
+  private FurnitureDAOImp furnitureDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
     locNameDAOImp = new LocNameDAOImp();
     moveDAOImp = new MoveDAOImp();
+    flowerDAOImpl = new FlowerDAOImpl();
+    crrrDAOImp = new CRRRDAOImp();
+    furnitureDAOImp = new FurnitureDAOImp();
   }
 
   // Node related methods
@@ -49,7 +50,8 @@ public class DataBaseRepository {
   public void deleteEdge(int startNode, int endNode) {
     edgeDAOImp.Delete(startNode, endNode);
   }
-
+  //
+  // takes in two edge objects, one old version one updated version
   public void updateEdge(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
     edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
   }
@@ -67,6 +69,7 @@ public class DataBaseRepository {
     locNameDAOImp.Delete(longName);
   }
 
+  // same as edge
   public void updateLocName(
       String oldLongName,
       String oldShortName,
@@ -116,5 +119,64 @@ public class DataBaseRepository {
     EdgeDAOImp.Export(folderExportPath);
     LocNameDAOImp.Export(folderExportPath);
     MoveDAOImp.Export(folderExportPath);
+  }
+
+  // Flower related methods
+  public void addFlower(FlowerEntity flower) {
+    flowerDAOImpl.addFlower(flower);
+  }
+
+  public void deleteFlower(FlowerEntity flower) {
+    flowerDAOImpl.deleteFlower(flower);
+  }
+
+  public List<FlowerEntity> getAllFlowers() {
+    return flowerDAOImpl.getAllFlowers();
+  }
+
+  public FlowerEntity getFlower(String name) {
+    return flowerDAOImpl.getFlower(name);
+  }
+
+  public void updateFlower(FlowerEntity flower) {
+    flowerDAOImpl.updateFlower(flower);
+  }
+
+  // CRRR related methods
+  public void addCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.addCRRR(crrr);
+  }
+
+  public void deleteCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.deleteCRRR(crrr);
+  }
+
+  public List<ConferenceRoomResRequest> getAllCRRR() {
+    return crrrDAOImp.getAllCRRR();
+  }
+
+  public ConferenceRoomResRequest getCRRR(String name) {
+    return crrrDAOImp.getCRRR(name);
+  }
+
+  public void updateCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.updateCRRR(crrr);
+  }
+
+  // Furniture related methods
+  public void addFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.addFurniture(furniture);
+  }
+
+  public void deleteFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.deleteFurniture(furniture);
+  }
+
+  public void updateFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.updateFurniture(furniture);
+  }
+
+  public void editFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.editFurniture(furniture);
   }
 }

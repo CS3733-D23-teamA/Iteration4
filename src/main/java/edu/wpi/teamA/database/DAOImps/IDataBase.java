@@ -1,19 +1,16 @@
 package edu.wpi.teamA.database.DAOImps;
 
-public interface IDataBase {
-  Integer nodeID = null;
+public interface IDataBase<T> {
 
-  String longName = null;
+  void Import(T impT);
 
-  static void Import(String s) {};
+  void Export(T exT);
 
-  static void Export(String s) {};
+  void Add(T addT);
 
-  // void Add();
+  void Delete(T delT);
 
-  // void Delete();
-
-  // void Update();
+  void Update(T upT);
 
   // 1.get all
   // 2.update

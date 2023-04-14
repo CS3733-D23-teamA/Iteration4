@@ -38,7 +38,7 @@ public class NavigationBarController {
     pathfindingButton.setOnAction(event -> Navigation.navigate(Screen.PATHFINDING));
     exitMenu.setOnAction(event -> App.getPrimaryStage().hide());
     bwhLogo.setOnMouseClicked(event -> Navigation.navigate(Screen.HOME));
-    furnitureMenu.setOnAction(event -> Navigation.navigate(Screen.FURNITURE));
+    furnitureMenu.setOnAction(event -> Navigation.navigate(Screen.FURNITURE_REQUEST));
     // profile.setOnMouseClicked();
   }
 
@@ -56,7 +56,7 @@ public class NavigationBarController {
   }
 
   public void openOtherRequest() {
-    Navigation.navigate((Screen.FURNITURE));
+    Navigation.navigate((Screen.FURNITURE_REQUEST));
   }
 
   public void openMyRequests() {
