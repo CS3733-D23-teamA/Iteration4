@@ -122,7 +122,7 @@ public class MapEditorController {
 
     inputDialog.setOnClose(
         event -> {
-          shutDownInputDialogBox();
+          clear();
         });
     impExpDialog.setOnClose(
         event -> {
@@ -186,10 +186,59 @@ public class MapEditorController {
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
       circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+      //      circle.setOnDragDetected(this::handleSetOnDragDetected);
+      //      circle.setOnDragOver(event -> handleSetOnDragOver(circle, event));
+      //      circle.setOnDragEntered(event -> handleSetOnDragEntered(circle, event));
+      //      circle.setOnDragExited(event -> handleSetOnDragExited(circle, event));
+      //      circle.setOnDragDropped(event -> handleSetOnDragDropped(circle, event));
       topPane.getChildren().add(circle);
     }
     App.getPrimaryStage().show();
   }
+
+  //  public void handleSetOnDragDetected(MouseEvent event) {
+  //    if (modifyNodeClicked) {
+  //      Dragboard db = topPane.startDragAndDrop(TransferMode.ANY);
+  //
+  //      event.consume();
+  //    }
+  //  }
+  //
+  //  public void handleSetOnDragOver(Circle circle, DragEvent event) {
+  //    /* data is dragged over the target */
+  //    /* accept it only if it is not dragged from the same node
+  //     * and if it has a string data */
+  //    if (event.getGestureSource() != circle) {
+  //      /* allow for both copying and moving, whatever user chooses */
+  //      event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+  //    }
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragEntered(Circle circle, DragEvent event) {
+  //    /* the drag-and-drop gesture entered the target */
+  //    /* show to the user that it is an actual gesture target */
+  //    if (event.getGestureSource() != circle) {
+  //      circle.setFill(Color.GREEN);
+  //    }
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragExited(Circle circle, DragEvent event) {
+  //    /* mouse moved away, remove the graphical cues */
+  //    circle.setFill(Color.web("0x012D5A"));
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragDropped(Circle circle, DragEvent event) {
+  //    /* data dropped */
+  //    /* if there is a string data on dragboard, read it and use it */
+  //    Dragboard db = event.getDragboard();
+  //    /* let the source know whether the string was successfully
+  //     * transferred and used */
+  //    event.setDropCompleted(true);
+  //    event.consume();
+  //  }
 
   private void displayEdgeData(ArrayList<Edge> edgeArrayForFloor) {
     for (Edge edge : edgeArrayForFloor) {
@@ -322,7 +371,6 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
-    editMapDirections.setText("Add node");
     // pop up dialog box
     popUpMainDialogBox();
 
@@ -392,6 +440,7 @@ public class MapEditorController {
     }
 
     clear();
+    topPane.getChildren().clear();
     topPane.setOnMouseClicked(null);
     displayEdgeData(entity.determineEdgeArray(level));
     displayNodeData(entity.determineNodeArray(level));
@@ -401,6 +450,7 @@ public class MapEditorController {
    * Used to store the coordinates of when the user clicks on the map for adding or modifying a node
    */
   private void mouseClickForNewLocation() {
+    currentPositionClicked = null;
     topPane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override

@@ -200,9 +200,10 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
+    //    if (locNameDAO.getLocName(longName) != null) {
+    //      // do something
+    //    } else {
     int newNodeID = nodeDAO.getLargestNodeID().getNodeID() + 5;
-    //    System.out.println(nodeArray.size());
-    //    System.out.println(newNodeID);
     nodeDAO.Add(newNodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
@@ -217,6 +218,8 @@ public class MapEditorEntity {
     locNameDAO.Add(longName, shortName, nodeType);
     moveDAO.Add(newNodeID, longName, dateString);
     determineNodeArray(level).add(nodeDAO.getNode(newNodeID));
+    //
+    // }
   }
 
   public void determineRemoveAction(int nodeID) {
@@ -249,18 +252,26 @@ public class MapEditorEntity {
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Update(oldLongName, oldShortName, longName, shortName, nodeType);
-    moveDAO.Update(nodeID, longName, dateString);
+    // moveDAO.Update(nodeID, longName, dateString);
     updateArrays();
   }
 
   private void updateArrays() {
     nodeArray = nodeDAO.loadNodesFromDatabase();
+    edgeArray = edgeDAO.loadEdgesFromDatabase();
     levelL1NodeArray.clear();
     levelL2NodeArray.clear();
     level1NodeArray.clear();
     level2NodeArray.clear();
     level3NodeArray.clear();
     loadFloorNodes();
+
+    levelL1EdgeArray.clear();
+    levelL2EdgeArray.clear();
+    level1EdgeArray.clear();
+    level2EdgeArray.clear();
+    level3EdgeArray.clear();
+    loadFloorEdges();
   }
 
   public void importExport(boolean imported, String DAOimp) {
