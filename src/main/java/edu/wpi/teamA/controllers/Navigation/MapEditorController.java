@@ -92,6 +92,10 @@ public class MapEditorController {
     level2Button.setOnAction(event -> changeLevelText(level2Button));
     level3Button.setOnAction(event -> changeLevelText(level3Button));
 
+    // set up entity arrays
+    entity.loadFloorEdges();
+    entity.loadFloorNodes();
+
     // set up page
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
@@ -165,8 +169,8 @@ public class MapEditorController {
     level = button.getText();
 
     // display new dots and edges
-    displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
     displayEdgeData(Objects.requireNonNull(entity.determineEdgeArray(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
   }
 
   /**
@@ -388,8 +392,8 @@ public class MapEditorController {
     }
 
     clear();
-    displayNodeData(entity.determineNodeArray(level));
     displayEdgeData(entity.determineEdgeArray(level));
+    displayNodeData(entity.determineNodeArray(level));
   }
 
   /**

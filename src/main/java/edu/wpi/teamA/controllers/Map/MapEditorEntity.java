@@ -26,20 +26,50 @@ public class MapEditorEntity {
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
   @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  @Getter private ArrayList<Node> levelGNodeArray; // = getFloorNodes(nodeArray, "G");
-  @Getter private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
-  @Getter private ArrayList<Node> levelL2NodeArray; // = getFloorNodes(nodeArray, "L2");
-  @Getter private ArrayList<Node> level1NodeArray; // = getFloorNodes(nodeArray, "1");
-  @Getter private ArrayList<Node> level2NodeArray; // = getFloorNodes(nodeArray, "2");
-  @Getter private ArrayList<Node> level3NodeArray; // = getFloorNodes(nodeArray, "3");
+  // @Getter private ArrayList<Node> levelGNodeArray = new ArrayList<Node>(); // =
+  // getFloorNodes(nodeArray, "G");
+  @Getter
+  private ArrayList<Node> levelL1NodeArray =
+      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "L1");
+
+  @Getter
+  private ArrayList<Node> levelL2NodeArray =
+      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "L2");
+
+  @Getter
+  private ArrayList<Node> level1NodeArray =
+      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "1");
+
+  @Getter
+  private ArrayList<Node> level2NodeArray =
+      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "2");
+
+  @Getter
+  private ArrayList<Node> level3NodeArray =
+      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "3");
 
   @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
-  @Getter private ArrayList<Edge> levelGEdgeArray; // = getFloorEdges(edgeArray, "G");
-  @Getter private ArrayList<Edge> levelL1EdgeArray = getFloorEdges(edgeArray, "L1");
-  @Getter private ArrayList<Edge> levelL2EdgeArray; // = getFloorEdges(edgeArray, "L2");
-  @Getter private ArrayList<Edge> level1EdgeArray; // = getFloorEdges(edgeArray, "1");
-  @Getter private ArrayList<Edge> level2EdgeArray; // = getFloorEdges(edgeArray, "2");
-  @Getter private ArrayList<Edge> level3EdgeArray; // = getFloorEdges(edgeArray, "3");
+  // @Getter private ArrayList<Edge> levelGEdgeArray = new ArrayList<Edge>(); // =
+  // getFloorEdges(edgeArray, "G");
+  @Getter
+  private ArrayList<Edge> levelL1EdgeArray =
+      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "L1");
+
+  @Getter
+  private ArrayList<Edge> levelL2EdgeArray =
+      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "L2");
+
+  @Getter
+  private ArrayList<Edge> level1EdgeArray =
+      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "1");
+
+  @Getter
+  private ArrayList<Edge> level2EdgeArray =
+      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "2");
+
+  @Getter
+  private ArrayList<Edge> level3EdgeArray =
+      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "3");
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
@@ -63,10 +93,41 @@ public class MapEditorEntity {
     return updatedArray;
   }
 
+  public void loadFloorNodes() {
+    for (Node node : nodeArray) {
+      if (node.getFloor().equals("L1")) {
+        levelL1NodeArray.add(node);
+      } else if (node.getFloor().equals("L2")) {
+        levelL2NodeArray.add(node);
+      } else if (node.getFloor().equals("1")) {
+        level1NodeArray.add(node);
+      } else if (node.getFloor().equals("2")) {
+        level2NodeArray.add(node);
+      } else if (node.getFloor().equals("3")) {
+        level3NodeArray.add(node);
+      }
+    }
+  }
+
+  public void loadFloorEdges() {
+    for (Edge edge : edgeArray) {
+      Node node = nodeDAO.getNode(edge.getStartNode());
+      if (node.getFloor().equals("L1")) {
+        levelL1EdgeArray.add(edge);
+      } else if (node.getFloor().equals("L2")) {
+        levelL2EdgeArray.add(edge);
+      } else if (node.getFloor().equals("1")) {
+        level1EdgeArray.add(edge);
+      } else if (node.getFloor().equals("2")) {
+        level2EdgeArray.add(edge);
+      } else if (node.getFloor().equals("3")) {
+        level3EdgeArray.add(edge);
+      }
+    }
+  }
+
   public ArrayList<Edge> determineEdgeArray(String level) {
-    if (level.equals("Level G")) {
-      return levelGEdgeArray;
-    } else if (level.equals("Level L1")) {
+    if (level.equals("Level L1")) {
       return levelL1EdgeArray;
     } else if (level.equals("Level L2")) {
       return levelL2EdgeArray;
@@ -82,9 +143,7 @@ public class MapEditorEntity {
   }
 
   public ArrayList<Node> determineNodeArray(String level) {
-    if (level.equals("Level G")) {
-      return levelGNodeArray;
-    } else if (level.equals("Level L1")) {
+    if (level.equals("Level L1")) {
       return levelL1NodeArray;
     } else if (level.equals("Level L2")) {
       return levelL2NodeArray;
@@ -194,7 +253,7 @@ public class MapEditorEntity {
 
   private void updateArrays() {
     nodeArray = nodeDAO.loadNodesFromDatabase();
-    levelGNodeArray = getFloorNodes(nodeArray, "G");
+    // levelGNodeArray = getFloorNodes(nodeArray, "G");
     levelL1NodeArray = getFloorNodes(nodeArray, "L1");
     levelL2NodeArray = getFloorNodes(nodeArray, "L2");
     level1NodeArray = getFloorNodes(nodeArray, "1");
