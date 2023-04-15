@@ -3,6 +3,7 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -19,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -26,13 +28,18 @@ public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
 
   // larger panes
-  @FXML private ImageView mapImage;
-  @FXML private StackPane mapStackPane;
-  @FXML private AnchorPane dotsAnchorPane;
+  //  @FXML private ImageView mapImage;
+  //  @FXML private StackPane mapStackPane;
+  //  @FXML private AnchorPane dotsAnchorPane;
   @FXML private GesturePane mapGesturePane;
   @FXML private HBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
+
+  @FXML private Pane topPane = new Pane();
+  @FXML private ImageView mapImage = new ImageView();
+
+  @FXML private StackPane mapStackPane = new StackPane(mapImage, topPane);
 
   // level buttons
   @FXML private MFXButton levelButton;
@@ -43,7 +50,7 @@ public class MapEditorController {
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
   @FXML private VBox levelMenu;
-  private String level = "G";
+  private String level = "L1";
 
   // text displays
   @FXML private Text locationDisplay;
@@ -73,7 +80,7 @@ public class MapEditorController {
 
   private Circle currentCircle;
 
-  private final double scalar = 0.144;
+  // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
@@ -89,10 +96,14 @@ public class MapEditorController {
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
     levelMenu.setVisible(false);
-    changeLevelText(levelGButton);
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    mapImage.setImage(
+        new Image(
+            Objects.requireNonNull(Main.class.getResource("images/map-page/Level G.png"))
+                .toString()));
+    changeLevelText(levelL1Button);
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -112,7 +123,6 @@ public class MapEditorController {
           impExpDialog.setVisible(false);
           impExpDialog.setDisable(true);
           imported = false;
-          // exported = false;
         });
 
     // set up input grid
@@ -149,13 +159,14 @@ public class MapEditorController {
     mapImage.setImage(new Image(Objects.requireNonNull(Main.class.getResource(image)).toString()));
 
     // hide old dots
-    dotsAnchorPane.getChildren().clear();
+    topPane.getChildren().clear();
 
     // button
     level = button.getText();
 
-    // display new dots
-    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
+    // display new dots and edges
+    displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeArray(level)));
   }
 
   /**
@@ -168,14 +179,22 @@ public class MapEditorController {
       int originalNodeX = node.getXcoord();
       int originalNodeY = node.getYcoord();
       // scales it according to resolution of the photos
-      double newXCoord = originalNodeX * scalar;
-      double newYCoord = originalNodeY * scalar;
+      double newXCoord = originalNodeX;
+      double newYCoord = originalNodeY;
 
       Circle circle = entity.addCircle(newXCoord, newYCoord);
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
       circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-      dotsAnchorPane.getChildren().add(circle);
+      topPane.getChildren().add(circle);
+    }
+    App.getPrimaryStage().show();
+  }
+
+  private void displayEdgeData(ArrayList<Edge> edgeArrayForFloor) {
+    for (Edge edge : edgeArrayForFloor) {
+      Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
+      topPane.getChildren().add(line);
     }
     App.getPrimaryStage().show();
   }
@@ -369,14 +388,15 @@ public class MapEditorController {
     }
 
     clear();
-    displayNodeData(entity.determineArray(level));
+    displayNodeData(entity.determineNodeArray(level));
+    displayEdgeData(entity.determineEdgeArray(level));
   }
 
   /**
    * Used to store the coordinates of when the user clicks on the map for adding or modifying a node
    */
   private void mouseClickForNewLocation() {
-    dotsAnchorPane.setOnMouseClicked(
+    topPane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
@@ -385,8 +405,8 @@ public class MapEditorController {
             int newX = (int) X;
             int newY = (int) Y;
             XYCoords = new int[2];
-            XYCoords[0] = (int) (newX / scalar);
-            XYCoords[1] = (int) (newY / scalar);
+            XYCoords[0] = (int) (newX);
+            XYCoords[1] = (int) (newY);
             System.out.println("New X:" + newX);
             System.out.println("New Y:" + newY);
             // new red circle indicating new location

@@ -5,6 +5,7 @@ import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
@@ -24,12 +26,20 @@ public class MapEditorEntity {
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
   @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  @Getter private ArrayList<Node> levelGNodeArray = getFloorNodes(nodeArray, "G");
+  @Getter private ArrayList<Node> levelGNodeArray; // = getFloorNodes(nodeArray, "G");
   @Getter private ArrayList<Node> levelL1NodeArray = getFloorNodes(nodeArray, "L1");
-  @Getter private ArrayList<Node> levelL2NodeArray = getFloorNodes(nodeArray, "L2");
-  @Getter private ArrayList<Node> level1NodeArray = getFloorNodes(nodeArray, "1");
-  @Getter private ArrayList<Node> level2NodeArray = getFloorNodes(nodeArray, "2");
-  @Getter private ArrayList<Node> level3NodeArray = getFloorNodes(nodeArray, "3");
+  @Getter private ArrayList<Node> levelL2NodeArray; // = getFloorNodes(nodeArray, "L2");
+  @Getter private ArrayList<Node> level1NodeArray; // = getFloorNodes(nodeArray, "1");
+  @Getter private ArrayList<Node> level2NodeArray; // = getFloorNodes(nodeArray, "2");
+  @Getter private ArrayList<Node> level3NodeArray; // = getFloorNodes(nodeArray, "3");
+
+  @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
+  @Getter private ArrayList<Edge> levelGEdgeArray; // = getFloorEdges(edgeArray, "G");
+  @Getter private ArrayList<Edge> levelL1EdgeArray = getFloorEdges(edgeArray, "L1");
+  @Getter private ArrayList<Edge> levelL2EdgeArray; // = getFloorEdges(edgeArray, "L2");
+  @Getter private ArrayList<Edge> level1EdgeArray; // = getFloorEdges(edgeArray, "1");
+  @Getter private ArrayList<Edge> level2EdgeArray; // = getFloorEdges(edgeArray, "2");
+  @Getter private ArrayList<Edge> level3EdgeArray; // = getFloorEdges(edgeArray, "3");
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
@@ -41,7 +51,37 @@ public class MapEditorEntity {
     return updatedArray;
   }
 
-  public ArrayList<Node> determineArray(String level) {
+  public ArrayList<Edge> getFloorEdges(ArrayList<Edge> edgeArray, String floor) {
+    ArrayList<Edge> updatedArray = new ArrayList<Edge>();
+    for (int i = 0; i < edgeArray.size(); i++) {
+      Node startNode = nodeDAO.getNode(edgeArray.get(i).getStartNode());
+      Node endNode = nodeDAO.getNode(edgeArray.get(i).getEndNode());
+      if (startNode.getFloor().equals(floor) && endNode.getFloor().equals(floor)) {
+        updatedArray.add(edgeArray.get(i));
+      }
+    }
+    return updatedArray;
+  }
+
+  public ArrayList<Edge> determineEdgeArray(String level) {
+    if (level.equals("Level G")) {
+      return levelGEdgeArray;
+    } else if (level.equals("Level L1")) {
+      return levelL1EdgeArray;
+    } else if (level.equals("Level L2")) {
+      return levelL2EdgeArray;
+    } else if (level.equals("Level 1")) {
+      return level1EdgeArray;
+    } else if (level.equals("Level 2")) {
+      return level2EdgeArray;
+    } else if (level.equals("Level 3")) {
+      return level3EdgeArray;
+    } else {
+      return null;
+    }
+  }
+
+  public ArrayList<Node> determineNodeArray(String level) {
     if (level.equals("Level G")) {
       return levelGNodeArray;
     } else if (level.equals("Level L1")) {
@@ -64,9 +104,21 @@ public class MapEditorEntity {
     circle.setCenterX(X);
     circle.setCenterY(Y);
     circle.setFill(Color.web("0x012D5A"));
-    circle.setRadius(2);
+    circle.setRadius(10);
     circle.setVisible(true);
     return circle;
+  }
+
+  public Line addLine(int startNodeID, int endNodeID) {
+    Node startNode = nodeDAO.getNode(startNodeID);
+    Node endNode = nodeDAO.getNode(endNodeID);
+    Line line =
+        new Line(
+            startNode.getXcoord(), startNode.getYcoord(), endNode.getXcoord(), endNode.getYcoord());
+    line.setFill(Color.web("0x012D5A"));
+    line.setStrokeWidth(10);
+    line.setVisible(true);
+    return line;
   }
 
   public Node getNodeInfo(int nodeID) {
@@ -104,7 +156,7 @@ public class MapEditorEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Add(longName, shortName, nodeType);
     moveDAO.Add(newNodeID, longName, dateString);
-    determineArray(level).add(nodeDAO.getNode(newNodeID));
+    determineNodeArray(level).add(nodeDAO.getNode(newNodeID));
   }
 
   public void determineRemoveAction(int nodeID) {
