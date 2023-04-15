@@ -180,13 +180,7 @@ public class MapEditorController {
    */
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
     for (Node node : nodeArrayForFloor) {
-      int originalNodeX = node.getXcoord();
-      int originalNodeY = node.getYcoord();
-      // scales it according to resolution of the photos
-      double newXCoord = originalNodeX;
-      double newYCoord = originalNodeY;
-
-      Circle circle = entity.addCircle(newXCoord, newYCoord);
+      Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
       circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));

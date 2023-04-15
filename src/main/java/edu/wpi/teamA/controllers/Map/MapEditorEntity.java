@@ -49,27 +49,15 @@ public class MapEditorEntity {
       new ArrayList<Node>(); // = getFloorNodes(nodeArray, "3");
 
   @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
-  // @Getter private ArrayList<Edge> levelGEdgeArray = new ArrayList<Edge>(); // =
-  // getFloorEdges(edgeArray, "G");
-  @Getter
-  private ArrayList<Edge> levelL1EdgeArray =
-      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "L1");
+  @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
 
-  @Getter
-  private ArrayList<Edge> levelL2EdgeArray =
-      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "L2");
+  @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
 
-  @Getter
-  private ArrayList<Edge> level1EdgeArray =
-      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "1");
+  @Getter private ArrayList<Edge> level1EdgeArray = new ArrayList<Edge>();
 
-  @Getter
-  private ArrayList<Edge> level2EdgeArray =
-      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "2");
+  @Getter private ArrayList<Edge> level2EdgeArray = new ArrayList<Edge>();
 
-  @Getter
-  private ArrayList<Edge> level3EdgeArray =
-      new ArrayList<Edge>(); // = getFloorEdges(edgeArray, "3");
+  @Getter private ArrayList<Edge> level3EdgeArray = new ArrayList<Edge>();
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
@@ -171,12 +159,29 @@ public class MapEditorEntity {
   public Line addLine(int startNodeID, int endNodeID) {
     Node startNode = nodeDAO.getNode(startNodeID);
     Node endNode = nodeDAO.getNode(endNodeID);
+
+    LocationName startLocName = locNameDAO.getLocName(moveDAO.getMove(startNodeID).getLongName());
+    LocationName endLocName = locNameDAO.getLocName(moveDAO.getMove(endNodeID).getLongName());
+
     Line line =
         new Line(
             startNode.getXcoord(), startNode.getYcoord(), endNode.getXcoord(), endNode.getYcoord());
-    line.setFill(Color.web("0x012D5A"));
-    line.setStrokeWidth(10);
-    line.setVisible(true);
+
+    if (startLocName.getNodeType().equals("ELEV") && endLocName.getNodeType().equals("ELEV")) {
+      line.setStroke(Color.web("0xEEBD28"));
+      line.setStrokeWidth(4);
+      line.setVisible(true);
+    } else if (startLocName.getNodeType().equals("STAI")
+        && endLocName.getNodeType().equals("STAI")) {
+      line.setStroke(Color.web("0xf74c4c"));
+      line.setStrokeWidth(10);
+      line.setVisible(true);
+    } else {
+      line.setStroke(Color.web("0x012D5A"));
+      line.setStrokeWidth(7);
+      line.setVisible(true);
+    }
+
     return line;
   }
 
@@ -189,7 +194,6 @@ public class MapEditorEntity {
     return locNameDAO.getLocName(move.getLongName());
   }
 
-  // TODO get largest nodeID
   public void determineAddAction(
       String level,
       int x,
@@ -222,6 +226,7 @@ public class MapEditorEntity {
     nodeDAO.Delete(nodeID);
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
+    updateArrays();
   }
 
   public void determineModifyAction(
@@ -253,12 +258,12 @@ public class MapEditorEntity {
 
   private void updateArrays() {
     nodeArray = nodeDAO.loadNodesFromDatabase();
-    // levelGNodeArray = getFloorNodes(nodeArray, "G");
-    levelL1NodeArray = getFloorNodes(nodeArray, "L1");
-    levelL2NodeArray = getFloorNodes(nodeArray, "L2");
-    level1NodeArray = getFloorNodes(nodeArray, "1");
-    level2NodeArray = getFloorNodes(nodeArray, "2");
-    level3NodeArray = getFloorNodes(nodeArray, "3");
+    levelL1NodeArray.clear();
+    levelL2NodeArray.clear();
+    level1NodeArray.clear();
+    level2NodeArray.clear();
+    level3NodeArray.clear();
+    loadFloorNodes();
   }
 
   public void importExport(boolean imported, String DAOimp) {
