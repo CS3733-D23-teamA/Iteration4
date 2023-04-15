@@ -5,11 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
-import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -135,7 +131,7 @@ public class mapEntityTest {
     assertEquals(node1.getBuilding(), actual_node.getBuilding());
     assertEquals(node1.getFloor(), actual_node.getFloor());
   }
-/*
+  /*
   @Test
   public void testGetLocationName() {
     int nodeID = node1.getNodeID();
