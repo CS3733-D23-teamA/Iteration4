@@ -170,18 +170,15 @@ public class MapEditorEntity {
     if (startLocName.getNodeType().equals("ELEV") && endLocName.getNodeType().equals("ELEV")) {
       line.setStroke(Color.web("0xEEBD28"));
       line.setStrokeWidth(4);
-      line.setVisible(true);
     } else if (startLocName.getNodeType().equals("STAI")
         && endLocName.getNodeType().equals("STAI")) {
       line.setStroke(Color.web("0xf74c4c"));
       line.setStrokeWidth(10);
-      line.setVisible(true);
     } else {
       line.setStroke(Color.web("0x012D5A"));
       line.setStrokeWidth(7);
-      line.setVisible(true);
     }
-
+    line.setVisible(true);
     return line;
   }
 

@@ -80,6 +80,8 @@ public class MapEditorController {
 
   private Circle currentCircle;
 
+  private Circle currentPositionClicked;
+
   // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
@@ -120,7 +122,7 @@ public class MapEditorController {
 
     inputDialog.setOnClose(
         event -> {
-          shutDownMainDialogBox();
+          shutDownInputDialogBox();
         });
     impExpDialog.setOnClose(
         event -> {
@@ -287,7 +289,10 @@ public class MapEditorController {
   }
 
   /** Hides the input dialog page and brings back map editor controls */
-  private void shutDownMainDialogBox() {
+  private void shutDownInputDialogBox() {
+    if (currentPositionClicked != null) {
+      topPane.getChildren().remove(currentPositionClicked);
+    }
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
     mapEditorControls.setVisible(true);
@@ -295,6 +300,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    topPane.setOnMouseClicked(null);
   }
 
   /** Preload information in dialog box for the user to modify a node */
@@ -352,7 +358,7 @@ public class MapEditorController {
     floorField.getSelectionModel().clearSelection();
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
-    shutDownMainDialogBox();
+    shutDownInputDialogBox();
   }
 
   @FXML
@@ -386,6 +392,7 @@ public class MapEditorController {
     }
 
     clear();
+    topPane.setOnMouseClicked(null);
     displayEdgeData(entity.determineEdgeArray(level));
     displayNodeData(entity.determineNodeArray(level));
   }
@@ -398,20 +405,20 @@ public class MapEditorController {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
+            if (currentPositionClicked != null) {
+              topPane.getChildren().remove(currentPositionClicked);
+            }
             double X = event.getX();
             double Y = event.getY();
-            int newX = (int) X;
-            int newY = (int) Y;
             XYCoords = new int[2];
-            XYCoords[0] = (int) (newX);
-            XYCoords[1] = (int) (newY);
-            System.out.println("New X:" + newX);
-            System.out.println("New Y:" + newY);
+            XYCoords[0] = (int) (X);
+            XYCoords[1] = (int) (Y);
             // new red circle indicating new location
 
-            Circle circle = entity.addCircle(newX, newY);
-            circle.setFill(Color.rgb(128, 0, 0, 0.87));
-            circle.setVisible(true);
+            Circle circle = entity.addCircle(X, Y);
+            circle.setFill(Color.web("0xf74c4c"));
+            topPane.getChildren().add(circle);
+            currentPositionClicked = circle;
             validateButton();
           }
         });
