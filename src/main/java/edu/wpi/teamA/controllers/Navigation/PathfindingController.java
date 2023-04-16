@@ -38,7 +38,6 @@ public class PathfindingController extends PageController {
   @FXML private MFXFilterComboBox<String> startSelection;
   @FXML private MFXFilterComboBox<String> endSelection;
   @FXML private Text directions;
-  @FXML private MFXButton submitButton;
 
   // level buttons
   @FXML private MFXButton levelL1Button;
@@ -54,6 +53,7 @@ public class PathfindingController extends PageController {
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
   private final MapEditorEntity map = new MapEditorEntity();
+  private String floor = "L1";
 
   public void initialize() {
     // Set up Map in Gesture pane using a StackPane
@@ -94,18 +94,28 @@ public class PathfindingController extends PageController {
     switch (button.getText()) {
       case "L1":
         mapImage = App.getMapL1();
+        floor = "L1";
+        checkPath();
         break;
       case "L2":
         mapImage = App.getMapL2();
+        floor = "L2";
+        checkPath();
         break;
       case "1":
         mapImage = App.getMap1();
+        floor = "1";
+        checkPath();
         break;
       case "2":
         mapImage = App.getMap2();
+        floor = "2";
+        checkPath();
         break;
       case "3":
         mapImage = App.getMap3();
+        floor = "3";
+        checkPath();
         break;
     }
 
@@ -119,7 +129,7 @@ public class PathfindingController extends PageController {
    */
   public void submit() {
     try {
-      topPane.getChildren().clear();
+      clearPath();
       String startName = startSelection.getSelectedItem();
       String endName = endSelection.getSelectedItem();
       int startID = nameMap.get(startName);
@@ -137,12 +147,20 @@ public class PathfindingController extends PageController {
     }
   }
 
+  @FXML
+  public void checkPath() {
+    if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+      submit();
+    }
+  }
+
   /**
    * Helper method for submit, draws graphical path
    *
    * @param a Astar object implementation to determine path
    */
   public void drawPath(AStar a) {
+
     ArrayList<Integer> nodePathIDs = a.getPath();
     GraphNode gNode = a.getGraphNode(nodePathIDs.get(0));
 
@@ -154,16 +172,21 @@ public class PathfindingController extends PageController {
 
     for (int i = 1; i < nodePathIDs.size(); i++) {
       gNode = a.getGraphNode(nodePathIDs.get(i));
+      if (gNode.getFloor().equals(floor)) {
+        line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
+        line.setFill(Color.DARKRED);
+        line.setStrokeWidth(8);
 
-      line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
-      line.setFill(Color.DARKRED);
-      line.setStrokeWidth(8);
-
-      topPane
-          .getChildren()
-          .addAll(line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.DARKRED));
+        topPane
+            .getChildren()
+            .addAll(line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.DARKRED));
+      }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
     }
+  }
+
+  public void clearPath() {
+    topPane.getChildren().clear();
   }
 }
