@@ -256,6 +256,19 @@ public class MapEditorEntity {
     updateArrays();
   }
 
+  public boolean determineModifyEdgeAction(Node firstNode, Node secondNode) {
+    Edge e = edgeDAO.getEdge(firstNode.getNodeID(), secondNode.getNodeID());
+    if (e == null) { // if there is no edge between the nodes, we must add edges
+      edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
+      updateArrays();
+      return true;
+    } else { // there is an edge, so we must remove the edge
+      edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
+      updateArrays();
+      return false;
+    }
+  }
+
   private void updateArrays() {
     nodeArray = nodeDAO.loadNodesFromDatabase();
     edgeArray = edgeDAO.loadEdgesFromDatabase();

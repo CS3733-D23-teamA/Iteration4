@@ -49,6 +49,7 @@ public class MapEditorController {
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
+  @FXML private MFXButton stopModificationButton;
   @FXML private VBox levelMenu;
   private String level = "L1";
 
@@ -68,6 +69,8 @@ public class MapEditorController {
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
+  private boolean modifyEdgeClicked;
+  private boolean secondNodeClicked;
 
   // booleans to determine importing or exporting
   private boolean imported = false;
@@ -81,6 +84,8 @@ public class MapEditorController {
   private Circle currentCircle;
 
   private Circle currentPositionClicked;
+
+  private Node firstNode;
 
   // private final double scalar = 0.144;
 
@@ -105,6 +110,8 @@ public class MapEditorController {
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    modifyEdgeClicked = false;
+    secondNodeClicked = false;
     mapImage.setImage(
         new Image(
             Objects.requireNonNull(Main.class.getResource("images/map-page/Level G.png"))
@@ -119,6 +126,8 @@ public class MapEditorController {
     submitButton.setDisable(true);
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
+    stopModificationButton.setDisable(true);
+    stopModificationButton.setVisible(false);
 
     inputDialog.setOnClose(
         event -> {
@@ -308,6 +317,37 @@ public class MapEditorController {
       mouseClickForNewLocation();
     }
 
+    if (modifyEdgeClicked) {
+      // click another node
+      editMapDirections.setText("Click the nodes you want to modify its edges.");
+      secondNodeClicked = true;
+      firstNode = entity.getNodeInfo(nodeID);
+      modifyEdgeClicked = false;
+      stopModificationButton.setDisable(false);
+      stopModificationButton.setVisible(true);
+    }
+
+    if (secondNodeClicked) {
+      if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID))) {
+        // add a line for the new edge
+        Line line = entity.addLine(firstNode.getNodeID(), nodeID);
+        topPane.getChildren().add(line);
+      }
+      topPane.getChildren().clear();
+      displayEdgeData(entity.determineEdgeArray(level));
+      displayNodeData(entity.determineNodeArray(level));
+    }
+
+    // editMapDirections.setText("");
+  }
+
+  @FXML
+  public void stopModify() {
+    secondNodeClicked = false;
+    modifyEdgeClicked = false;
+    // hide button
+    stopModificationButton.setDisable(true);
+    stopModificationButton.setVisible(false);
     editMapDirections.setText("");
   }
 
@@ -317,6 +357,7 @@ public class MapEditorController {
     removeNodeClicked = true;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -326,7 +367,18 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = true;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
+  }
+
+  @FXML
+  public void modifyEdge() {
+    modifyEdgeClicked = true;
+    removeNodeClicked = false;
+    modifyNodeClicked = false;
+    addNodeClicked = false;
+
+    editMapDirections.setText("Click a node to modify its edges.");
   }
 
   /** Pops up the input dialog page and hides map editor controls */
@@ -371,6 +423,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
+    modifyEdgeClicked = false;
     // pop up dialog box
     popUpMainDialogBox();
 
