@@ -72,6 +72,17 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
     @Override
     public void removeEmployee(Employee employee) {
+        try {
+            PreparedStatement ps =
+                    employeeProvider.createConnection()
+                            .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Employee\" WHERE namee = ?");
+            ps.setString(1, employee.getName());
+            ps.executeUpdate();
 
+            employeeArray.removeIf(Employee -> Employee.getName().equals(employee.getName()));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
