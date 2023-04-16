@@ -71,37 +71,41 @@ public class UserDAOImp {
     return null;
   }
 
-  public void updatePassword(String password1, String password2, String newPassword) {
+  public void updatePassword(
+      String password1, String password2, String newPassword1, String newPassword2) {
     try {
       PreparedStatement ps =
-              UserLoginProvider.createConnection()
-                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Users\" WHERE userName = ?");
+          UserLoginProvider.createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, AccountSingleton.INSTANCE1.getValue().getUserName());
       ResultSet rs = ps.executeQuery();
 
       if (rs.next()) {
         String storedPassword = rs.getString("password");
-        if (password1.equals(storedPassword) && password2.equals(storedPassword)) {
+        if (password1.equals(storedPassword)
+            && password2.equals(storedPassword)
+            && newPassword1.equals(newPassword2)) {
 
           // Update the password in the database
           PreparedStatement updatePs =
-                  UserLoginProvider.createConnection()
-                          .prepareStatement("UPDATE \"Prototype2_schema\".\"Users\" SET password = ? WHERE userName = ?");
-          updatePs.setString(1, newPassword);
+              UserLoginProvider.createConnection()
+                  .prepareStatement(
+                      "UPDATE \"Prototype2_schema\".\"Users\" SET password = ? WHERE userName = ?");
+          updatePs.setString(1, newPassword1);
           updatePs.setString(2, AccountSingleton.INSTANCE1.getValue().getUserName());
           updatePs.executeUpdate();
 
           // Update the user object in AccountSingleton
           User returnUser =
-                  new User(
-                          rs.getInt("adminYes"),
-                          rs.getString("userName"),
-                          newPassword,
-                          rs.getString("firstName"),
-                          rs.getString("lastName"));
+              new User(
+                  rs.getInt("adminYes"),
+                  rs.getString("userName"),
+                  newPassword1,
+                  rs.getString("firstName"),
+                  rs.getString("lastName"));
           AccountSingleton.INSTANCE1.setValue(returnUser);
 
-        }  else {
+        } else {
           System.out.println("Incorrect Password");
         }
       }
@@ -109,7 +113,6 @@ public class UserDAOImp {
       throw new RuntimeException(e);
     }
   }
-
 
   // Add the new user into the database
   // Also store the user into the array
