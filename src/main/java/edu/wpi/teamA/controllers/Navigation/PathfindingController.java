@@ -83,12 +83,22 @@ public class PathfindingController extends PageController {
   private void changeLevelText(MFXButton button) {
 
     // get pre-loaded map image from App
-    switch (button.getText()) { // TODO handle drawing paths on diff floors
-      case "L1" -> mapImage = App.getMapL1();
-      case "L2" -> mapImage = App.getMapL2();
-      case "1" -> mapImage = App.getMap1();
-      case "2" -> mapImage = App.getMap2();
-      case "3" -> mapImage = App.getMap3();
+    switch (button.getText()) {
+      case "L1":
+        mapImage = App.getMapL1();
+        break;
+      case "L2":
+        mapImage = App.getMapL2();
+        break;
+      case "1":
+        mapImage = App.getMap1();
+        break;
+      case "2":
+        mapImage = App.getMap2();
+        break;
+      case "3":
+        mapImage = App.getMap3();
+        break;
     }
 
     // set map image
