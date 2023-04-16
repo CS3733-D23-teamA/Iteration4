@@ -41,7 +41,7 @@ styled.button:pressed {
 }
 
 .label{
-    -fx-font-size: 32;
+    -fx-font-size: 18;
     -fx-font-weight: bold;
     -fx-font-family: "Open Sans";
     -fx-text-fill: #012D5A;
@@ -49,7 +49,7 @@ styled.button:pressed {
 }
 
 #title {
-    -fx-font-size: 48;
+    -fx-font-size: 32;
     -fx-font-family: "Georgia";
     -fx-font-weight: bold;
     -fx-text-fill: #012D5A;

@@ -25,7 +25,6 @@ public class FlowerRequestController extends PageController implements IServiceC
 
   LocNameDAOImp locs = new LocNameDAOImp();
 
-  @Override
   public void initialize() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
     timeCombo

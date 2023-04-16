@@ -25,7 +25,6 @@ public class FurnitureRequestController extends PageController implements IServi
   @FXML MFXTextField commentField;
   LocNameDAOImp locs = new LocNameDAOImp();
 
-  @Override
   public void initialize() {
     furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
     timeCombo
