@@ -238,8 +238,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
     try {
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          moveProvider.createConnection()
               .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Move\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ResultSet rs = ps.executeQuery();
