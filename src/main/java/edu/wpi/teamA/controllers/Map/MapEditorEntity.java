@@ -115,34 +115,34 @@ public class MapEditorEntity {
   }
 
   public ArrayList<Edge> determineEdgeArray(String level) {
-    if (level.equals("Level L1")) {
+    if (level.equals("L1")) {
       return levelL1EdgeArray;
-    } else if (level.equals("Level L2")) {
+    } else if (level.equals("L2")) {
       return levelL2EdgeArray;
-    } else if (level.equals("Level 1")) {
+    } else if (level.equals("1")) {
       return level1EdgeArray;
-    } else if (level.equals("Level 2")) {
+    } else if (level.equals("2")) {
       return level2EdgeArray;
-    } else if (level.equals("Level 3")) {
+    } else if (level.equals("3")) {
       return level3EdgeArray;
     } else {
-      return null;
+      return new ArrayList<>();
     }
   }
 
   public ArrayList<Node> determineNodeArray(String level) {
-    if (level.equals("Level L1")) {
+    if (level.equals("L1")) {
       return levelL1NodeArray;
-    } else if (level.equals("Level L2")) {
+    } else if (level.equals("L2")) {
       return levelL2NodeArray;
-    } else if (level.equals("Level 1")) {
+    } else if (level.equals("1")) {
       return level1NodeArray;
-    } else if (level.equals("Level 2")) {
+    } else if (level.equals("2")) {
       return level2NodeArray;
-    } else if (level.equals("Level 3")) {
+    } else if (level.equals("3")) {
       return level3NodeArray;
     } else {
-      return null;
+      return new ArrayList<>();
     }
   }
 

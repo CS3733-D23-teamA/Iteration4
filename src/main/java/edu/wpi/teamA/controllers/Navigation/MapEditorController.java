@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
@@ -28,13 +27,14 @@ public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
 
   // larger panes
-  @FXML private ImageView mapImageView;
-  @FXML private StackPane mapStackPane;
-  @FXML private AnchorPane dotsAnchorPane;
+  @FXML private ImageView mapImageView = new ImageView();
+  @FXML private Pane topPane = new Pane();
   @FXML private GesturePane mapGesturePane;
   @FXML private HBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
+
+  @FXML private StackPane mapStackPane = new StackPane(mapImageView, topPane);
 
   // level buttons and image
   @FXML private MFXButton levelL1Button;
@@ -44,10 +44,8 @@ public class MapEditorController {
   @FXML private MFXButton level3Button;
   @FXML private Image mapImage = App.getMapL1();
 
-  private String level = "G";
-  @FXML private MFXButton stopModificationButton;
-  @FXML private VBox levelMenu;
   private String level = "L1";
+  @FXML private MFXButton stopModificationButton;
 
   // text displays
   @FXML private Text locationDisplay;
@@ -83,6 +81,7 @@ public class MapEditorController {
 
   private Node firstNode;
 
+  // TODO
   @FXML private VBox nodeDescriptionVBox;
 
   // private final double scalar = 0.144;
@@ -103,18 +102,12 @@ public class MapEditorController {
     // set up page
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
-    levelMenu.setVisible(false);
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
-    mapImage.setImage(
-        new Image(
-            Objects.requireNonNull(Main.class.getResource("images/map-page/Level G.png"))
-                .toString()));
-    changeLevelText(levelL1Button);
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -126,7 +119,9 @@ public class MapEditorController {
     impExpDialog.setDisable(true);
     stopModificationButton.setDisable(true);
     stopModificationButton.setVisible(false);
-    nodeDescriptionVBox.setVisible(false);
+    // nodeDescriptionVBox.setVisible(false);
+
+    changeLevelText(levelL1Button);
 
     inputDialog.setOnClose(
         event -> {
@@ -146,13 +141,6 @@ public class MapEditorController {
         .getItems()
         .addAll(
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
-  }
-
-  /** For level chooser button */
-  @FXML
-  public void levelChooser() {
-    // make Vbox visible
-    levelMenu.setVisible(true);
   }
 
   /**
@@ -185,7 +173,7 @@ public class MapEditorController {
     this.mapImageView.setImage(Objects.requireNonNull(mapImage));
 
     // hide old dots
-    dotsAnchorPane.getChildren().clear();
+    topPane.getChildren().clear();
 
     // button
     level = button.getText();
@@ -276,7 +264,7 @@ public class MapEditorController {
    */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-    nodeDescriptionVBox.setVisible(true);
+    // nodeDescriptionVBox.setVisible(true);
     if (entity.getLocationName(nodeID).getNodeType().equals("HALL")) {
       locationDisplay.setText(entity.getLocationName(nodeID).getLongName());
     } else {
@@ -293,7 +281,7 @@ public class MapEditorController {
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0x012D5A"));
-    nodeDescriptionVBox.setVisible(false);
+    // nodeDescriptionVBox.setVisible(false);
   }
 
   /**
@@ -395,8 +383,6 @@ public class MapEditorController {
 
   /** Pops up the input dialog page and hides map editor controls */
   private void popUpMainDialogBox() {
-    mapEditorControls.setVisible(false);
-    mapEditorControls.setDisable(true);
     inputDialog.setVisible(true);
     inputDialog.setDisable(false);
   }
