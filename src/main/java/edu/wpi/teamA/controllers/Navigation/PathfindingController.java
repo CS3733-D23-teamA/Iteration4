@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.Main;
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.AStar;
@@ -9,8 +9,10 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -22,39 +24,41 @@ import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class PathfindingController extends PageController {
+  // map panes setup
   @FXML private GesturePane gesturePane;
   @FXML private Pane topPane = new Pane();
+  @FXML private Image mapImage = App.getMapL1();
+  @FXML private ImageView mapView = new ImageView(Objects.requireNonNull(App.getMapL1()));
+  @FXML private StackPane stackPane = new StackPane(mapView, topPane);
 
-  @FXML
-  private StackPane stackPane =
-      new StackPane(
-          new ImageView(
-              new Image(
-                  Objects.requireNonNull(Main.class.getResource("graphics/map-page/Level L1.png"))
-                      .toString())),
-          topPane);
-
+  // comboboxes, on screen text directions, and submit button
   @FXML private MFXFilterComboBox<Integer> startSelection;
   @FXML private MFXFilterComboBox<Integer> endSelection;
   @FXML private Text directions;
   @FXML private MFXButton submitButton;
-  //  @FXML private MFXButton levelButton;
-  //  @FXML private MFXButton levelGButton;
-  //  @FXML private MFXButton levelL1Button;
-  //  @FXML private MFXButton levelL2Button;
-  //  @FXML private MFXButton level1Button;
-  //  @FXML private MFXButton level2Button;
-  //  @FXML private MFXButton level3Button;
 
-  private ArrayList<Integer> nodeIDOptions = new ArrayList<Integer>();
+  // level buttons
+  @FXML private MFXButton levelL1Button;
+  @FXML private MFXButton levelL2Button;
+  @FXML private MFXButton level1Button;
+  @FXML private MFXButton level2Button;
+  @FXML private MFXButton level3Button;
+
+  // Node implementation
+  private ArrayList<Integer> nodeIDOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
-  private NodeDAOImp nodeDAO = new NodeDAOImp();
+  private final NodeDAOImp nodeDAO = new NodeDAOImp();
 
-  @Override
   public void initialize() {
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
-    gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
+    // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
+
+    Platform.runLater(
+        () -> {
+          gesturePane.centreOn(new Point2D(2265, 950));
+          gesturePane.zoomTo(0.5, new Point2D(2265, 950));
+        });
 
     // Getting Nodes from Database
     nodeList = nodeDAO.loadNodesFromDatabase();
@@ -68,39 +72,28 @@ public class PathfindingController extends PageController {
     startSelection.setItems(FXCollections.observableArrayList(nodeIDOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeIDOptions));
 
-    //    // Buttons to set floor level of map
-    //    levelGButton.setOnAction(event -> changeLevelText(levelGButton));
-    //    levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
-    //    levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
-    //    level1Button.setOnAction(event -> changeLevelText(level1Button));
-    //    level2Button.setOnAction(event -> changeLevelText(level2Button));
-    //    level3Button.setOnAction(event -> changeLevelText(level3Button));
+    // Buttons to set floor level of map
+    levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
+    levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
+    level1Button.setOnAction(event -> changeLevelText(level1Button));
+    level2Button.setOnAction(event -> changeLevelText(level2Button));
+    level3Button.setOnAction(event -> changeLevelText(level3Button));
   }
 
-  /**
-   * Used to change the level chooser text based on which floor
-   *
-   * @param button button chosen
-   */
-  //  private void changeLevelText(MFXButton button) {
-  //
-  //    // get text from clicked button
-  //    levelButton.setText(button.getText());
-  //
-  //    // change map image
-  //    String image = "graphics/map-page/" + button.getText() + ".png";
-  //    mapImage.setImage(new
-  // Image(Objects.requireNonNull(Main.class.getResource(image)).toString()));
-  //
-  //    // hide old dots
-  //    dotsAnchorPane.getChildren().clear();
-  //
-  //    // button
-  //    level = button.getText();
-  //
-  //    // display new dots
-  //    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
-  //  }
+  private void changeLevelText(MFXButton button) {
+
+    // get pre-loaded map image from App
+    switch (button.getText()) { // TODO handle drawing paths on diff floors
+      case "L1" -> mapImage = App.getMapL1();
+      case "L2" -> mapImage = App.getMapL2();
+      case "1" -> mapImage = App.getMap1();
+      case "2" -> mapImage = App.getMap2();
+      case "3" -> mapImage = App.getMap3();
+    }
+
+    // set map image
+    this.mapView.setImage(Objects.requireNonNull(mapImage));
+  }
 
   /**
    * Called upon user submit, clears the pane of drawings and implements Astar on start and end
@@ -122,6 +115,7 @@ public class PathfindingController extends PageController {
       System.out.println("Null Value");
     }
   }
+
   /**
    * Helper method for submit, draws graphical path
    *

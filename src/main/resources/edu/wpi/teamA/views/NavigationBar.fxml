@@ -13,24 +13,24 @@
 
 <BorderPane maxHeight="900.0" maxWidth="1600.0" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
    <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0" spacing="10.0" BorderPane.alignment="TOP_CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="90.0">
+            <HBox alignment="CENTER" maxWidth="100.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <children>
-                  <ImageView fx:id="bwhLogo" fitHeight="96.0" fitWidth="96.0" onMouseClicked="#goHome">
+                  <ImageView fx:id="bwhLogo" fitHeight="77.0" fitWidth="76.0" onMouseClicked="#goHome" HBox.hgrow="ALWAYS">
                      <image>
-                        <Image url="@../graphics/icons/bwh-logo-white.png" />
+                        <Image url="@../images/icons/bwh-logo-white.png" />
                      </image>
                      <HBox.margin>
-                        <Insets left="15.0" right="-10.0" />
+                        <Insets left="10.0" right="10.0" />
                      </HBox.margin>
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="985.0" spacing="30.0" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" spacing="30.0" HBox.hgrow="ALWAYS">
                <children>
                   <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#openServiceRequests" styleClass="menubutton" text="Service Requests" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <items>
@@ -57,21 +57,24 @@
                   <Insets bottom="20.0" top="20.0" />
                </padding>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="100.0">
+            <HBox alignment="CENTER" maxWidth="150.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
                <children>
-                  <MenuButton maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" HBox.hgrow="NEVER">
+                  <MenuButton maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" HBox.hgrow="ALWAYS">
                     <items>
                       <MenuItem mnemonicParsing="false" text="My Account" />
                       <MenuItem mnemonicParsing="false" text="Sign Out" />
                         <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                     </items>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
                   </MenuButton>
                </children>
                <HBox.margin>
-                  <Insets right="20.0" />
+                  <Insets />
                </HBox.margin>
                <padding>
-                  <Insets left="-10.0" />
+                  <Insets right="20.0" />
                </padding>
             </HBox>
          </children>

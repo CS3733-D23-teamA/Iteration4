@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
@@ -26,7 +25,7 @@ public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
 
   // larger panes
-  @FXML private ImageView mapImage;
+  @FXML private ImageView mapImageView;
   @FXML private StackPane mapStackPane;
   @FXML private AnchorPane dotsAnchorPane;
   @FXML private GesturePane mapGesturePane;
@@ -34,15 +33,14 @@ public class MapEditorController {
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
 
-  // level buttons
-  @FXML private MFXButton levelButton;
-  @FXML private MFXButton levelGButton;
+  // level buttons and image
   @FXML private MFXButton levelL1Button;
   @FXML private MFXButton levelL2Button;
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
-  @FXML private VBox levelMenu;
+  @FXML private Image mapImage = App.getMapL1();
+
   private String level = "G";
 
   // text displays
@@ -78,7 +76,6 @@ public class MapEditorController {
   /** Used to initialize the screen and inputs */
   public void initialize() {
     // set up level buttons
-    levelGButton.setOnAction(event -> changeLevelText(levelGButton));
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
     level1Button.setOnAction(event -> changeLevelText(level1Button));
@@ -88,11 +85,10 @@ public class MapEditorController {
     // set up page
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
-    levelMenu.setVisible(false);
-    changeLevelText(levelGButton);
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    this.mapImageView.setImage(mapImage);
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -124,13 +120,6 @@ public class MapEditorController {
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
   }
 
-  /** For level chooser button */
-  @FXML
-  public void levelChooser() {
-    // make Vbox visible
-    levelMenu.setVisible(true);
-  }
-
   /**
    * Used to change the level chooser text based on which floor
    *
@@ -138,15 +127,17 @@ public class MapEditorController {
    */
   private void changeLevelText(MFXButton button) {
 
-    // get text from clicked button
-    levelButton.setText(button.getText());
+    // get pre-loaded map image from App
+    switch (button.getText()) {
+      case "L1" -> mapImage = App.getMapL1();
+      case "L2" -> mapImage = App.getMapL2();
+      case "1" -> mapImage = App.getMap1();
+      case "2" -> mapImage = App.getMap2();
+      case "3" -> mapImage = App.getMap3();
+    }
 
-    // hide buttons in Vbox
-    levelMenu.setVisible(false);
-
-    // change map image
-    String image = "graphics/map-page/" + button.getText() + ".png";
-    mapImage.setImage(new Image(Objects.requireNonNull(Main.class.getResource(image)).toString()));
+    // set map image
+    this.mapImageView.setImage(Objects.requireNonNull(mapImage));
 
     // hide old dots
     dotsAnchorPane.getChildren().clear();

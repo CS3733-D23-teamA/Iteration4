@@ -17,11 +17,11 @@
 }
 
 .home-button {
-    -fx-graphic: url("edu/wpi/teamA/graphics/icons/bwh-logo-white.png");
+    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-white.png");
 }
 
 .home-button:hover {
-    -fx-graphic: url("edu/wpi/teamA/graphics/icons/bwh-logo-yello.png");
+    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
     -fx-fill: red;
 }
 
