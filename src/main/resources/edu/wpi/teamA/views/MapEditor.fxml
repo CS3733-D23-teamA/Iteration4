@@ -155,10 +155,13 @@
                               <GesturePane fx:id="mapGesturePane" prefHeight="100.0" prefWidth="100.0" />
                               <VBox fx:id="nodeDescriptionVBox" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #012D5A;" StackPane.alignment="TOP_RIGHT">
                                  <children>
-                                    <Text fx:id="locationDisplay" fill="#f1f1f1" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
+                                    <Text fx:id="locationDisplay" fill="#f1f1f1" nodeOrientation="RIGHT_TO_LEFT" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                        <font>
                                           <Font name="Open Sans Regular" size="20.0" />
                                        </font>
+                                       <VBox.margin>
+                                          <Insets left="25.0" top="25.0" />
+                                       </VBox.margin>
                                     </Text>
                                  </children>
                               </VBox>

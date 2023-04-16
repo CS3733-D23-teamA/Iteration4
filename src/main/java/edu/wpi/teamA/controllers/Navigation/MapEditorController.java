@@ -413,6 +413,7 @@ public class MapEditorController {
     oldLongName = locName.getLongName();
     oldShortName = locName.getShortName();
     longNameField.setText(oldLongName);
+    longNameField.setDisable(true);
     shortNameField.setText(oldShortName);
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
