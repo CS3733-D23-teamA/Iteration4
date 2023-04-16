@@ -2,6 +2,7 @@ package edu.wpi.teamA;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
+import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class App extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
+  public void start(Stage primaryStage) throws IOException, IncorrectLengthException {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
 
@@ -47,7 +48,6 @@ public class App extends Application {
 
     UserDAOImp un = new UserDAOImp();
     un.createUserTable();
-
     final Scene scene = new Scene(root);
     primaryStage.setScene(scene);
     primaryStage.show();

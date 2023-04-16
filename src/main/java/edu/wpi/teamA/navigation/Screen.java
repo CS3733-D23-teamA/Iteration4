@@ -13,7 +13,8 @@ public enum Screen {
   CONFERENCE_REQUEST("views/ConferenceRequest.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
   FURNITURE("views/FurnitureRequest.fxml"),
-  MOVES("views/Moves.fxml");
+  MOVES("views/Moves.fxml"),
+  ACCOUNT("views/Account.fxml");
 
   private final String filename;
 
