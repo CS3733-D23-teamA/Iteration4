@@ -235,7 +235,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
         edge = new Edge(startNode, endNode);
       }
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      return null;
     }
     return edge;
   }

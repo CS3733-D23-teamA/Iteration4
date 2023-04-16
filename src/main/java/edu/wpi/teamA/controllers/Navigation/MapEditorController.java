@@ -1,7 +1,9 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -18,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -42,6 +45,9 @@ public class MapEditorController {
   @FXML private Image mapImage = App.getMapL1();
 
   private String level = "G";
+  @FXML private MFXButton stopModificationButton;
+  @FXML private VBox levelMenu;
+  private String level = "L1";
 
   // text displays
   @FXML private Text locationDisplay;
@@ -59,6 +65,8 @@ public class MapEditorController {
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
+  private boolean modifyEdgeClicked;
+  private boolean secondNodeClicked;
 
   // booleans to determine importing or exporting
   private boolean imported = false;
@@ -71,7 +79,13 @@ public class MapEditorController {
 
   private Circle currentCircle;
 
-  private final double scalar = 0.144;
+  private Circle currentPositionClicked;
+
+  private Node firstNode;
+
+  @FXML private VBox nodeDescriptionVBox;
+
+  // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
@@ -82,13 +96,25 @@ public class MapEditorController {
     level2Button.setOnAction(event -> changeLevelText(level2Button));
     level3Button.setOnAction(event -> changeLevelText(level3Button));
 
+    // set up entity arrays
+    entity.loadFloorEdges();
+    entity.loadFloorNodes();
+
     // set up page
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
+    levelMenu.setVisible(false);
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
     this.mapImageView.setImage(mapImage);
+    modifyEdgeClicked = false;
+    secondNodeClicked = false;
+    mapImage.setImage(
+        new Image(
+            Objects.requireNonNull(Main.class.getResource("images/map-page/Level G.png"))
+                .toString()));
+    changeLevelText(levelL1Button);
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -98,17 +124,19 @@ public class MapEditorController {
     submitButton.setDisable(true);
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
+    stopModificationButton.setDisable(true);
+    stopModificationButton.setVisible(false);
+    nodeDescriptionVBox.setVisible(false);
 
     inputDialog.setOnClose(
         event -> {
-          shutDownMainDialogBox();
+          clear();
         });
     impExpDialog.setOnClose(
         event -> {
           impExpDialog.setVisible(false);
           impExpDialog.setDisable(true);
           imported = false;
-          // exported = false;
         });
 
     // set up input grid
@@ -118,6 +146,13 @@ public class MapEditorController {
         .getItems()
         .addAll(
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
+  }
+
+  /** For level chooser button */
+  @FXML
+  public void levelChooser() {
+    // make Vbox visible
+    levelMenu.setVisible(true);
   }
 
   /**
@@ -155,8 +190,9 @@ public class MapEditorController {
     // button
     level = button.getText();
 
-    // display new dots
-    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
+    // display new dots and edges
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeArray(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
   }
 
   /**
@@ -166,17 +202,68 @@ public class MapEditorController {
    */
   private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
     for (Node node : nodeArrayForFloor) {
-      int originalNodeX = node.getXcoord();
-      int originalNodeY = node.getYcoord();
-      // scales it according to resolution of the photos
-      double newXCoord = originalNodeX * scalar;
-      double newYCoord = originalNodeY * scalar;
-
-      Circle circle = entity.addCircle(newXCoord, newYCoord);
+      Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
       circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-      dotsAnchorPane.getChildren().add(circle);
+      //      circle.setOnDragDetected(this::handleSetOnDragDetected);
+      //      circle.setOnDragOver(event -> handleSetOnDragOver(circle, event));
+      //      circle.setOnDragEntered(event -> handleSetOnDragEntered(circle, event));
+      //      circle.setOnDragExited(event -> handleSetOnDragExited(circle, event));
+      //      circle.setOnDragDropped(event -> handleSetOnDragDropped(circle, event));
+      topPane.getChildren().add(circle);
+    }
+    App.getPrimaryStage().show();
+  }
+
+  //  public void handleSetOnDragDetected(MouseEvent event) {
+  //    if (modifyNodeClicked) {
+  //      Dragboard db = topPane.startDragAndDrop(TransferMode.ANY);
+  //
+  //      event.consume();
+  //    }
+  //  }
+  //
+  //  public void handleSetOnDragOver(Circle circle, DragEvent event) {
+  //    /* data is dragged over the target */
+  //    /* accept it only if it is not dragged from the same node
+  //     * and if it has a string data */
+  //    if (event.getGestureSource() != circle) {
+  //      /* allow for both copying and moving, whatever user chooses */
+  //      event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+  //    }
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragEntered(Circle circle, DragEvent event) {
+  //    /* the drag-and-drop gesture entered the target */
+  //    /* show to the user that it is an actual gesture target */
+  //    if (event.getGestureSource() != circle) {
+  //      circle.setFill(Color.GREEN);
+  //    }
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragExited(Circle circle, DragEvent event) {
+  //    /* mouse moved away, remove the graphical cues */
+  //    circle.setFill(Color.web("0x012D5A"));
+  //    event.consume();
+  //  }
+  //
+  //  public void handleSetOnDragDropped(Circle circle, DragEvent event) {
+  //    /* data dropped */
+  //    /* if there is a string data on dragboard, read it and use it */
+  //    Dragboard db = event.getDragboard();
+  //    /* let the source know whether the string was successfully
+  //     * transferred and used */
+  //    event.setDropCompleted(true);
+  //    event.consume();
+  //  }
+
+  private void displayEdgeData(ArrayList<Edge> edgeArrayForFloor) {
+    for (Edge edge : edgeArrayForFloor) {
+      Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
+      topPane.getChildren().add(line);
     }
     App.getPrimaryStage().show();
   }
@@ -189,7 +276,7 @@ public class MapEditorController {
    */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-
+    nodeDescriptionVBox.setVisible(true);
     if (entity.getLocationName(nodeID).getNodeType().equals("HALL")) {
       locationDisplay.setText(entity.getLocationName(nodeID).getLongName());
     } else {
@@ -206,6 +293,7 @@ public class MapEditorController {
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0x012D5A"));
+    nodeDescriptionVBox.setVisible(false);
   }
 
   /**
@@ -241,6 +329,37 @@ public class MapEditorController {
       mouseClickForNewLocation();
     }
 
+    if (modifyEdgeClicked) {
+      // click another node
+      editMapDirections.setText("Click the nodes you want to modify its edges.");
+      secondNodeClicked = true;
+      firstNode = entity.getNodeInfo(nodeID);
+      modifyEdgeClicked = false;
+      stopModificationButton.setDisable(false);
+      stopModificationButton.setVisible(true);
+    }
+
+    if (secondNodeClicked) {
+      if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID))) {
+        // add a line for the new edge
+        Line line = entity.addLine(firstNode.getNodeID(), nodeID);
+        topPane.getChildren().add(line);
+      }
+      topPane.getChildren().clear();
+      displayEdgeData(entity.determineEdgeArray(level));
+      displayNodeData(entity.determineNodeArray(level));
+    }
+
+    // editMapDirections.setText("");
+  }
+
+  @FXML
+  public void stopModify() {
+    secondNodeClicked = false;
+    modifyEdgeClicked = false;
+    // hide button
+    stopModificationButton.setDisable(true);
+    stopModificationButton.setVisible(false);
     editMapDirections.setText("");
   }
 
@@ -250,6 +369,7 @@ public class MapEditorController {
     removeNodeClicked = true;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -259,7 +379,18 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = true;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
+  }
+
+  @FXML
+  public void modifyEdge() {
+    modifyEdgeClicked = true;
+    removeNodeClicked = false;
+    modifyNodeClicked = false;
+    addNodeClicked = false;
+
+    editMapDirections.setText("Click a node to modify its edges.");
   }
 
   /** Pops up the input dialog page and hides map editor controls */
@@ -271,7 +402,10 @@ public class MapEditorController {
   }
 
   /** Hides the input dialog page and brings back map editor controls */
-  private void shutDownMainDialogBox() {
+  private void shutDownInputDialogBox() {
+    if (currentPositionClicked != null) {
+      topPane.getChildren().remove(currentPositionClicked);
+    }
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
     mapEditorControls.setVisible(true);
@@ -279,6 +413,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    topPane.setOnMouseClicked(null);
   }
 
   /** Preload information in dialog box for the user to modify a node */
@@ -286,6 +421,7 @@ public class MapEditorController {
     oldLongName = locName.getLongName();
     oldShortName = locName.getShortName();
     longNameField.setText(oldLongName);
+    longNameField.setDisable(true);
     shortNameField.setText(oldShortName);
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
@@ -300,7 +436,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
-    editMapDirections.setText("Add node");
+    modifyEdgeClicked = false;
     // pop up dialog box
     popUpMainDialogBox();
 
@@ -336,7 +472,7 @@ public class MapEditorController {
     floorField.getSelectionModel().clearSelection();
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
-    shutDownMainDialogBox();
+    shutDownInputDialogBox();
   }
 
   @FXML
@@ -370,31 +506,35 @@ public class MapEditorController {
     }
 
     clear();
-    displayNodeData(entity.determineArray(level));
+    topPane.getChildren().clear();
+    topPane.setOnMouseClicked(null);
+    displayEdgeData(entity.determineEdgeArray(level));
+    displayNodeData(entity.determineNodeArray(level));
   }
 
   /**
    * Used to store the coordinates of when the user clicks on the map for adding or modifying a node
    */
   private void mouseClickForNewLocation() {
-    dotsAnchorPane.setOnMouseClicked(
+    currentPositionClicked = null;
+    topPane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
+            if (currentPositionClicked != null) {
+              topPane.getChildren().remove(currentPositionClicked);
+            }
             double X = event.getX();
             double Y = event.getY();
-            int newX = (int) X;
-            int newY = (int) Y;
             XYCoords = new int[2];
-            XYCoords[0] = (int) (newX / scalar);
-            XYCoords[1] = (int) (newY / scalar);
-            System.out.println("New X:" + newX);
-            System.out.println("New Y:" + newY);
+            XYCoords[0] = (int) (X);
+            XYCoords[1] = (int) (Y);
             // new red circle indicating new location
 
-            Circle circle = entity.addCircle(newX, newY);
-            circle.setFill(Color.rgb(128, 0, 0, 0.87));
-            circle.setVisible(true);
+            Circle circle = entity.addCircle(X, Y);
+            circle.setFill(Color.web("0xf74c4c"));
+            topPane.getChildren().add(circle);
+            currentPositionClicked = circle;
             validateButton();
           }
         });

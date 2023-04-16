@@ -90,26 +90,41 @@ public class mapEntityTest {
   }
 
   @Test
+  public void testGetFloorEdges() {
+    // TODO
+  }
+
+  @Test
+  public void testLoadFloorNodes() {
+    // TODO
+  }
+
+  @Test
+  public void testLoadFloorEdges() {
+    // TODO
+  }
+
+  @Test
   public void testDetermineArray() {
     assertArrayEquals(
-        MEEntity.getLevelGNodeArray().toArray(), MEEntity.determineArray("Level G").toArray());
+        MEEntity.getLevelL1NodeArray().toArray(),
+        MEEntity.determineNodeArray("Level L1").toArray());
     assertArrayEquals(
-        MEEntity.getLevelL1NodeArray().toArray(), MEEntity.determineArray("Level L1").toArray());
+        MEEntity.getLevelL2NodeArray().toArray(),
+        MEEntity.determineNodeArray("Level L2").toArray());
     assertArrayEquals(
-        MEEntity.getLevelL2NodeArray().toArray(), MEEntity.determineArray("Level L2").toArray());
+        MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineNodeArray("Level 1").toArray());
     assertArrayEquals(
-        MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineArray("Level 1").toArray());
+        MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineNodeArray("Level 2").toArray());
     assertArrayEquals(
-        MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineArray("Level 2").toArray());
-    assertArrayEquals(
-        MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineArray("Level 3").toArray());
+        MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineNodeArray("Level 3").toArray());
   }
 
   @Test
   public void testAddCircle() {
     double x = 230.45;
     double y = 154.33;
-    double r = 2;
+    double r = 10;
     Circle expected_c = new Circle(x, y, r);
     expected_c.setFill(Color.web("0x012D5A"));
     Circle actual_c = MEEntity.addCircle(x, y);
