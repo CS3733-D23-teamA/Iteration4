@@ -82,6 +82,16 @@ public class UserDAOImp {
       if (rs.next()) {
         String storedPassword = rs.getString("password");
         if (password1.equals(storedPassword) && password2.equals(storedPassword)) {
+
+          // Update the password in the database
+          PreparedStatement updatePs =
+                  UserLoginProvider.createConnection()
+                          .prepareStatement("UPDATE \"Prototype2_schema\".\"Users\" SET password = ? WHERE userName = ?");
+          updatePs.setString(1, newPassword);
+          updatePs.setString(2, AccountSingleton.INSTANCE1.getValue().getUserName());
+          updatePs.executeUpdate();
+
+          // Update the user object in AccountSingleton
           User returnUser =
                   new User(
                           rs.getInt("adminYes"),
@@ -93,12 +103,13 @@ public class UserDAOImp {
 
         }  else {
           System.out.println("Incorrect Password");
-      }
+        }
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
+
 
   // Add the new user into the database
   // Also store the user into the array
