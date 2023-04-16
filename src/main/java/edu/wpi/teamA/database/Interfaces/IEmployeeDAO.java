@@ -1,7 +1,6 @@
 package edu.wpi.teamA.database.Interfaces;
 
 import edu.wpi.teamA.database.ORMclasses.Employee;
-
 import java.util.List;
 
 public interface IEmployeeDAO {
