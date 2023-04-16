@@ -50,7 +50,29 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
   @Override
   public Employee getEmployee(String name) {
-    return null;
+    Employee temp = new Employee();
+    try {
+      PreparedStatement ps =
+              employeeProvider
+                      .createConnection()
+                      .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Employee\" WHERE name = ?");
+      ps.setString(1, name);
+      ResultSet rs = ps.executeQuery();
+      if (rs.next()) {
+        String idk = rs.getString("name");
+        String username = rs.getString("username");
+        String password= rs.getString("password");
+        String ID = rs.getString("ID");
+
+        temp.setName(idk);
+        temp.setUsername(username);
+        temp.setPassword(password);
+        temp.setID(ID);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return temp;
   }
 
   @Override
@@ -66,8 +88,8 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"Employee\""
-              + "(namee    Varchar(600),"
-              + "usernamee    VarChar(600),"
+              + "(name    Varchar(600),"
+              + "username    VarChar(600),"
               + "password    VarChar(600),"
               + "ID     VarChar(600)";
       Statement stmtEmployee = employeeProvider.createConnection().createStatement();
@@ -97,7 +119,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       PreparedStatement ps =
           employeeProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Employee\" WHERE namee = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Employee\" WHERE name = ?");
       ps.setString(1, employee.getName());
       ps.executeUpdate();
 
