@@ -87,6 +87,8 @@ public class MapEditorController {
 
   private Node firstNode;
 
+  @FXML private VBox nodeDescriptionVBox;
+
   // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
@@ -128,6 +130,7 @@ public class MapEditorController {
     impExpDialog.setDisable(true);
     stopModificationButton.setDisable(true);
     stopModificationButton.setVisible(false);
+    nodeDescriptionVBox.setVisible(false);
 
     inputDialog.setOnClose(
         event -> {
@@ -265,7 +268,7 @@ public class MapEditorController {
    */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-
+    nodeDescriptionVBox.setVisible(true);
     if (entity.getLocationName(nodeID).getNodeType().equals("HALL")) {
       locationDisplay.setText(entity.getLocationName(nodeID).getLongName());
     } else {
@@ -282,6 +285,7 @@ public class MapEditorController {
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0x012D5A"));
+    nodeDescriptionVBox.setVisible(false);
   }
 
   /**
