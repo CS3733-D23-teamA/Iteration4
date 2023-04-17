@@ -28,14 +28,23 @@
                <children>
                   <VBox alignment="CENTER" maxWidth="300.0" spacing="20.0" style="-fx-background-color: #012D5A;" HBox.hgrow="ALWAYS">
                      <children>
-                        <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
-                           <font>
-                              <Font name="Open Sans ExtraBold" size="32.0" />
-                           </font>
+                        <VBox alignment="CENTER">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
-                        </Text>
+                           <children>
+                              <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="32.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="levelDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
                         <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0">
                            <children>
                               <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">

@@ -43,6 +43,7 @@ public class MapEditorController {
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
+
   @FXML private Image mapImage = App.getMapL1();
 
   private String level = "L1";
@@ -53,6 +54,7 @@ public class MapEditorController {
   // text displays
   @FXML private Text locationDisplay;
   @FXML private Text editMapDirections;
+  @FXML private Text levelDisplay;
 
   // input dialog box
   @FXML private MFXTextField longNameField;
@@ -94,10 +96,6 @@ public class MapEditorController {
     level1Button.setOnAction(event -> changeLevelText(level1Button));
     level2Button.setOnAction(event -> changeLevelText(level2Button));
     level3Button.setOnAction(event -> changeLevelText(level3Button));
-
-    //    // set up entity arrays
-    //    entity.loadFloorEdges();
-    //    entity.loadFloorNodes();
 
     // set up page
     mapGesturePane.setContent(mapStackPane);
@@ -154,18 +152,23 @@ public class MapEditorController {
     switch (button.getText()) {
       case "L1":
         mapImage = App.getMapL1();
+        levelDisplay.setText("Level L1");
         break;
       case "L2":
         mapImage = App.getMapL2();
+        levelDisplay.setText("Level L2");
         break;
       case "1":
         mapImage = App.getMap1();
+        levelDisplay.setText("Level 1");
         break;
       case "2":
         mapImage = App.getMap2();
+        levelDisplay.setText("Level 2");
         break;
       case "3":
         mapImage = App.getMap3();
+        levelDisplay.setText("Level 3");
         break;
     }
 
