@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   ArrayList<Edge> EdgeArray;
@@ -147,8 +148,30 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public void Add(int startNode, int endNode) {
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    HashMap<String, Edge> edges = new HashMap<String, Edge>();
+
+    try {
+      Statement st = edgeProvider.createConnection().createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+
+      while (rs.next()) {
+        Integer startNode = rs.getInt("startNode");
+        Integer endNode = rs.getInt("endNode");
+
+        Edge edge = new Edge(startNode, endNode);
+        edges.put(startNode.toString() + endNode.toString(), edge);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return edges;
+  }
+
+  public Edge Add(int startNode, int endNode) {
     /** Insert new edge object to the existing edge table and the arraylist */
+    Edge edge = null;
     try {
 
       PreparedStatement ps =
@@ -159,11 +182,14 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(2, endNode);
       ps.executeUpdate();
 
-      EdgeArray.add(new Edge(startNode, endNode));
+      edge = new Edge(startNode, endNode);
+
+      EdgeArray.add(edge);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+    return edge;
   }
 
   public void Delete(int startNode, int endNode) {

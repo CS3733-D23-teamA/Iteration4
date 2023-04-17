@@ -12,6 +12,7 @@ import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -25,39 +26,36 @@ public class MapEditorEntity {
   private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
+
   @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  // @Getter private ArrayList<Node> levelGNodeArray = new ArrayList<Node>(); // =
-  // getFloorNodes(nodeArray, "G");
-  @Getter
-  private ArrayList<Node> levelL1NodeArray =
-      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "L1");
+  @Getter private HashMap<Integer, Node> nodeMap = nodeDAO.loadNodesFromDatabaseInMap();
 
-  @Getter
-  private ArrayList<Node> levelL2NodeArray =
-      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "L2");
+  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
+  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
+  @Getter private ArrayList<Node> level1NodeArray = new ArrayList<Node>();
+  @Getter private ArrayList<Node> level2NodeArray = new ArrayList<Node>();
+  @Getter private ArrayList<Node> level3NodeArray = new ArrayList<Node>();
 
-  @Getter
-  private ArrayList<Node> level1NodeArray =
-      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "1");
-
-  @Getter
-  private ArrayList<Node> level2NodeArray =
-      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "2");
-
-  @Getter
-  private ArrayList<Node> level3NodeArray =
-      new ArrayList<Node>(); // = getFloorNodes(nodeArray, "3");
+  @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> level1NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
 
   @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
+  @Getter private HashMap<String, Edge> edgeMap = edgeDAO.loadEdgesFromDatabaseInMap();
+
   @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
-
   @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
-
   @Getter private ArrayList<Edge> level1EdgeArray = new ArrayList<Edge>();
-
   @Getter private ArrayList<Edge> level2EdgeArray = new ArrayList<Edge>();
-
   @Getter private ArrayList<Edge> level3EdgeArray = new ArrayList<Edge>();
+
+  @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> level1EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
 
   public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
     ArrayList<Node> updatedArray = new ArrayList<Node>();
@@ -69,80 +67,92 @@ public class MapEditorEntity {
     return updatedArray;
   }
 
-  public ArrayList<Edge> getFloorEdges(ArrayList<Edge> edgeArray, String floor) {
-    ArrayList<Edge> updatedArray = new ArrayList<Edge>();
-    for (int i = 0; i < edgeArray.size(); i++) {
-      Node startNode = nodeDAO.getNode(edgeArray.get(i).getStartNode());
-      Node endNode = nodeDAO.getNode(edgeArray.get(i).getEndNode());
-      if (startNode.getFloor().equals(floor) && endNode.getFloor().equals(floor)) {
-        updatedArray.add(edgeArray.get(i));
-      }
-    }
-    return updatedArray;
-  }
+  //  public ArrayList<Edge> getFloorEdges(ArrayList<Edge> edgeArray, String floor) {
+  //    ArrayList<Edge> updatedArray = new ArrayList<Edge>();
+  //    for (int i = 0; i < edgeArray.size(); i++) {
+  //      Node startNode = nodeDAO.getNode(edgeArray.get(i).getStartNode());
+  //      Node endNode = nodeDAO.getNode(edgeArray.get(i).getEndNode());
+  //      if (startNode.getFloor().equals(floor) && endNode.getFloor().equals(floor)) {
+  //        updatedArray.add(edgeArray.get(i));
+  //      }
+  //    }
+  //    return updatedArray;
+  //  }
 
   public void loadFloorNodes() {
     for (Node node : nodeArray) {
       if (node.getFloor().equals("L1")) {
-        levelL1NodeArray.add(node);
+        // levelL1NodeArray.add(node);
+        levelL1NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("L2")) {
-        levelL2NodeArray.add(node);
+        // levelL2NodeArray.add(node);
+        levelL2NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("1")) {
-        level1NodeArray.add(node);
+        // level1NodeArray.add(node);
+        level1NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("2")) {
-        level2NodeArray.add(node);
+        // level2NodeArray.add(node);
+        level2NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("3")) {
-        level3NodeArray.add(node);
+        // level3NodeArray.add(node);
+        level3NodeMap.put(node.getNodeID(), node);
       }
     }
   }
 
   public void loadFloorEdges() {
     for (Edge edge : edgeArray) {
-      Node node = nodeDAO.getNode(edge.getStartNode());
+      // Node node = nodeDAO.getNode(edge.getStartNode());
+      Node node = nodeMap.get(edge.getStartNode());
+      String temp = edge.getStartNode().toString() + edge.getEndNode().toString();
       if (node.getFloor().equals("L1")) {
-        levelL1EdgeArray.add(edge);
+        // levelL1EdgeArray.add(edge);
+        levelL1EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("L2")) {
-        levelL2EdgeArray.add(edge);
+        // levelL2EdgeArray.add(edge);
+        levelL2EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("1")) {
-        level1EdgeArray.add(edge);
+        // level1EdgeArray.add(edge);
+        level1EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("2")) {
-        level2EdgeArray.add(edge);
+        // level2EdgeArray.add(edge);
+        level2EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("3")) {
-        level3EdgeArray.add(edge);
+        // level3EdgeArray.add(edge);
+        level3EdgeMap.put(temp, edge);
       }
     }
   }
 
-  public ArrayList<Edge> determineEdgeArray(String level) {
+  public HashMap<String, Edge> determineEdgeArray(String level) {
     if (level.equals("L1")) {
-      return levelL1EdgeArray;
+      return levelL1EdgeMap;
     } else if (level.equals("L2")) {
-      return levelL2EdgeArray;
+      return levelL2EdgeMap;
     } else if (level.equals("1")) {
-      return level1EdgeArray;
+      return level1EdgeMap;
     } else if (level.equals("2")) {
-      return level2EdgeArray;
+      return level2EdgeMap;
     } else if (level.equals("3")) {
-      return level3EdgeArray;
+      return level3EdgeMap;
     } else {
-      return new ArrayList<>();
+      return new HashMap<>();
     }
   }
 
-  public ArrayList<Node> determineNodeArray(String level) {
+  public HashMap<Integer, Node> determineNodeArray(String level) {
     if (level.equals("L1")) {
-      return levelL1NodeArray;
+      return levelL1NodeMap;
     } else if (level.equals("L2")) {
-      return levelL2NodeArray;
+      return levelL2NodeMap;
     } else if (level.equals("1")) {
-      return level1NodeArray;
+      return level1NodeMap;
     } else if (level.equals("2")) {
-      return level2NodeArray;
+      return level2NodeMap;
     } else if (level.equals("3")) {
-      return level3NodeArray;
+      return level3NodeMap;
     } else {
-      return new ArrayList<>();
+      return new HashMap<>();
     }
   }
 
@@ -157,33 +167,40 @@ public class MapEditorEntity {
   }
 
   public Line addLine(int startNodeID, int endNodeID) {
-    Node startNode = nodeDAO.getNode(startNodeID);
-    Node endNode = nodeDAO.getNode(endNodeID);
 
-    LocationName startLocName = locNameDAO.getLocName(moveDAO.getMove(startNodeID).getLongName());
-    LocationName endLocName = locNameDAO.getLocName(moveDAO.getMove(endNodeID).getLongName());
+    // TODO access from arraylist instead
+    // Node startNode = nodeDAO.getNode(startNodeID);
+    // Node endNode = nodeDAO.getNode(endNodeID);
+
+    Node startNode = nodeMap.get(startNodeID);
+    Node endNode = nodeMap.get(endNodeID);
+
+    //    LocationName startLocName =
+    // locNameDAO.getLocName(moveDAO.getMove(startNodeID).getLongName());
+    //    LocationName endLocName = locNameDAO.getLocName(moveDAO.getMove(endNodeID).getLongName());
 
     Line line =
         new Line(
             startNode.getXcoord(), startNode.getYcoord(), endNode.getXcoord(), endNode.getYcoord());
 
-    if (startLocName.getNodeType().equals("ELEV") && endLocName.getNodeType().equals("ELEV")) {
-      line.setStroke(Color.web("0xEEBD28"));
-      line.setStrokeWidth(4);
-    } else if (startLocName.getNodeType().equals("STAI")
-        && endLocName.getNodeType().equals("STAI")) {
-      line.setStroke(Color.web("0xf74c4c"));
-      line.setStrokeWidth(10);
-    } else {
-      line.setStroke(Color.web("0x012D5A"));
-      line.setStrokeWidth(7);
-    }
+    //    if (startLocName.getNodeType().equals("ELEV") && endLocName.getNodeType().equals("ELEV"))
+    // {
+    //      line.setStroke(Color.web("0xEEBD28"));
+    //      line.setStrokeWidth(4);
+    //    } else if (startLocName.getNodeType().equals("STAI")
+    //        && endLocName.getNodeType().equals("STAI")) {
+    //      line.setStroke(Color.web("0xf74c4c"));
+    //      line.setStrokeWidth(10);
+    //    } else {
+    line.setStroke(Color.web("0x012D5A"));
+    line.setStrokeWidth(6);
+    // }
     line.setVisible(true);
     return line;
   }
 
   public Node getNodeInfo(int nodeID) {
-    return nodeDAO.getNode(nodeID);
+    return nodeMap.get(nodeID);
   }
 
   public LocationName getLocationName(int nodeID) {
@@ -204,7 +221,7 @@ public class MapEditorEntity {
     //      // do something
     //    } else {
     int newNodeID = nodeDAO.getLargestNodeID().getNodeID() + 5;
-    nodeDAO.Add(newNodeID, x, y, floor, building);
+    Node node = nodeDAO.Add(newNodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -217,19 +234,22 @@ public class MapEditorEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Add(longName, shortName, nodeType);
     moveDAO.Add(newNodeID, longName, dateString);
-    determineNodeArray(level).add(nodeDAO.getNode(newNodeID));
+    nodeMap.put(newNodeID, node);
+    determineNodeArray(level).put(newNodeID, node);
     //
     // }
   }
 
-  public void determineRemoveAction(int nodeID) {
+  public void determineRemoveAction(int nodeID, String level) {
     nodeDAO.Delete(nodeID);
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
-    updateArrays();
+    nodeMap.remove(nodeID);
+    determineNodeArray(level).remove(nodeID);
   }
 
   public void determineModifyAction(
+      String level,
       int nodeID,
       int x,
       int y,
@@ -240,7 +260,7 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
-    nodeDAO.Update(nodeID, x, y, floor, building);
+    Node node = nodeDAO.Update(nodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -252,40 +272,45 @@ public class MapEditorEntity {
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Update(oldLongName, oldShortName, longName, shortName, nodeType);
-    // moveDAO.Update(nodeID, longName, dateString);
-    updateArrays();
+    // TODO moveDAO.Update(nodeID, longName, dateString);
+    nodeMap.put(nodeID, node);
+    determineNodeArray(level).put(nodeID, node);
   }
 
-  public boolean determineModifyEdgeAction(Node firstNode, Node secondNode) {
-    Edge e = edgeDAO.getEdge(firstNode.getNodeID(), secondNode.getNodeID());
-    if (e == null) { // if there is no edge between the nodes, we must add edges
-      edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
-      updateArrays();
+  public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
+    // Edge e = edgeDAO.getEdge(firstNode.getNodeID(), secondNode.getNodeID());
+    String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
+    Edge temp = edgeMap.get(key);
+    if (temp == null) { // if there is no edge between the nodes, we must add edges
+      Edge edge = edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
+      edgeMap.put(key, edge);
+      determineEdgeArray(level).put(key, edge);
       return true;
     } else { // there is an edge, so we must remove the edge
       edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
-      updateArrays();
+      edgeMap.remove(key);
+      determineEdgeArray(level).remove(key);
       return false;
     }
   }
 
-  private void updateArrays() {
-    nodeArray = nodeDAO.loadNodesFromDatabase();
-    edgeArray = edgeDAO.loadEdgesFromDatabase();
-    levelL1NodeArray.clear();
-    levelL2NodeArray.clear();
-    level1NodeArray.clear();
-    level2NodeArray.clear();
-    level3NodeArray.clear();
-    loadFloorNodes();
-
-    levelL1EdgeArray.clear();
-    levelL2EdgeArray.clear();
-    level1EdgeArray.clear();
-    level2EdgeArray.clear();
-    level3EdgeArray.clear();
-    loadFloorEdges();
-  }
+  //  private void updateArrays() {
+  //    nodeArray = nodeDAO.loadNodesFromDatabase();
+  //    edgeArray = edgeDAO.loadEdgesFromDatabase();
+  //    levelL1NodeArray.clear();
+  //    levelL2NodeArray.clear();
+  //    level1NodeArray.clear();
+  //    level2NodeArray.clear();
+  //    level3NodeArray.clear();
+  //    loadFloorNodes();
+  //
+  //    levelL1EdgeArray.clear();
+  //    levelL2EdgeArray.clear();
+  //    level1EdgeArray.clear();
+  //    level2EdgeArray.clear();
+  //    level3EdgeArray.clear();
+  //    loadFloorEdges();
+  //  }
 
   public void importExport(boolean imported, String DAOimp) {
     if (imported) {

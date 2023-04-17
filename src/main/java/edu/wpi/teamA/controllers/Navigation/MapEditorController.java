@@ -9,7 +9,8 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  private final MapEditorEntity entity = new MapEditorEntity();
+  private final MapEditorEntity entity = App.getMapEditorEntity();
 
   // larger panes
   @FXML private ImageView mapImageView = new ImageView();
@@ -95,9 +96,9 @@ public class MapEditorController {
     level2Button.setOnAction(event -> changeLevelText(level2Button));
     level3Button.setOnAction(event -> changeLevelText(level3Button));
 
-    // set up entity arrays
-    entity.loadFloorEdges();
-    entity.loadFloorNodes();
+    //    // set up entity arrays
+    //    entity.loadFloorEdges();
+    //    entity.loadFloorNodes();
 
     // set up page
     mapGesturePane.setContent(mapStackPane);
@@ -178,18 +179,22 @@ public class MapEditorController {
     // button
     level = button.getText();
 
+    System.out.println("HI1");
     // display new dots and edges
     displayEdgeData(Objects.requireNonNull(entity.determineEdgeArray(level)));
+    System.out.println("HI2");
     displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
+    System.out.println("HI3");
   }
 
   /**
    * Displays the node data for that floor in the form as dots on the map
    *
-   * @param nodeArrayForFloor the array with the data for that floor
+   * @param nodeMapForFloor the array with the data for that floor
    */
-  private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
-    for (Node node : nodeArrayForFloor) {
+  private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
+    for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
+      Node node = entry.getValue();
       Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
       circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
       circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
@@ -248,8 +253,9 @@ public class MapEditorController {
   //    event.consume();
   //  }
 
-  private void displayEdgeData(ArrayList<Edge> edgeArrayForFloor) {
-    for (Edge edge : edgeArrayForFloor) {
+  private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
+    for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
+      Edge edge = entry.getValue();
       Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
       topPane.getChildren().add(line);
     }
@@ -296,7 +302,7 @@ public class MapEditorController {
     currentCircle = circle;
 
     if (removeNodeClicked) {
-      entity.determineRemoveAction(nodeID);
+      entity.determineRemoveAction(nodeID, level);
       circle.setDisable(true);
       circle.setVisible(false);
       removeNodeClicked = false;
@@ -328,7 +334,7 @@ public class MapEditorController {
     }
 
     if (secondNodeClicked) {
-      if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID))) {
+      if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
         // add a line for the new edge
         Line line = entity.addLine(firstNode.getNodeID(), nodeID);
         topPane.getChildren().add(line);
@@ -467,6 +473,7 @@ public class MapEditorController {
 
     if (modifyNodeClicked) {
       entity.determineModifyAction(
+          level,
           currentNodeID,
           XYCoords[0],
           XYCoords[1],
