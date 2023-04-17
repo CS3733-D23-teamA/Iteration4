@@ -266,7 +266,9 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edge;
   }
 
-  public void deleteEdgesWithNode(int nodeID) {
+  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
+    ArrayList<Edge> edgesToRemove = new ArrayList<Edge>();
+    ArrayList<Edge> copiedEdgeArray = new ArrayList<Edge>(EdgeArray);
     try {
       PreparedStatement ps =
           edgeProvider
@@ -277,8 +279,14 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(2, nodeID);
       ps.executeUpdate();
 
-      EdgeArray.removeIf(edge -> edge.getStartNode() == nodeID || edge.getEndNode() == nodeID);
-
+      for (Edge edge : copiedEdgeArray) {
+        if (edge.getStartNode() == nodeID || edge.getEndNode() == nodeID) {
+          EdgeArray.remove(edge);
+          edgesToRemove.add(edge);
+        }
+      }
+      // EdgeArray.removeIf(edge -> edge.getStartNode() == nodeID || edge.getEndNode() == nodeID);
+      return edgesToRemove;
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

@@ -308,6 +308,10 @@ public class MapEditorController {
       circle.setVisible(false);
       removeNodeClicked = false;
       editMapDirections.setText("");
+
+      topPane.getChildren().clear();
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
     }
 
     if (modifyNodeClicked) {

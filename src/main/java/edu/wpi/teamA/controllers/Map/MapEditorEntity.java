@@ -11,6 +11,7 @@ import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.scene.paint.Color;
@@ -207,7 +208,13 @@ public class MapEditorEntity {
   }
 
   public void determineRemoveAction(int nodeID, String level) {
-    edgeDAO.deleteEdgesWithNode(nodeID);
+    ArrayList<Edge> edgesToRemove = edgeDAO.deleteEdgesWithNode(nodeID);
+    for (Edge edge : edgesToRemove) {
+      System.out.println(edge.getStartNode());
+      String key = edge.getStartNode().toString() + edge.getEndNode().toString();
+      edgeMap.remove(key);
+      determineEdgeMap(level).remove(key);
+    }
     nodeDAO.Delete(nodeID);
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
@@ -250,18 +257,26 @@ public class MapEditorEntity {
     // Edge e = edgeDAO.getEdge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
     Edge temp = edgeMap.get(key);
-    if (temp == null) { // if there is no edge between the nodes, we must add edges
-      Edge edge = edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
-      edgeMap.put(key, edge);
-      determineEdgeMap(level).put(key, edge);
-      return true;
-    } else { // there is an edge, so we must remove the edge
-      edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
-      edgeMap.remove(key);
-      determineEdgeMap(level).remove(key);
-      return false;
+    if (!(firstNode.getNodeID().toString().equals(secondNode.getNodeID().toString()))) {
+      if (temp == null) { // if there is no edge between the nodes, we must add edges
+        Edge edge = edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
+        edgeMap.put(key, edge);
+        determineEdgeMap(level).put(key, edge);
+        return true;
+      } else { // there is an edge, so we must remove the edge
+        edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
+        edgeMap.remove(key);
+        determineEdgeMap(level).remove(key);
+        return false;
+      }
     }
+    return false;
   }
+
+  //  public void removeEdge(String key, String level) {
+  //    edgeMap.remove(key);
+  //    determineEdgeMap(level).remove(key);
+  //  }
 
   //  private void updateArrays() {
   //    nodeArray = nodeDAO.loadNodesFromDatabase();

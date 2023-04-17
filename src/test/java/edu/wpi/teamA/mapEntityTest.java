@@ -16,8 +16,6 @@ public class mapEntityTest {
   MapEditorEntity MEEntity = new MapEditorEntity();
   HashMap<Integer, Node> testNodeMap = new HashMap<Integer, Node>();
 
-
-
   // L1
   Node node1 = new Node(100, 2265, 904, "L1", "45 Francis");
 
