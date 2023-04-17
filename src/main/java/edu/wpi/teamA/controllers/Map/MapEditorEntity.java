@@ -1,10 +1,6 @@
 package edu.wpi.teamA.controllers.Map;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
@@ -315,26 +311,27 @@ public class MapEditorEntity {
       fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
       File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
       if (DAOimp.equals("Node")) {
-        NodeDAOImp.Import(selectedFile.getPath());
+        databaseRepo.importData(selectedFile.getPath(), DAOimp);
       } else if (DAOimp.equals("LocationName")) {
-        LocNameDAOImp.Import(selectedFile.getPath());
+        databaseRepo.importData(selectedFile.getPath(), DAOimp);
       } else if (DAOimp.equals("Move")) {
-        MoveDAOImp.Import(selectedFile.getPath());
+        databaseRepo.importData(selectedFile.getPath(), DAOimp);
+        ;
       } else if (DAOimp.equals("Edge")) {
-        EdgeDAOImp.Import(selectedFile.getPath());
+        databaseRepo.importData(selectedFile.getPath(), DAOimp);
       }
     } else {
       DirectoryChooser directoryChooser = new DirectoryChooser();
       directoryChooser.setTitle("Export CSV File to");
       File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
       if (DAOimp.equals("Node")) {
-        NodeDAOImp.Export(selectedDirectory.getPath());
+        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       } else if (DAOimp.equals("LocationName")) {
-        LocNameDAOImp.Export(selectedDirectory.getPath());
+        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       } else if (DAOimp.equals("Move")) {
-        MoveDAOImp.Export(selectedDirectory.getPath());
+        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       } else if (DAOimp.equals("Edge")) {
-        EdgeDAOImp.Export(selectedDirectory.getPath());
+        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       }
     }
   }

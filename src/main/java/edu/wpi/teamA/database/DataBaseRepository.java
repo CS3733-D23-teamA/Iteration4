@@ -2,9 +2,6 @@ package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +86,11 @@ public class DataBaseRepository {
   }
 
   // LocationName related methods
+
+  public ArrayList<LocationName> loadLocNameFromDatabase() {
+    return locNameDAOImp.loadLocNamefromDatabase();
+  }
+
   public void addLocName(String longName, String shortName, String nodeType) {
     locNameDAOImp.Add(longName, shortName, nodeType);
   }
@@ -110,7 +112,15 @@ public class DataBaseRepository {
     return locNameDAOImp.getLocName(longName);
   }
 
+  public ArrayList<String> filterLocType(String type) {
+    return locNameDAOImp.filterLocType(type);
+  }
+
   // Move related methods
+  public ArrayList<Move> loadMovesFromDatabase() {
+    return moveDAOImp.loadMovesFromDatabase();
+  }
+
   public void addMove(int nodeID, String longName, String dateString) {
     moveDAOImp.Add(nodeID, longName, dateString);
   }
@@ -128,32 +138,32 @@ public class DataBaseRepository {
   }
 
   // Import and Export methods
-  public void importData(
-      String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
-
-    // Convert file paths to Path objects and make them case-sensitive
-    Path nodePath = Paths.get(nodeFilePath).toAbsolutePath().normalize();
-    Path edgePath = Paths.get(edgeFilePath).toAbsolutePath().normalize();
-    Path locNamePath = Paths.get(locNameFilePath).toAbsolutePath().normalize();
-    Path movePath = Paths.get(moveFilePath).toAbsolutePath().normalize();
-
-    // Use the case-sensitive file paths to import data
-    ArrayList<Node> importedNodes = NodeDAOImp.Import(nodePath.toString());
-    ArrayList<Edge> importedEdges = EdgeDAOImp.Import(edgePath.toString());
-    ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(locNamePath.toString());
-    ArrayList<Move> importedMoves = MoveDAOImp.Import(movePath.toString());
-
-    nodeDAOImp = new NodeDAOImp(importedNodes);
-    edgeDAOImp = new EdgeDAOImp(importedEdges);
-    locNameDAOImp = new LocNameDAOImp(importedLocationNames);
-    moveDAOImp = new MoveDAOImp(importedMoves);
+  public void importData(String filepath, String type) {
+    if (type.equals("Node")) {
+      ArrayList<Node> importedNodes = NodeDAOImp.Import(filepath);
+      nodeDAOImp = new NodeDAOImp(importedNodes);
+    } else if (type.equals("LocName")) {
+      ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      locNameDAOImp = new LocNameDAOImp(importedLocationNames);
+    } else if (type.equals("Move")) {
+      ArrayList<Move> importedMoves = MoveDAOImp.Import(filepath);
+      moveDAOImp = new MoveDAOImp(importedMoves);
+    } else if (type.equals("Edge")) {
+      ArrayList<Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      edgeDAOImp = new EdgeDAOImp(importedEdges);
+    }
   }
 
-  public void exportData(String folderExportPath) {
-    NodeDAOImp.Export(folderExportPath);
-    EdgeDAOImp.Export(folderExportPath);
-    LocNameDAOImp.Export(folderExportPath);
-    MoveDAOImp.Export(folderExportPath);
+  public void exportData(String folderExportPath, String type) {
+    if (type.equals("Node")) {
+      NodeDAOImp.Export(folderExportPath);
+    } else if (type.equals("LocName")) {
+      LocNameDAOImp.Export(folderExportPath);
+    } else if (type.equals("Move")) {
+      MoveDAOImp.Export(folderExportPath);
+    } else if (type.equals("Edge")) {
+      EdgeDAOImp.Export(folderExportPath);
+    }
   }
 
   // Flower related methods

@@ -1,7 +1,5 @@
 package edu.wpi.teamA.pathfinding;
 
-import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
@@ -17,8 +15,8 @@ public class Graph {
 
   public void prepGraph() {
 
-//    NodeDAOImp nodeDAO = new NodeDAOImp();
-//    EdgeDAOImp edgeDAO = new EdgeDAOImp();
+    //    NodeDAOImp nodeDAO = new NodeDAOImp();
+    //    EdgeDAOImp edgeDAO = new EdgeDAOImp();
 
     DataBaseRepository databaseRepo = new DataBaseRepository();
 
