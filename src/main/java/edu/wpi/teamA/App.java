@@ -6,6 +6,7 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

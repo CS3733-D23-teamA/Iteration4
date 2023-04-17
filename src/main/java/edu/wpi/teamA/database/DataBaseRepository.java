@@ -1,29 +1,31 @@
 package edu.wpi.teamA.database;
 
-import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
-import edu.wpi.teamA.database.ORMclasses.Edge;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
-import edu.wpi.teamA.database.ORMclasses.Move;
-import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.database.DAOImps.*;
+import edu.wpi.teamA.database.ORMclasses.*;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DataBaseRepository {
   private NodeDAOImp nodeDAOImp;
   private EdgeDAOImp edgeDAOImp;
   private LocNameDAOImp locNameDAOImp;
   private MoveDAOImp moveDAOImp;
+  private FlowerDAOImpl flowerDAOImpl;
+  private CRRRDAOImp crrrDAOImp;
+  private FurnitureDAOImp furnitureDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
     locNameDAOImp = new LocNameDAOImp();
     moveDAOImp = new MoveDAOImp();
+    flowerDAOImpl = new FlowerDAOImpl();
+    crrrDAOImp = new CRRRDAOImp();
+    furnitureDAOImp = new FurnitureDAOImp();
   }
 
   // Node related methods
@@ -153,4 +155,27 @@ public class DataBaseRepository {
     LocNameDAOImp.Export(folderExportPath);
     MoveDAOImp.Export(folderExportPath);
   }
+
+  // Flower related methods
+  public void addFlower(FlowerEntity flower) {
+    flowerDAOImpl.addFlower(flower);
+  }
+
+  public void deleteFlower(FlowerEntity flower) {
+    flowerDAOImpl.deleteFlower(flower);
+  }
+
+  public List<FlowerEntity> getAllFlowers() {
+    return flowerDAOImpl.getAllFlowers();
+  }
+
+  public FlowerEntity getFlower(String name) {
+    return flowerDAOImpl.getFlower(name);
+  }
+
+  public void updateFlower(FlowerEntity flower) {
+    flowerDAOImpl.updateFlower(flower);
+  }
+
+
 }
