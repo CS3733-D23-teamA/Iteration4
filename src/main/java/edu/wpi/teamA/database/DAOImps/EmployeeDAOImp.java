@@ -76,7 +76,9 @@ public class EmployeeDAOImp implements IEmployeeDAO {
   }
 
   @Override
-  public void modifyEmployee(Employee employee) {}
+  public void modifyEmployee(Employee employee) {
+
+  }
 
   @Override
   public void addEmployee(Employee employee) {
