@@ -1,7 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.AStar;
 import edu.wpi.teamA.pathfinding.GraphNode;
@@ -47,7 +47,9 @@ public class PathfindingController extends PageController {
   // Node implementation
   private ArrayList<Integer> nodeIDOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
-  private final NodeDAOImp nodeDAO = new NodeDAOImp();
+  // private final NodeDAOImp nodeDAO = new NodeDAOImp();
+
+  private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     // Set up Map in Gesture pane using a StackPane
@@ -61,7 +63,7 @@ public class PathfindingController extends PageController {
         });
 
     // Getting Nodes from Database
-    nodeList = nodeDAO.loadNodesFromDatabase();
+    nodeList = databaseRepo.loadNodesFromDatabase();
     for (Node node : nodeList) {
       if (node.getFloor().equals("L1")) { // TODO add nodes for all floors
         nodeIDOptions.add(node.getNodeID());

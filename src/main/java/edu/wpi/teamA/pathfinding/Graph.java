@@ -2,6 +2,7 @@ package edu.wpi.teamA.pathfinding;
 
 import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ public class Graph {
 
   public void prepGraph() {
 
-    NodeDAOImp nodeDAO = new NodeDAOImp();
-    EdgeDAOImp edgeDAO = new EdgeDAOImp();
+//    NodeDAOImp nodeDAO = new NodeDAOImp();
+//    EdgeDAOImp edgeDAO = new EdgeDAOImp();
 
-    ArrayList<Node> allNodes = nodeDAO.loadNodesFromDatabase();
-    ArrayList<Edge> allEdges = edgeDAO.loadEdgesFromDatabase();
+    DataBaseRepository databaseRepo = new DataBaseRepository();
+
+    ArrayList<Node> allNodes = databaseRepo.loadNodesFromDatabase();
+    ArrayList<Edge> allEdges = databaseRepo.loadEdgesFromDatabase();
 
     for (Node n : allNodes) {
       GraphNode g =
