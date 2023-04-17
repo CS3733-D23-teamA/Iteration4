@@ -187,6 +187,7 @@ public class MapEditorEntity {
     //    if (locNameDAO.getLocName(longName) != null) {
     //      // do something
     //    } else {
+
     int newNodeID = nodeDAO.getLargestNodeID().getNodeID() + 5;
     Node node = nodeDAO.Add(newNodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
@@ -269,6 +270,13 @@ public class MapEditorEntity {
         determineEdgeMap(level).remove(key);
         return false;
       }
+    }
+    return false;
+  }
+
+  public boolean determineLongNameExists(String longName) {
+    if (locNameDAO.getLocName(longName) == null) {
+      return true;
     }
     return false;
   }

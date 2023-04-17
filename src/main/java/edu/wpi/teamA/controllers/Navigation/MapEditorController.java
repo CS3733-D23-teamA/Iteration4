@@ -445,6 +445,8 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = true;
     modifyEdgeClicked = false;
+    floorField.selectItem(level);
+    floorField.setDisable(true);
     // pop up dialog box
     popUpMainDialogBox();
 
@@ -459,7 +461,13 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
+    if (!entity.determineLongNameExists(longNameField.getText())) {
+      longNameField.setBorder(Border.stroke(Color.web("0xf74c4c")));
+    } else {
+      longNameField.setBorder(Border.stroke(Color.web("0x000000")));
+    }
     if (longNameField.getText().isEmpty()
+        || !entity.determineLongNameExists(longNameField.getText())
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
         || buildingField.getSelectedIndex() == -1
@@ -479,6 +487,7 @@ public class MapEditorController {
     longNameField.setDisable(false);
     shortNameField.clear();
     floorField.getSelectionModel().clearSelection();
+    floorField.setDisable(false);
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
     shutDownInputDialogBox();
