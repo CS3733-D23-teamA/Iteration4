@@ -177,5 +177,26 @@ public class DataBaseRepository {
     flowerDAOImpl.updateFlower(flower);
   }
 
+  // Conference room service request related methods
+  public void addCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.addCRRR(crrr);
+  }
+
+  public void deleteCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.deleteCRRR(crrr);
+  }
+
+  public List<ConferenceRoomResRequest> getAllCRRR() {
+    return crrrDAOImp.getAllCRRR();
+  }
+
+  public ConferenceRoomResRequest getCRRR(String name) {
+    return crrrDAOImp.getCRRR(name);
+  }
+
+  public void updateCRRR(ConferenceRoomResRequest crrr) {
+    crrrDAOImp.updateCRRR(crrr);
+  }
+
 
 }
