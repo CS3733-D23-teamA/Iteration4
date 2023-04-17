@@ -3,10 +3,7 @@ package edu.wpi.teamA.pathfinding;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import java.util.ArrayList;
 
-public class BFS {
-  private Graph graph = new Graph();
-  int startID, endID;
-  private ArrayList<Integer> path = new ArrayList<Integer>();
+public class BFS extends Search {
 
   public BFS(int startID, int endID) {
     this.graph.prepGraph();
@@ -22,16 +19,12 @@ public class BFS {
     setPath();
   }
 
-  public ArrayList<Integer> getPath() {
-    return path;
-  }
-
   /**
    * setPath: BFS Algorithm Implementation
    *
    * @return path of nodes as integer IDs
    */
-  private ArrayList<Integer> setPath() {
+  protected ArrayList<Integer> setPath() {
 
     ArrayList<Integer> queue = new ArrayList<>();
     ArrayList<Integer> nodesToReset = new ArrayList<>();
@@ -94,18 +87,6 @@ public class BFS {
    * @param endID
    * @return ????
    */
-  private ArrayList<Integer> getOrder(int startID, int endID) {
-    ArrayList<Integer> path = new ArrayList<>();
-    int currentID = endID;
-    GraphNode currentGNode = graph.getGraphNode(currentID);
-    while (currentID != startID) { // while the path still has a previous path
-      path.add(0, currentID);
-      currentGNode = currentGNode.getPrev();
-      currentID = currentGNode.getNodeID();
-    }
-    path.add(0, startID);
-    return path;
-  }
 
   /**
    * resetNodes: ???
@@ -113,32 +94,4 @@ public class BFS {
    * @param ??
    * @return ????
    */
-  private void resetNodes(ArrayList<Integer> resetList) {
-    for (int i : resetList) {
-      System.out.println("RESET NODES: i-" + i);
-      graph.getGraphNode(i).reset();
-    }
-  }
-
-  public GraphNode getGraphNode(int key) {
-    return graph.getGraphNode(key);
-  }
-
-  public String toString() {
-
-    String stringPath = "Wow! You're already there! Good Job!";
-
-    if (startID != endID) {
-
-      stringPath = "Start at node " + path.get(0);
-
-      for (int i = 1; i < path.size(); i++) {
-        stringPath += ", then go to node " + path.get(i);
-      }
-
-      stringPath += ". You have reached your destination.";
-    }
-
-    return stringPath;
-  }
 }

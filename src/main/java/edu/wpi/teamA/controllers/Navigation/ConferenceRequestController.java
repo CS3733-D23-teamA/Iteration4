@@ -25,7 +25,6 @@ public class ConferenceRequestController extends PageController implements IServ
 
   LocNameDAOImp locs = new LocNameDAOImp();
 
-  @Override
   public void initialize() {
     startCombo
         .getItems()
@@ -89,7 +88,7 @@ public class ConferenceRequestController extends PageController implements IServ
               convertTime(endCombo.getText()),
               commentField.getText(),
               "new");
-      System.out.println("ConferenceRoomResRequest created: " + crrr.toString());
+      System.out.println("ConferenceRoomResRequest created: " + crrr);
 
       CRRRDAOImp cd = new CRRRDAOImp();
       cd.addCRRR(crrr);

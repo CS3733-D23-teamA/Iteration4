@@ -1,19 +1,13 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.Main;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
-import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.event.EventHandler;
@@ -25,15 +19,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
   private final MapEditorEntity entity = new MapEditorEntity();
 
   // larger panes
-  @FXML private ImageView mapImage;
+  @FXML private ImageView mapImageView;
   @FXML private StackPane mapStackPane;
   @FXML private AnchorPane dotsAnchorPane;
   @FXML private GesturePane mapGesturePane;
@@ -41,15 +33,15 @@ public class MapEditorController {
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
 
-  // level buttons
-  @FXML private MFXButton levelButton;
-  @FXML private MFXButton levelGButton;
+  // level buttons and image
   @FXML private MFXButton levelL1Button;
   @FXML private MFXButton levelL2Button;
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
-  @FXML private VBox levelMenu;
+  @FXML private Image mapImage = App.getMapL1();
+
+  private String level = "G";
 
   // text displays
   @FXML private Text locationDisplay;
@@ -70,17 +62,20 @@ public class MapEditorController {
 
   // booleans to determine importing or exporting
   private boolean imported = false;
-  private boolean exported = false;
 
   private int currentNodeID;
   private int[] XYCoords = new int[2];
+
+  private String oldLongName;
+  private String oldShortName;
+
+  private Circle currentCircle;
 
   private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
     // set up level buttons
-    levelGButton.setOnAction(event -> changeLevelText(levelGButton));
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
     level1Button.setOnAction(event -> changeLevelText(level1Button));
@@ -90,11 +85,10 @@ public class MapEditorController {
     // set up page
     mapGesturePane.setContent(mapStackPane);
     mapGesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
-    levelMenu.setVisible(false);
-    changeLevelText(levelGButton);
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    this.mapImageView.setImage(mapImage);
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -105,6 +99,18 @@ public class MapEditorController {
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
 
+    inputDialog.setOnClose(
+        event -> {
+          shutDownMainDialogBox();
+        });
+    impExpDialog.setOnClose(
+        event -> {
+          impExpDialog.setVisible(false);
+          impExpDialog.setDisable(true);
+          imported = false;
+          // exported = false;
+        });
+
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
     buildingField.getItems().addAll("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
@@ -114,13 +120,6 @@ public class MapEditorController {
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
   }
 
-  /** For level chooser button */
-  @FXML
-  public void levelChooser() {
-    // make Vbox visible
-    levelMenu.setVisible(true);
-  }
-
   /**
    * Used to change the level chooser text based on which floor
    *
@@ -128,21 +127,36 @@ public class MapEditorController {
    */
   private void changeLevelText(MFXButton button) {
 
-    // get text from clicked button
-    levelButton.setText(button.getText());
+    // get pre-loaded map image from App
+    switch (button.getText()) {
+      case "L1":
+        mapImage = App.getMapL1();
+        break;
+      case "L2":
+        mapImage = App.getMapL2();
+        break;
+      case "1":
+        mapImage = App.getMap1();
+        break;
+      case "2":
+        mapImage = App.getMap2();
+        break;
+      case "3":
+        mapImage = App.getMap3();
+        break;
+    }
 
-    // hide buttons in Vbox
-    levelMenu.setVisible(false);
-
-    // change map image
-    String image = "images/map-page/" + button.getText() + ".png";
-    mapImage.setImage(new Image(Objects.requireNonNull(Main.class.getResource(image)).toString()));
+    // set map image
+    this.mapImageView.setImage(Objects.requireNonNull(mapImage));
 
     // hide old dots
     dotsAnchorPane.getChildren().clear();
 
+    // button
+    level = button.getText();
+
     // display new dots
-    displayNodeData(Objects.requireNonNull(entity.determineArray(button.getText())));
+    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
   }
 
   /**
@@ -203,9 +217,10 @@ public class MapEditorController {
   @FXML
   public void dotClicked(Circle circle, int nodeID) {
     currentNodeID = nodeID;
+    currentCircle = circle;
 
     if (removeNodeClicked) {
-      entity.determineRemoveAction(removeNodeClicked, nodeID);
+      entity.determineRemoveAction(nodeID);
       circle.setDisable(true);
       circle.setVisible(false);
       removeNodeClicked = false;
@@ -224,9 +239,6 @@ public class MapEditorController {
 
       // new location clicked
       mouseClickForNewLocation();
-
-      // update the display to show the updated information
-      App.getPrimaryStage().show();
     }
 
     editMapDirections.setText("");
@@ -271,11 +283,15 @@ public class MapEditorController {
 
   /** Preload information in dialog box for the user to modify a node */
   private void preLoadDialogInfo(Node node, LocationName locName) {
-    longNameField.setText(locName.getLongName());
-    shortNameField.setText(locName.getShortName());
+    oldLongName = locName.getLongName();
+    oldShortName = locName.getShortName();
+    longNameField.setText(oldLongName);
+    shortNameField.setText(oldShortName);
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
     nodeTypeField.getSelectionModel().selectItem(locName.getNodeType());
+    XYCoords[0] = node.getXcoord();
+    XYCoords[1] = node.getYcoord();
   }
 
   /** Sets up screen for the user to add a node */
@@ -299,12 +315,6 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
-    if (addNodeClicked) {
-      if (XYCoords[0] < 0 || XYCoords[1] < 0) {
-        submitButton.setDisable(true);
-      }
-    }
-
     if (longNameField.getText().isEmpty()
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
@@ -312,7 +322,7 @@ public class MapEditorController {
         || nodeTypeField.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
-      submitButton.setDisable(false);
+      submitButton.setDisable(addNodeClicked && (XYCoords[0] < 0 || XYCoords[1] < 0));
     }
   }
 
@@ -338,13 +348,18 @@ public class MapEditorController {
           currentNodeID,
           XYCoords[0],
           XYCoords[1],
+          oldLongName,
+          oldShortName,
           longNameField.getText(),
           shortNameField.getText(),
           floorField.getText(),
           buildingField.getText(),
           nodeTypeField.getText());
+      currentCircle.setVisible(false);
+      currentCircle.setDisable(true);
     } else if (addNodeClicked) {
       entity.determineAddAction(
+          level,
           XYCoords[0],
           XYCoords[1],
           longNameField.getText(),
@@ -355,7 +370,7 @@ public class MapEditorController {
     }
 
     clear();
-    App.getPrimaryStage().show();
+    displayNodeData(entity.determineArray(level));
   }
 
   /**
@@ -379,6 +394,7 @@ public class MapEditorController {
 
             Circle circle = entity.addCircle(newX, newY);
             circle.setFill(Color.rgb(128, 0, 0, 0.87));
+            circle.setVisible(true);
             validateButton();
           }
         });
@@ -401,25 +417,14 @@ public class MapEditorController {
    */
   @FXML
   public void exportFile() {
-    exported = true;
+    imported = false;
     impExpDialog.setVisible(true);
     impExpDialog.setDisable(false);
   }
 
   @FXML
   public void MoveImpExp() {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      MoveDAOImp.Import(selectedFile.getPath());
-    } else if (exported) {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      MoveDAOImp.Export(selectedDirectory.getPath());
-    }
+    entity.importExport(imported, "Move");
 
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
@@ -427,18 +432,7 @@ public class MapEditorController {
 
   @FXML
   public void NodeImpExp() {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      NodeDAOImp.Import(selectedFile.getPath());
-    } else if (exported) {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      NodeDAOImp.Export(selectedDirectory.getPath());
-    }
+    entity.importExport(imported, "Node");
 
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
@@ -446,38 +440,17 @@ public class MapEditorController {
 
   @FXML
   public void LocationImpExp() {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      LocNameDAOImp.Import(selectedFile.getPath());
-    } else if (exported) {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      LocNameDAOImp.Export(selectedDirectory.getPath());
-    }
+    entity.importExport(imported, "LocationName");
+
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
   }
 
   @FXML
   public void EdgeImpExp() {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      EdgeDAOImp.Import(selectedFile.getPath());
-    } else if (exported) {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      EdgeDAOImp.Export(selectedDirectory.getPath());
-    }
+    entity.importExport(imported, "Edge");
 
-    impExpDialog.setVisible(true);
-    impExpDialog.setDisable(false);
+    impExpDialog.setVisible(false);
+    impExpDialog.setDisable(true);
   }
 }

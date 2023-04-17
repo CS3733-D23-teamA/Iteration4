@@ -3,22 +3,13 @@ package edu.wpi.teamA.pathfinding;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import java.util.ArrayList;
 
-public class AStar {
-  private Graph graph = new Graph();
-  private final int startID;
-  private final int endID;
-
-  private ArrayList<Integer> path = new ArrayList<Integer>();
+public class AStar extends Search {
 
   public AStar(int startID, int endID) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
     setPath();
-  }
-
-  public ArrayList<Integer> getPath() {
-    return path;
   }
 
   public AStar(Graph graph, int startID, int endID) {
@@ -55,7 +46,7 @@ public class AStar {
    *
    * @return path of nodes
    */
-  private ArrayList<Integer> setPath() {
+  protected ArrayList<Integer> setPath() {
     ArrayList<Integer> queue = new ArrayList<>();
     ArrayList<Integer> nodesToReset = new ArrayList<>();
 
@@ -151,47 +142,5 @@ public class AStar {
         break;
       }
     }
-  }
-
-  private ArrayList<Integer> getOrder(int startID, int endID) {
-    ArrayList<Integer> path = new ArrayList<>();
-    int currentID = endID;
-    GraphNode currentGNode = graph.getGraphNode(currentID);
-    while (currentID != startID) { // while the path still has a previous path
-      path.add(0, currentID);
-      currentGNode = currentGNode.getPrev();
-      currentID = currentGNode.getNodeID();
-    }
-    path.add(0, startID);
-    return path;
-  }
-
-  private void resetNodes(ArrayList<Integer> resetList) {
-    for (int i : resetList) {
-      System.out.println("RESET NODES: i-" + i);
-      graph.getGraphNode(i).reset();
-    }
-  }
-
-  public GraphNode getGraphNode(int key) {
-    return graph.getGraphNode(key);
-  }
-
-  public String toString() {
-
-    String stringPath = "Wow! You're already there! Good Job!";
-
-    if (startID != endID) {
-
-      stringPath = "Start at node " + path.get(0);
-
-      for (int i = 1; i < path.size(); i++) {
-        stringPath += ", then go to node " + path.get(i);
-      }
-
-      stringPath += ". You have reached your destination.";
-    }
-
-    return stringPath;
   }
 }

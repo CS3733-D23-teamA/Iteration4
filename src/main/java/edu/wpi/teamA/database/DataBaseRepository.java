@@ -8,6 +8,9 @@ import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class DataBaseRepository {
@@ -99,18 +102,25 @@ public class DataBaseRepository {
 
   // Import and Export methods
   public void importData(
-      String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
-    ArrayList<Node> importedNodes = NodeDAOImp.Import(nodeFilePath);
-    ArrayList<Edge> importedEdges = EdgeDAOImp.Import(edgeFilePath);
-    ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(locNameFilePath);
-    ArrayList<Move> importedMoves = MoveDAOImp.Import(moveFilePath);
+          String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
+
+    // Convert file paths to Path objects and make them case-sensitive
+    Path nodePath = Paths.get(nodeFilePath).toAbsolutePath().normalize();
+    Path edgePath = Paths.get(edgeFilePath).toAbsolutePath().normalize();
+    Path locNamePath = Paths.get(locNameFilePath).toAbsolutePath().normalize();
+    Path movePath = Paths.get(moveFilePath).toAbsolutePath().normalize();
+
+    // Use the case-sensitive file paths to import data
+    ArrayList<Node> importedNodes = NodeDAOImp.Import(nodePath.toString());
+    ArrayList<Edge> importedEdges = EdgeDAOImp.Import(edgePath.toString());
+    ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(locNamePath.toString());
+    ArrayList<Move> importedMoves = MoveDAOImp.Import(movePath.toString());
 
     nodeDAOImp = new NodeDAOImp(importedNodes);
     edgeDAOImp = new EdgeDAOImp(importedEdges);
     locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     moveDAOImp = new MoveDAOImp(importedMoves);
   }
-
   public void exportData(String folderExportPath) {
     NodeDAOImp.Export(folderExportPath);
     EdgeDAOImp.Export(folderExportPath);
