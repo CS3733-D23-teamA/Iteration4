@@ -46,7 +46,9 @@ public class MapEditorController {
   @FXML private Image mapImage = App.getMapL1();
 
   private String level = "L1";
-  @FXML private MFXButton stopModificationButton;
+  // @FXML private MFXButton stopModificationButton;
+
+  @FXML private MFXButton modifyEdgeButton;
 
   // text displays
   @FXML private Text locationDisplay;
@@ -82,9 +84,6 @@ public class MapEditorController {
 
   private Node firstNode;
 
-  // TODO
-  @FXML private VBox nodeDescriptionVBox;
-
   // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
@@ -118,8 +117,8 @@ public class MapEditorController {
     submitButton.setDisable(true);
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
-    stopModificationButton.setDisable(true);
-    stopModificationButton.setVisible(false);
+    //    stopModificationButton.setDisable(true);
+    //    stopModificationButton.setVisible(false);
     // nodeDescriptionVBox.setVisible(false);
 
     changeLevelText(levelL1Button);
@@ -179,12 +178,9 @@ public class MapEditorController {
     // button
     level = button.getText();
 
-    System.out.println("HI1");
     // display new dots and edges
-    displayEdgeData(Objects.requireNonNull(entity.determineEdgeArray(level)));
-    System.out.println("HI2");
-    displayNodeData(Objects.requireNonNull(entity.determineNodeArray(level)));
-    System.out.println("HI3");
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
 
   /**
@@ -195,16 +191,18 @@ public class MapEditorController {
   private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
     for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
       Node node = entry.getValue();
-      Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
-      circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
-      circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
-      circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-      //      circle.setOnDragDetected(this::handleSetOnDragDetected);
-      //      circle.setOnDragOver(event -> handleSetOnDragOver(circle, event));
-      //      circle.setOnDragEntered(event -> handleSetOnDragEntered(circle, event));
-      //      circle.setOnDragExited(event -> handleSetOnDragExited(circle, event));
-      //      circle.setOnDragDropped(event -> handleSetOnDragDropped(circle, event));
-      topPane.getChildren().add(circle);
+      if (node != null) {
+        Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
+        circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
+        circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
+        circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+        //      circle.setOnDragDetected(this::handleSetOnDragDetected);
+        //      circle.setOnDragOver(event -> handleSetOnDragOver(circle, event));
+        //      circle.setOnDragEntered(event -> handleSetOnDragEntered(circle, event));
+        //      circle.setOnDragExited(event -> handleSetOnDragExited(circle, event));
+        //      circle.setOnDragDropped(event -> handleSetOnDragDropped(circle, event));
+        topPane.getChildren().add(circle);
+      }
     }
     App.getPrimaryStage().show();
   }
@@ -306,6 +304,7 @@ public class MapEditorController {
       circle.setDisable(true);
       circle.setVisible(false);
       removeNodeClicked = false;
+      editMapDirections.setText("");
     }
 
     if (modifyNodeClicked) {
@@ -321,6 +320,8 @@ public class MapEditorController {
 
       // new location clicked
       mouseClickForNewLocation();
+
+      editMapDirections.setText("");
     }
 
     if (modifyEdgeClicked) {
@@ -329,8 +330,9 @@ public class MapEditorController {
       secondNodeClicked = true;
       firstNode = entity.getNodeInfo(nodeID);
       modifyEdgeClicked = false;
-      stopModificationButton.setDisable(false);
-      stopModificationButton.setVisible(true);
+      //      stopModificationButton.setDisable(false);
+      //      stopModificationButton.setVisible(true);
+      modifyEdgeButton.setText("Stop Modify Edge");
     }
 
     if (secondNodeClicked) {
@@ -340,22 +342,22 @@ public class MapEditorController {
         topPane.getChildren().add(line);
       }
       topPane.getChildren().clear();
-      displayEdgeData(entity.determineEdgeArray(level));
-      displayNodeData(entity.determineNodeArray(level));
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
     }
 
     // editMapDirections.setText("");
   }
 
-  @FXML
-  public void stopModify() {
-    secondNodeClicked = false;
-    modifyEdgeClicked = false;
-    // hide button
-    stopModificationButton.setDisable(true);
-    stopModificationButton.setVisible(false);
-    editMapDirections.setText("");
-  }
+  //  @FXML
+  //  public void stopModify() {
+  //    secondNodeClicked = false;
+  //    modifyEdgeClicked = false;
+  //    // hide button
+  //    stopModificationButton.setDisable(true);
+  //    stopModificationButton.setVisible(false);
+  //    editMapDirections.setText("");
+  //  }
 
   /** Sets up screen for the user to remove a node */
   @FXML
@@ -379,12 +381,19 @@ public class MapEditorController {
 
   @FXML
   public void modifyEdge() {
-    modifyEdgeClicked = true;
-    removeNodeClicked = false;
-    modifyNodeClicked = false;
-    addNodeClicked = false;
+    if (modifyEdgeButton.getText().equals("Modify Edge")) {
+      modifyEdgeClicked = true;
+      removeNodeClicked = false;
+      modifyNodeClicked = false;
+      addNodeClicked = false;
 
-    editMapDirections.setText("Click a node to modify its edges.");
+      editMapDirections.setText("Click a node to modify its edges.");
+    } else {
+      secondNodeClicked = false;
+      modifyEdgeClicked = false;
+      editMapDirections.setText("");
+      modifyEdgeButton.setText("Modify Edge");
+    }
   }
 
   /** Pops up the input dialog page and hides map editor controls */
@@ -501,8 +510,8 @@ public class MapEditorController {
     clear();
     topPane.getChildren().clear();
     topPane.setOnMouseClicked(null);
-    displayEdgeData(entity.determineEdgeArray(level));
-    displayNodeData(entity.determineNodeArray(level));
+    displayEdgeData(entity.determineEdgeMap(level));
+    displayNodeData(entity.determineNodeMap(level));
   }
 
   /**

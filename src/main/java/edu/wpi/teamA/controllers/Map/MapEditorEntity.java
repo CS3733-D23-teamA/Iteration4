@@ -11,8 +11,8 @@ import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -27,14 +27,14 @@ public class MapEditorEntity {
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
 
-  @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
+  // @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
   @Getter private HashMap<Integer, Node> nodeMap = nodeDAO.loadNodesFromDatabaseInMap();
 
-  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
-  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
-  @Getter private ArrayList<Node> level1NodeArray = new ArrayList<Node>();
-  @Getter private ArrayList<Node> level2NodeArray = new ArrayList<Node>();
-  @Getter private ArrayList<Node> level3NodeArray = new ArrayList<Node>();
+  //  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
+  //  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
+  //  @Getter private ArrayList<Node> level1NodeArray = new ArrayList<Node>();
+  //  @Getter private ArrayList<Node> level2NodeArray = new ArrayList<Node>();
+  //  @Getter private ArrayList<Node> level3NodeArray = new ArrayList<Node>();
 
   @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
   @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
@@ -42,14 +42,14 @@ public class MapEditorEntity {
   @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
   @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
 
-  @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
+  // @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
   @Getter private HashMap<String, Edge> edgeMap = edgeDAO.loadEdgesFromDatabaseInMap();
 
-  @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
-  @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
-  @Getter private ArrayList<Edge> level1EdgeArray = new ArrayList<Edge>();
-  @Getter private ArrayList<Edge> level2EdgeArray = new ArrayList<Edge>();
-  @Getter private ArrayList<Edge> level3EdgeArray = new ArrayList<Edge>();
+  //  @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
+  //  @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
+  //  @Getter private ArrayList<Edge> level1EdgeArray = new ArrayList<Edge>();
+  //  @Getter private ArrayList<Edge> level2EdgeArray = new ArrayList<Edge>();
+  //  @Getter private ArrayList<Edge> level3EdgeArray = new ArrayList<Edge>();
 
   @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<String, Edge>();
   @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<String, Edge>();
@@ -57,74 +57,43 @@ public class MapEditorEntity {
   @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
   @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
 
-  public ArrayList<Node> getFloorNodes(ArrayList<Node> nodeArray, String floor) {
-    ArrayList<Node> updatedArray = new ArrayList<Node>();
-    for (Node node : nodeArray) {
-      if (node.getFloor().equals(floor)) {
-        updatedArray.add(node);
-      }
-    }
-    return updatedArray;
-  }
-
-  //  public ArrayList<Edge> getFloorEdges(ArrayList<Edge> edgeArray, String floor) {
-  //    ArrayList<Edge> updatedArray = new ArrayList<Edge>();
-  //    for (int i = 0; i < edgeArray.size(); i++) {
-  //      Node startNode = nodeDAO.getNode(edgeArray.get(i).getStartNode());
-  //      Node endNode = nodeDAO.getNode(edgeArray.get(i).getEndNode());
-  //      if (startNode.getFloor().equals(floor) && endNode.getFloor().equals(floor)) {
-  //        updatedArray.add(edgeArray.get(i));
-  //      }
-  //    }
-  //    return updatedArray;
-  //  }
-
   public void loadFloorNodes() {
-    for (Node node : nodeArray) {
+    for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
+      Node node = entry.getValue();
       if (node.getFloor().equals("L1")) {
-        // levelL1NodeArray.add(node);
         levelL1NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("L2")) {
-        // levelL2NodeArray.add(node);
         levelL2NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("1")) {
-        // level1NodeArray.add(node);
         level1NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("2")) {
-        // level2NodeArray.add(node);
         level2NodeMap.put(node.getNodeID(), node);
       } else if (node.getFloor().equals("3")) {
-        // level3NodeArray.add(node);
         level3NodeMap.put(node.getNodeID(), node);
       }
     }
   }
 
   public void loadFloorEdges() {
-    for (Edge edge : edgeArray) {
-      // Node node = nodeDAO.getNode(edge.getStartNode());
+    for (Map.Entry<String, Edge> entry : edgeMap.entrySet()) {
+      Edge edge = entry.getValue();
       Node node = nodeMap.get(edge.getStartNode());
       String temp = edge.getStartNode().toString() + edge.getEndNode().toString();
       if (node.getFloor().equals("L1")) {
-        // levelL1EdgeArray.add(edge);
         levelL1EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("L2")) {
-        // levelL2EdgeArray.add(edge);
         levelL2EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("1")) {
-        // level1EdgeArray.add(edge);
         level1EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("2")) {
-        // level2EdgeArray.add(edge);
         level2EdgeMap.put(temp, edge);
       } else if (node.getFloor().equals("3")) {
-        // level3EdgeArray.add(edge);
         level3EdgeMap.put(temp, edge);
       }
     }
   }
 
-  public HashMap<String, Edge> determineEdgeArray(String level) {
+  public HashMap<String, Edge> determineEdgeMap(String level) {
     if (level.equals("L1")) {
       return levelL1EdgeMap;
     } else if (level.equals("L2")) {
@@ -140,7 +109,7 @@ public class MapEditorEntity {
     }
   }
 
-  public HashMap<Integer, Node> determineNodeArray(String level) {
+  public HashMap<Integer, Node> determineNodeMap(String level) {
     if (level.equals("L1")) {
       return levelL1NodeMap;
     } else if (level.equals("L2")) {
@@ -167,10 +136,6 @@ public class MapEditorEntity {
   }
 
   public Line addLine(int startNodeID, int endNodeID) {
-
-    // TODO access from arraylist instead
-    // Node startNode = nodeDAO.getNode(startNodeID);
-    // Node endNode = nodeDAO.getNode(endNodeID);
 
     Node startNode = nodeMap.get(startNodeID);
     Node endNode = nodeMap.get(endNodeID);
@@ -235,7 +200,7 @@ public class MapEditorEntity {
     locNameDAO.Add(longName, shortName, nodeType);
     moveDAO.Add(newNodeID, longName, dateString);
     nodeMap.put(newNodeID, node);
-    determineNodeArray(level).put(newNodeID, node);
+    determineNodeMap(level).put(newNodeID, node);
     //
     // }
   }
@@ -245,7 +210,7 @@ public class MapEditorEntity {
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
     nodeMap.remove(nodeID);
-    determineNodeArray(level).remove(nodeID);
+    determineNodeMap(level).remove(nodeID);
   }
 
   public void determineModifyAction(
@@ -260,7 +225,7 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
-    Node node = nodeDAO.Update(nodeID, x, y, floor, building);
+    nodeDAO.Update(nodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -273,8 +238,10 @@ public class MapEditorEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     locNameDAO.Update(oldLongName, oldShortName, longName, shortName, nodeType);
     // TODO moveDAO.Update(nodeID, longName, dateString);
+
+    Node node = nodeDAO.getNode(nodeID);
     nodeMap.put(nodeID, node);
-    determineNodeArray(level).put(nodeID, node);
+    determineNodeMap(level).put(nodeID, node);
   }
 
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
@@ -284,12 +251,12 @@ public class MapEditorEntity {
     if (temp == null) { // if there is no edge between the nodes, we must add edges
       Edge edge = edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
       edgeMap.put(key, edge);
-      determineEdgeArray(level).put(key, edge);
+      determineEdgeMap(level).put(key, edge);
       return true;
     } else { // there is an edge, so we must remove the edge
       edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
       edgeMap.remove(key);
-      determineEdgeArray(level).remove(key);
+      determineEdgeMap(level).remove(key);
       return false;
     }
   }

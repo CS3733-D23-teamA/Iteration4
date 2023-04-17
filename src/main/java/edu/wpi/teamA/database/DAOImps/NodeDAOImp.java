@@ -233,9 +233,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  public Node Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
+  public void Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** update the node fields in the database and arraylist according to the inserts */
-    Node node = null;
     try {
 
       PreparedStatement ps =
@@ -250,22 +249,19 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setInt(5, nodeID);
       ps.executeUpdate();
 
-      // TODO hashmap
-      int i = 0;
-      while (node != null) {
-        if (NodeArray.get(i).getNodeID().equals(nodeID)) {
-          node.setXcoord(xcoord);
-          node.setYcoord(ycoord);
-          node.setFloor(floor);
-          node.setBuilding(building);
-          node = NodeArray.get(i);
-        }
-      }
+      NodeArray.forEach(
+          node -> {
+            if (node.getNodeID().equals(nodeID)) {
+              node.setXcoord(xcoord);
+              node.setYcoord(ycoord);
+              node.setFloor(floor);
+              node.setBuilding(building);
+            }
+          });
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return node;
   }
 
   public Node getNode(int nodeID) {

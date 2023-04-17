@@ -17,7 +17,7 @@
 <?import net.kurobako.gesturefx.GesturePane?>
 
 <BorderPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
-   
+
    <top>
       <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" />
    </top>
@@ -63,11 +63,6 @@
                                  </VBox.margin>
                               </MFXButton>
                               <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Modify Edge" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="stopModificationButton" onAction="#stopModify" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Stop" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>
