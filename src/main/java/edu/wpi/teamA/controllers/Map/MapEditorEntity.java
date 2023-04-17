@@ -19,6 +19,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
+import lombok.Setter;
 
 public class MapEditorEntity {
   // MapEditorController controller = new MapEditorController();
@@ -28,7 +29,7 @@ public class MapEditorEntity {
   private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
 
   // @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  @Getter private HashMap<Integer, Node> nodeMap = nodeDAO.loadNodesFromDatabaseInMap();
+  @Getter @Setter private HashMap<Integer, Node> nodeMap = nodeDAO.loadNodesFromDatabaseInMap();
 
   //  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
   //  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
