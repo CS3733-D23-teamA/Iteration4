@@ -5,6 +5,7 @@ import edu.wpi.teamA.database.DAOImps.EdgeDAOImp;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
@@ -24,13 +25,16 @@ import lombok.Setter;
 
 public class MapEditorEntity {
   // MapEditorController controller = new MapEditorController();
-  private final NodeDAOImp nodeDAO = new NodeDAOImp();
-  private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
-  private final MoveDAOImp moveDAO = new MoveDAOImp();
-  private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
+  //  private final NodeDAOImp nodeDAO = new NodeDAOImp();
+  //  private final LocNameDAOImp locNameDAO = new LocNameDAOImp();
+  //  private final MoveDAOImp moveDAO = new MoveDAOImp();
+  //  private final EdgeDAOImp edgeDAO = new EdgeDAOImp();
+
+  private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   // @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  @Getter @Setter private HashMap<Integer, Node> nodeMap = nodeDAO.loadNodesFromDatabaseInMap();
+  @Getter @Setter
+  private HashMap<Integer, Node> nodeMap = databaseRepo.loadNodesFromDatabaseInMap();
 
   //  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
   //  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
@@ -45,7 +49,7 @@ public class MapEditorEntity {
   @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
 
   // @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
-  @Getter private HashMap<String, Edge> edgeMap = edgeDAO.loadEdgesFromDatabaseInMap();
+  @Getter private HashMap<String, Edge> edgeMap = databaseRepo.loadEdgesFromDatabaseInMap();
 
   //  @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
   //  @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
@@ -171,8 +175,8 @@ public class MapEditorEntity {
   }
 
   public LocationName getLocationName(int nodeID) {
-    Move move = moveDAO.getMove(nodeID);
-    return locNameDAO.getLocName(move.getLongName());
+    Move move = databaseRepo.getMove(nodeID);
+    return databaseRepo.getLocName(move.getLongName());
   }
 
   public void determineAddAction(
@@ -188,8 +192,8 @@ public class MapEditorEntity {
     //      // do something
     //    } else {
 
-    int newNodeID = nodeDAO.getLargestNodeID().getNodeID() + 5;
-    Node node = nodeDAO.Add(newNodeID, x, y, floor, building);
+    int newNodeID = databaseRepo.getLargestNodeID().getNodeID() + 5;
+    Node node = databaseRepo.addNode(newNodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -200,8 +204,8 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    locNameDAO.Add(longName, shortName, nodeType);
-    moveDAO.Add(newNodeID, longName, dateString);
+    databaseRepo.addLocName(longName, shortName, nodeType);
+    databaseRepo.addMove(newNodeID, longName, dateString);
     nodeMap.put(newNodeID, node);
     determineNodeMap(level).put(newNodeID, node);
     //
@@ -209,16 +213,16 @@ public class MapEditorEntity {
   }
 
   public void determineRemoveAction(int nodeID, String level) {
-    ArrayList<Edge> edgesToRemove = edgeDAO.deleteEdgesWithNode(nodeID);
+    ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(nodeID);
     for (Edge edge : edgesToRemove) {
       System.out.println(edge.getStartNode());
       String key = edge.getStartNode().toString() + edge.getEndNode().toString();
       edgeMap.remove(key);
       determineEdgeMap(level).remove(key);
     }
-    nodeDAO.Delete(nodeID);
-    locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
-    moveDAO.Delete(nodeID);
+    databaseRepo.deleteNode(nodeID);
+    databaseRepo.deleteLocName(databaseRepo.getMove(nodeID).getLongName());
+    databaseRepo.deleteMove(nodeID);
     nodeMap.remove(nodeID);
     determineNodeMap(level).remove(nodeID);
   }
@@ -235,7 +239,7 @@ public class MapEditorEntity {
       String floor,
       String building,
       String nodeType) {
-    nodeDAO.Update(nodeID, x, y, floor, building);
+    databaseRepo.updateNode(nodeID, x, y, floor, building);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -246,10 +250,10 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    locNameDAO.Update(oldLongName, oldShortName, longName, shortName, nodeType);
+    databaseRepo.updateLocName(oldLongName, oldShortName, longName, shortName, nodeType);
     // TODO moveDAO.Update(nodeID, longName, dateString);
 
-    Node node = nodeDAO.getNode(nodeID);
+    Node node = databaseRepo.getNode(nodeID);
     nodeMap.put(nodeID, node);
     determineNodeMap(level).put(nodeID, node);
   }
@@ -260,12 +264,12 @@ public class MapEditorEntity {
     Edge temp = edgeMap.get(key);
     if (!(firstNode.getNodeID().toString().equals(secondNode.getNodeID().toString()))) {
       if (temp == null) { // if there is no edge between the nodes, we must add edges
-        Edge edge = edgeDAO.Add(firstNode.getNodeID(), secondNode.getNodeID());
+        Edge edge = databaseRepo.addEdge(firstNode.getNodeID(), secondNode.getNodeID());
         edgeMap.put(key, edge);
         determineEdgeMap(level).put(key, edge);
         return true;
       } else { // there is an edge, so we must remove the edge
-        edgeDAO.Delete(firstNode.getNodeID(), secondNode.getNodeID());
+        databaseRepo.deleteEdge(firstNode.getNodeID(), secondNode.getNodeID());
         edgeMap.remove(key);
         determineEdgeMap(level).remove(key);
         return false;
@@ -275,7 +279,7 @@ public class MapEditorEntity {
   }
 
   public boolean determineLongNameExists(String longName) {
-    if (locNameDAO.getLocName(longName) == null) {
+    if (databaseRepo.getLocName(longName) == null) {
       return true;
     }
     return false;

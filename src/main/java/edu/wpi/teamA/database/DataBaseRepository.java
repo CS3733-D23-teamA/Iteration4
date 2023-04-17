@@ -11,6 +11,7 @@ import edu.wpi.teamA.database.ORMclasses.Node;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DataBaseRepository {
   private NodeDAOImp nodeDAOImp;
@@ -26,8 +27,17 @@ public class DataBaseRepository {
   }
 
   // Node related methods
-  public void addNode(int id, int xcoord, int ycoord, String floor, String building) {
-    nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
+
+  public ArrayList<Node> loadNodesFromDatabase() {
+    return nodeDAOImp.loadNodesFromDatabase();
+  }
+
+  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+    return nodeDAOImp.loadNodesFromDatabaseInMap();
+  }
+
+  public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
+    return nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
   }
 
   public void deleteNode(int id) {
@@ -43,9 +53,21 @@ public class DataBaseRepository {
     return nodeDAOImp.getNode(id);
   }
 
+  public Node getLargestNodeID() {
+    return nodeDAOImp.getLargestNodeID();
+  }
+
   // Edge related methods
-  public void addEdge(int startNode, int endNode) {
-    edgeDAOImp.Add(startNode, endNode);
+  public ArrayList<Edge> loadEdgesFromDatabase() {
+    return edgeDAOImp.loadEdgesFromDatabase();
+  }
+
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    return edgeDAOImp.loadEdgesFromDatabaseInMap();
+  }
+
+  public Edge addEdge(int startNode, int endNode) {
+    return edgeDAOImp.Add(startNode, endNode);
   }
 
   public void deleteEdge(int startNode, int endNode) {
@@ -58,6 +80,10 @@ public class DataBaseRepository {
 
   public Edge getEdge(int startNode, int endNode) {
     return edgeDAOImp.getEdge(startNode, endNode);
+  }
+
+  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
+    return edgeDAOImp.deleteEdgesWithNode(nodeID);
   }
 
   // LocationName related methods

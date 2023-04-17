@@ -461,13 +461,13 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
-    if (!entity.determineLongNameExists(longNameField.getText())) {
+    if (!entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable()) {
       longNameField.setBorder(Border.stroke(Color.web("0xf74c4c")));
     } else {
       longNameField.setBorder(Border.stroke(Color.web("0x000000")));
     }
     if (longNameField.getText().isEmpty()
-        || !entity.determineLongNameExists(longNameField.getText())
+        || (!entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
         || buildingField.getSelectedIndex() == -1

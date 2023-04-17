@@ -45,7 +45,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  public static ArrayList<Edge> loadEdgesFromCSV(String filePath) {
+  private static ArrayList<Edge> loadEdgesFromCSV(String filePath) {
     ArrayList<Edge> edges = new ArrayList<>();
 
     try {
