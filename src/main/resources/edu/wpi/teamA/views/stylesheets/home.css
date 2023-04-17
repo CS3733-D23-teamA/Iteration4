@@ -3,7 +3,7 @@
 .root{}
 
 .background{
-    -fx-background-image: url("icons/bwh-background.jpg");
+    -fx-background-image: url("stylesheet-images/bwh-background.jpg");
     -fx-background-insets: 400;
     -fx-background-repeat: no-repeat;
     -fx-background-size: stretch;

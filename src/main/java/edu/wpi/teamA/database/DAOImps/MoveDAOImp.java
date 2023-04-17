@@ -48,7 +48,11 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
-              + "ON DELETE CASCADE)";
+              + "ON DELETE CASCADE,"
+              + "CONSTRAINT fk_longname "
+              + "FOREIGN KEY(longname) "
+              + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
+              + "ON UPDATE CASCADE)";
       Statement stmtMove = moveProvider.createConnection().createStatement();
       stmtMove.execute(sqlCreateEdge);
     } catch (SQLException e) {
@@ -117,16 +121,17 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
   public static void Export(String filePath) {
     try {
+      String newFile = filePath + "/Move.csv";
       Statement st = moveProvider.createConnection().createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
 
-      FileWriter csvWriter = new FileWriter("Move.csv");
-      csvWriter.append("nodeID,longName,date\n");
+      FileWriter csvWriter = new FileWriter(newFile);
+      csvWriter.append("nodeid,longname,localdate\n");
 
       while (rs.next()) {
-        csvWriter.append(rs.getInt("nodeID") + ",");
-        csvWriter.append(rs.getString("longName")).append(",");
-        csvWriter.append(rs.getString("date")).append("\n");
+        csvWriter.append(rs.getInt("nodeid") + ",");
+        csvWriter.append(rs.getString("longname")).append(",");
+        csvWriter.append(rs.getString("localdate")).append("\n");
       }
 
       csvWriter.flush();
