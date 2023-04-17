@@ -53,8 +53,10 @@ public class LoginController {
         loginMessageLabel.setText("Your password is incorrect.");
       } else if (user.getAdminYes() // else because it returned a user the password was correct
           == 1) { // checks if user is an admin, if so, do following commands
+        AccountSingleton.INSTANCE1.setValue(user);
         Navigation.navigate(Screen.HOME);
       } else { // actions to be made if user is not an admin
+        AccountSingleton.INSTANCE1.setValue(user);
         Navigation.navigate(Screen.HOME);
       }
     } else {
