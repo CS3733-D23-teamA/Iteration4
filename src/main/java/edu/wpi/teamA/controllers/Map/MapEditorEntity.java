@@ -206,6 +206,7 @@ public class MapEditorEntity {
   }
 
   public void determineRemoveAction(int nodeID, String level) {
+    edgeDAO.deleteEdgesWithNode(nodeID);
     nodeDAO.Delete(nodeID);
     locNameDAO.Delete(moveDAO.getMove(nodeID).getLongName());
     moveDAO.Delete(nodeID);
