@@ -472,6 +472,7 @@ public class MapEditorController {
   private void clear() {
     submitButton.setDisable(true);
     longNameField.clear();
+    longNameField.setDisable(false);
     shortNameField.clear();
     floorField.getSelectionModel().clearSelection();
     buildingField.getSelectionModel().clearSelection();
