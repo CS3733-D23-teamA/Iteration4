@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface IServiceDAO {
   ArrayList<Object> aList = new ArrayList<>();
+
   static DBConnectionProvider con = new DBConnectionProvider();
 
   public List<Object> getAll();

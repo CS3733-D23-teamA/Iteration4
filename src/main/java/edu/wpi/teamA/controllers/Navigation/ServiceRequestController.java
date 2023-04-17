@@ -4,6 +4,8 @@ import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
 import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.navigation.Navigation;
+import edu.wpi.teamA.navigation.Screen;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -35,6 +37,27 @@ public class ServiceRequestController extends PageController {
   public void initialize() {
     displayFlowerRequests(fdao.getAllFlowers());
     displayRoomRequests(cdao.getAllCRRR());
+
+    flowerTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                roomTable.getSelectionModel().clearSelection();
+                Navigation.navigate(Screen.FLOWER_REQUEST);
+                FlowerEntity f = newSelection;
+              }
+            });
+    roomTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                flowerTable.getSelectionModel().clearSelection();
+              }
+            });
   }
 
   public void displayFlowerRequests(List<FlowerEntity> flowerEntityArrayList) {
