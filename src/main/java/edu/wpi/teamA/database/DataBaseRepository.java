@@ -8,7 +8,6 @@ import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public class DataBaseRepository {
 
   // Import and Export methods
   public void importData(
-          String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
+      String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
 
     // Convert file paths to Path objects and make them case-sensitive
     Path nodePath = Paths.get(nodeFilePath).toAbsolutePath().normalize();
@@ -121,6 +120,7 @@ public class DataBaseRepository {
     locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     moveDAOImp = new MoveDAOImp(importedMoves);
   }
+
   public void exportData(String folderExportPath) {
     NodeDAOImp.Export(folderExportPath);
     EdgeDAOImp.Export(folderExportPath);

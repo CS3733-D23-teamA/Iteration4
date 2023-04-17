@@ -3,8 +3,6 @@ package edu.wpi.teamA.database.DAOImps;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IEmployeeDAO;
 import edu.wpi.teamA.database.ORMclasses.Employee;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +51,15 @@ public class EmployeeDAOImp implements IEmployeeDAO {
     Employee temp = new Employee();
     try {
       PreparedStatement ps =
-              employeeProvider
-                      .createConnection()
-                      .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Employee\" WHERE name = ?");
+          employeeProvider
+              .createConnection()
+              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Employee\" WHERE name = ?");
       ps.setString(1, name);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
         String idk = rs.getString("name");
         String username = rs.getString("username");
-        String password= rs.getString("password");
+        String password = rs.getString("password");
         String ID = rs.getString("ID");
 
         temp.setName(idk);
@@ -88,10 +86,10 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"Employee\""
-              + "(name    Varchar(600),"
+              + "(employeeName    Varchar(600),"
               + "username    VarChar(600),"
               + "password    VarChar(600),"
-              + "ID     VarChar(600)";
+              + "ID     VarChar(600))";
       Statement stmtEmployee = employeeProvider.createConnection().createStatement();
       stmtEmployee.execute(sqlCreateEdge);
 
