@@ -198,5 +198,20 @@ public class DataBaseRepository {
     crrrDAOImp.updateCRRR(crrr);
   }
 
+  // Furniture related methods
+  public void addFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.addFurniture(furniture);
+  }
 
+  public void deleteFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.deleteFurniture(furniture);
+  }
+
+  public void updateFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.updateFurniture(furniture);
+  }
+
+  public void editFurniture(FurnitureRequest furniture) {
+    furnitureDAOImp.editFurniture(furniture);
+  }
 }
