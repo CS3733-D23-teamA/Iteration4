@@ -316,7 +316,6 @@ public class MapEditorEntity {
         databaseRepo.importData(selectedFile.getPath(), DAOimp);
       } else if (DAOimp.equals("Move")) {
         databaseRepo.importData(selectedFile.getPath(), DAOimp);
-        ;
       } else if (DAOimp.equals("Edge")) {
         databaseRepo.importData(selectedFile.getPath(), DAOimp);
       }

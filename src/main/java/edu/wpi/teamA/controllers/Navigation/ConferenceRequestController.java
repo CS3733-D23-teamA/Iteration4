@@ -2,6 +2,7 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
+import javax.xml.crypto.Data;
+
 public class ConferenceRequestController extends PageController implements IServiceController {
   @FXML MFXButton submitButton;
   @FXML MFXTextField nameField;
@@ -23,7 +26,8 @@ public class ConferenceRequestController extends PageController implements IServ
   @FXML MFXComboBox endCombo;
   @FXML MFXTextField commentField;
 
-  LocNameDAOImp locs = new LocNameDAOImp();
+  //LocNameDAOImp locs = new LocNameDAOImp();
+  DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     startCombo
@@ -39,7 +43,7 @@ public class ConferenceRequestController extends PageController implements IServ
             "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
             "19:00", "20:00", "21:00", "22:00", "23:00");
     ArrayList<String> allRooms = new ArrayList<>();
-    allRooms.addAll(locs.filterLocType("CONF"));
+    allRooms.addAll(databaseRepo.filterLocType("CONF"));
     Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
   }
