@@ -7,6 +7,7 @@ import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.AStar;
 import edu.wpi.teamA.pathfinding.GraphNode;
+import edu.wpi.teamA.pathfinding.Search;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -134,13 +134,13 @@ public class PathfindingController extends PageController {
       String endName = endSelection.getSelectedItem();
       int startID = nameMap.get(startName);
       int endID = nameMap.get(endName);
-      AStar a = new AStar(startID, endID);
-      directions.setText(a.toString());
+      Search search = new AStar(startID, endID);
+      directions.setText(search.toString());
       directions.setFill(Color.web("#f1f1f1"));
 
       System.out.println("Nodes submitted");
 
-      drawPath(a);
+      drawPath(search);
 
     } catch (NullPointerException e) {
       System.out.println("Null Value");
@@ -157,32 +157,45 @@ public class PathfindingController extends PageController {
   /**
    * Helper method for submit, draws graphical path
    *
-   * @param a Astar object implementation to determine path
+   * @param search Astar object implementation to determine path
    */
-  public void drawPath(AStar a) {
+  public void drawPath(Search search) {
 
-    ArrayList<Integer> nodePathIDs = a.getPath();
-    GraphNode gNode = a.getGraphNode(nodePathIDs.get(0));
+    ArrayList<Integer> nodePathIDs = search.getPath();
+    GraphNode gNode = search.getGraphNode(nodePathIDs.get(0));
 
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
+
+    String startFloor = gNode.getFloor();
+    int startX = lastX;
+    int startY = lastY;
+
     Line line;
 
-    topPane.getChildren().add(new Circle(lastX, lastY, 3, Color.DARKRED));
-
     for (int i = 1; i < nodePathIDs.size(); i++) {
-      gNode = a.getGraphNode(nodePathIDs.get(i));
+      gNode = search.getGraphNode(nodePathIDs.get(i));
       if (gNode.getFloor().equals(floor)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
-        line.setFill(Color.DARKRED);
-        line.setStrokeWidth(8);
+        line.setFill(Color.web("0x012D5A"));
+        line.setStrokeWidth(7);
 
         topPane
             .getChildren()
-            .addAll(line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.DARKRED));
+            .addAll(
+                line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.web("0x012D5A")));
       }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
+    }
+
+    if (gNode.getFloor().equals(floor)) {
+      Rectangle end = new Rectangle(lastX - 8, lastY - 8, 16, 16);
+      end.setFill(Color.web("0xEEBD28"));
+      topPane.getChildren().add(end);
+    }
+    if (startFloor.equals(floor)) {
+      topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("0xEEBD28")));
     }
   }
 
