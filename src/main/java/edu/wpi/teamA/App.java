@@ -1,6 +1,6 @@
 package edu.wpi.teamA;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.controllers.Map.MapEditorEntity
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.IncorrectLengthException;
