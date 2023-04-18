@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.FurnitureRequestController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MealRequestController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" />
     </top>
@@ -72,9 +72,10 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="roomComboBox" onAction="#validateButton" prefWidth="370.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="roomCombo" onAction="#validateButton" prefWidth="370.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
+
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
                                     <children>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Date">
