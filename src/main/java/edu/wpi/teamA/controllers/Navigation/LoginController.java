@@ -1,5 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.UserDAOImp;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.navigation.Navigation;
@@ -34,10 +35,11 @@ public class LoginController {
   public void login() {
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
+
+    // Checking username and password inpput fields
     if (username.isBlank() == true && password.isBlank() == true) {
       loginMessageLabel.setText(
-          "Please enter username "
-              + "and password"); // request username and password if neither are
+          "Please enter username and password"); // request username and password if neither are
       // entered
     }
     if (username.isBlank() == true) {
@@ -45,6 +47,8 @@ public class LoginController {
     } else if (password.isBlank() == true) {
       loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
     }
+
+    // Setting up User
     User user =
         checker.checkUser(username, password); // Make a user object to send to Home Page controller
     User wrongPassword = new User(2, "N", "N", "N", "N"); // creates no existing user object
