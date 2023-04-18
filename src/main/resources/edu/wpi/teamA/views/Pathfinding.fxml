@@ -80,6 +80,16 @@
                         <MFXFilterComboBox fx:id="endSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
                      </children>
                   </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Search Algorithm" wrappingWidth="194.5586359484676">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <MFXFilterComboBox fx:id="searchAlgorithm" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" maxWidth="300.0">
