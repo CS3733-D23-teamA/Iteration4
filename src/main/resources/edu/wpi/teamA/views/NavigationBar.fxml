@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.Image?>
@@ -61,13 +62,19 @@
                <children>
                   <MenuButton maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" HBox.hgrow="ALWAYS">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="My Account" />
-                      <MenuItem mnemonicParsing="false" text="Sign Out" />
+                      <MenuItem mnemonicParsing="false" onAction="#openAccount" text="My Account" />
+                      <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
                         <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
                     </items>
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
+                     <graphic>
+                        <Label fx:id="userNameLabel" prefHeight="29.0">
+                           <font>
+                              <Font size="10.0" />
+                           </font></Label>
+                     </graphic>
                   </MenuButton>
                </children>
                <HBox.margin>
