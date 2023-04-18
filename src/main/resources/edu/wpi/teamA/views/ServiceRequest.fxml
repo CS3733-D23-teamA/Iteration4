@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -8,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -31,6 +34,40 @@
                         <Insets bottom="30.0" top="20.0" />
                      </VBox.margin>
                           </Text>
+                  <VBox alignment="CENTER_LEFT" spacing="12.0">
+                     <children>
+                        <Label style="-fx-font-size: 37;" text="Employee Assigned" />
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                           <children>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Service Request">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <MFXComboBox fx:id="chooseServiceRequest" prefHeight="50.0" prefWidth="300.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Employee">
+                                       <font>
+                                          <Font name="Open Sans Regular" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <MFXComboBox fx:id="chooseEmployee" prefHeight="50.0" prefWidth="300.0" />
+                                 </children>
+                              </VBox>
+                              <MFXButton fx:id="submitButton" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="25.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
                   <ScrollPane prefHeight="614.0" prefWidth="1249.0">
                      <content>
                         <GridPane prefHeight="997.0" prefWidth="1564.0">

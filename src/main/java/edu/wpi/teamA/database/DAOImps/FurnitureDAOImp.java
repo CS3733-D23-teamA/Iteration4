@@ -5,9 +5,11 @@ import edu.wpi.teamA.database.Interfaces.IFurnitureDAO;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import java.sql.*;
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
 public class FurnitureDAOImp implements IFurnitureDAO {
-  ArrayList<FurnitureRequest> furnitureArray;
+  @Getter @Setter private ArrayList<FurnitureRequest> furnitureArray;
   static DBConnectionProvider furnitureProvider = new DBConnectionProvider();
 
   public FurnitureDAOImp() {

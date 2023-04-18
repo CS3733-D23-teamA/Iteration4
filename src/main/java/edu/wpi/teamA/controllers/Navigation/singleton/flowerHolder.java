@@ -3,20 +3,20 @@ package edu.wpi.teamA.controllers.Navigation.singleton;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 
 public class flowerHolder {
-    private FlowerEntity f;
-    private final static flowerHolder INSTANCE = new flowerHolder();
+  private FlowerEntity f;
+  private static final flowerHolder INSTANCE = new flowerHolder();
 
-    private flowerHolder() {}
+  private flowerHolder() {}
 
-    public static flowerHolder getInstance() {
-        return INSTANCE;
-    }
+  public static flowerHolder getInstance() {
+    return INSTANCE;
+  }
 
-    public void setUser(FlowerEntity flower) {
-        this.f = flower;
-    }
+  public void setUser(FlowerEntity flower) {
+    this.f = flower;
+  }
 
-    public FlowerEntity getUser() {
-        return this.f;
-    }
+  public FlowerEntity getUser() {
+    return this.f;
+  }
 }

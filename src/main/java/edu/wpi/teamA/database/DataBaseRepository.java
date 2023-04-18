@@ -15,6 +15,8 @@ public class DataBaseRepository {
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
 
+  private EmployeeDAOImp employeeDAOImp;
+
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
@@ -23,6 +25,7 @@ public class DataBaseRepository {
     flowerDAOImpl = new FlowerDAOImpl();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
+    employeeDAOImp = new EmployeeDAOImp();
   }
 
   // Node related methods
@@ -187,6 +190,10 @@ public class DataBaseRepository {
   }
 
   // Flower related methods
+  public ArrayList<FlowerEntity> getFlowerArray() {
+    return flowerDAOImpl.getFlowerArray();
+  }
+
   public void addFlower(FlowerEntity flower) {
     flowerDAOImpl.addFlower(flower);
   }
@@ -208,6 +215,10 @@ public class DataBaseRepository {
   }
 
   // Conference room service request related methods
+  public ArrayList<ConferenceRoomResRequest> getCrrrArray() {
+    return crrrDAOImp.getCrrrArray();
+  }
+
   public void addCRRR(ConferenceRoomResRequest crrr) {
     crrrDAOImp.addCRRR(crrr);
   }
@@ -229,6 +240,10 @@ public class DataBaseRepository {
   }
 
   // Furniture related methods
+  public ArrayList<FurnitureRequest> getFurnitureArray() {
+    return furnitureDAOImp.getFurnitureArray();
+  }
+
   public void addFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.addFurniture(furniture);
   }
@@ -243,5 +258,30 @@ public class DataBaseRepository {
 
   public void editFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.editFurniture(furniture);
+  }
+
+  // Employee related methods
+  public ArrayList<Employee> getEmployeeArray() {
+    return employeeDAOImp.getEmployeeArray();
+  }
+
+  public List<Employee> getAllEmployees() {
+    return employeeDAOImp.getAllEmployees();
+  }
+
+  public Employee getEmployee(String name) {
+    return employeeDAOImp.getEmployee(name);
+  }
+
+  public void modifyEmployee(Employee employee) {
+    employeeDAOImp.modifyEmployee(employee);
+  }
+
+  public void addEmployee(Employee employee) {
+    employeeDAOImp.addEmployee(employee);
+  }
+
+  public void removeEmployee(Employee employee) {
+    employeeDAOImp.removeEmployee(employee);
   }
 }

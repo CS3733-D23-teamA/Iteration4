@@ -6,9 +6,11 @@ import edu.wpi.teamA.database.ORMclasses.Employee;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class EmployeeDAOImp implements IEmployeeDAO {
-  ArrayList<Employee> employeeArray;
+  @Getter @Setter private ArrayList<Employee> employeeArray;
   static DBConnectionProvider employeeProvider = new DBConnectionProvider();
 
   public EmployeeDAOImp() {

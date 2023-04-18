@@ -6,9 +6,11 @@ import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
-  ArrayList<FlowerEntity> flowerArray;
+  @Getter @Setter private ArrayList<FlowerEntity> flowerArray;
   static DBConnectionProvider flowerProvider = new DBConnectionProvider();
 
   public FlowerDAOImpl() {

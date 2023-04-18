@@ -1,11 +1,11 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
-import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -15,7 +15,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ServiceRequestController extends PageController {
-  private FlowerDAOImpl fdao = new FlowerDAOImpl();
+
+  private DataBaseRepository databaseRepo = new DataBaseRepository();
+  // private FlowerDAOImpl fdao = new FlowerDAOImpl();
   @FXML private TableView<FlowerEntity> flowerTable;
   @FXML private TableColumn<FlowerEntity, String> roomCol;
   @FXML private TableColumn<FlowerEntity, String> dateCol;
@@ -24,7 +26,7 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<FlowerEntity, String> commentCol;
   @FXML private TableColumn<FlowerEntity, String> statusCol;
 
-  private CRRRDAOImp cdao = new CRRRDAOImp();
+  // private CRRRDAOImp cdao = new CRRRDAOImp();
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
   @FXML private TableColumn<ConferenceRoomResRequest, String> roomCol1;
   @FXML private TableColumn<ConferenceRoomResRequest, String> dateCol1;
@@ -35,8 +37,8 @@ public class ServiceRequestController extends PageController {
 
   @FXML
   public void initialize() {
-    displayFlowerRequests(fdao.getAllFlowers());
-    displayRoomRequests(cdao.getAllCRRR());
+    displayFlowerRequests(databaseRepo.getAllFlowers());
+    displayRoomRequests(databaseRepo.getAllCRRR());
 
     flowerTable
         .getSelectionModel()
@@ -58,6 +60,9 @@ public class ServiceRequestController extends PageController {
                 flowerTable.getSelectionModel().clearSelection();
               }
             });
+
+    // TODO ADMIN ONLY
+    ArrayList<String> allServiceRequests = new ArrayList<>();
   }
 
   public void displayFlowerRequests(List<FlowerEntity> flowerEntityArrayList) {
