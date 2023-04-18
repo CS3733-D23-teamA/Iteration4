@@ -4,17 +4,17 @@ import java.util.ArrayList;
 
 public interface IDataBase {
 
-  static ArrayList Import(String filePath){
+  static ArrayList Import(String filePath) {
     return null;
   }
 
-  static void Export(String filePath){};
+  static void Export(String filePath) {};
 
- // void Add( addT);
+  // void Add(T addT);
 
- // void Delete(T delT);
+  // void Delete(T delT);
 
-  //void Update(T upT);
+  // void Update(T upT);
 
   // 1.get all
   // 2.update

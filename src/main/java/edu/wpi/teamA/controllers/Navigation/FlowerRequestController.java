@@ -8,6 +8,7 @@ import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.awt.event.ActionEvent;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,6 +23,11 @@ public class FlowerRequestController extends PageController implements IServiceC
   @FXML MFXComboBox timeCombo;
   @FXML MFXComboBox flowerCombo;
   @FXML MFXTextField commentField;
+
+  @FXML
+  private void openMealRequest(ActionEvent event) {
+    Navigation.navigate(Screen.MEAL_REQUEST);
+  }
 
   LocNameDAOImp locs = new LocNameDAOImp();
 

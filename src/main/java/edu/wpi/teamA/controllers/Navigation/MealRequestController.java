@@ -1,7 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.MealDAOImpl;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
+import edu.wpi.teamA.database.DAOImps.MealDAOImpl;
 import edu.wpi.teamA.database.ORMclasses.MealEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -15,27 +15,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
 public class MealRequestController extends PageController implements IServiceController {
-  @FXML
-  MFXButton submitButton;
-  @FXML
-  MFXTextField nameField;
-  @FXML
-  MFXComboBox<String> roomCombo;
-  @FXML
-  DatePicker datePicker;
-  @FXML
-  MFXComboBox<String> timeCombo;
-  @FXML
-  MFXComboBox<String> mealCombo;
-  @FXML
-  MFXTextField commentField;
+  @FXML MFXButton submitButton;
+  @FXML MFXTextField nameField;
+  @FXML MFXComboBox<String> roomCombo;
+  @FXML DatePicker datePicker;
+  @FXML MFXComboBox<String> timeCombo;
+  @FXML MFXComboBox<String> mealCombo;
+  @FXML MFXTextField commentField;
 
   LocNameDAOImp locs = new LocNameDAOImp();
 
   @Override
   public void initialize() {
     mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
-    timeCombo.getItems().addAll(
+    timeCombo
+        .getItems()
+        .addAll(
             "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
             "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
             "19:00", "20:00", "21:00", "22:00", "23:00");
@@ -56,10 +51,10 @@ public class MealRequestController extends PageController implements IServiceCon
   @FXML
   public void validateButton() {
     if (nameField.getText().isEmpty()
-            || datePicker.getValue() == null
-            || timeCombo.getSelectedIndex() == -1
-            || mealCombo.getSelectedIndex() == -1
-            || roomCombo.getSelectedIndex() == -1) {
+        || datePicker.getValue() == null
+        || timeCombo.getSelectedIndex() == -1
+        || mealCombo.getSelectedIndex() == -1
+        || roomCombo.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
       submitButton.setDisable(false);
@@ -78,16 +73,16 @@ public class MealRequestController extends PageController implements IServiceCon
 
   public void submit() {
     MealEntity meal =
-            new MealEntity(
-                    nameField.getText(),
-                    roomCombo.getText(),
-                    Date.valueOf(datePicker.getValue()),
-                    convertTime(timeCombo.getText()),
-                    mealCombo.getText(),
-                    commentField.getText(),
-                    "new");
+        new MealEntity(
+            nameField.getText(),
+            roomCombo.getText(),
+            Date.valueOf(datePicker.getValue()),
+            convertTime(timeCombo.getText()),
+            mealCombo.getText(),
+            commentField.getText(),
+            "new");
     MealDAOImpl md = new MealDAOImpl();
-    md.addMeal(meal);
+    md.add(meal);
     clear();
   }
 
@@ -106,5 +101,3 @@ public class MealRequestController extends PageController implements IServiceCon
     return num;
   }
 }
-
-
