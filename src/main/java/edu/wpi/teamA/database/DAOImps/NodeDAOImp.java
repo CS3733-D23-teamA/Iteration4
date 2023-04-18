@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NodeDAOImp implements IDataBase, INodeDAO {
   ArrayList<Node> NodeArray;
@@ -25,7 +26,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
   // ResultSet
 
-  public static ArrayList<Node> loadNodesFromCSV(String filePath) {
+  private static ArrayList<Node> loadNodesFromCSV(String filePath) {
     ArrayList<Node> nodes = new ArrayList<>();
 
     try {
@@ -162,8 +163,33 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  public void Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
+  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+
+    try {
+      Statement st = nodeProvider.createConnection().createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
+
+      while (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
+        nodes.put(nodeID, node);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return nodes;
+  }
+
+  public Node Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
     /** Insert new node object to the existing node table */
+    Node node = null;
     try {
 
       PreparedStatement ps =
@@ -178,11 +204,13 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setString(5, building);
       ps.executeUpdate();
 
-      NodeArray.add(new Node(nodeID, xcoord, ycoord, floor, building));
+      node = new Node(nodeID, xcoord, ycoord, floor, building);
+      NodeArray.add(node);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+    return node;
   }
 
   public void Delete(int nodeID) {

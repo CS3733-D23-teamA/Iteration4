@@ -2,6 +2,7 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
 import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -23,7 +24,8 @@ public class FlowerRequestController extends PageController implements IServiceC
   @FXML MFXComboBox flowerCombo;
   @FXML MFXTextField commentField;
 
-  LocNameDAOImp locs = new LocNameDAOImp();
+  //LocNameDAOImp locs = new LocNameDAOImp();
+  DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
@@ -35,9 +37,9 @@ public class FlowerRequestController extends PageController implements IServiceC
             "19:00", "20:00", "21:00", "22:00", "23:00");
 
     ArrayList<String> allRooms = new ArrayList<>();
-    allRooms.addAll(locs.filterLocType("CONF"));
-    allRooms.addAll(locs.filterLocType("INFO"));
-    allRooms.addAll(locs.filterLocType("LABS"));
+    allRooms.addAll(databaseRepo.filterLocType("CONF"));
+    allRooms.addAll(databaseRepo.filterLocType("INFO"));
+    allRooms.addAll(databaseRepo.filterLocType("LABS"));
     Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
   }
