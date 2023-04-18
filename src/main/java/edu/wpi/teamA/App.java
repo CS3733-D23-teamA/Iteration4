@@ -49,6 +49,7 @@ public class App extends Application {
 
     App.rootPane = root;
 
+    // move to init?
     UserDAOImp un = new UserDAOImp();
     un.createUserTable();
 
@@ -57,6 +58,7 @@ public class App extends Application {
     mapEditorEntity.loadFloorNodes();
 
     final Scene scene = new Scene(root);
+    scene.getStylesheets().add("edu/wpi/teamA/views/stylesheets/main.css");
     primaryStage.setScene(scene);
     primaryStage.show();
 
