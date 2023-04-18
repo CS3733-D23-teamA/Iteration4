@@ -12,15 +12,16 @@ import org.junit.jupiter.api.Test;
 
 public class BFSTest {
   Graph graph = new Graph();
-  GraphNode nodeA = new GraphNode(11, 0, 0, "", "");
+  /* GraphNode nodeA = new GraphNode(11, 0, 0, "", "");
   GraphNode nodeB = new GraphNode(12, 0, 0, "", "");
   GraphNode nodeC = new GraphNode(13, 0, 0, "", "");
   GraphNode nodeD = new GraphNode(14, 0, 0, "", "");
   GraphNode nodeE = new GraphNode(15, 0, 0, "", "");
+  */
 
-  @BeforeEach
+  /* @BeforeEach
   protected void setUp() throws Exception {
-    System.out.println("Setting it up!");
+    System.out.println("Setting it up...");
     GraphNode nodeA = new GraphNode(11, 0, 0, "", "");
     GraphNode nodeB = new GraphNode(12, 0, 0, "", "");
     GraphNode nodeC = new GraphNode(13, 0, 0, "", "");
@@ -53,9 +54,9 @@ public class BFSTest {
     nodeD.addEdge(edgeDF);
     // nodeA.addEdge(edgeAC);
     // nodeC.addEdge(edgeAC);
-  }
+  }*/
 
-  @Test
+  /* @Test
   public void testSetPathBFS() {
     BFS bfs1 = new BFS(graph, 11, 13);
     ArrayList<Integer> expected_path = new ArrayList<Integer>();
@@ -89,13 +90,94 @@ public class BFSTest {
     expected_path.add(16);
     actual_path = bfs4.getPath();
     assertEquals(expected_path, actual_path);
+  }*/
+
+  @BeforeEach
+  protected void setUp() throws Exception {
+    System.out.println("Balanced BST with depth of 3");
+    GraphNode nodeA = new GraphNode(11, 0, 0, "", "");
+    GraphNode nodeB = new GraphNode(12, 0, 0, "", "");
+    GraphNode nodeC = new GraphNode(13, 0, 0, "", "");
+    GraphNode nodeD = new GraphNode(14, 0, 0, "", "");
+    GraphNode nodeE = new GraphNode(15, 0, 0, "", "");
+    GraphNode nodeF = new GraphNode(16, 0, 0, "", "");
+    GraphNode nodeG = new GraphNode(17, 0, 0, "", "");
+
+    graph.addNodeToGraph(nodeA);
+    graph.addNodeToGraph(nodeB);
+    graph.addNodeToGraph(nodeC);
+    graph.addNodeToGraph(nodeD);
+    graph.addNodeToGraph(nodeE);
+    graph.addNodeToGraph(nodeF);
+    graph.addNodeToGraph(nodeG);
+
+    // Level 1-2 edges
+    Edge edgeAB = new Edge(nodeA.getNodeID(), nodeB.getNodeID());
+    Edge edgeAC = new Edge(nodeA.getNodeID(), nodeC.getNodeID());
+    // Level 2-3 edges
+    Edge edgeBD = new Edge(nodeB.getNodeID(), nodeD.getNodeID());
+    Edge edgeBE = new Edge(nodeB.getNodeID(), nodeE.getNodeID());
+    Edge edgeCF = new Edge(nodeC.getNodeID(), nodeF.getNodeID());
+    Edge edgeCG = new Edge(nodeC.getNodeID(), nodeG.getNodeID());
+
+    // Level 1-2 edges
+    nodeA.addEdge(edgeAB);
+    nodeB.addEdge(edgeAB);
+    nodeA.addEdge(edgeAC);
+    nodeC.addEdge(edgeAC);
+    // Level 2-3 edges
+    nodeB.addEdge(edgeBD);
+    nodeD.addEdge(edgeBD);
+    nodeB.addEdge(edgeBE);
+    nodeE.addEdge(edgeBE);
+    nodeC.addEdge(edgeCF);
+    nodeF.addEdge(edgeCF);
+    nodeG.addEdge(edgeCG);
+    nodeC.addEdge(edgeCG);
+  }
+
+  @Test
+  public void testSetPathBFS() {
+    BFS bfs1 = new BFS(graph, 11, 13);
+    ArrayList<Integer> expected_path = new ArrayList<Integer>();
+    expected_path.add(11);
+    expected_path.add(13);
+    ArrayList<Integer> actual_path = bfs1.getPath();
+    assertEquals(expected_path, actual_path);
+
+    BFS bfs2 = new BFS(graph, 11, 12);
+    expected_path = new ArrayList<Integer>();
+    expected_path.add(11);
+    expected_path.add(12);
+    actual_path = bfs2.getPath();
+    assertEquals(expected_path, actual_path);
+
+    // longest path
+    BFS bfs3 = new BFS(graph, 11, 17);
+    expected_path = new ArrayList<Integer>();
+    expected_path.add(11);
+    expected_path.add(13);
+    expected_path.add(17);
+    actual_path = bfs3.getPath();
+    assertEquals(expected_path, actual_path);
+
+    // longest path
+    BFS bfs4 = new BFS(graph, 14, 17);
+    expected_path = new ArrayList<Integer>();
+    expected_path.add(14);
+    expected_path.add(12);
+    expected_path.add(11);
+    expected_path.add(13);
+    expected_path.add(17);
+    actual_path = bfs4.getPath();
+    assertEquals(expected_path, actual_path);
   }
 
   @Test
   public void testToStringBFS() {
     BFS bfs1 = new BFS(graph, 11, 13);
     String expectedString =
-        "Start at node 11, then go to node 12, then go to node 13. You have reached your destination.";
+        "Start at node 11, then go to node 13. You have reached your destination.";
     String actualString = bfs1.toString();
     assertEquals(expectedString, actualString);
 
