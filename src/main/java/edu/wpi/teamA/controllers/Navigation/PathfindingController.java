@@ -62,14 +62,15 @@ public class PathfindingController extends PageController {
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
-    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
-      searchAlgorithmSelection.setVisible(true);
-      searchAlgorithmText.setVisible(true);
-      searchAlgorithmTextDirections.setVisible(true);
-    } else {
+
+    // setting search algorithim selection visibility based on access level
+    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() != 1) {
       searchAlgorithmSelection.setVisible(false);
+      searchAlgorithmSelection.setManaged(false);
       searchAlgorithmText.setVisible(false);
+      searchAlgorithmText.setManaged(false);
       searchAlgorithmTextDirections.setVisible(false);
+      searchAlgorithmTextDirections.setManaged(false);
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
