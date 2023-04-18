@@ -12,14 +12,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
 public class MoveDAOImp implements IDataBase, IMoveDAO {
 
-  @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<Integer, Move>();
-
-  private static DBConnectionProvider moveProvider = new DBConnectionProvider();
+  @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
 
   public MoveDAOImp(HashMap<Integer, Move> MoveMap) {
     this.MoveMap = MoveMap;
@@ -31,7 +30,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
   public static void createSchema() {
     try {
-      Statement stmtSchema = moveProvider.createConnection().createStatement();
+      Statement stmtSchema =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
       stmtSchema.execute(sqlCreateSchema);
     } catch (SQLException e) {
@@ -54,7 +54,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
               + "ON UPDATE CASCADE)";
-      Statement stmtMove = moveProvider.createConnection().createStatement();
+      Statement stmtMove =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       stmtMove.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -62,7 +63,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public static HashMap<Integer, Move> loadMovesFromCSV(String filePath) {
-    HashMap<Integer, Move> moves = new HashMap<Integer, Move>();
+    HashMap<Integer, Move> moves = new HashMap<>();
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -102,8 +103,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            moveProvider
-                .createConnection()
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
         ps.setString(2, data[1]);
@@ -123,7 +123,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   public static void Export(String filePath) {
     try {
       String newFile = filePath + "/Move.csv";
-      Statement st = moveProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -149,7 +150,8 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     ArrayList<Move> moves = new ArrayList<>();
 
     try {
-      Statement st = moveProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -168,10 +170,9 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
-    // HashMap<Integer, Move> moves = new HashMap<Integer, Move>();
-
     try {
-      Statement st = moveProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -180,7 +181,6 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
         Move move = new Move(nodeID, longName, localDate);
-        // moves.put(move.getNodeID(), move);
         MoveMap.put(move.getNodeID(), move);
       }
     } catch (SQLException e) {
@@ -198,8 +198,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
@@ -218,14 +217,12 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     try {
 
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Move\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
       MoveMap.remove(nodeID);
-      // MoveMap.removeIf(move -> move.getNodeID() == nodeID);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -238,8 +235,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       LocalDate localDate = LocalDate.parse(dateString, formatter);
 
       PreparedStatement ps =
-          moveProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Move\" SET longname = ?, localdate = ? WHERE nodeid = ?");
       ps.setString(1, longName);
@@ -248,13 +244,6 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       ps.executeUpdate();
 
       MoveMap.put(nodeID, new Move(nodeID, longName, localDate));
-      //      MoveArray.forEach(
-      //          move -> {
-      //            if (move.getNodeID() == nodeID) {
-      //              move.setLongName(longName);
-      //              move.setDate(localDate);
-      //            }
-      //          });
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -262,26 +251,6 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public Move getMove(int nodeID) {
-    Move result = null;
-
-    try {
-      PreparedStatement ps =
-          moveProvider
-              .createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Move\" WHERE nodeid = ?");
-      ps.setInt(1, nodeID);
-      ResultSet rs = ps.executeQuery();
-
-      if (rs.next()) {
-        String longName = rs.getString("longName");
-        LocalDate localDate = rs.getDate("localDate").toLocalDate();
-
-        result = new Move(nodeID, longName, localDate);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return result;
+    return MoveMap.get(nodeID);
   }
 }

@@ -164,7 +164,6 @@ public class MapEditorEntity {
   public void determineRemoveAction(int nodeID, String level) {
     ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(nodeID);
     for (Edge edge : edgesToRemove) {
-      System.out.println(edge.getStartNode());
       String key = edge.getStartNode().toString() + edge.getEndNode().toString();
       determineEdgeMap(level).remove(key);
     }

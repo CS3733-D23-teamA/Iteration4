@@ -31,8 +31,8 @@ public class DataBaseRepository {
     return nodeDAOImp.getNodeMap();
   }
 
-  public ArrayList<Node> loadNodesFromDatabase() {
-    return nodeDAOImp.loadNodesFromDatabase();
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
+    return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
   public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
@@ -66,8 +66,8 @@ public class DataBaseRepository {
     return edgeDAOImp.getEdgeMap();
   }
 
-  public ArrayList<Edge> loadEdgesFromDatabase() {
-    return edgeDAOImp.loadEdgesFromDatabase();
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
+    return edgeDAOImp.loadEdgesFromDatabaseInArray();
   }
 
   public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {

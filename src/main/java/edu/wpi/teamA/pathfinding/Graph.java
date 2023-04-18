@@ -20,8 +20,8 @@ public class Graph {
 
     DataBaseRepository databaseRepo = new DataBaseRepository();
 
-    ArrayList<Node> allNodes = databaseRepo.loadNodesFromDatabase();
-    ArrayList<Edge> allEdges = databaseRepo.loadEdgesFromDatabase();
+    ArrayList<Node> allNodes = databaseRepo.loadNodesFromDatabaseInArray();
+    ArrayList<Edge> allEdges = databaseRepo.loadEdgesFromDatabaseInArray();
 
     for (Node n : allNodes) {
       GraphNode g =
