@@ -27,8 +27,8 @@
 }
 
 .blue-styled-button {
-    -fx-pref-width: 100;
-    -fx-pref-height: 50;
+    -fx-pref-width: 200;
+    -fx-pref-height: 60;
 
     -fx-font-size: 20;
     -fx-text-fill: #f1f1f1;
