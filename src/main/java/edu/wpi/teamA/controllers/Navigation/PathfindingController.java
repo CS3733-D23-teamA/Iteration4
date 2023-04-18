@@ -38,7 +38,10 @@ public class PathfindingController extends PageController {
   // comboboxes, on screen text directions, and submit button
   @FXML private MFXFilterComboBox<String> startSelection;
   @FXML private MFXFilterComboBox<String> endSelection;
+  @FXML private MFXFilterComboBox<String> searchAlgorithmSelection;
+  @FXML private Text searchAlgorithmText;
   @FXML private Text directions;
+  @FXML private Text searchAlgorithmTextDirections;
 
   // level buttons
   @FXML private MFXButton levelL1Button;
@@ -60,6 +63,15 @@ public class PathfindingController extends PageController {
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
+    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+      searchAlgorithmSelection.setVisible(true);
+      searchAlgorithmText.setVisible(true);
+      searchAlgorithmTextDirections.setVisible(true);
+    } else {
+      searchAlgorithmSelection.setVisible(false);
+      searchAlgorithmText.setVisible(false);
+      searchAlgorithmTextDirections.setVisible(false);
+    }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
     // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
