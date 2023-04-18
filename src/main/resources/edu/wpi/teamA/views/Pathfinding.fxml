@@ -18,7 +18,6 @@
    <center>
       <StackPane alignment="TOP_CENTER" maxWidth="1300.0" prefHeight="900" prefWidth="1300.0" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <GesturePane fx:id="gesturePane" prefHeight="900.0" prefWidth="1300.0" />
             <VBox alignment="CENTER" fillWidth="false" maxHeight="350.0" maxWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L1" textFill="#012d5a">
@@ -48,6 +47,7 @@
                   </MFXButton>
                </children>
             </VBox>
+            <GesturePane fx:id="gesturePane" prefHeight="900.0" prefWidth="1300.0" />
          </children>
       </StackPane>
    </center>
@@ -82,12 +82,12 @@
                   </VBox>
                   <VBox spacing="5.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Search Algorithm" wrappingWidth="194.5586359484676">
+                        <Text fx:id="searchAlgorithmText" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Search Algorithm" wrappingWidth="194.5586359484676">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <MFXFilterComboBox fx:id="searchAlgorithm" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
+                        <MFXFilterComboBox fx:id="searchAlgorithmSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
                      </children>
                   </VBox>
                </children>
@@ -99,7 +99,8 @@
                         <Font name="Open Sans Regular" size="24.0" />
                      </font>
                   </Label>
-                  <Text fx:id="directions" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter starting and ending destination ...&#10;" wrappingWidth="300.0" />
+                  <Text fx:id="directions" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter starting and ending destination" wrappingWidth="300.0" />
+                  <Text fx:id="searchAlgorithmTextDirections" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="and select the desired search algorithm" wrappingWidth="300.0" />
                </children>
             </VBox>
          </children>
