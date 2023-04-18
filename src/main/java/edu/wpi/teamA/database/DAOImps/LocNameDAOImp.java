@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import lombok.Getter;
+import lombok.Setter;
 
 public class LocNameDAOImp implements IDataBase, ILocNameDAO {
 
   // ArrayList<LocationName> LocNameArray = new ArrayList<LocationName>();
+  @Getter @Setter
   private HashMap<String, LocationName> LocNameMap = new HashMap<String, LocationName>();
 
   private static DBConnectionProvider LocNameProvider = new DBConnectionProvider();
@@ -23,7 +26,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
   }
 
   public LocNameDAOImp() {
-    this.LocNameMap = new HashMap<String, LocationName>();
+    this.LocNameMap = loadLocNamefromDatabase();
   }
 
   public static void createTable() {

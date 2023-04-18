@@ -17,7 +17,7 @@ import lombok.Setter;
 
 public class MoveDAOImp implements IDataBase, IMoveDAO {
 
-  @Getter @Setter private HashMap<Integer, Move> MoveMap;
+  @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<Integer, Move>();
 
   private static DBConnectionProvider moveProvider = new DBConnectionProvider();
 
@@ -26,7 +26,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public MoveDAOImp() {
-    this.MoveMap = new HashMap<Integer, Move>();
+    this.MoveMap = loadMovesFromDatabaseInMap();
   }
 
   public static void createSchema() {

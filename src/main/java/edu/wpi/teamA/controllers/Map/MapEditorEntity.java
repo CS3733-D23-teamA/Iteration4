@@ -17,7 +17,6 @@ import javafx.scene.shape.Line;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
-import lombok.Setter;
 
 public class MapEditorEntity {
   // MapEditorController controller = new MapEditorController();
@@ -32,8 +31,7 @@ public class MapEditorEntity {
   // databaseRepo.loadNodesFromDatabaseInMap();
 
   // @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
-  @Getter @Setter
-  private HashMap<Integer, Node> nodeMap = databaseRepo.loadNodesFromDatabaseInMap();
+  // @Getter @Setter private HashMap<Integer, Node> nodeMap = databaseRepo.getNodeMap();
 
   //  @Getter private ArrayList<Node> levelL1NodeArray = new ArrayList<Node>();
   //  @Getter private ArrayList<Node> levelL2NodeArray = new ArrayList<Node>();
@@ -48,7 +46,7 @@ public class MapEditorEntity {
   @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
 
   // @Getter private ArrayList<Edge> edgeArray = edgeDAO.loadEdgesFromDatabase();
-  @Getter private HashMap<String, Edge> edgeMap = databaseRepo.loadEdgesFromDatabaseInMap();
+  // @Getter private HashMap<String, Edge> edgeMap = databaseRepo.loadEdgesFromDatabaseInMap();
 
   //  @Getter private ArrayList<Edge> levelL1EdgeArray = new ArrayList<Edge>();
   //  @Getter private ArrayList<Edge> levelL2EdgeArray = new ArrayList<Edge>();
@@ -63,7 +61,7 @@ public class MapEditorEntity {
   @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
 
   public void loadFloorNodes() {
-    for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
+    for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
       if (node.getFloor().equals("L1")) {
         levelL1NodeMap.put(node.getNodeID(), node);
@@ -80,9 +78,9 @@ public class MapEditorEntity {
   }
 
   public void loadFloorEdges() {
-    for (Map.Entry<String, Edge> entry : edgeMap.entrySet()) {
+    for (Map.Entry<String, Edge> entry : databaseRepo.getEdgeMap().entrySet()) {
       Edge edge = entry.getValue();
-      Node node = nodeMap.get(edge.getStartNode());
+      Node node = databaseRepo.getNodeMap().get(edge.getStartNode());
       String temp = edge.getStartNode().toString() + edge.getEndNode().toString();
       if (node.getFloor().equals("L1")) {
         levelL1EdgeMap.put(temp, edge);
@@ -142,8 +140,8 @@ public class MapEditorEntity {
 
   public Line addLine(int startNodeID, int endNodeID) {
 
-    Node startNode = nodeMap.get(startNodeID);
-    Node endNode = nodeMap.get(endNodeID);
+    Node startNode = databaseRepo.getNodeMap().get(startNodeID);
+    Node endNode = databaseRepo.getNodeMap().get(endNodeID);
 
     //    LocationName startLocName =
     // locNameDAO.getLocName(moveDAO.getMove(startNodeID).getLongName());
@@ -170,7 +168,7 @@ public class MapEditorEntity {
   }
 
   public Node getNodeInfo(int nodeID) {
-    return nodeMap.get(nodeID);
+    return databaseRepo.getNodeMap().get(nodeID);
   }
 
   public LocationName getLocationName(int nodeID) {
@@ -205,7 +203,7 @@ public class MapEditorEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     databaseRepo.addLocName(longName, shortName, nodeType);
     databaseRepo.addMove(newNodeID, longName, dateString);
-    nodeMap.put(newNodeID, node);
+    // nodeMap.put(newNodeID, node);
     determineNodeMap(level).put(newNodeID, node);
     //
     // }
@@ -216,13 +214,13 @@ public class MapEditorEntity {
     for (Edge edge : edgesToRemove) {
       System.out.println(edge.getStartNode());
       String key = edge.getStartNode().toString() + edge.getEndNode().toString();
-      edgeMap.remove(key);
+      // edgeMap.remove(key);
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(nodeID);
     databaseRepo.deleteLocName(databaseRepo.getMove(nodeID).getLongName());
     databaseRepo.deleteMove(nodeID);
-    nodeMap.remove(nodeID);
+    // nodeMap.remove(nodeID);
     determineNodeMap(level).remove(nodeID);
   }
 
@@ -253,23 +251,23 @@ public class MapEditorEntity {
     // TODO moveDAO.Update(nodeID, longName, dateString);
 
     Node node = databaseRepo.getNode(nodeID);
-    nodeMap.put(nodeID, node);
+    // nodeMap.put(nodeID, node);
     determineNodeMap(level).put(nodeID, node);
   }
 
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
     // Edge e = edgeDAO.getEdge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
-    Edge temp = edgeMap.get(key);
+    Edge temp = databaseRepo.getEdgeMap().get(key);
     if (!(firstNode.getNodeID().toString().equals(secondNode.getNodeID().toString()))) {
       if (temp == null) { // if there is no edge between the nodes, we must add edges
         Edge edge = databaseRepo.addEdge(firstNode.getNodeID(), secondNode.getNodeID());
-        edgeMap.put(key, edge);
+        // edgeMap.put(key, edge);
         determineEdgeMap(level).put(key, edge);
         return true;
       } else { // there is an edge, so we must remove the edge
         databaseRepo.deleteEdge(firstNode.getNodeID(), secondNode.getNodeID());
-        edgeMap.remove(key);
+        // edgeMap.remove(key);
         determineEdgeMap(level).remove(key);
         return false;
       }

@@ -27,6 +27,10 @@ public class DataBaseRepository {
 
   // Node related methods
 
+  public HashMap<Integer, Node> getNodeMap() {
+    return nodeDAOImp.getNodeMap();
+  }
+
   public ArrayList<Node> loadNodesFromDatabase() {
     return nodeDAOImp.loadNodesFromDatabase();
   }
@@ -57,6 +61,11 @@ public class DataBaseRepository {
   }
 
   // Edge related methods
+
+  public HashMap<String, Edge> getEdgeMap() {
+    return edgeDAOImp.getEdgeMap();
+  }
+
   public ArrayList<Edge> loadEdgesFromDatabase() {
     return edgeDAOImp.loadEdgesFromDatabase();
   }
@@ -86,6 +95,9 @@ public class DataBaseRepository {
   }
 
   // LocationName related methods
+  public HashMap<String, LocationName> getLocNameMap() {
+    return locNameDAOImp.getLocNameMap();
+  }
 
   public HashMap<String, LocationName> loadLocNameFromDatabase() {
     return locNameDAOImp.loadLocNamefromDatabase();
@@ -117,6 +129,10 @@ public class DataBaseRepository {
   }
 
   // Move related methods
+  public HashMap<Integer, Move> getMoveMap() {
+    return moveDAOImp.getMoveMap();
+  }
+
   public ArrayList<Move> loadMovesFromDatabase() {
     return moveDAOImp.loadMovesFromDatabase();
   }

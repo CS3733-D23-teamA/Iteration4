@@ -16,7 +16,7 @@ import lombok.Setter;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   // ArrayList<Edge> EdgeArray;
-  @Getter @Setter private HashMap<String, Edge> EdgeMap;
+  @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<String, Edge>();
   private static DBConnectionProvider edgeProvider = new DBConnectionProvider();
 
   public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
@@ -25,6 +25,10 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     // if it exist, populate the array list
     // use select * to get all info from the table
     // create objects based off of the results
+  }
+
+  public EdgeDAOImp() {
+    this.EdgeMap = loadEdgesFromDatabaseInMap();
   }
 
   public static void createTable() {
@@ -73,10 +77,6 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
 
     return edges;
-  }
-
-  public EdgeDAOImp() {
-    this.EdgeMap = new HashMap<String, Edge>();
   }
 
   public static HashMap<String, Edge> Import(String filePath) {

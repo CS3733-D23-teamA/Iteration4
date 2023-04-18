@@ -24,7 +24,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   }
 
   public NodeDAOImp() {
-    this.NodeMap = new HashMap<Integer, Node>();
+    this.NodeMap = loadNodesFromDatabaseInMap();
   }
 
   // ResultSet
