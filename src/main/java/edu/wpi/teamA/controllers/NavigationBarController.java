@@ -102,5 +102,7 @@ public class NavigationBarController {
     Navigation.navigate(Screen.ACCOUNT);
   }
 
-  public void openMealRequest() {Navigation.navigate(Screen.MEAL_REQUEST);}
+  public void openMealRequest() {
+    Navigation.navigate(Screen.MEAL_REQUEST);
+  }
 }

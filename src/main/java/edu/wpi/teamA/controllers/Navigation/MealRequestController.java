@@ -24,7 +24,6 @@ public class MealRequestController extends PageController implements IServiceCon
 
   private DataBaseRepository databaseRepo = new DataBaseRepository();
 
-  @Override
   public void initialize() {
     mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
     timeCombo

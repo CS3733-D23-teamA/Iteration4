@@ -39,6 +39,7 @@
                               <MenuItem fx:id="flowerMenu" mnemonicParsing="false" onAction="#openFlowerRequest" text="Flower Delivery" />
                               <MenuItem fx:id="roomMenu" mnemonicParsing="false" onAction="#openRoomRequest" text="Conference Room Request   " />
                               <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" onAction="#openFurnitureRequest" text="Furniture Request" />
+                              <MenuItem fx:id="furnitureMenu1" mnemonicParsing="false" onAction="#openMealRequest" text="Meal Request" />
                               <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" onAction="#openMyRequests" text="My Requests" />
                            </items>
                         </MenuButton>
