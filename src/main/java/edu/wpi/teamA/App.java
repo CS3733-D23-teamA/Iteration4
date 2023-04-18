@@ -1,11 +1,12 @@
 package edu.wpi.teamA;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity
+import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,8 +16,6 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
 
 @Slf4j
 public class App extends Application {
@@ -52,7 +51,6 @@ public class App extends Application {
     // move to init?
     UserDAOImp un = new UserDAOImp();
     un.createUserTable();
-
 
     // set up map entity arrays for edges and nodes
     mapEditorEntity.loadFloorEdges();
