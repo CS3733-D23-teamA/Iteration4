@@ -146,6 +146,22 @@ public class mapEntityTest {
     assertEquals(node1.getBuilding(), actual_node.getBuilding());
     assertEquals(node1.getFloor(), actual_node.getFloor());
   }
+
+//  @Test
+//  public void testDetermineNodeMap() {
+//    HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level1NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
+//
+//    MEEntity.loadFloorNodes();
+//    HashMap<Integer, Node> actualNodeMap = MEEntity.determineNodeMap("2");
+//    assertEquals(level2NodeMap, actualNodeMap);
+//
+//    actualNodeMap = MEEntity.determineNodeMap("L1");
+//    assertEquals(level2NodeMap, actualNodeMap);
+//  }
   /*
   @Test
   public void testGetLocationName() {
