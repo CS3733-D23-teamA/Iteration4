@@ -63,7 +63,7 @@ public class PathfindingController extends PageController {
         });
 
     // Getting Nodes from Database
-    nodeList = databaseRepo.loadNodesFromDatabase();
+    nodeList = databaseRepo.loadNodesFromDatabaseInArray();
     for (Node node : nodeList) {
       if (node.getFloor().equals("L1")) { // TODO add nodes for all floors
         nodeIDOptions.add(node.getNodeID());

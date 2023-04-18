@@ -27,8 +27,12 @@ public class DataBaseRepository {
 
   // Node related methods
 
-  public ArrayList<Node> loadNodesFromDatabase() {
-    return nodeDAOImp.loadNodesFromDatabase();
+  public HashMap<Integer, Node> getNodeMap() {
+    return nodeDAOImp.getNodeMap();
+  }
+
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
+    return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
   public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
@@ -57,8 +61,13 @@ public class DataBaseRepository {
   }
 
   // Edge related methods
-  public ArrayList<Edge> loadEdgesFromDatabase() {
-    return edgeDAOImp.loadEdgesFromDatabase();
+
+  public HashMap<String, Edge> getEdgeMap() {
+    return edgeDAOImp.getEdgeMap();
+  }
+
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
+    return edgeDAOImp.loadEdgesFromDatabaseInArray();
   }
 
   public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
@@ -86,8 +95,11 @@ public class DataBaseRepository {
   }
 
   // LocationName related methods
+  public HashMap<String, LocationName> getLocNameMap() {
+    return locNameDAOImp.getLocNameMap();
+  }
 
-  public ArrayList<LocationName> loadLocNameFromDatabase() {
+  public HashMap<String, LocationName> loadLocNameFromDatabase() {
     return locNameDAOImp.loadLocNamefromDatabase();
   }
 
@@ -117,8 +129,16 @@ public class DataBaseRepository {
   }
 
   // Move related methods
+  public HashMap<Integer, Move> getMoveMap() {
+    return moveDAOImp.getMoveMap();
+  }
+
   public ArrayList<Move> loadMovesFromDatabase() {
     return moveDAOImp.loadMovesFromDatabase();
+  }
+
+  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+    return moveDAOImp.loadMovesFromDatabaseInMap();
   }
 
   public void addMove(int nodeID, String longName, String dateString) {
@@ -140,16 +160,16 @@ public class DataBaseRepository {
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {
-      ArrayList<Node> importedNodes = NodeDAOImp.Import(filepath);
+      HashMap<Integer, Node> importedNodes = NodeDAOImp.Import(filepath);
       nodeDAOImp = new NodeDAOImp(importedNodes);
     } else if (type.equals("LocName")) {
-      ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      HashMap<String, LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      ArrayList<Move> importedMoves = MoveDAOImp.Import(filepath);
+      HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
-      ArrayList<Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      HashMap<String, Edge> importedEdges = EdgeDAOImp.Import(filepath);
       edgeDAOImp = new EdgeDAOImp(importedEdges);
     }
   }
