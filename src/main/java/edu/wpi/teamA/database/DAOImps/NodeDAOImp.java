@@ -9,24 +9,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 public class NodeDAOImp implements IDataBase, INodeDAO {
-  ArrayList<Node> NodeArray;
+  // ArrayList<Node> NodeArray;
+  @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
-  static DBConnectionProvider nodeProvider = new DBConnectionProvider();
-
-  public NodeDAOImp(ArrayList<Node> NodeArray) {
-    this.NodeArray = NodeArray;
+  public NodeDAOImp(HashMap<Integer, Node> NodeMap) {
+    this.NodeMap = NodeMap;
   }
 
   public NodeDAOImp() {
-    this.NodeArray = new ArrayList<Node>();
+    this.NodeMap = loadNodesFromDatabaseInMap();
   }
 
-  // ResultSet
-
-  public static ArrayList<Node> loadNodesFromCSV(String filePath) {
-    ArrayList<Node> nodes = new ArrayList<>();
+  private static HashMap<Integer, Node> loadNodesFromCSV(String filePath) {
+    HashMap<Integer, Node> nodes = new HashMap<>();
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -43,7 +44,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         String building = data[4];
 
         Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-        nodes.add(node);
+        nodes.put(nodeID, node);
       }
 
       csvReader.close();
@@ -63,15 +64,16 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
               + "ycoord    INT,"
               + "floor     VARCHAR(600),"
               + "building  VARCHAR(600))";
-      Statement stmtNode = nodeProvider.createConnection().createStatement();
+      Statement stmtNode =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       stmtNode.execute(sqlCreateNode);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static ArrayList<Node> Import(String filePath) {
-    ArrayList<Node> NodeArray = loadNodesFromCSV(filePath);
+  public static HashMap<Integer, Node> Import(String filePath) {
+    HashMap<Integer, Node> NodeMap = loadNodesFromCSV(filePath);
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -84,15 +86,15 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
               + "ycoord    int,"
               + "floor     Varchar(600),"
               + "building  Varchar(600))";
-      Statement stmtNode = nodeProvider.createConnection().createStatement();
+      Statement stmtNode =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       stmtNode.execute(sqlCreateNode);
 
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            nodeProvider
-                .createConnection()
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
                     "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
@@ -107,13 +109,14 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
       throw new RuntimeException(e);
     }
-    return NodeArray;
+    return NodeMap;
   }
 
   public static void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Node.csv";
-      Statement st = nodeProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -138,11 +141,12 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  public ArrayList<Node> loadNodesFromDatabase() {
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
     ArrayList<Node> nodes = new ArrayList<>();
 
     try {
-      Statement st = nodeProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
 
       while (rs.next()) {
@@ -162,13 +166,36 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  public void Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
-    /** Insert new node object to the existing node table */
+  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
+
+      while (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        int xcoord = rs.getInt("xcoord");
+        int ycoord = rs.getInt("ycoord");
+        String floor = rs.getString("floor");
+        String building = rs.getString("building");
+
+        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
+        NodeMap.put(nodeID, node);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return NodeMap;
+  }
+
+  public Node Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
+    /* Insert new node object to the existing node table */
+    Node node = null;
     try {
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
@@ -178,27 +205,28 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setString(5, building);
       ps.executeUpdate();
 
-      NodeArray.add(new Node(nodeID, xcoord, ycoord, floor, building));
+      node = new Node(nodeID, xcoord, ycoord, floor, building);
+      NodeMap.put(nodeID, node);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+    return node;
   }
 
   public void Delete(int nodeID) {
-    /** delete one of the node according to the nodeID, also delete the node from the arraylist */
+    /* delete one of the node according to the nodeID, also delete the node from the arraylist */
     try {
       EdgeDAOImp edgeDAO = new EdgeDAOImp();
       edgeDAO.deleteEdgesWithNode(nodeID);
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
-      NodeArray.removeIf(node -> node.getNodeID().equals(nodeID));
+      NodeMap.remove(nodeID);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -206,12 +234,11 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   }
 
   public void Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
-    /** update the node fields in the database and arraylist according to the inserts */
+    /* update the node fields in the database and arraylist according to the inserts */
     try {
 
       PreparedStatement ps =
-          nodeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
@@ -221,15 +248,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setInt(5, nodeID);
       ps.executeUpdate();
 
-      NodeArray.forEach(
-          node -> {
-            if (node.getNodeID().equals(nodeID)) {
-              node.setXcoord(xcoord);
-              node.setYcoord(ycoord);
-              node.setFloor(floor);
-              node.setBuilding(building);
-            }
-          });
+      NodeMap.put(nodeID, new Node(nodeID, xcoord, ycoord, floor, building));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -237,33 +256,14 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   }
 
   public Node getNode(int nodeID) {
-    Node node = null;
-    try {
-      PreparedStatement ps =
-          nodeProvider
-              .createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
-      ps.setInt(1, nodeID);
-      ResultSet rs = ps.executeQuery();
-
-      if (rs.next()) {
-        int xcoord = rs.getInt("xcoord");
-        int ycoord = rs.getInt("ycoord");
-        String floor = rs.getString("floor");
-        String building = rs.getString("building");
-
-        node = new Node(nodeID, xcoord, ycoord, floor, building);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return node;
+    return NodeMap.get(nodeID);
   }
 
   public Node getLargestNodeID() {
     Node largestNode = null;
     try {
-      Statement st = nodeProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
           st.executeQuery(
               "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");

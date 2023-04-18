@@ -9,17 +9,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
-  ArrayList<Edge> EdgeArray;
-  static DBConnectionProvider edgeProvider = new DBConnectionProvider();
+  // ArrayList<Edge> EdgeArray;
+  @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
-  public EdgeDAOImp(ArrayList<Edge> EdgeArray) {
-    this.EdgeArray = EdgeArray;
+  public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
+    this.EdgeMap = EdgeMap;
     // check if the table exist
     // if it exist, populate the array list
     // use select * to get all info from the table
     // create objects based off of the results
+  }
+
+  public EdgeDAOImp() {
+    this.EdgeMap = loadEdgesFromDatabaseInMap();
   }
 
   public static void createTable() {
@@ -37,15 +46,16 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
               + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid)"
               + "ON DELETE CASCADE)";
 
-      Statement stmtEdge = edgeProvider.createConnection().createStatement();
+      Statement stmtEdge =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       stmtEdge.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public static ArrayList<Edge> loadEdgesFromCSV(String filePath) {
-    ArrayList<Edge> edges = new ArrayList<>();
+  private static HashMap<String, Edge> loadEdgesFromCSV(String filePath) {
+    HashMap<String, Edge> edges = new HashMap<>();
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -55,11 +65,11 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
-        int startNode = Integer.parseInt(data[0]);
-        int endNode = Integer.parseInt(data[1]);
+        Integer startNode = Integer.parseInt(data[0]);
+        Integer endNode = Integer.parseInt(data[1]);
 
         Edge edge = new Edge(startNode, endNode);
-        edges.add(edge);
+        edges.put(startNode + endNode.toString(), edge);
       }
 
       csvReader.close();
@@ -70,12 +80,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public EdgeDAOImp() {
-    this.EdgeArray = new ArrayList<Edge>();
-  }
-
-  public static ArrayList<Edge> Import(String filePath) {
-    ArrayList<Edge> EdgeArray = loadEdgesFromCSV(filePath);
+  public static HashMap<String, Edge> Import(String filePath) {
+    HashMap<String, Edge> EdgeMap = loadEdgesFromCSV(filePath);
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -86,8 +92,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
         String[] data = row.split(",");
 
         PreparedStatement ps =
-            edgeProvider
-                .createConnection()
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
         ps.setInt(2, Integer.parseInt(data[1]));
@@ -99,13 +104,14 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       throw new RuntimeException(e);
     }
 
-    return EdgeArray;
+    return EdgeMap;
   }
 
   public static void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Edge.csv";
-      Statement st = edgeProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -126,11 +132,12 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  public ArrayList<Edge> loadEdgesFromDatabase() {
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
     ArrayList<Edge> edges = new ArrayList<>();
 
     try {
-      Statement st = edgeProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
 
       while (rs.next()) {
@@ -147,57 +154,81 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public void Add(int startNode, int endNode) {
-    /** Insert new edge object to the existing edge table and the arraylist */
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    // HashMap<String, Edge> edges = new HashMap<String, Edge>();
+
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+
+      while (rs.next()) {
+        Integer startNode = rs.getInt("startNode");
+        Integer endNode = rs.getInt("endNode");
+
+        Edge edge = new Edge(startNode, endNode);
+        // edges.put(startNode.toString() + endNode.toString(), edge);
+        EdgeMap.put(startNode + endNode.toString(), edge);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return EdgeMap;
+  }
+
+  public Edge Add(Integer startNode, Integer endNode) {
+    /* Insert new edge object to the existing edge table and the arraylist */
+    Edge edge = null;
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
       ps.executeUpdate();
 
-      EdgeArray.add(new Edge(startNode, endNode));
+      edge = new Edge(startNode, endNode);
+
+      EdgeMap.put(startNode + endNode.toString(), edge);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+    return edge;
   }
 
-  public void Delete(int startNode, int endNode) {
-    /**
+  public void Delete(Integer startNode, Integer endNode) {
+    /*
      * delete the edge when specified with a composite key (startNode+endNode) and in the arrayList
      */
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startnode = ? AND endnode = ?");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
       ps.executeUpdate();
 
-      EdgeArray.removeIf(Edge -> Edge.getStartNode() == startNode && Edge.getEndNode() == endNode);
+      EdgeMap.remove(startNode + endNode.toString());
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void Update(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
-    /**
+  public void Update(int oldStartNode, int oldEndNode, Integer newStartNode, Integer newEndNode) {
+    /*
      * update the edge startNode and endNode when specified with a composite key (startNode +
      * ednNode) and In the arrayList
      */
     try {
 
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Edge\" SET startnode = ?, endnode = ? WHERE startnode = ? AND endnode = ?");
       ps.setInt(1, newStartNode);
@@ -206,53 +237,37 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(4, oldEndNode);
       ps.executeUpdate();
 
-      EdgeArray.forEach(
-          edge -> {
-            if (edge.getStartNode() == oldStartNode && edge.getEndNode() == oldEndNode) {
-              edge.setStartNode(newStartNode);
-              edge.setEndNode(newEndNode);
-            }
-          });
+      EdgeMap.put(newStartNode + newEndNode.toString(), new Edge(newStartNode, newEndNode));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public Edge getEdge(int startNode, int endNode) {
-    Edge edge = null;
-    try {
-      PreparedStatement ps =
-          edgeProvider
-              .createConnection()
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Edge\" WHERE startnode = ? AND endnode = ?");
-      ps.setInt(1, startNode);
-      ps.setInt(2, endNode);
-      ResultSet rs = ps.executeQuery();
-
-      if (rs.next()) {
-        edge = new Edge(startNode, endNode);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return edge;
+  public Edge getEdge(Integer startNode, Integer endNode) {
+    return EdgeMap.get(startNode.toString() + endNode.toString());
   }
 
-  public void deleteEdgesWithNode(int nodeID) {
+  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
+    ArrayList<Edge> edgesToRemove = new ArrayList<>();
+    HashMap<String, Edge> copiedEdgeMap = new HashMap<>(EdgeMap);
     try {
       PreparedStatement ps =
-          edgeProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startnode = ? OR endnode = ?");
       ps.setInt(1, nodeID);
       ps.setInt(2, nodeID);
       ps.executeUpdate();
 
-      EdgeArray.removeIf(edge -> edge.getStartNode() == nodeID || edge.getEndNode() == nodeID);
-
+      for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
+        Edge edge = entry.getValue();
+        if (edge.getStartNode() == nodeID || edge.getEndNode() == nodeID) {
+          EdgeMap.remove(edge.getStartNode() + edge.getEndNode().toString());
+          edgesToRemove.add(edge);
+        }
+      }
+      return edgesToRemove;
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
