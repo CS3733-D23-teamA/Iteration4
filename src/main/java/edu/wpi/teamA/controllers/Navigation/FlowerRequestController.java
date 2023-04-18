@@ -83,8 +83,7 @@ public class FlowerRequestController extends PageController implements IServiceC
             commentField.getText(),
             "not assigned",
             "new");
-    FlowerDAOImpl fd = new FlowerDAOImpl();
-    fd.addFlower(flower);
+    databaseRepo.addFlower(flower);
     clear();
   }
 

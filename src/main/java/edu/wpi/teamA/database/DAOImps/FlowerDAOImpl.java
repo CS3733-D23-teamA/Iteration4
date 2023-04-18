@@ -2,24 +2,53 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
-  @Getter @Setter private ArrayList<FlowerEntity> flowerArray;
+  @Getter @Setter private HashMap<Integer, FlowerEntity> flowerMap;
   static DBConnectionProvider flowerProvider = new DBConnectionProvider();
 
   public FlowerDAOImpl() {
-    this.flowerArray = new ArrayList<>();
+    this.flowerMap = new HashMap<>();
   }
 
-  public FlowerDAOImpl(ArrayList<FlowerEntity> flowerArray) {
-    this.flowerArray = flowerArray;
+  public FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
+    this.flowerMap = flowerMap;
+  }
+
+  public HashMap<Integer, FlowerEntity> loadEdgesFromDatabaseInMap() {
+    try {
+      Statement st =
+              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
+
+      while (rs.next()) {
+        int id = rs.getInt("id");
+        String namee = rs.getString("namee");
+        String room = rs.getString("room");
+        Date date = rs.getDate("datee");
+        int time = rs.getInt("timee");
+        String flowerType = rs.getString("flowertype");
+        String comment = rs.getString("comment");
+        String employee = rs.getString("employee");
+        String status = rs.getString("status");
+
+        FlowerEntity flower = new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
+        flowerMap.put(id, flower);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return flowerMap;
   }
 
   @Override
@@ -66,7 +95,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.setString(9, status);
       ps.executeUpdate();
 
-      flowerArray.add(
+      flowerMap.put(id,
           new FlowerEntity(id, name, room, date, time, type, comment, employee, status));
 
     } catch (SQLException e) {
@@ -82,10 +111,11 @@ public class FlowerDAOImpl implements IFlowerDAO {
           flowerProvider
               .createConnection()
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
-      ps.setString(1, flower.getName());
+      ps.setInt(1, flower.getId());
       ps.executeUpdate();
 
-      flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
+      flowerMap.remove(flower.getId());
+      //flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -93,74 +123,76 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public List<FlowerEntity> getAllFlowers() {
-    ArrayList<FlowerEntity> tempList = new ArrayList<>();
-    try {
-      Statement stmt = flowerProvider.createConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
-
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String namee = rs.getString("namee");
-        String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
-        String flowerType = rs.getString("flowertype");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-
-        FlowerEntity temp =
-            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
-        //        temp.setName(namee);
-        //        temp.setRoom(room);
-        //        temp.setDate(date);
-        //        temp.setTime(time);
-        //        temp.setFlowerType(flowerType);
-        //        temp.setComment(comment);
-        //        temp.setStatus(status);
-
-        tempList.add(temp);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return tempList;
+  public HashMap<Integer, FlowerEntity> getAllFlowers() {
+    return flowerMap;
+//    ArrayList<FlowerEntity> tempList = new ArrayList<>();
+//    try {
+//      Statement stmt = flowerProvider.createConnection().createStatement();
+//      ResultSet rs = stmt.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
+//
+//      while (rs.next()) {
+//        int id = rs.getInt("id");
+//        String namee = rs.getString("namee");
+//        String room = rs.getString("room");
+//        Date date = rs.getDate("datee");
+//        int time = rs.getInt("timee");
+//        String flowerType = rs.getString("flowertype");
+//        String comment = rs.getString("comment");
+//        String employee = rs.getString("employee");
+//        String status = rs.getString("status");
+//
+//        FlowerEntity temp =
+//            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
+//        //        temp.setName(namee);
+//        //        temp.setRoom(room);
+//        //        temp.setDate(date);
+//        //        temp.setTime(time);
+//        //        temp.setFlowerType(flowerType);
+//        //        temp.setComment(comment);
+//        //        temp.setStatus(status);
+//
+//        tempList.add(temp);
+//      }
+//    } catch (SQLException e) {
+//      throw new RuntimeException(e);
+//    }
+//    return tempList;
   }
 
   @Override
   public FlowerEntity getFlower(int id) {
-    FlowerEntity temp = new FlowerEntity();
-    try {
-      PreparedStatement ps =
-          flowerProvider
-              .createConnection()
-              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
-      ps.setInt(1, id);
-      ResultSet rs = ps.executeQuery();
-      if (rs.next()) {
-        int tempID = rs.getInt("id");
-        String namee = rs.getString("namee");
-        String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
-        String flowerType = rs.getString("flowertype");
-        String comment = rs.getString("comment");
-        String status = rs.getString("status");
-
-        temp.setId(tempID);
-        temp.setName(namee);
-        temp.setRoom(room);
-        temp.setDate(date);
-        temp.setTime(time);
-        temp.setFlowerType(flowerType);
-        temp.setComment(comment);
-        temp.setStatus(status);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return temp;
+    return flowerMap.get(id);
+//    FlowerEntity temp = new FlowerEntity();
+//    try {
+//      PreparedStatement ps =
+//          flowerProvider
+//              .createConnection()
+//              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
+//      ps.setInt(1, id);
+//      ResultSet rs = ps.executeQuery();
+//      if (rs.next()) {
+//        // int tempID = rs.getInt("id");
+//        String namee = rs.getString("namee");
+//        String room = rs.getString("room");
+//        Date date = rs.getDate("datee");
+//        int time = rs.getInt("timee");
+//        String flowerType = rs.getString("flowertype");
+//        String comment = rs.getString("comment");
+//        String status = rs.getString("status");
+//
+//        // temp.setId(tempID);
+//        temp.setName(namee);
+//        temp.setRoom(room);
+//        temp.setDate(date);
+//        temp.setTime(time);
+//        temp.setFlowerType(flowerType);
+//        temp.setComment(comment);
+//        temp.setStatus(status);
+//      }
+//    } catch (SQLException e) {
+//      throw new RuntimeException(e);
+//    }
+//    return temp;
   }
 
   @Override
@@ -190,19 +222,20 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.setString(8, status);
       ps.executeUpdate();
 
-      flowerArray.forEach(
-          flowerEntity -> {
-            if (flowerEntity.getId() == (flower.getId())) {
-              flowerEntity.setName(name);
-              flowerEntity.setRoom(room);
-              flowerEntity.setDate(date);
-              flowerEntity.setTime(time);
-              flowerEntity.setFlowerType(type);
-              flowerEntity.setComment(comment);
-              flowerEntity.setEmployee(employee);
-              flowerEntity.setStatus(status);
-            }
-          });
+      flowerMap.put(flower.getId(), new FlowerEntity(flower.getId(), name, room, date, time, type, comment, employee, status));
+//      flowerArray.forEach(
+//          flowerEntity -> {
+//            if (flowerEntity.getId() == (flower.getId())) {
+//              flowerEntity.setName(name);
+//              flowerEntity.setRoom(room);
+//              flowerEntity.setDate(date);
+//              flowerEntity.setTime(time);
+//              flowerEntity.setFlowerType(type);
+//              flowerEntity.setComment(comment);
+//              flowerEntity.setEmployee(employee);
+//              flowerEntity.setStatus(status);
+//            }
+//          });
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

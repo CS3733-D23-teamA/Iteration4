@@ -5,8 +5,10 @@ import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -21,6 +23,11 @@ public class ServiceRequestController extends PageController {
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
 
   @FXML private MFXComboBox<String> chooseServiceRequestEmployee;
+  @FXML private MFXComboBox<String> chooseServiceRequestStatus;
+  @FXML private MFXComboBox<String> chooseEmployee;
+  @FXML private MFXComboBox<String> chooseStatus;
+  @FXML private MFXButton submitButtonEmployee;
+  @FXML private MFXButton submitButtonStatus;
 
   @FXML private TableView<FlowerEntity> flowerTable;
   @FXML private TableColumn<FlowerEntity, Integer> idCol;
@@ -69,14 +76,55 @@ public class ServiceRequestController extends PageController {
 
     // TODO ADMIN ONLY
     ArrayList<String> allServiceRequests = new ArrayList<>();
-    List<FlowerEntity> flowerRequests = databaseRepo.getAllFlowers();
+    HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
     for (int i = 0; i < flowerRequests.size(); i++) {
-      allServiceRequests.add("Flower Request " + flowerRequests.get(i).getId());
+      allServiceRequests.add("Flower " + flowerRequests.get(i).getId());
     }
     chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
+    chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
+
+    chooseStatus.getItems().addAll("new", "in progress", "done");
   }
 
-  public void displayFlowerRequests(List<FlowerEntity> flowerEntityArrayList) {
+  @FXML
+  public void validateButtonEmployee() {
+    if (chooseServiceRequestEmployee.getSelectedIndex() == -1
+        || chooseEmployee.getSelectedIndex() == -1) {
+      submitButtonEmployee.setDisable(true);
+    } else {
+      submitButtonEmployee.setDisable(false);
+    }
+  }
+
+  @FXML
+  public void validateButtonStatus() {
+    if (chooseServiceRequestStatus.getSelectedIndex() == -1
+        || chooseStatus.getSelectedIndex() == -1) {
+      submitButtonStatus.setDisable(true);
+    } else {
+      submitButtonStatus.setDisable(false);
+    }
+  }
+
+  @FXML
+  public void submitStatus() {
+    String serviceRequest = chooseServiceRequestStatus.getSelectedItem();
+
+    // get the id of the service request
+    int id = Integer.parseInt(serviceRequest.substring(serviceRequest.indexOf(" ") + 1));
+
+    // figure out which service request we are dealing with
+    if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Flower")) {
+      // use service request type and name to get the service request
+      FlowerEntity flower = databaseRepo.getFlower(id);
+
+      // update status in the service request
+      flower.setStatus(chooseStatus.getSelectedItem());
+      databaseRepo.updateFlower(flower);
+    }
+  }
+
+  public void displayFlowerRequests(HashMap<Integer, FlowerEntity> flowerEntityArrayList) {
     idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -86,7 +134,7 @@ public class ServiceRequestController extends PageController {
     employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    flowerTable.setItems(FXCollections.observableArrayList(flowerEntityArrayList));
+    flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
     flowerTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
