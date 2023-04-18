@@ -23,7 +23,7 @@ public class FurnitureRequestController extends PageController implements IServi
   @FXML private MFXComboBox timeCombo;
   @FXML private MFXComboBox furnitureCombo;
   @FXML private MFXTextField commentField;
-  DataBaseRepository databaseRepo = new DataBaseRepository();
+  private DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");

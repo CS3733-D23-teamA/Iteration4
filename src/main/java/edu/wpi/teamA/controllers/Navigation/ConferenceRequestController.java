@@ -25,7 +25,7 @@ public class ConferenceRequestController extends PageController implements IServ
   @FXML MFXTextField commentField;
 
   // LocNameDAOImp locs = new LocNameDAOImp();
-  DataBaseRepository databaseRepo = new DataBaseRepository();
+  private DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     startCombo

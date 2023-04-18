@@ -24,7 +24,7 @@ public class FlowerRequestController extends PageController implements IServiceC
   @FXML private MFXTextField commentField;
 
   // LocNameDAOImp locs = new LocNameDAOImp();
-  DataBaseRepository databaseRepo = new DataBaseRepository();
+  private DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
