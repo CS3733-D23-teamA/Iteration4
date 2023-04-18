@@ -15,15 +15,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
 public class ConferenceRequestController extends PageController implements IServiceController {
-  @FXML MFXButton submitButton;
-  @FXML MFXTextField nameField;
-  @FXML MFXComboBox roomCombo;
-  @FXML DatePicker datePicker;
-  @FXML MFXComboBox startCombo;
-  @FXML MFXComboBox endCombo;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXTextField nameField;
+  @FXML private MFXComboBox roomCombo;
+  @FXML private DatePicker datePicker;
+  @FXML private MFXComboBox startCombo;
+  @FXML private MFXComboBox endCombo;
   @FXML MFXTextField commentField;
 
-  LocNameDAOImp locs = new LocNameDAOImp();
+  private LocNameDAOImp locs = new LocNameDAOImp();
 
   public void initialize() {
     startCombo

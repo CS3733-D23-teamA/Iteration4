@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -20,14 +21,14 @@
     <center>
         <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox prefHeight="900.0" prefWidth="333.0">
+                <VBox alignment="TOP_CENTER" prefHeight="900.0" prefWidth="333.0">
                     <children>
-                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="My Service Requests">
+                          <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 55; -fx-fill: #012D5A;" text="My Service Requests" textAlignment="CENTER" wrappingWidth="686.8743896484375">
                               <font>
-                                  <Font size="55.0" />
+                                  <Font size="64.0" />
                               </font>
                      <VBox.margin>
-                        <Insets left="500.0" />
+                        <Insets bottom="30.0" top="20.0" />
                      </VBox.margin>
                           </Text>
                   <ScrollPane prefHeight="614.0" prefWidth="1249.0">
@@ -44,11 +45,6 @@
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="272.06072998046875" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Flower Request">
-                                 <font>
-                                    <Font size="37.0" />
-                                 </font>
-                              </Text>
                               <TableView fx:id="flowerTable" prefHeight="166.0" prefWidth="1564.0" GridPane.rowIndex="1">
                                  <columns>
                                     <TableColumn fx:id="roomCol" prefWidth="129.1107406616211" text="Room" />
@@ -61,11 +57,6 @@
                                     <TableColumn fx:id="actionCol" prefWidth="311.0" text="Actions" />
                                  </columns>
                               </TableView>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Conference Room Reservation" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="34.0" />
-                                 </font>
-                              </Text>
                               <TableView fx:id="roomTable" prefHeight="313.0" prefWidth="1564.0" GridPane.rowIndex="3">
                                  <columns>
                                     <TableColumn fx:id="roomCol1" prefWidth="129.1107406616211" text="Room" />
@@ -78,13 +69,15 @@
                                     <TableColumn fx:id="actionCol1" prefWidth="311.0" text="Actions" />
                                  </columns>
                               </TableView>
+                              <Label style="-fx-font-size: 37;" text="Flower Request" />
+                              <Label style="-fx-font-size: 37;" text="Conference Room Request" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </content>
                   </ScrollPane>
                     </children>
                     <padding>
-                        <Insets left="20.0" top="20.0" />
+                        <Insets left="50.0" right="50.0" top="20.0" />
                     </padding>
                 </VBox>
             </children>
