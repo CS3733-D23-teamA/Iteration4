@@ -28,6 +28,9 @@ public class MapEditorEntity {
 
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
+  // @Getter @Setter private HashMap<Integer, Node> moveMap =
+  // databaseRepo.loadNodesFromDatabaseInMap();
+
   // @Getter private ArrayList<Node> nodeArray = nodeDAO.loadNodesFromDatabase();
   @Getter @Setter
   private HashMap<Integer, Node> nodeMap = databaseRepo.loadNodesFromDatabaseInMap();

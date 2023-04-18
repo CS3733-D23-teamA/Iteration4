@@ -10,13 +10,17 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
-  ArrayList<Edge> EdgeArray;
+  // ArrayList<Edge> EdgeArray;
+  @Getter @Setter private HashMap<String, Edge> EdgeMap;
   static DBConnectionProvider edgeProvider = new DBConnectionProvider();
 
-  public EdgeDAOImp(ArrayList<Edge> EdgeArray) {
-    this.EdgeArray = EdgeArray;
+  public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
+    this.EdgeMap = EdgeMap;
     // check if the table exist
     // if it exist, populate the array list
     // use select * to get all info from the table
@@ -45,8 +49,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  private static ArrayList<Edge> loadEdgesFromCSV(String filePath) {
-    ArrayList<Edge> edges = new ArrayList<>();
+  private static HashMap<String, Edge> loadEdgesFromCSV(String filePath) {
+    HashMap<String, Edge> edges = new HashMap<String, Edge>();
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -56,11 +60,11 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
-        int startNode = Integer.parseInt(data[0]);
-        int endNode = Integer.parseInt(data[1]);
+        Integer startNode = Integer.parseInt(data[0]);
+        Integer endNode = Integer.parseInt(data[1]);
 
         Edge edge = new Edge(startNode, endNode);
-        edges.add(edge);
+        edges.put(startNode.toString() + endNode.toString(), edge);
       }
 
       csvReader.close();
@@ -72,11 +76,11 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   }
 
   public EdgeDAOImp() {
-    this.EdgeArray = new ArrayList<Edge>();
+    this.EdgeMap = new HashMap<String, Edge>();
   }
 
-  public static ArrayList<Edge> Import(String filePath) {
-    ArrayList<Edge> EdgeArray = loadEdgesFromCSV(filePath);
+  public static HashMap<String, Edge> Import(String filePath) {
+    HashMap<String, Edge> EdgeMap = loadEdgesFromCSV(filePath);
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -100,7 +104,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       throw new RuntimeException(e);
     }
 
-    return EdgeArray;
+    return EdgeMap;
   }
 
   public static void Export(String folderExportPath) {
@@ -127,6 +131,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
+  // TODO delete
   public ArrayList<Edge> loadEdgesFromDatabase() {
     ArrayList<Edge> edges = new ArrayList<>();
 
@@ -161,6 +166,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
 
         Edge edge = new Edge(startNode, endNode);
         edges.put(startNode.toString() + endNode.toString(), edge);
+        EdgeMap.put(startNode.toString() + endNode.toString(), edge);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -169,7 +175,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public Edge Add(int startNode, int endNode) {
+  public Edge Add(Integer startNode, Integer endNode) {
     /** Insert new edge object to the existing edge table and the arraylist */
     Edge edge = null;
     try {
@@ -184,7 +190,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
 
       edge = new Edge(startNode, endNode);
 
-      EdgeArray.add(edge);
+      EdgeMap.put(startNode.toString() + endNode.toString(), edge);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -192,7 +198,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edge;
   }
 
-  public void Delete(int startNode, int endNode) {
+  public void Delete(Integer startNode, Integer endNode) {
     /**
      * delete the edge when specified with a composite key (startNode+endNode) and in the arrayList
      */
@@ -207,14 +213,15 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(2, endNode);
       ps.executeUpdate();
 
-      EdgeArray.removeIf(Edge -> Edge.getStartNode() == startNode && Edge.getEndNode() == endNode);
+      EdgeMap.remove(startNode.toString() + endNode.toString());
+      // EdgeMap.removeIf(Edge -> Edge.getStartNode() == startNode && Edge.getEndNode() == endNode);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void Update(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
+  public void Update(int oldStartNode, int oldEndNode, Integer newStartNode, Integer newEndNode) {
     /**
      * update the edge startNode and endNode when specified with a composite key (startNode +
      * ednNode) and In the arrayList
@@ -232,20 +239,22 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(4, oldEndNode);
       ps.executeUpdate();
 
-      EdgeArray.forEach(
-          edge -> {
-            if (edge.getStartNode() == oldStartNode && edge.getEndNode() == oldEndNode) {
-              edge.setStartNode(newStartNode);
-              edge.setEndNode(newEndNode);
-            }
-          });
+      EdgeMap.put(
+          newStartNode.toString() + newEndNode.toString(), new Edge(newStartNode, newEndNode));
+      //      EdgeArray.forEach(
+      //          edge -> {
+      //            if (edge.getStartNode() == oldStartNode && edge.getEndNode() == oldEndNode) {
+      //              edge.setStartNode(newStartNode);
+      //              edge.setEndNode(newEndNode);
+      //            }
+      //          });
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public Edge getEdge(int startNode, int endNode) {
+  public Edge getEdge(Integer startNode, Integer endNode) {
     Edge edge = null;
     try {
       PreparedStatement ps =
@@ -268,7 +277,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
 
   public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
     ArrayList<Edge> edgesToRemove = new ArrayList<Edge>();
-    ArrayList<Edge> copiedEdgeArray = new ArrayList<Edge>(EdgeArray);
+    HashMap<String, Edge> copiedEdgeMap = new HashMap<String, Edge>(EdgeMap);
     try {
       PreparedStatement ps =
           edgeProvider
@@ -279,12 +288,19 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
       ps.setInt(2, nodeID);
       ps.executeUpdate();
 
-      for (Edge edge : copiedEdgeArray) {
+      for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
+        Edge edge = entry.getValue();
         if (edge.getStartNode() == nodeID || edge.getEndNode() == nodeID) {
-          EdgeArray.remove(edge);
+          EdgeMap.remove(edge.getStartNode().toString() + edge.getEndNode().toString());
           edgesToRemove.add(edge);
         }
       }
+      //      for (Edge edge : copiedEdgeArray) {
+      //        if (edge.getStartNode() == nodeID || edge.getEndNode() == nodeID) {
+      //          EdgeArray.remove(edge);
+      //          edgesToRemove.add(edge);
+      //        }
+      //      }
       // EdgeArray.removeIf(edge -> edge.getStartNode() == nodeID || edge.getEndNode() == nodeID);
       return edgesToRemove;
     } catch (SQLException e) {

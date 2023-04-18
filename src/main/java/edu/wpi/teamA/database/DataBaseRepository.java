@@ -121,6 +121,10 @@ public class DataBaseRepository {
     return moveDAOImp.loadMovesFromDatabase();
   }
 
+  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+    return moveDAOImp.loadMovesFromDatabaseInMap();
+  }
+
   public void addMove(int nodeID, String longName, String dateString) {
     moveDAOImp.Add(nodeID, longName, dateString);
   }
@@ -146,10 +150,10 @@ public class DataBaseRepository {
       ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      ArrayList<Move> importedMoves = MoveDAOImp.Import(filepath);
+      HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
-      ArrayList<Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      HashMap<String, Edge> importedEdges = EdgeDAOImp.Import(filepath);
       edgeDAOImp = new EdgeDAOImp(importedEdges);
     }
   }
