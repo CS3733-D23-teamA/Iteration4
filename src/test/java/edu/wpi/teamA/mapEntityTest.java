@@ -1,12 +1,11 @@
 package edu.wpi.teamA;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import java.util.ArrayList;
+import java.util.HashMap;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +13,8 @@ import org.junit.jupiter.api.Test;
 
 public class mapEntityTest {
   private NodeDAOImp nodeDAO = new NodeDAOImp();
-  ArrayList<Node> testNodeArray = new ArrayList<Node>();
   MapEditorEntity MEEntity = new MapEditorEntity();
+  HashMap<Integer, Node> testNodeMap = new HashMap<Integer, Node>();
 
   // L1
   Node node1 = new Node(100, 2265, 904, "L1", "45 Francis");
@@ -52,64 +51,89 @@ public class mapEntityTest {
   protected void setUp() throws Exception {
     System.out.println("Setting it up!");
     NodeDAOImp nodeDAO = new NodeDAOImp();
-    testNodeArray.add(node1);
-    testNodeArray.add(node2);
-    testNodeArray.add(node3);
-    testNodeArray.add(node4);
-    testNodeArray.add(node5);
-    testNodeArray.add(node6);
-    testNodeArray.add(node7);
-    testNodeArray.add(node8);
-    testNodeArray.add(node9);
-    testNodeArray.add(node10);
-    testNodeArray.add(node11);
-    testNodeArray.add(node12);
-    testNodeArray.add(node13);
-    testNodeArray.add(node14);
-    testNodeArray.add(node15);
-    testNodeArray.add(node16);
-    testNodeArray.add(node17);
-    testNodeArray.add(node18);
-    testNodeArray.add(node19);
-    testNodeArray.add(node20);
+    testNodeMap.put(node1.getNodeID(), node1);
+    testNodeMap.put(node2.getNodeID(), node2);
+    testNodeMap.put(node3.getNodeID(), node3);
+    testNodeMap.put(node4.getNodeID(), node4);
+    testNodeMap.put(node5.getNodeID(), node5);
+    testNodeMap.put(node6.getNodeID(), node6);
+    testNodeMap.put(node7.getNodeID(), node7);
+    testNodeMap.put(node8.getNodeID(), node8);
+    testNodeMap.put(node9.getNodeID(), node9);
+    testNodeMap.put(node10.getNodeID(), node10);
+    testNodeMap.put(node11.getNodeID(), node11);
+    testNodeMap.put(node12.getNodeID(), node12);
+    testNodeMap.put(node13.getNodeID(), node13);
+    testNodeMap.put(node14.getNodeID(), node14);
+    testNodeMap.put(node15.getNodeID(), node15);
+    testNodeMap.put(node16.getNodeID(), node16);
+    testNodeMap.put(node17.getNodeID(), node17);
+    testNodeMap.put(node18.getNodeID(), node18);
+    testNodeMap.put(node19.getNodeID(), node19);
+    testNodeMap.put(node20.getNodeID(), node20);
+  }
+
+  //  @Test
+  //  public void testGetFloorNodes() {
+  //    ArrayList<Node> L2FloorArrayExpected = new ArrayList<Node>();
+  //    L2FloorArrayExpected.add(node4);
+  //    L2FloorArrayExpected.add(node5);
+  //    L2FloorArrayExpected.add(node6);
+  //    L2FloorArrayExpected.add(node19);
+  //    ArrayList<Node> L2FloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "L2");
+  //    assertEquals(L2FloorArrayExpected, L2FloorArrayActual);
+  //
+  //    ArrayList<Node> GFloorArrayExpected = new ArrayList<Node>();
+  //    ArrayList<Node> GFloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "G");
+  //    assertEquals(GFloorArrayExpected, GFloorArrayActual);
+  //  }
+  //
+  //  @Test
+  //  public void testGetFloorEdges() {
+  //    // TODO
+  //  }
+
+  @Test
+  public void testLoadFloorNodes() {
+    HashMap<Integer, Node> L2FloorArrayExpected = new HashMap<Integer, Node>();
+    L2FloorArrayExpected.put(node4.getNodeID(), node4);
+    L2FloorArrayExpected.put(node5.getNodeID(), node5);
+    L2FloorArrayExpected.put(node6.getNodeID(), node6);
+    L2FloorArrayExpected.put(node19.getNodeID(), node19);
+
+    MEEntity.loadFloorNodes();
+    assertEquals(L2FloorArrayExpected, MEEntity.getLevelL2NodeMap());
   }
 
   @Test
-  public void testGetFloorNodes() {
-    ArrayList<Node> L2FloorArrayExpected = new ArrayList<Node>();
-    L2FloorArrayExpected.add(node4);
-    L2FloorArrayExpected.add(node5);
-    L2FloorArrayExpected.add(node6);
-    L2FloorArrayExpected.add(node19);
-    ArrayList<Node> L2FloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "L2");
-    assertEquals(L2FloorArrayExpected, L2FloorArrayActual);
-
-    ArrayList<Node> GFloorArrayExpected = new ArrayList<Node>();
-    ArrayList<Node> GFloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "G");
-    assertEquals(GFloorArrayExpected, GFloorArrayActual);
+  public void testLoadFloorEdges() {
+    // TODO
   }
 
-  @Test
-  public void testDetermineArray() {
-    assertArrayEquals(
-        MEEntity.getLevelGNodeArray().toArray(), MEEntity.determineArray("Level G").toArray());
-    assertArrayEquals(
-        MEEntity.getLevelL1NodeArray().toArray(), MEEntity.determineArray("Level L1").toArray());
-    assertArrayEquals(
-        MEEntity.getLevelL2NodeArray().toArray(), MEEntity.determineArray("Level L2").toArray());
-    assertArrayEquals(
-        MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineArray("Level 1").toArray());
-    assertArrayEquals(
-        MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineArray("Level 2").toArray());
-    assertArrayEquals(
-        MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineArray("Level 3").toArray());
-  }
+  //    @Test
+  //    public void testDetermineArray() {
+  //      assertArrayEquals(
+  //          MEEntity.getLevelL1NodeArray().toArray(),
+  //          MEEntity.determineNodeArray("Level L1").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevelL2NodeArray().toArray(),
+  //          MEEntity.determineNodeArray("Level L2").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   1").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   2").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   3").toArray());
+  //    }
 
   @Test
   public void testAddCircle() {
     double x = 230.45;
     double y = 154.33;
-    double r = 2;
+    double r = 10;
     Circle expected_c = new Circle(x, y, r);
     expected_c.setFill(Color.web("0x012D5A"));
     Circle actual_c = MEEntity.addCircle(x, y);

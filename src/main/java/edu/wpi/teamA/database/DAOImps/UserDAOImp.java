@@ -1,6 +1,8 @@
 package edu.wpi.teamA.database.DAOImps;
 
+import edu.wpi.teamA.controllers.Navigation.AccountSingleton;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.database.ORMclasses.User;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,10 +71,54 @@ public class UserDAOImp {
     return null;
   }
 
+  public void updatePassword(
+      String password1, String password2, String newPassword1, String newPassword2) {
+    try {
+      PreparedStatement ps =
+          UserLoginProvider.createConnection()
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Users\" WHERE userName = ?");
+      ps.setString(1, AccountSingleton.INSTANCE1.getValue().getUserName());
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String storedPassword = rs.getString("password");
+        if (password1.equals(storedPassword)
+            && password2.equals(storedPassword)
+            && newPassword1.equals(newPassword2)) {
+
+          // Update the password in the database
+          PreparedStatement updatePs =
+              UserLoginProvider.createConnection()
+                  .prepareStatement(
+                      "UPDATE \"Prototype2_schema\".\"Users\" SET password = ? WHERE userName = ?");
+          updatePs.setString(1, newPassword1);
+          updatePs.setString(2, AccountSingleton.INSTANCE1.getValue().getUserName());
+          updatePs.executeUpdate();
+
+          // Update the user object in AccountSingleton
+          User returnUser =
+              new User(
+                  rs.getInt("adminYes"),
+                  rs.getString("userName"),
+                  newPassword1,
+                  rs.getString("firstName"),
+                  rs.getString("lastName"));
+          AccountSingleton.INSTANCE1.setValue(returnUser);
+
+        } else {
+          System.out.println("Incorrect Password");
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   // Add the new user into the database
   // Also store the user into the array
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName) {
+      int adminYes, String userName, String password, String firstName, String lastName)
+      throws IncorrectLengthException {
     try {
 
       PreparedStatement ps =
@@ -85,11 +131,18 @@ public class UserDAOImp {
       ps.setString(4, firstName);
       ps.setString(5, lastName);
       ps.executeUpdate();
-
+      if (userName.length() < 5
+          || password.length() < 5
+          || firstName.length() < 1
+          || lastName.length() < 1) {
+        throw new IncorrectLengthException("Your attributes are not of the right length");
+      }
       UserArray.add(new User(adminYes, userName, password, firstName, lastName));
       System.out.println("New user added successfully.");
 
     } catch (SQLException e) {
+      throw new RuntimeException(e);
+    } catch (IncorrectLengthException e) {
       throw new RuntimeException(e);
     }
   }

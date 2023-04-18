@@ -16,6 +16,15 @@
     -fx-border-radius: 10;
 }
 
+.home-button {
+    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-white.png");
+}
+
+.home-button:hover {
+    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
+    -fx-fill: red;
+}
+
 .text{
     -fx-background-color: #98AABC;
     -fx-text-fill: #012D5A;
