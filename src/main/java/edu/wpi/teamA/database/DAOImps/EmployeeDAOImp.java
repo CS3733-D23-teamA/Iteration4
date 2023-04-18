@@ -75,7 +75,32 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
   @Override
   public void modifyEmployee(Employee employee) {
+    try {
+      String name = employee.getName();
+      String username = employee.getUsername();
+      String password = employee.getPassword();
+      String ID = employee.getID();
 
+      PreparedStatement ps =
+              employeeProvider
+                      .createConnection()
+                      .prepareStatement("UPDATE \"Prototype2_schema\".\"Employee\" SET username = ?, password = ?, ID = ? WHERE name = ?");
+      ps.setString(1, username);
+      ps.setString(2, password);
+      ps.setString(3, ID);
+
+      employeeArray.forEach(
+              Employee-> {
+                if (employee.getName().equals(employee.getName())) {
+                  employee.setUsername(username);
+                  employee.setPassword(password);
+                  employee.setID(ID);
+                }
+              });
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
