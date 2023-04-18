@@ -47,7 +47,6 @@ public class MapEditorController {
   @FXML private Image mapImage = App.getMapL1();
 
   private String level = "L1";
-  // @FXML private MFXButton stopModificationButton;
 
   @FXML private MFXButton modifyEdgeButton;
 
@@ -115,9 +114,6 @@ public class MapEditorController {
     submitButton.setDisable(true);
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
-    //    stopModificationButton.setDisable(true);
-    //    stopModificationButton.setVisible(false);
-    // nodeDescriptionVBox.setVisible(false);
 
     changeLevelText(levelL1Button);
 
@@ -199,60 +195,11 @@ public class MapEditorController {
         circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
         circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
         circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-        //      circle.setOnDragDetected(this::handleSetOnDragDetected);
-        //      circle.setOnDragOver(event -> handleSetOnDragOver(circle, event));
-        //      circle.setOnDragEntered(event -> handleSetOnDragEntered(circle, event));
-        //      circle.setOnDragExited(event -> handleSetOnDragExited(circle, event));
-        //      circle.setOnDragDropped(event -> handleSetOnDragDropped(circle, event));
         topPane.getChildren().add(circle);
       }
     }
     App.getPrimaryStage().show();
   }
-
-  //  public void handleSetOnDragDetected(MouseEvent event) {
-  //    if (modifyNodeClicked) {
-  //      Dragboard db = topPane.startDragAndDrop(TransferMode.ANY);
-  //
-  //      event.consume();
-  //    }
-  //  }
-  //
-  //  public void handleSetOnDragOver(Circle circle, DragEvent event) {
-  //    /* data is dragged over the target */
-  //    /* accept it only if it is not dragged from the same node
-  //     * and if it has a string data */
-  //    if (event.getGestureSource() != circle) {
-  //      /* allow for both copying and moving, whatever user chooses */
-  //      event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-  //    }
-  //    event.consume();
-  //  }
-  //
-  //  public void handleSetOnDragEntered(Circle circle, DragEvent event) {
-  //    /* the drag-and-drop gesture entered the target */
-  //    /* show to the user that it is an actual gesture target */
-  //    if (event.getGestureSource() != circle) {
-  //      circle.setFill(Color.GREEN);
-  //    }
-  //    event.consume();
-  //  }
-  //
-  //  public void handleSetOnDragExited(Circle circle, DragEvent event) {
-  //    /* mouse moved away, remove the graphical cues */
-  //    circle.setFill(Color.web("0x012D5A"));
-  //    event.consume();
-  //  }
-  //
-  //  public void handleSetOnDragDropped(Circle circle, DragEvent event) {
-  //    /* data dropped */
-  //    /* if there is a string data on dragboard, read it and use it */
-  //    Dragboard db = event.getDragboard();
-  //    /* let the source know whether the string was successfully
-  //     * transferred and used */
-  //    event.setDropCompleted(true);
-  //    event.consume();
-  //  }
 
   private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
     for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
@@ -288,7 +235,6 @@ public class MapEditorController {
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0x012D5A"));
-    // nodeDescriptionVBox.setVisible(false);
   }
 
   /**
@@ -337,8 +283,6 @@ public class MapEditorController {
       secondNodeClicked = true;
       firstNode = entity.getNodeInfo(nodeID);
       modifyEdgeClicked = false;
-      //      stopModificationButton.setDisable(false);
-      //      stopModificationButton.setVisible(true);
       modifyEdgeButton.setText("Stop Modify Edge");
     }
 
@@ -352,19 +296,7 @@ public class MapEditorController {
       displayEdgeData(entity.determineEdgeMap(level));
       displayNodeData(entity.determineNodeMap(level));
     }
-
-    // editMapDirections.setText("");
   }
-
-  //  @FXML
-  //  public void stopModify() {
-  //    secondNodeClicked = false;
-  //    modifyEdgeClicked = false;
-  //    // hide button
-  //    stopModificationButton.setDisable(true);
-  //    stopModificationButton.setVisible(false);
-  //    editMapDirections.setText("");
-  //  }
 
   /** Sets up screen for the user to remove a node */
   @FXML
@@ -461,13 +393,13 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
-    if (!entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable()) {
+    if (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable()) {
       longNameField.setBorder(Border.stroke(Color.web("0xf74c4c")));
     } else {
       longNameField.setBorder(Border.stroke(Color.web("0x000000")));
     }
     if (longNameField.getText().isEmpty()
-        || (!entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
+        || (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
         || buildingField.getSelectedIndex() == -1
