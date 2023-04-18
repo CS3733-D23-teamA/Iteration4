@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class AStar extends Search {
 
-  private ArrayList<Integer> path = new ArrayList<Integer>();
-
   public AStar(int startID, int endID) {
     this.graph.prepGraph();
     this.startID = startID;
