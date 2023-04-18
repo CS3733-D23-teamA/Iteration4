@@ -6,9 +6,7 @@ import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import edu.wpi.teamA.pathfinding.AStar;
-import edu.wpi.teamA.pathfinding.GraphNode;
-import edu.wpi.teamA.pathfinding.Search;
+import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
@@ -52,6 +50,7 @@ public class PathfindingController extends PageController {
 
   // Node implementation
   private ArrayList<String> nodeOptions = new ArrayList<>();
+  private ArrayList<String> searchOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
   private final NodeDAOImp nodeDAO = new NodeDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
@@ -92,9 +91,14 @@ public class PathfindingController extends PageController {
       nameMap.put(name, id);
     }
 
+    searchOptions.add("A*");
+    searchOptions.add("Breadth-First Search");
+    searchOptions.add("Depth-First Search");
+
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
+    searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
 
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
@@ -148,9 +152,26 @@ public class PathfindingController extends PageController {
       clearPath();
       String startName = startSelection.getSelectedItem();
       String endName = endSelection.getSelectedItem();
+      String searchAlgorithm = searchAlgorithmSelection.getSelectedItem();
+
       int startID = nameMap.get(startName);
       int endID = nameMap.get(endName);
-      Search search = new AStar(startID, endID);
+
+      Search search;
+      if (AccountSingleton.INSTANCE1.user1.getAdminYes() == 1) {
+        if (searchAlgorithm.equals("Breadth-First Search")) {
+          search = new BFS(startID, endID);
+          searchAlgorithmTextDirections.setText("Using Breadth-First Search");
+        } else if (searchAlgorithm.equals("Depth-First Search")) {
+          search = new DFS(startID, endID);
+          searchAlgorithmTextDirections.setText("Using Depth-First Search");
+        } else {
+          search = new AStar(startID, endID);
+          searchAlgorithmTextDirections.setText("Using A* Search");
+        }
+      } else {
+        search = new AStar(startID, endID);
+      }
       directions.setText(search.toString());
       directions.setFill(Color.web("#f1f1f1"));
 
@@ -159,14 +180,21 @@ public class PathfindingController extends PageController {
       drawPath(search);
 
     } catch (NullPointerException e) {
-      System.out.println("Null Value");
+      System.out.println("Null Value " + e.getMessage());
     }
   }
 
   @FXML
   public void checkPath() {
+    System.out.println(AccountSingleton.INSTANCE1.user1.getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      submit();
+      if (AccountSingleton.INSTANCE1.user1.getAdminYes() == 1) {
+        if (searchAlgorithmSelection.getSelectedItem() != null) {
+          submit();
+        }
+      } else {
+        submit();
+      }
     }
   }
 
