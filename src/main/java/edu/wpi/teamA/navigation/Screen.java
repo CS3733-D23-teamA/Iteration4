@@ -17,7 +17,8 @@ public enum Screen {
   MEAL_REQUEST("views/MealRequest.fxml"),
 
   MOVES("views/Moves.fxml"),
-  ACCOUNT("views/Account.fxml");
+  ACCOUNT("views/Account.fxml"),
+  MEAL_REQUEST("views/MealRequest.fxml");
 
   private final String filename;
 

@@ -4,13 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Node {
-  @Getter @Setter private Integer nodeID;
+  @Getter @Setter Integer nodeID;
 
-  @Getter @Setter private Integer xcoord;
+  @Getter @Setter Integer xcoord;
 
-  @Getter @Setter private Integer ycoord;
-  @Getter @Setter private String floor;
-  @Getter @Setter private String building;
+  @Getter @Setter Integer ycoord;
+  @Getter @Setter String floor;
+  @Getter @Setter String building;
 
   public Node(Integer nodeID, Integer xcoord, Integer ycoord, String floor, String building) {
     this.nodeID = nodeID;

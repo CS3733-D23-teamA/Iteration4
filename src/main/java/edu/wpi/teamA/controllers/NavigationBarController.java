@@ -88,6 +88,10 @@ public class NavigationBarController {
     App.getPrimaryStage().hide();
   }
 
+  public void openMealRequest() {
+    Navigation.navigate(Screen.MEAL_REQUEST);
+  }
+
   public void goHome() {
     Navigation.navigate(Screen.HOME);
   }
