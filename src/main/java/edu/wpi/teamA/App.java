@@ -1,6 +1,6 @@
 package edu.wpi.teamA;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity
+import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.IncorrectLengthException;
@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,12 +23,19 @@ public class App extends Application {
 
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
+
+  // map entities + images
   @Getter private static MapEditorEntity mapEditorEntity = new MapEditorEntity();
   @Getter private static Image mapL1 = new Image("edu/wpi/teamA/images/map-page/Level L1.png");
   @Getter private static Image mapL2 = new Image("edu/wpi/teamA/images/map-page/Level L2.png");
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
   @Getter private static Image map2 = new Image("edu/wpi/teamA/images/map-page/Level 2.png");
   @Getter private static Image map3 = new Image("edu/wpi/teamA/images/map-page/Level 3.png");
+
+  // BWH Colors
+  @Getter private static Color YELLOWBWH = Color.web("F0C747");
+  @Getter private static Color BLUEBWH = Color.web("012D5A");
+  @Getter private static Color LIGHTBLUEBWH = Color.web("98AABC");
 
   @Override
   public void init() {
