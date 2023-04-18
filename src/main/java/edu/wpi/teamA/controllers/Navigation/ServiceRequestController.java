@@ -8,8 +8,8 @@ import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
@@ -50,7 +50,7 @@ public class ServiceRequestController extends PageController {
 
   @FXML
   public void initialize() {
-    displayFlowerRequests(databaseRepo.getAllFlowers());
+    displayFlowerRequests();
     displayRoomRequests(databaseRepo.getAllCRRR());
 
     flowerTable
@@ -76,9 +76,10 @@ public class ServiceRequestController extends PageController {
 
     // TODO ADMIN ONLY
     ArrayList<String> allServiceRequests = new ArrayList<>();
-    HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
-    for (int i = 0; i < flowerRequests.size(); i++) {
-      allServiceRequests.add("Flower " + flowerRequests.get(i).getId());
+    // HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
+    for (Map.Entry<Integer, FlowerEntity> entry : databaseRepo.getFlowerMap().entrySet()) {
+      FlowerEntity flower = entry.getValue();
+      allServiceRequests.add("Flower " + flower.getId());
     }
     chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
     chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
@@ -121,10 +122,13 @@ public class ServiceRequestController extends PageController {
       // update status in the service request
       flower.setStatus(chooseStatus.getSelectedItem());
       databaseRepo.updateFlower(flower);
+
+      // update display
+      displayFlowerRequests();
     }
   }
 
-  public void displayFlowerRequests(HashMap<Integer, FlowerEntity> flowerEntityArrayList) {
+  public void displayFlowerRequests() {
     idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));

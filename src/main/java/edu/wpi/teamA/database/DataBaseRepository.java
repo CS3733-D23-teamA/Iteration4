@@ -190,7 +190,9 @@ public class DataBaseRepository {
   }
 
   // Flower related methods
-  public HashMap<Integer, FlowerEntity> getFlowerMap() {return flowerDAOImpl.getFlowerMap();}
+  public HashMap<Integer, FlowerEntity> getFlowerMap() {
+    return flowerDAOImpl.getFlowerMap();
+  }
 
   public void addFlower(FlowerEntity flower) {
     flowerDAOImpl.addFlower(flower);
@@ -198,10 +200,6 @@ public class DataBaseRepository {
 
   public void deleteFlower(FlowerEntity flower) {
     flowerDAOImpl.deleteFlower(flower);
-  }
-
-  public HashMap<Integer, FlowerEntity> getAllFlowers() {
-    return flowerDAOImpl.getAllFlowers();
   }
 
   public FlowerEntity getFlower(int id) {
