@@ -61,7 +61,7 @@ public class NavigationBarController {
   }
 
   public void openFurnitureRequest() {
-    Navigation.navigate((Screen.FURNITURE));
+    Navigation.navigate((Screen.FURNITURE_REQUEST));
   }
 
   public void openMyRequests() {
@@ -101,4 +101,6 @@ public class NavigationBarController {
   public void openAccount() {
     Navigation.navigate(Screen.ACCOUNT);
   }
+
+  public void openMealRequest() {Navigation.navigate(Screen.MEAL_REQUEST);}
 }
