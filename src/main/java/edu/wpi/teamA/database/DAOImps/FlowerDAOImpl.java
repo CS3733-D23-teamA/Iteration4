@@ -14,14 +14,14 @@ public class FlowerDAOImpl implements IFlowerDAO {
   static DBConnectionProvider flowerProvider = new DBConnectionProvider();
 
   public FlowerDAOImpl() {
-    this.flowerMap = loadEdgesFromDatabaseInMap();
+    this.flowerMap = loadFlowersFromDatabaseInMap();
   }
 
   public FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
     this.flowerMap = flowerMap;
   }
 
-  public HashMap<Integer, FlowerEntity> loadEdgesFromDatabaseInMap() {
+  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();

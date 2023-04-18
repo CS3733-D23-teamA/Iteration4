@@ -194,6 +194,10 @@ public class DataBaseRepository {
     return flowerDAOImpl.getFlowerMap();
   }
 
+  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+    return flowerDAOImpl.loadFlowersFromDatabaseInMap();
+  }
+
   public void addFlower(FlowerEntity flower) {
     flowerDAOImpl.addFlower(flower);
   }
