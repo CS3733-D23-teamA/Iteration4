@@ -19,6 +19,7 @@ public class ServiceRequestController extends PageController {
   private DataBaseRepository databaseRepo = new DataBaseRepository();
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
   @FXML private TableView<FlowerEntity> flowerTable;
+  @FXML private TableColumn<FlowerEntity, Integer> idCol;
   @FXML private TableColumn<FlowerEntity, String> roomCol;
   @FXML private TableColumn<FlowerEntity, String> dateCol;
   @FXML private TableColumn<FlowerEntity, Integer> timeCol;
@@ -63,9 +64,11 @@ public class ServiceRequestController extends PageController {
 
     // TODO ADMIN ONLY
     ArrayList<String> allServiceRequests = new ArrayList<>();
+    // allServiceRequests.addAll(databaseRepo.getAllFlowers());
   }
 
   public void displayFlowerRequests(List<FlowerEntity> flowerEntityArrayList) {
+    idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));

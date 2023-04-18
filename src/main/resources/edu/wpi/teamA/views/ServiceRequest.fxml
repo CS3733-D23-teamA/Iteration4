@@ -84,6 +84,7 @@
                            <children>
                               <TableView fx:id="flowerTable" prefHeight="166.0" prefWidth="1564.0" GridPane.rowIndex="1">
                                  <columns>
+                                    <TableColumn fx:id="idCol" prefWidth="129.1107406616211" text="ID" />
                                     <TableColumn fx:id="roomCol" prefWidth="129.1107406616211" text="Room" />
                                     <TableColumn fx:id="dateCol" prefWidth="167.4798126220703" text="Date" />
                                     <TableColumn fx:id="timeCol" prefWidth="158.57208251953125" text="Time" />

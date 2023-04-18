@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FlowerEntity {
+  @Getter @Setter private int id;
   @Getter @Setter private String name;
   @Getter @Setter private String room;
   @Getter @Setter private Date date;
@@ -13,7 +14,8 @@ public class FlowerEntity {
   @Getter @Setter private String comment;
   @Getter @Setter private String status;
 
-  public FlowerEntity(String a, String b, Date c, int d, String e, String f, String g) {
+  public FlowerEntity(int id, String a, String b, Date c, int d, String e, String f, String g) {
+    this.id = id;
     this.name = a;
     this.room = b;
     this.date = c;
@@ -24,6 +26,7 @@ public class FlowerEntity {
   }
 
   public FlowerEntity() {
+    this.id = -1;
     this.name = null;
     this.room = null;
     this.date = null;

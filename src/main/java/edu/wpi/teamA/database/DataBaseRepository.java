@@ -214,6 +214,10 @@ public class DataBaseRepository {
     flowerDAOImpl.updateFlower(flower);
   }
 
+  public int getNextID() {
+    return flowerDAOImpl.getNextID();
+  }
+
   // Conference room service request related methods
   public ArrayList<ConferenceRoomResRequest> getCrrrArray() {
     return crrrDAOImp.getCrrrArray();
