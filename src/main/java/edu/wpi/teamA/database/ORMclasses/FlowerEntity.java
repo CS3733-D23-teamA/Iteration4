@@ -12,9 +12,11 @@ public class FlowerEntity {
   @Getter @Setter private int time;
   @Getter @Setter private String flowerType;
   @Getter @Setter private String comment;
+  @Getter @Setter private String employee;
   @Getter @Setter private String status;
 
-  public FlowerEntity(int id, String a, String b, Date c, int d, String e, String f, String g) {
+  public FlowerEntity(
+      int id, String a, String b, Date c, int d, String e, String f, String g, String h) {
     this.id = id;
     this.name = a;
     this.room = b;
@@ -22,7 +24,8 @@ public class FlowerEntity {
     this.time = d;
     this.flowerType = e;
     this.comment = f;
-    this.status = g;
+    this.employee = g;
+    this.status = h;
   }
 
   public FlowerEntity() {

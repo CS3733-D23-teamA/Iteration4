@@ -5,6 +5,7 @@ import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -18,6 +19,9 @@ public class ServiceRequestController extends PageController {
 
   private DataBaseRepository databaseRepo = new DataBaseRepository();
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
+
+  @FXML private MFXComboBox<String> chooseServiceRequestEmployee;
+
   @FXML private TableView<FlowerEntity> flowerTable;
   @FXML private TableColumn<FlowerEntity, Integer> idCol;
   @FXML private TableColumn<FlowerEntity, String> roomCol;
@@ -25,6 +29,7 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<FlowerEntity, Integer> timeCol;
   @FXML private TableColumn<FlowerEntity, String> flowerCol;
   @FXML private TableColumn<FlowerEntity, String> commentCol;
+  @FXML private TableColumn<FlowerEntity, String> employeeCol;
   @FXML private TableColumn<FlowerEntity, String> statusCol;
 
   // private CRRRDAOImp cdao = new CRRRDAOImp();
@@ -64,7 +69,11 @@ public class ServiceRequestController extends PageController {
 
     // TODO ADMIN ONLY
     ArrayList<String> allServiceRequests = new ArrayList<>();
-    // allServiceRequests.addAll(databaseRepo.getAllFlowers());
+    List<FlowerEntity> flowerRequests = databaseRepo.getAllFlowers();
+    for (int i = 0; i < flowerRequests.size(); i++) {
+      allServiceRequests.add("Flower Request " + flowerRequests.get(i).getId());
+    }
+    chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
   }
 
   public void displayFlowerRequests(List<FlowerEntity> flowerEntityArrayList) {
@@ -74,6 +83,7 @@ public class ServiceRequestController extends PageController {
     timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
     flowerCol.setCellValueFactory(new PropertyValueFactory<>("flowerType"));
     commentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
     flowerTable.setItems(FXCollections.observableArrayList(flowerEntityArrayList));

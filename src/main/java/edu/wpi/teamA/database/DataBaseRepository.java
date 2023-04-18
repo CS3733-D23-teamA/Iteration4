@@ -206,8 +206,8 @@ public class DataBaseRepository {
     return flowerDAOImpl.getAllFlowers();
   }
 
-  public FlowerEntity getFlower(String name) {
-    return flowerDAOImpl.getFlower(name);
+  public FlowerEntity getFlower(int id) {
+    return flowerDAOImpl.getFlower(id);
   }
 
   public void updateFlower(FlowerEntity flower) {

@@ -81,6 +81,7 @@ public class FlowerRequestController extends PageController implements IServiceC
             convertTime(timeCombo.getText()),
             flowerCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
     FlowerDAOImpl fd = new FlowerDAOImpl();
     fd.addFlower(flower);

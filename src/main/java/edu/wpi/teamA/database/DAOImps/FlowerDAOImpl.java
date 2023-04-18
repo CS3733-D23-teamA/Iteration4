@@ -33,6 +33,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       int time = flower.getTime();
       String type = flower.getFlowerType();
       String comment = flower.getComment();
+      String employee = flower.getEmployee();
       String status = flower.getStatus();
 
       String sqlCreateEdge =
@@ -44,6 +45,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
               + "timee     int,"
               + "flowerType     Varchar(600),"
               + "comment     Varchar(600),"
+              + "employee Varchar(600),"
               + "status  Varchar(600))";
       Statement stmtFlower = flowerProvider.createConnection().createStatement();
       stmtFlower.execute(sqlCreateEdge);
@@ -52,7 +54,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
           flowerProvider
               .createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
       ps.setString(2, name);
       ps.setString(3, room);
@@ -60,10 +62,12 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.setInt(5, time);
       ps.setString(6, type);
       ps.setString(7, comment);
-      ps.setString(8, status);
+      ps.setString(8, employee);
+      ps.setString(9, status);
       ps.executeUpdate();
 
-      flowerArray.add(new FlowerEntity(id, name, room, date, time, type, comment, status));
+      flowerArray.add(
+          new FlowerEntity(id, name, room, date, time, type, comment, employee, status));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -77,11 +81,11 @@ public class FlowerDAOImpl implements IFlowerDAO {
       PreparedStatement ps =
           flowerProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE namee = ?");
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
       ps.setString(1, flower.getName());
       ps.executeUpdate();
 
-      flowerArray.removeIf(flowerEntity -> flowerEntity.getName().equals(flower.getName()));
+      flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -103,10 +107,11 @@ public class FlowerDAOImpl implements IFlowerDAO {
         int time = rs.getInt("timee");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
+        String employee = rs.getString("employee");
         String status = rs.getString("status");
 
         FlowerEntity temp =
-            new FlowerEntity(id, namee, room, date, time, flowerType, comment, status);
+            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
         //        temp.setName(namee);
         //        temp.setRoom(room);
         //        temp.setDate(date);
@@ -124,17 +129,17 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public FlowerEntity getFlower(String name) {
+  public FlowerEntity getFlower(int id) {
     FlowerEntity temp = new FlowerEntity();
     try {
       PreparedStatement ps =
           flowerProvider
               .createConnection()
-              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Flower\" WHERE namee = ?");
-      ps.setString(1, name);
+              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
+      ps.setInt(1, id);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
-        int id = rs.getInt("id");
+        int tempID = rs.getInt("id");
         String namee = rs.getString("namee");
         String room = rs.getString("room");
         Date date = rs.getDate("datee");
@@ -143,7 +148,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
         String comment = rs.getString("comment");
         String status = rs.getString("status");
 
-        temp.setId(id);
+        temp.setId(tempID);
         temp.setName(namee);
         temp.setRoom(room);
         temp.setDate(date);
@@ -161,34 +166,41 @@ public class FlowerDAOImpl implements IFlowerDAO {
   @Override
   public void updateFlower(FlowerEntity flower) {
     try {
+      String name = flower.getName();
       String room = flower.getRoom();
       Date date = flower.getDate();
       int time = flower.getTime();
       String type = flower.getFlowerType();
       String comment = flower.getComment();
+      String employee = flower.getEmployee();
       String status = flower.getStatus();
 
       PreparedStatement ps =
           flowerProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE Prototype2_schema.\"Flower\" SET room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, status = ? WHERE namee = ?");
-      ps.setString(1, room);
-      ps.setDate(2, date);
-      ps.setInt(3, time);
-      ps.setString(4, type);
-      ps.setString(5, comment);
-      ps.setString(6, status);
+                  "UPDATE Prototype2_schema.\"Flower\" SET name = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+      ps.setString(1, name);
+      ps.setString(2, room);
+      ps.setDate(3, date);
+      ps.setInt(4, time);
+      ps.setString(5, type);
+      ps.setString(6, comment);
+      ps.setString(7, employee);
+      ps.setString(8, status);
       ps.executeUpdate();
 
       flowerArray.forEach(
-          FlowerEntity -> {
-            if (FlowerEntity.getName().equals(flower.getName())) {
-              FlowerEntity.setRoom(room);
-              FlowerEntity.setDate(date);
-              FlowerEntity.setTime(time);
-              FlowerEntity.setComment(comment);
-              FlowerEntity.setStatus(status);
+          flowerEntity -> {
+            if (flowerEntity.getId() == (flower.getId())) {
+              flowerEntity.setName(name);
+              flowerEntity.setRoom(room);
+              flowerEntity.setDate(date);
+              flowerEntity.setTime(time);
+              flowerEntity.setFlowerType(type);
+              flowerEntity.setComment(comment);
+              flowerEntity.setEmployee(employee);
+              flowerEntity.setStatus(status);
             }
           });
     } catch (SQLException e) {
@@ -213,9 +225,11 @@ public class FlowerDAOImpl implements IFlowerDAO {
         int time = rs.getInt("timee");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
+        String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        largestID = new FlowerEntity(id, name, room, date, time, flowerType, comment, status);
+        largestID =
+            new FlowerEntity(id, name, room, date, time, flowerType, comment, employee, status);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

@@ -6,7 +6,7 @@ import java.util.List;
 public interface IFlowerDAO {
   public List<FlowerEntity> getAllFlowers();
 
-  public FlowerEntity getFlower(String name);
+  public FlowerEntity getFlower(int id);
 
   public void updateFlower(FlowerEntity flower);
 
