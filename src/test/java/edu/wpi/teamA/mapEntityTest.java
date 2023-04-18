@@ -50,7 +50,7 @@ public class mapEntityTest {
   @BeforeEach
   protected void setUp() throws Exception {
     System.out.println("Setting it up!");
-    NodeDAOImp nodeDAO = new NodeDAOImp();
+    NodeDAOImp nodeDAO = new NodeDAOImp(testNodeMap);
     testNodeMap.put(node1.getNodeID(), node1);
     testNodeMap.put(node2.getNodeID(), node2);
     testNodeMap.put(node3.getNodeID(), node3);
@@ -72,26 +72,6 @@ public class mapEntityTest {
     testNodeMap.put(node19.getNodeID(), node19);
     testNodeMap.put(node20.getNodeID(), node20);
   }
-
-  //  @Test
-  //  public void testGetFloorNodes() {
-  //    ArrayList<Node> L2FloorArrayExpected = new ArrayList<Node>();
-  //    L2FloorArrayExpected.add(node4);
-  //    L2FloorArrayExpected.add(node5);
-  //    L2FloorArrayExpected.add(node6);
-  //    L2FloorArrayExpected.add(node19);
-  //    ArrayList<Node> L2FloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "L2");
-  //    assertEquals(L2FloorArrayExpected, L2FloorArrayActual);
-  //
-  //    ArrayList<Node> GFloorArrayExpected = new ArrayList<Node>();
-  //    ArrayList<Node> GFloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "G");
-  //    assertEquals(GFloorArrayExpected, GFloorArrayActual);
-  //  }
-  //
-  //  @Test
-  //  public void testGetFloorEdges() {
-  //    //
-  //  }
 
   @Test
   public void testLoadFloorNodes() {
