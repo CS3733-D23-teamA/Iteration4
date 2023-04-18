@@ -82,21 +82,22 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       String ID = employee.getID();
 
       PreparedStatement ps =
-              employeeProvider
-                      .createConnection()
-                      .prepareStatement("UPDATE \"Prototype2_schema\".\"Employee\" SET username = ?, password = ?, ID = ? WHERE name = ?");
+          employeeProvider
+              .createConnection()
+              .prepareStatement(
+                  "UPDATE \"Prototype2_schema\".\"Employee\" SET username = ?, password = ?, ID = ? WHERE name = ?");
       ps.setString(1, username);
       ps.setString(2, password);
       ps.setString(3, ID);
 
       employeeArray.forEach(
-              Employee-> {
-                if (employee.getName().equals(employee.getName())) {
-                  employee.setUsername(username);
-                  employee.setPassword(password);
-                  employee.setID(ID);
-                }
-              });
+          Employee -> {
+            if (employee.getName().equals(employee.getName())) {
+              employee.setUsername(username);
+              employee.setPassword(password);
+              employee.setID(ID);
+            }
+          });
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
