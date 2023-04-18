@@ -1,7 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.FurnitureDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -23,7 +23,7 @@ public class FurnitureRequestController extends PageController implements IServi
   @FXML private MFXComboBox timeCombo;
   @FXML private MFXComboBox furnitureCombo;
   @FXML private MFXTextField commentField;
-  private LocNameDAOImp locs = new LocNameDAOImp();
+  private DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
@@ -34,11 +34,11 @@ public class FurnitureRequestController extends PageController implements IServi
             "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
             "19:00", "20:00", "21:00", "22:00", "23:00");
     ArrayList<String> rooms = new ArrayList<>();
-    rooms.addAll(locs.filterLocType("BATH"));
-    rooms.addAll(locs.filterLocType("CONF"));
-    rooms.addAll(locs.filterLocType("DEPT"));
-    rooms.addAll(locs.filterLocType("LABS"));
-    rooms.addAll(locs.filterLocType("REST"));
+    rooms.addAll(databaseRepo.filterLocType("BATH"));
+    rooms.addAll(databaseRepo.filterLocType("CONF"));
+    rooms.addAll(databaseRepo.filterLocType("DEPT"));
+    rooms.addAll(databaseRepo.filterLocType("LABS"));
+    rooms.addAll(databaseRepo.filterLocType("REST"));
     roomComboBox.getItems().addAll(rooms);
   }
 

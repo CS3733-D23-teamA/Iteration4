@@ -2,13 +2,15 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,20 +20,22 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  private final MapEditorEntity entity = new MapEditorEntity();
+  private final MapEditorEntity entity = App.getMapEditorEntity();
 
   // larger panes
-  @FXML private ImageView mapImageView;
-  @FXML private StackPane mapStackPane;
-  @FXML private AnchorPane dotsAnchorPane;
+  @FXML private ImageView mapImageView = new ImageView();
+  @FXML private Pane topPane = new Pane();
   @FXML private GesturePane mapGesturePane;
   @FXML private HBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
+
+  @FXML private StackPane mapStackPane = new StackPane(mapImageView, topPane);
 
   // level buttons and image
   @FXML private MFXButton levelL1Button;
@@ -39,13 +43,17 @@ public class MapEditorController {
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
+
   @FXML private Image mapImage = App.getMapL1();
 
-  private String level = "G";
+  private String level = "L1";
+
+  @FXML private MFXButton modifyEdgeButton;
 
   // text displays
   @FXML private Text locationDisplay;
   @FXML private Text editMapDirections;
+  @FXML private Text levelDisplay;
 
   // input dialog box
   @FXML private MFXTextField longNameField;
@@ -59,6 +67,8 @@ public class MapEditorController {
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
   private boolean modifyNodeClicked;
+  private boolean modifyEdgeClicked;
+  private boolean secondNodeClicked;
 
   // booleans to determine importing or exporting
   private boolean imported = false;
@@ -71,7 +81,11 @@ public class MapEditorController {
 
   private Circle currentCircle;
 
-  private final double scalar = 0.144;
+  private Circle currentPositionClicked;
+
+  private Node firstNode;
+
+  // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
@@ -89,6 +103,8 @@ public class MapEditorController {
     addNodeClicked = false;
     modifyNodeClicked = false;
     this.mapImageView.setImage(mapImage);
+    modifyEdgeClicked = false;
+    secondNodeClicked = false;
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);
@@ -99,16 +115,17 @@ public class MapEditorController {
     impExpDialog.setVisible(false);
     impExpDialog.setDisable(true);
 
+    changeLevelText(levelL1Button);
+
     inputDialog.setOnClose(
         event -> {
-          shutDownMainDialogBox();
+          clear();
         });
     impExpDialog.setOnClose(
         event -> {
           impExpDialog.setVisible(false);
           impExpDialog.setDisable(true);
           imported = false;
-          // exported = false;
         });
 
     // set up input grid
@@ -131,18 +148,23 @@ public class MapEditorController {
     switch (button.getText()) {
       case "L1":
         mapImage = App.getMapL1();
+        levelDisplay.setText("Level L1");
         break;
       case "L2":
         mapImage = App.getMapL2();
+        levelDisplay.setText("Level L2");
         break;
       case "1":
         mapImage = App.getMap1();
+        levelDisplay.setText("Level 1");
         break;
       case "2":
         mapImage = App.getMap2();
+        levelDisplay.setText("Level 2");
         break;
       case "3":
         mapImage = App.getMap3();
+        levelDisplay.setText("Level 3");
         break;
     }
 
@@ -150,33 +172,40 @@ public class MapEditorController {
     this.mapImageView.setImage(Objects.requireNonNull(mapImage));
 
     // hide old dots
-    dotsAnchorPane.getChildren().clear();
+    topPane.getChildren().clear();
 
     // button
     level = button.getText();
 
-    // display new dots
-    displayNodeData(Objects.requireNonNull(entity.determineArray(level)));
+    // display new dots and edges
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
 
   /**
    * Displays the node data for that floor in the form as dots on the map
    *
-   * @param nodeArrayForFloor the array with the data for that floor
+   * @param nodeMapForFloor the array with the data for that floor
    */
-  private void displayNodeData(ArrayList<Node> nodeArrayForFloor) {
-    for (Node node : nodeArrayForFloor) {
-      int originalNodeX = node.getXcoord();
-      int originalNodeY = node.getYcoord();
-      // scales it according to resolution of the photos
-      double newXCoord = originalNodeX * scalar;
-      double newYCoord = originalNodeY * scalar;
+  private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
+    for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
+      Node node = entry.getValue();
+      if (node != null) {
+        Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
+        circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
+        circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
+        circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+        topPane.getChildren().add(circle);
+      }
+    }
+    App.getPrimaryStage().show();
+  }
 
-      Circle circle = entity.addCircle(newXCoord, newYCoord);
-      circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
-      circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
-      circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
-      dotsAnchorPane.getChildren().add(circle);
+  private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
+    for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
+      Edge edge = entry.getValue();
+      Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
+      topPane.getChildren().add(line);
     }
     App.getPrimaryStage().show();
   }
@@ -189,7 +218,7 @@ public class MapEditorController {
    */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-
+    // nodeDescriptionVBox.setVisible(true);
     if (entity.getLocationName(nodeID).getNodeType().equals("HALL")) {
       locationDisplay.setText(entity.getLocationName(nodeID).getLongName());
     } else {
@@ -220,10 +249,15 @@ public class MapEditorController {
     currentCircle = circle;
 
     if (removeNodeClicked) {
-      entity.determineRemoveAction(nodeID);
+      entity.determineRemoveAction(nodeID, level);
       circle.setDisable(true);
       circle.setVisible(false);
       removeNodeClicked = false;
+      editMapDirections.setText("");
+
+      topPane.getChildren().clear();
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
     }
 
     if (modifyNodeClicked) {
@@ -239,9 +273,29 @@ public class MapEditorController {
 
       // new location clicked
       mouseClickForNewLocation();
+
+      editMapDirections.setText("");
     }
 
-    editMapDirections.setText("");
+    if (modifyEdgeClicked) {
+      // click another node
+      editMapDirections.setText("Click the nodes you want to modify its edges.");
+      secondNodeClicked = true;
+      firstNode = entity.getNodeInfo(nodeID);
+      modifyEdgeClicked = false;
+      modifyEdgeButton.setText("Stop Modify Edge");
+    }
+
+    if (secondNodeClicked) {
+      if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
+        // add a line for the new edge
+        Line line = entity.addLine(firstNode.getNodeID(), nodeID);
+        topPane.getChildren().add(line);
+      }
+      topPane.getChildren().clear();
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
+    }
   }
 
   /** Sets up screen for the user to remove a node */
@@ -250,6 +304,7 @@ public class MapEditorController {
     removeNodeClicked = true;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -259,19 +314,38 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = true;
     addNodeClicked = false;
+    modifyEdgeClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
+  }
+
+  @FXML
+  public void modifyEdge() {
+    if (modifyEdgeButton.getText().equals("Modify Edge")) {
+      modifyEdgeClicked = true;
+      removeNodeClicked = false;
+      modifyNodeClicked = false;
+      addNodeClicked = false;
+
+      editMapDirections.setText("Click a node to modify its edges.");
+    } else {
+      secondNodeClicked = false;
+      modifyEdgeClicked = false;
+      editMapDirections.setText("");
+      modifyEdgeButton.setText("Modify Edge");
+    }
   }
 
   /** Pops up the input dialog page and hides map editor controls */
   private void popUpMainDialogBox() {
-    mapEditorControls.setVisible(false);
-    mapEditorControls.setDisable(true);
     inputDialog.setVisible(true);
     inputDialog.setDisable(false);
   }
 
   /** Hides the input dialog page and brings back map editor controls */
-  private void shutDownMainDialogBox() {
+  private void shutDownInputDialogBox() {
+    if (currentPositionClicked != null) {
+      topPane.getChildren().remove(currentPositionClicked);
+    }
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
     mapEditorControls.setVisible(true);
@@ -279,6 +353,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    topPane.setOnMouseClicked(null);
   }
 
   /** Preload information in dialog box for the user to modify a node */
@@ -286,6 +361,7 @@ public class MapEditorController {
     oldLongName = locName.getLongName();
     oldShortName = locName.getShortName();
     longNameField.setText(oldLongName);
+    longNameField.setDisable(true);
     shortNameField.setText(oldShortName);
     floorField.getSelectionModel().selectItem(node.getFloor());
     buildingField.getSelectionModel().selectItem(node.getBuilding());
@@ -300,7 +376,9 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
-    editMapDirections.setText("Add node");
+    modifyEdgeClicked = false;
+    floorField.selectItem(level);
+    floorField.setDisable(true);
     // pop up dialog box
     popUpMainDialogBox();
 
@@ -315,7 +393,13 @@ public class MapEditorController {
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
   public void validateButton() {
+    if (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable()) {
+      longNameField.setBorder(Border.stroke(Color.web("0xf74c4c")));
+    } else {
+      longNameField.setBorder(Border.stroke(Color.web("0x000000")));
+    }
     if (longNameField.getText().isEmpty()
+        || (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
         || buildingField.getSelectedIndex() == -1
@@ -332,11 +416,13 @@ public class MapEditorController {
   private void clear() {
     submitButton.setDisable(true);
     longNameField.clear();
+    longNameField.setDisable(false);
     shortNameField.clear();
     floorField.getSelectionModel().clearSelection();
+    floorField.setDisable(false);
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
-    shutDownMainDialogBox();
+    shutDownInputDialogBox();
   }
 
   @FXML
@@ -345,6 +431,7 @@ public class MapEditorController {
 
     if (modifyNodeClicked) {
       entity.determineModifyAction(
+          level,
           currentNodeID,
           XYCoords[0],
           XYCoords[1],
@@ -370,31 +457,35 @@ public class MapEditorController {
     }
 
     clear();
-    displayNodeData(entity.determineArray(level));
+    topPane.getChildren().clear();
+    topPane.setOnMouseClicked(null);
+    displayEdgeData(entity.determineEdgeMap(level));
+    displayNodeData(entity.determineNodeMap(level));
   }
 
   /**
    * Used to store the coordinates of when the user clicks on the map for adding or modifying a node
    */
   private void mouseClickForNewLocation() {
-    dotsAnchorPane.setOnMouseClicked(
+    currentPositionClicked = null;
+    topPane.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
+            if (currentPositionClicked != null) {
+              topPane.getChildren().remove(currentPositionClicked);
+            }
             double X = event.getX();
             double Y = event.getY();
-            int newX = (int) X;
-            int newY = (int) Y;
             XYCoords = new int[2];
-            XYCoords[0] = (int) (newX / scalar);
-            XYCoords[1] = (int) (newY / scalar);
-            System.out.println("New X:" + newX);
-            System.out.println("New Y:" + newY);
+            XYCoords[0] = (int) (X);
+            XYCoords[1] = (int) (Y);
             // new red circle indicating new location
 
-            Circle circle = entity.addCircle(newX, newY);
-            circle.setFill(Color.rgb(128, 0, 0, 0.87));
-            circle.setVisible(true);
+            Circle circle = entity.addCircle(X, Y);
+            circle.setFill(Color.web("0xf74c4c"));
+            topPane.getChildren().add(circle);
+            currentPositionClicked = circle;
             validateButton();
           }
         });

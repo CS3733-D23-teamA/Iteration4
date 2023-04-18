@@ -4,6 +4,7 @@ import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.AStar;
 import edu.wpi.teamA.pathfinding.GraphNode;
@@ -54,6 +55,9 @@ public class PathfindingController extends PageController {
   private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
   private final MapEditorEntity map = new MapEditorEntity();
   private String floor = "L1";
+  // private final NodeDAOImp nodeDAO = new NodeDAOImp();
+
+  private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
     // Set up Map in Gesture pane using a StackPane
@@ -67,7 +71,7 @@ public class PathfindingController extends PageController {
         });
 
     // Getting Nodes from Database
-    nodeList = nodeDAO.loadNodesFromDatabase();
+    nodeList = databaseRepo.loadNodesFromDatabaseInArray();
     for (Node node : nodeList) {
       // TODO add nodes for all floors
       int id = node.getNodeID();
