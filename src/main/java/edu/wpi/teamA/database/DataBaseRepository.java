@@ -3,6 +3,7 @@ package edu.wpi.teamA.database;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataBaseRepository {
@@ -25,8 +26,21 @@ public class DataBaseRepository {
   }
 
   // Node related methods
-  public void addNode(int id, int xcoord, int ycoord, String floor, String building) {
-    nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
+
+  public HashMap<Integer, Node> getNodeMap() {
+    return nodeDAOImp.getNodeMap();
+  }
+
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
+    return nodeDAOImp.loadNodesFromDatabaseInArray();
+  }
+
+  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+    return nodeDAOImp.loadNodesFromDatabaseInMap();
+  }
+
+  public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
+    return nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
   }
 
   public void deleteNode(int id) {
@@ -42,16 +56,32 @@ public class DataBaseRepository {
     return nodeDAOImp.getNode(id);
   }
 
+  public Node getLargestNodeID() {
+    return nodeDAOImp.getLargestNodeID();
+  }
+
   // Edge related methods
-  public void addEdge(int startNode, int endNode) {
-    edgeDAOImp.Add(startNode, endNode);
+
+  public HashMap<String, Edge> getEdgeMap() {
+    return edgeDAOImp.getEdgeMap();
+  }
+
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
+    return edgeDAOImp.loadEdgesFromDatabaseInArray();
+  }
+
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    return edgeDAOImp.loadEdgesFromDatabaseInMap();
+  }
+
+  public Edge addEdge(int startNode, int endNode) {
+    return edgeDAOImp.Add(startNode, endNode);
   }
 
   public void deleteEdge(int startNode, int endNode) {
     edgeDAOImp.Delete(startNode, endNode);
   }
-  //
-  // takes in two edge objects, one old version one updated version
+
   public void updateEdge(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
     edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
   }
@@ -60,7 +90,19 @@ public class DataBaseRepository {
     return edgeDAOImp.getEdge(startNode, endNode);
   }
 
+  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
+    return edgeDAOImp.deleteEdgesWithNode(nodeID);
+  }
+
   // LocationName related methods
+  public HashMap<String, LocationName> getLocNameMap() {
+    return locNameDAOImp.getLocNameMap();
+  }
+
+  public HashMap<String, LocationName> loadLocNameFromDatabase() {
+    return locNameDAOImp.loadLocNamefromDatabase();
+  }
+
   public void addLocName(String longName, String shortName, String nodeType) {
     locNameDAOImp.Add(longName, shortName, nodeType);
   }
@@ -69,7 +111,6 @@ public class DataBaseRepository {
     locNameDAOImp.Delete(longName);
   }
 
-  // same as edge
   public void updateLocName(
       String oldLongName,
       String oldShortName,
@@ -83,7 +124,23 @@ public class DataBaseRepository {
     return locNameDAOImp.getLocName(longName);
   }
 
+  public ArrayList<String> filterLocType(String type) {
+    return locNameDAOImp.filterLocType(type);
+  }
+
   // Move related methods
+  public HashMap<Integer, Move> getMoveMap() {
+    return moveDAOImp.getMoveMap();
+  }
+
+  public ArrayList<Move> loadMovesFromDatabase() {
+    return moveDAOImp.loadMovesFromDatabase();
+  }
+
+  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+    return moveDAOImp.loadMovesFromDatabaseInMap();
+  }
+
   public void addMove(int nodeID, String longName, String dateString) {
     moveDAOImp.Add(nodeID, longName, dateString);
   }
@@ -101,24 +158,32 @@ public class DataBaseRepository {
   }
 
   // Import and Export methods
-  public void importData(
-      String nodeFilePath, String edgeFilePath, String locNameFilePath, String moveFilePath) {
-    ArrayList<Node> importedNodes = NodeDAOImp.Import(nodeFilePath);
-    ArrayList<Edge> importedEdges = EdgeDAOImp.Import(edgeFilePath);
-    ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(locNameFilePath);
-    ArrayList<Move> importedMoves = MoveDAOImp.Import(moveFilePath);
-
-    nodeDAOImp = new NodeDAOImp(importedNodes);
-    edgeDAOImp = new EdgeDAOImp(importedEdges);
-    locNameDAOImp = new LocNameDAOImp(importedLocationNames);
-    moveDAOImp = new MoveDAOImp(importedMoves);
+  public void importData(String filepath, String type) {
+    if (type.equals("Node")) {
+      HashMap<Integer, Node> importedNodes = NodeDAOImp.Import(filepath);
+      nodeDAOImp = new NodeDAOImp(importedNodes);
+    } else if (type.equals("LocName")) {
+      HashMap<String, LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      locNameDAOImp = new LocNameDAOImp(importedLocationNames);
+    } else if (type.equals("Move")) {
+      HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
+      moveDAOImp = new MoveDAOImp(importedMoves);
+    } else if (type.equals("Edge")) {
+      HashMap<String, Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      edgeDAOImp = new EdgeDAOImp(importedEdges);
+    }
   }
 
-  public void exportData(String folderExportPath) {
-    NodeDAOImp.Export(folderExportPath);
-    EdgeDAOImp.Export(folderExportPath);
-    LocNameDAOImp.Export(folderExportPath);
-    MoveDAOImp.Export(folderExportPath);
+  public void exportData(String folderExportPath, String type) {
+    if (type.equals("Node")) {
+      NodeDAOImp.Export(folderExportPath);
+    } else if (type.equals("LocName")) {
+      LocNameDAOImp.Export(folderExportPath);
+    } else if (type.equals("Move")) {
+      MoveDAOImp.Export(folderExportPath);
+    } else if (type.equals("Edge")) {
+      EdgeDAOImp.Export(folderExportPath);
+    }
   }
 
   // Flower related methods
@@ -142,7 +207,7 @@ public class DataBaseRepository {
     flowerDAOImpl.updateFlower(flower);
   }
 
-  // CRRR related methods
+  // Conference room service request related methods
   public void addCRRR(ConferenceRoomResRequest crrr) {
     crrrDAOImp.addCRRR(crrr);
   }

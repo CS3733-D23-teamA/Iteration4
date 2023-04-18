@@ -1,20 +1,15 @@
 package edu.wpi.teamA.database.DAOImps;
 
-import java.util.ArrayList;
-
 public interface IDataBase {
+  static void Import(String s) {};
 
-  static ArrayList Import(String filePath) {
-    return null;
-  }
+  static void Export(String s) {};
 
-  static void Export(String filePath) {};
+  // void Add();
 
-  // void Add(T addT);
+  // void Delete();
 
-  // void Delete(T delT);
-
-  // void Update(T upT);
+  // void Update();
 
   // 1.get all
   // 2.update

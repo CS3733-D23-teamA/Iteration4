@@ -12,8 +12,9 @@ public enum Screen {
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   CONFERENCE_REQUEST("views/ConferenceRequest.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
-  FURNITURE_REQUEST("views/FurnitureRequest.fxml"),
-
+  FURNITURE("views/FurnitureRequest.fxml"),
+  MOVES("views/Moves.fxml"),
+  ACCOUNT("views/Account.fxml"),
   MEAL_REQUEST("views/MealRequest.fxml");
 
   private final String filename;

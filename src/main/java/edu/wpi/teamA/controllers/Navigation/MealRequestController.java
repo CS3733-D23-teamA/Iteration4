@@ -25,7 +25,6 @@ public class MealRequestController extends PageController implements IServiceCon
 
   LocNameDAOImp locs = new LocNameDAOImp();
 
-  @Override
   public void initialize() {
     mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
     timeCombo
