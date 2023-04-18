@@ -1,6 +1,9 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-public class SignageController extends PageController {
+import javafx.fxml.FXML;
 
+public class MovesController {
+
+  @FXML
   public void initialize() {}
 }

@@ -8,9 +8,6 @@ import javafx.fxml.FXML;
 public class PageController {
   @FXML MFXButton backButton = new MFXButton();
 
-  @FXML
-  public void initialize() {}
-
   public void back() {
     Navigation.navigate(Screen.HOME);
   }
