@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.FurnitureDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.navigation.Navigation;
@@ -24,7 +23,7 @@ public class FurnitureRequestController extends PageController implements IServi
   @FXML MFXComboBox timeCombo;
   @FXML MFXComboBox furnitureCombo;
   @FXML MFXTextField commentField;
-  //LocNameDAOImp locs = new LocNameDAOImp();
+  // LocNameDAOImp locs = new LocNameDAOImp();
   DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {

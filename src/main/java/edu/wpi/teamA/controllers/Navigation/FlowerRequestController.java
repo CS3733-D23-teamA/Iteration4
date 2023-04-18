@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
@@ -24,7 +23,7 @@ public class FlowerRequestController extends PageController implements IServiceC
   @FXML MFXComboBox flowerCombo;
   @FXML MFXTextField commentField;
 
-  //LocNameDAOImp locs = new LocNameDAOImp();
+  // LocNameDAOImp locs = new LocNameDAOImp();
   DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {

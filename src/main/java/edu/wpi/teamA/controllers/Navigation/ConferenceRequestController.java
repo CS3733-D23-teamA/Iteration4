@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
-import edu.wpi.teamA.database.DAOImps.LocNameDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.navigation.Navigation;
@@ -15,8 +14,6 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-import javax.xml.crypto.Data;
-
 public class ConferenceRequestController extends PageController implements IServiceController {
   @FXML MFXButton submitButton;
   @FXML MFXTextField nameField;
@@ -26,7 +23,7 @@ public class ConferenceRequestController extends PageController implements IServ
   @FXML MFXComboBox endCombo;
   @FXML MFXTextField commentField;
 
-  //LocNameDAOImp locs = new LocNameDAOImp();
+  // LocNameDAOImp locs = new LocNameDAOImp();
   DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {

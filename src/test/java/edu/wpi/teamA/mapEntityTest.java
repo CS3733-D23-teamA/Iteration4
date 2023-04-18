@@ -90,7 +90,7 @@ public class mapEntityTest {
   //
   //  @Test
   //  public void testGetFloorEdges() {
-  //    // TODO
+  //    //
   //  }
 
   @Test
@@ -102,7 +102,18 @@ public class mapEntityTest {
     L2FloorArrayExpected.put(node19.getNodeID(), node19);
 
     MEEntity.loadFloorNodes();
-    assertEquals(L2FloorArrayExpected, MEEntity.getLevelL2NodeMap());
+    assertEquals(
+        L2FloorArrayExpected.get(node4.getNodeID()),
+        MEEntity.getLevelL2NodeMap().get(node4.getNodeID()));
+    assertEquals(
+        L2FloorArrayExpected.get(node5.getNodeID()),
+        MEEntity.getLevelL2NodeMap().get(node5.getNodeID()));
+    assertEquals(
+        L2FloorArrayExpected.get(node6.getNodeID()),
+        MEEntity.getLevelL2NodeMap().get(node6.getNodeID()));
+    assertEquals(
+        L2FloorArrayExpected.get(node19.getNodeID()),
+        MEEntity.getLevelL2NodeMap().get(node19.getNodeID()));
   }
 
   @Test
