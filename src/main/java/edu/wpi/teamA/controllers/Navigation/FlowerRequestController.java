@@ -15,13 +15,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
 public class FlowerRequestController extends PageController implements IServiceController {
-  @FXML MFXButton submitButton;
-  @FXML MFXTextField nameField;
-  @FXML MFXComboBox roomCombo;
-  @FXML DatePicker datePicker;
-  @FXML MFXComboBox timeCombo;
-  @FXML MFXComboBox flowerCombo;
-  @FXML MFXTextField commentField;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXTextField nameField;
+  @FXML private MFXComboBox roomCombo;
+  @FXML private DatePicker datePicker;
+  @FXML private MFXComboBox timeCombo;
+  @FXML private MFXComboBox flowerCombo;
+  @FXML private MFXTextField commentField;
 
   // LocNameDAOImp locs = new LocNameDAOImp();
   DataBaseRepository databaseRepo = new DataBaseRepository();

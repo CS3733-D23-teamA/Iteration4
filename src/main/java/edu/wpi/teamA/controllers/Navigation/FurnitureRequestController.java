@@ -15,15 +15,14 @@ import javafx.scene.control.DatePicker;
 
 public class FurnitureRequestController extends PageController implements IServiceController {
 
-  @FXML MFXButton submitButton;
-  @FXML MFXTextField nameField;
-  @FXML MFXComboBox roomComboBox;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXTextField nameField;
+  @FXML private MFXComboBox roomComboBox;
 
-  @FXML DatePicker datePicker;
-  @FXML MFXComboBox timeCombo;
-  @FXML MFXComboBox furnitureCombo;
-  @FXML MFXTextField commentField;
-  // LocNameDAOImp locs = new LocNameDAOImp();
+  @FXML private DatePicker datePicker;
+  @FXML private MFXComboBox timeCombo;
+  @FXML private MFXComboBox furnitureCombo;
+  @FXML private MFXTextField commentField;
   DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
