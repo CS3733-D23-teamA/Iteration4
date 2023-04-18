@@ -10,24 +10,27 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import lombok.Getter;
+import lombok.Setter;
 
 public class NodeDAOImp implements IDataBase, INodeDAO {
-  ArrayList<Node> NodeArray;
+  // ArrayList<Node> NodeArray;
+  @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<Integer, Node>();
 
-  static DBConnectionProvider nodeProvider = new DBConnectionProvider();
+  private static DBConnectionProvider nodeProvider = new DBConnectionProvider();
 
-  public NodeDAOImp(ArrayList<Node> NodeArray) {
-    this.NodeArray = NodeArray;
+  public NodeDAOImp(HashMap<Integer, Node> NodeMap) {
+    this.NodeMap = NodeMap;
   }
 
   public NodeDAOImp() {
-    this.NodeArray = new ArrayList<Node>();
+    this.NodeMap = new HashMap<Integer, Node>();
   }
 
   // ResultSet
 
-  private static ArrayList<Node> loadNodesFromCSV(String filePath) {
-    ArrayList<Node> nodes = new ArrayList<>();
+  private static HashMap<Integer, Node> loadNodesFromCSV(String filePath) {
+    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -44,7 +47,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         String building = data[4];
 
         Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-        nodes.add(node);
+        nodes.put(nodeID, node);
       }
 
       csvReader.close();
@@ -71,8 +74,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  public static ArrayList<Node> Import(String filePath) {
-    ArrayList<Node> NodeArray = loadNodesFromCSV(filePath);
+  public static HashMap<Integer, Node> Import(String filePath) {
+    HashMap<Integer, Node> NodeMap = loadNodesFromCSV(filePath);
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -108,7 +111,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
       throw new RuntimeException(e);
     }
-    return NodeArray;
+    return NodeMap;
   }
 
   public static void Export(String folderExportPath) {
@@ -139,6 +142,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
+  // TODO delete
   public ArrayList<Node> loadNodesFromDatabase() {
     ArrayList<Node> nodes = new ArrayList<>();
 
@@ -164,7 +168,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   }
 
   public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
-    HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
+    // HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
     try {
       Statement st = nodeProvider.createConnection().createStatement();
@@ -178,13 +182,13 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         String building = rs.getString("building");
 
         Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-        nodes.put(nodeID, node);
+        NodeMap.put(nodeID, node);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    return nodes;
+    return NodeMap;
   }
 
   public Node Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
@@ -205,7 +209,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.executeUpdate();
 
       node = new Node(nodeID, xcoord, ycoord, floor, building);
-      NodeArray.add(node);
+      NodeMap.put(nodeID, node);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -226,7 +230,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
-      NodeArray.removeIf(node -> node.getNodeID().equals(nodeID));
+      NodeMap.remove(nodeID);
+      // NodeArray.removeIf(node -> node.getNodeID().equals(nodeID));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -249,15 +254,16 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       ps.setInt(5, nodeID);
       ps.executeUpdate();
 
-      NodeArray.forEach(
-          node -> {
-            if (node.getNodeID().equals(nodeID)) {
-              node.setXcoord(xcoord);
-              node.setYcoord(ycoord);
-              node.setFloor(floor);
-              node.setBuilding(building);
-            }
-          });
+      NodeMap.put(nodeID, new Node(nodeID, xcoord, ycoord, floor, building));
+      //      NodeArray.forEach(
+      //          node -> {
+      //            if (node.getNodeID().equals(nodeID)) {
+      //              node.setXcoord(xcoord);
+      //              node.setYcoord(ycoord);
+      //              node.setFloor(floor);
+      //              node.setBuilding(building);
+      //            }
+      //          });
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

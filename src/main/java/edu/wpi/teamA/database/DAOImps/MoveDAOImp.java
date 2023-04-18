@@ -19,7 +19,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
 
   @Getter @Setter private HashMap<Integer, Move> MoveMap;
 
-  static DBConnectionProvider moveProvider = new DBConnectionProvider();
+  private static DBConnectionProvider moveProvider = new DBConnectionProvider();
 
   public MoveDAOImp(HashMap<Integer, Move> MoveMap) {
     this.MoveMap = MoveMap;
@@ -168,7 +168,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
-    HashMap<Integer, Move> moves = new HashMap<Integer, Move>();
+    // HashMap<Integer, Move> moves = new HashMap<Integer, Move>();
 
     try {
       Statement st = moveProvider.createConnection().createStatement();
@@ -180,18 +180,19 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
         Move move = new Move(nodeID, longName, localDate);
-        moves.put(move.getNodeID(), move);
+        // moves.put(move.getNodeID(), move);
         MoveMap.put(move.getNodeID(), move);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    return moves;
+    return MoveMap;
   }
 
   /** create a new instance of Move and Insert the new object into database */
-  public void Add(int nodeID, String longName, String dateString) {
+  public Move Add(int nodeID, String longName, String dateString) {
+    Move move = null;
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
       LocalDate localDate = LocalDate.parse(dateString, formatter);
@@ -204,12 +205,13 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
       ps.setString(2, longName);
       ps.setDate(3, java.sql.Date.valueOf(localDate));
       ps.executeUpdate();
-
-      MoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+      move = new Move(nodeID, longName, localDate);
+      MoveMap.put(nodeID, move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+    return move;
   }
 
   public void Delete(int nodeID) {

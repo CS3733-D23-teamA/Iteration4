@@ -17,7 +17,7 @@ import lombok.Setter;
 public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap;
-  static DBConnectionProvider edgeProvider = new DBConnectionProvider();
+  private static DBConnectionProvider edgeProvider = new DBConnectionProvider();
 
   public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
     this.EdgeMap = EdgeMap;
@@ -154,7 +154,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   }
 
   public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
-    HashMap<String, Edge> edges = new HashMap<String, Edge>();
+    // HashMap<String, Edge> edges = new HashMap<String, Edge>();
 
     try {
       Statement st = edgeProvider.createConnection().createStatement();
@@ -165,14 +165,14 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
         Integer endNode = rs.getInt("endNode");
 
         Edge edge = new Edge(startNode, endNode);
-        edges.put(startNode.toString() + endNode.toString(), edge);
+        // edges.put(startNode.toString() + endNode.toString(), edge);
         EdgeMap.put(startNode.toString() + endNode.toString(), edge);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    return edges;
+    return EdgeMap;
   }
 
   public Edge Add(Integer startNode, Integer endNode) {

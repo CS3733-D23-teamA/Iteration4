@@ -87,7 +87,7 @@ public class DataBaseRepository {
 
   // LocationName related methods
 
-  public ArrayList<LocationName> loadLocNameFromDatabase() {
+  public HashMap<String, LocationName> loadLocNameFromDatabase() {
     return locNameDAOImp.loadLocNamefromDatabase();
   }
 
@@ -144,10 +144,10 @@ public class DataBaseRepository {
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {
-      ArrayList<Node> importedNodes = NodeDAOImp.Import(filepath);
+      HashMap<Integer, Node> importedNodes = NodeDAOImp.Import(filepath);
       nodeDAOImp = new NodeDAOImp(importedNodes);
     } else if (type.equals("LocName")) {
-      ArrayList<LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      HashMap<String, LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
       HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
