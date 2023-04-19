@@ -2,6 +2,7 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
+import edu.wpi.teamA.database.ORMclasses.Employee;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -81,9 +82,17 @@ public class ServiceRequestController extends PageController {
       FlowerEntity flower = entry.getValue();
       allServiceRequests.add("Flower " + flower.getId());
     }
-    chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
-    chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
 
+    ArrayList<String> allEmployeeUsernames = new ArrayList<>();
+    for (Map.Entry<String, Employee> entry : databaseRepo.getEmployeeMap().entrySet()) {
+      Employee employee = entry.getValue();
+      allEmployeeUsernames.add(employee.getUsername());
+    }
+
+    chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
+    chooseEmployee.getItems().addAll(allEmployeeUsernames);
+
+    chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
     chooseStatus.getItems().addAll("new", "in progress", "done");
   }
 
@@ -121,6 +130,28 @@ public class ServiceRequestController extends PageController {
 
       // update status in the service request
       flower.setStatus(chooseStatus.getSelectedItem());
+      databaseRepo.updateFlower(flower);
+
+      // update display
+      displayFlowerRequests();
+    }
+  }
+
+  @FXML
+  public void submitEmployee() {
+    String assignedEmployee = chooseEmployee.getSelectedItem();
+    String serviceRequest = chooseServiceRequestEmployee.getSelectedItem();
+
+    // get the id of the service request
+    int id = Integer.parseInt(serviceRequest.substring(serviceRequest.indexOf(" ") + 1));
+
+    // figure out which service request we are dealing with
+    if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Flower")) {
+      // use service request type and name to get the service request
+      FlowerEntity flower = databaseRepo.getFlower(id);
+
+      // update assigned employee
+      flower.setEmployee(assignedEmployee);
       databaseRepo.updateFlower(flower);
 
       // update display

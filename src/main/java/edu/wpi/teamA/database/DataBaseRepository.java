@@ -265,12 +265,13 @@ public class DataBaseRepository {
   }
 
   // Employee related methods
-  public ArrayList<Employee> getEmployeeArray() {
-    return employeeDAOImp.getEmployeeArray();
+
+  public HashMap<String, Employee> getEmployeeMap() {
+    return employeeDAOImp.getEmployeeMap();
   }
 
-  public List<Employee> getAllEmployees() {
-    return employeeDAOImp.getAllEmployees();
+  public HashMap<String, Employee> loadEmployeesFromDatabaseInMap() {
+    return employeeDAOImp.loadEmployeesFromDatabaseInMap();
   }
 
   public Employee getEmployee(String name) {

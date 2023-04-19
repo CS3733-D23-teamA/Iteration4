@@ -15,7 +15,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
   static DBConnectionProvider employeeProvider = new DBConnectionProvider();
 
   public EmployeeDAOImp() {
-    // this.employeeMap = loadEdgesFromDatabaseInMap();
+    this.employeeMap = loadEmployeesFromDatabaseInMap();
   }
 
   public EmployeeDAOImp(HashMap<String, Employee> employeeMap) {
@@ -45,7 +45,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Employee\"");
 
       while (rs.next()) {
-        String name = rs.getString("namee");
+        String name = rs.getString("name");
         String username = rs.getString("username");
         String password = rs.getString("password");
 
@@ -70,7 +70,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
           employeeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Employee\" SET namee = ?, password = ? WHERE username = ?");
+                  "UPDATE \"Prototype2_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
       ps.setString(1, name);
       ps.setString(2, password);
       ps.setString(3, username);
@@ -124,7 +124,6 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       ps.executeUpdate();
 
       employeeMap.remove(employee.getUsername());
-      // flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

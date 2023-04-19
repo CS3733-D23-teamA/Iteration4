@@ -61,7 +61,7 @@
                                           <MFXFilterComboBox fx:id="chooseEmployee" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButtonEmployee" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                        </children>
                                     </VBox>
-                                    <MFXButton fx:id="submitButtonEmployee" disable="true" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a">
+                                    <MFXButton fx:id="submitButtonEmployee" disable="true" onAction="#submitEmployee" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a">
                                        <font>
                                           <Font name="Open Sans Regular" size="25.0" />
                                        </font>
