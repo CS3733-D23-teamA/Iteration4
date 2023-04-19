@@ -2,13 +2,13 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import edu.wpi.teamA.pathfinding.AStar;
-import edu.wpi.teamA.pathfinding.GraphNode;
-import edu.wpi.teamA.pathfinding.Search;
+import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
@@ -38,7 +38,10 @@ public class PathfindingController extends PageController {
   // comboboxes, on screen text directions, and submit button
   @FXML private MFXFilterComboBox<String> startSelection;
   @FXML private MFXFilterComboBox<String> endSelection;
+  @FXML private MFXFilterComboBox<String> searchAlgorithmSelection;
+  @FXML private Text searchAlgorithmText;
   @FXML private Text directions;
+  @FXML private Text searchAlgorithmTextDirections;
 
   // level buttons
   @FXML private MFXButton levelL1Button;
@@ -49,6 +52,7 @@ public class PathfindingController extends PageController {
 
   // Node implementation
   private ArrayList<String> nodeOptions = new ArrayList<>();
+  private ArrayList<String> searchOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
   private final NodeDAOImp nodeDAO = new NodeDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
@@ -57,9 +61,19 @@ public class PathfindingController extends PageController {
   private String floor = "L1";
   // private final NodeDAOImp nodeDAO = new NodeDAOImp();
 
-  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
+
+    // setting search algorithim selection visibility based on access level
+    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() != 1) {
+      searchAlgorithmSelection.setVisible(false);
+      searchAlgorithmSelection.setManaged(false);
+      searchAlgorithmText.setVisible(false);
+      searchAlgorithmText.setManaged(false);
+      searchAlgorithmTextDirections.setVisible(false);
+      searchAlgorithmTextDirections.setManaged(false);
+    }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
     // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
@@ -80,9 +94,14 @@ public class PathfindingController extends PageController {
       nameMap.put(name, id);
     }
 
+    searchOptions.add("A*");
+    searchOptions.add("Breadth-First Search");
+    searchOptions.add("Depth-First Search");
+
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
+    searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
 
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
@@ -136,10 +155,27 @@ public class PathfindingController extends PageController {
       clearPath();
       String startName = startSelection.getSelectedItem();
       String endName = endSelection.getSelectedItem();
+      String searchAlgorithm = searchAlgorithmSelection.getSelectedItem();
+
       int startID = nameMap.get(startName);
       int endID = nameMap.get(endName);
-      Search search = new AStar(startID, endID);
-      directions.setText(search.toString());
+
+      Search search;
+      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+        if (searchAlgorithm.equals("Breadth-First Search")) {
+          search = new BFS(startID, endID);
+          searchAlgorithmTextDirections.setText("Using Breadth-First Search");
+        } else if (searchAlgorithm.equals("Depth-First Search")) {
+          search = new DFS(startID, endID);
+          searchAlgorithmTextDirections.setText("Using Depth-First Search");
+        } else {
+          search = new AStar(startID, endID);
+          searchAlgorithmTextDirections.setText("Using A* Search");
+        }
+      } else {
+        search = new AStar(startID, endID);
+      }
+      directions.setText(generatePathString(search.getPath()));
       directions.setFill(Color.web("#f1f1f1"));
 
       System.out.println("Nodes submitted");
@@ -147,14 +183,21 @@ public class PathfindingController extends PageController {
       drawPath(search);
 
     } catch (NullPointerException e) {
-      System.out.println("Null Value");
+      System.out.println("Null Value " + e.getMessage());
     }
   }
 
   @FXML
   public void checkPath() {
+    System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      submit();
+      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+        if (searchAlgorithmSelection.getSelectedItem() != null) {
+          submit();
+        }
+      } else {
+        submit();
+      }
     }
   }
 
@@ -201,6 +244,23 @@ public class PathfindingController extends PageController {
     if (startFloor.equals(floor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("0xEEBD28")));
     }
+  }
+
+  public String generatePathString(ArrayList<Integer> path) {
+    String stringPath = "Wow! You're already there! Good Job!";
+    if (path.size() > 1) {
+      MapEditorEntity mapEd = new MapEditorEntity();
+      LocationName locName = mapEd.getLocationName(path.get(0));
+      stringPath = "Start at " + locName.getLongName();
+
+      for (int i = 1; i < path.size(); i++) {
+        locName = mapEd.getLocationName(path.get(i));
+        stringPath += ", then go to " + locName.getLongName();
+      }
+      stringPath += ". You have reached your destination.";
+    }
+
+    return stringPath;
   }
 
   public void clearPath() {
