@@ -79,10 +79,10 @@ public class PathfindingController extends PageController {
     // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
 
     Platform.runLater(
-            () -> {
-              gesturePane.centreOn(new Point2D(2265, 950));
-              gesturePane.zoomTo(0.5, new Point2D(2265, 950));
-            });
+        () -> {
+          gesturePane.centreOn(new Point2D(2265, 950));
+          gesturePane.zoomTo(0.5, new Point2D(2265, 950));
+        });
 
     // Getting Nodes from Database
     nodeList = databaseRepo.loadNodesFromDatabaseInArray();
@@ -228,9 +228,9 @@ public class PathfindingController extends PageController {
         line.setStrokeWidth(7);
 
         topPane
-                .getChildren()
-                .addAll(
-                        line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.web("0x012D5A")));
+            .getChildren()
+            .addAll(
+                line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.web("0x012D5A")));
       }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
