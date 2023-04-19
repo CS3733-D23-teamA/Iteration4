@@ -90,7 +90,7 @@ public class PathfindingController extends PageController {
     for (Node node : nodeList) {
       int id = node.getNodeID();
       String name = moveDAO.getMove(id).getLongName();
-      locationOptions.add(name);
+      nodeOptions.add(name);
       nameMap.put(name, id);
     }
 
