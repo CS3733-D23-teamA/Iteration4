@@ -305,8 +305,8 @@ public class DataBaseRepository {
     return employeeDAOImp.loadEmployeesFromDatabaseInMap();
   }
 
-  public Employee getEmployee(String name) {
-    return employeeDAOImp.getEmployee(name);
+  public Employee getEmployee(String username) {
+    return employeeDAOImp.getEmployee(username);
   }
 
   public void modifyEmployee(Employee employee) {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.SettingsMenuBarController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="title" style="-fx-text-fill: #f1f1f1;" text="User Settings" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </Label>
+            <MFXButton fx:id="employeeSettingsButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openEmployeeSettings" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="AccountSettingsButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Account Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="logoutButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#logout" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Sign Out" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="exitApplicationButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#exitApp" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Exit Application" VBox.vgrow="ALWAYS" />
+         </children>
+         <padding>
+            <Insets bottom="70.0" top="70.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>

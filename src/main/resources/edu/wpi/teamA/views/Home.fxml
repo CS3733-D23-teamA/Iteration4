@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" style="-fx-background-color: #012D5A;" styleClass="borderpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.HomeController">
+<BorderPane maxHeight="900.0" maxWidth="1600.0" style="-fx-background-color: #012D5A;" styleClass="borderpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.HomeController">
    <stylesheets>
       <URL value="@stylesheets/home.css" />
       <URL value="@stylesheets/main.css" />
@@ -39,6 +39,10 @@
       </VBox>
    </center>
    <top>
-      <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+      <VBox alignment="CENTER" prefHeight="150.0" prefWidth="100.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="TOP_CENTER">
+         <children>
+            <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+         </children>
+      </VBox>
    </top>
 </BorderPane>

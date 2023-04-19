@@ -13,6 +13,9 @@ public class Navigation {
       final var resource = App.class.getResource(filename);
       final FXMLLoader loader = new FXMLLoader(resource);
 
+      // sets stage title to title of screen
+      App.getPrimaryStage().setTitle(String.valueOf(screen));
+
       App.getRootPane().setCenter(loader.load());
     } catch (IOException | NullPointerException e) {
       e.printStackTrace();

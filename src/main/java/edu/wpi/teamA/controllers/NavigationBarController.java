@@ -5,25 +5,28 @@ import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.paint.Color;
 
 public class NavigationBarController {
 
-  //  @FXML private MenuButton serviceRequestsButton;
+  @FXML private MenuButton serviceRequestsButton;
   //  @FXML private MenuItem flowerMenu;
   //  @FXML private MenuItem roomMenu;
   //  @FXML private MenuItem otherMenu;
   //  @FXML private MenuItem myRequestsMenu;
 
-  @FXML private Button movesButton;
+  @FXML private Button pathfindingButton;
+  @FXML private Button signageButton;
   @FXML private Button mapEditorButton;
+  @FXML private Button movesButton;
   @FXML private ImageView home;
   @FXML private MenuButton profileButton;
-  @FXML private Label userNameLabel;
   public Boolean isAdmin;
 
   @FXML
@@ -35,9 +38,6 @@ public class NavigationBarController {
     // sets isAdmin to true if admin value is set to 1 in singleton
     isAdmin = 1 == AccountSingleton.INSTANCE1.getValue().getAdminYes();
 
-    // trying to figure out how to get screen value for yellow buttons
-    // System.out.println(Screen.EnumDesc);
-
     // diables moves and map editor for non-admin
     if (!isAdmin) {
       movesButton.setVisible(false);
@@ -45,6 +45,34 @@ public class NavigationBarController {
       mapEditorButton.setVisible(false);
       mapEditorButton.setManaged(false);
     }
+
+    // trying to figure out how to get screen value for yellow buttons
+    Platform.runLater(
+        () -> {
+          switch (App.getPrimaryStage().getTitle()) {
+            case "SERVICE_REQUEST":
+              serviceRequestsButton.setBackground(Background.fill(Color.web("F0C747")));
+              System.out.println(App.getPrimaryStage().getTitle());
+              break;
+            case "PATHFINDING":
+              pathfindingButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              System.out.println(App.getPrimaryStage().getTitle());
+
+              break;
+            case "SIGNAGE":
+              signageButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              System.out.println(App.getPrimaryStage().getTitle());
+              break;
+            case "MAP_EDITOR":
+              mapEditorButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              System.out.println(App.getPrimaryStage().getTitle());
+              break;
+            case "MOVES":
+              movesButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              System.out.println(App.getPrimaryStage().getTitle());
+              break;
+          }
+        });
   }
 
   // Are we running everything through intitalaze or onAction methods?

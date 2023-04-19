@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AccountMenuController">
+<BorderPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AccountSettingsController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" />
     </top>
@@ -69,21 +69,6 @@
         </StackPane>
     </center>
    <left>
-      <VBox alignment="TOP_CENTER" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="TOP_CENTER">
-         <children>
-            <Label fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Account Settings">
-               <VBox.margin>
-                  <Insets bottom="50.0" />
-               </VBox.margin>
-            </Label>
-            <MFXButton fx:id="changePasswordButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Change Password" />
-            <MFXButton fx:id="updateNameButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Update Name" />
-            <MFXButton fx:id="logoutButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#logout" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Logout" />
-            <MFXButton fx:id="exitApplicationButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#exitApp" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Exit Application" />
-         </children>
-         <padding>
-            <Insets top="70.0" />
-         </padding>
-      </VBox>
+      <fx:include fx:id="settingsmenu" source="SettingsMenuBar.fxml" />
    </left>
 </BorderPane>

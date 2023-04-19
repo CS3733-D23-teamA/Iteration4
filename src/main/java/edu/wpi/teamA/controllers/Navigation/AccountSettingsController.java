@@ -10,7 +10,7 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class AccountMenuController {
+public class AccountSettingsController {
   @FXML private Button exitApplicationButton;
   @FXML private Button logoutButton;
   @FXML private Button changePasswordButton;

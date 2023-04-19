@@ -51,6 +51,7 @@ public class PathfindingController extends PageController {
   @FXML private MFXButton level3Button;
 
   // Node implementation
+
   private ArrayList<String> nodeOptions = new ArrayList<>();
   private ArrayList<String> searchOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
@@ -87,10 +88,9 @@ public class PathfindingController extends PageController {
     // Getting Nodes from Database
     nodeList = databaseRepo.loadNodesFromDatabaseInArray();
     for (Node node : nodeList) {
-      // TODO add nodes for all floors
       int id = node.getNodeID();
       String name = moveDAO.getMove(id).getLongName();
-      nodeOptions.add(name);
+      locationOptions.add(name);
       nameMap.put(name, id);
     }
 
@@ -99,19 +99,20 @@ public class PathfindingController extends PageController {
     searchOptions.add("Depth-First Search");
 
     // Setting ComboBox Selection Options (for start + end locations)
+
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
 
     // Buttons to set floor level of map
-    levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
-    levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
-    level1Button.setOnAction(event -> changeLevelText(level1Button));
-    level2Button.setOnAction(event -> changeLevelText(level2Button));
-    level3Button.setOnAction(event -> changeLevelText(level3Button));
+    levelL1Button.setOnAction(event -> changLevel(levelL1Button));
+    levelL2Button.setOnAction(event -> changLevel(levelL2Button));
+    level1Button.setOnAction(event -> changLevel(level1Button));
+    level2Button.setOnAction(event -> changLevel(level2Button));
+    level3Button.setOnAction(event -> changLevel(level3Button));
   }
 
-  private void changeLevelText(MFXButton button) {
+  private void changLevel(MFXButton button) {
 
     // get pre-loaded map image from App
     switch (button.getText()) {
