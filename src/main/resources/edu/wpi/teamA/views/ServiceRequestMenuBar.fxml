@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+
+<BorderPane styleClass="pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Menus.ServiceRequestMenuBarController">
+    <center>
+        <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" styleClass="vbox" BorderPane.alignment="TOP_CENTER">
+            <children>
+                <Label fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Requests" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets bottom="30.0" />
+                    </VBox.margin>
+                </Label>
+            <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin></Line>
+                <MFXButton fx:id="flowerbutton" minWidth="200.0" onAction="#openFlower" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Flower Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin></MFXButton>
+                <MFXButton fx:id="roomButton" minWidth="200.0" onAction="#openRoom" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Conference Room Booking" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+                <MFXButton fx:id="furnitureButton" minWidth="200.0" onAction="#openFurniture" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Furniture Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+                <MFXButton fx:id="mealButton" minWidth="200.0" onAction="#openMeal" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Meal Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="serviceRequestsButton" minWidth="200.0" onAction="#openServiceRequests" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Open Service Requests" textOverrun="WORD_ELLIPSIS" />
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </VBox>
+    </center>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+   <stylesheets>
+      <URL value="@stylesheets/main.css" />
+      <URL value="@stylesheets/menu.css" />
+   </stylesheets>
+</BorderPane>

@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -21,14 +22,14 @@
             <children>
                 <VBox StackPane.alignment="TOP_LEFT">
                     <children>
-                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request" textAlignment="CENTER" wrappingWidth="325.30218505859375" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request" wrappingWidth="325.30218505859375" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font name="Open Sans Bold" size="48.0" />
                             </font>
                         </Text>
                     </children>
                     <padding>
-                        <Insets left="100.0" top="70.0" />
+                        <Insets left="50.0" top="50.0" />
                     </padding>
                 </VBox>
                 <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;" StackPane.alignment="CENTER">
@@ -140,7 +141,7 @@
                         </HBox>
                     </children>
                     <StackPane.margin>
-                        <Insets bottom="50.0" left="200.0" right="200.0" top="150.0" />
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
                     </StackPane.margin>
                     <padding>
                         <Insets right="-70.0" />
@@ -149,4 +150,11 @@
             </children>
         </StackPane>
     </center>
+   <left>
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+            <fx:include source="ServiceRequestMenuBar.fxml" />
+         </content>
+      </ScrollPane>
+   </left>
 </BorderPane>

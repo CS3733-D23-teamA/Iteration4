@@ -67,7 +67,7 @@ public class PathfindingController extends PageController {
   public void initialize() {
 
     // setting search algorithim selection visibility based on access level
-    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() != 1) {
+    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       searchAlgorithmSelection.setVisible(false);
       searchAlgorithmSelection.setManaged(false);
       searchAlgorithmText.setVisible(false);

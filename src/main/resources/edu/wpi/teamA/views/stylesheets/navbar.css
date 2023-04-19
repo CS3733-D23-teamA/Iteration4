@@ -1,3 +1,5 @@
+@import "main.css";
+
 .navpane{
     -fx-pref-height: 150;
     -fx-pref-width: 1600;
@@ -7,14 +9,14 @@
 
 .button {
     -fx-text-alignment: center;
-    -fx-background-color: #98AABC;
+    -fx-background-color: #f1f1f1;
     -fx-text-fill: #012D5A;
     -fx-font-size: 15;
     -fx-font-weight: bold;
     -fx-pref-width: 500;
     -fx-pref-height: 80;
     -fx-border-radius: 10;
-    -fx-padding: 0, 0, 0, 200;
+    -fx-padding: 0, 0, 0, 0;
 }
 
 .button:hover {

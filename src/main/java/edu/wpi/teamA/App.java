@@ -32,6 +32,12 @@ public class App extends Application {
   @Getter private static Image map2 = new Image("edu/wpi/teamA/images/map-page/Level 2.png");
   @Getter private static Image map3 = new Image("edu/wpi/teamA/images/map-page/Level 3.png");
 
+  @Getter
+  private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");
+
+  @Getter
+  private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-Yello.png");
+
   // BWH Colors
   @Getter private static Color YELLOWBWH = Color.web("F0C747");
   @Getter private static Color BLUEBWH = Color.web("012D5A");

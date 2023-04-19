@@ -1,5 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.Employee;
@@ -17,18 +18,22 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class ServiceRequestController extends PageController {
 
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
-
+  @FXML private Text title;
   @FXML private MFXComboBox<String> chooseServiceRequestEmployee;
   @FXML private MFXComboBox<String> chooseServiceRequestStatus;
   @FXML private MFXComboBox<String> chooseEmployee;
   @FXML private MFXComboBox<String> chooseStatus;
   @FXML private MFXButton submitButtonEmployee;
   @FXML private MFXButton submitButtonStatus;
+  @FXML private VBox employeeVbox;
+  @FXML private VBox statusVbox;
 
   @FXML private TableView<FlowerEntity> flowerTable;
   @FXML private TableColumn<FlowerEntity, Integer> idCol;
@@ -76,24 +81,32 @@ public class ServiceRequestController extends PageController {
             });
 
     // TODO ADMIN ONLY
-    ArrayList<String> allServiceRequests = new ArrayList<>();
-    // HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
-    for (Map.Entry<Integer, FlowerEntity> entry : databaseRepo.getFlowerMap().entrySet()) {
-      FlowerEntity flower = entry.getValue();
-      allServiceRequests.add("Flower " + flower.getId());
+    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+      title.setText("Open Service Requests");
+      ArrayList<String> allServiceRequests = new ArrayList<>();
+      // HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
+      for (Map.Entry<Integer, FlowerEntity> entry : databaseRepo.getFlowerMap().entrySet()) {
+        FlowerEntity flower = entry.getValue();
+        allServiceRequests.add("Flower " + flower.getId());
+      }
+
+      ArrayList<String> allEmployeeUsernames = new ArrayList<>();
+      for (Map.Entry<String, Employee> entry : databaseRepo.getEmployeeMap().entrySet()) {
+        Employee employee = entry.getValue();
+        allEmployeeUsernames.add(employee.getUsername());
+      }
+
+      chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
+      chooseEmployee.getItems().addAll(allEmployeeUsernames);
+
+      chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
+      chooseStatus.getItems().addAll("new", "in progress", "done");
+    } else {
+      employeeVbox.setVisible(false);
+      employeeVbox.setManaged(false);
+      statusVbox.setVisible(false);
+      statusVbox.setManaged(false);
     }
-
-    ArrayList<String> allEmployeeUsernames = new ArrayList<>();
-    for (Map.Entry<String, Employee> entry : databaseRepo.getEmployeeMap().entrySet()) {
-      Employee employee = entry.getValue();
-      allEmployeeUsernames.add(employee.getUsername());
-    }
-
-    chooseServiceRequestEmployee.getItems().addAll(allServiceRequests);
-    chooseEmployee.getItems().addAll(allEmployeeUsernames);
-
-    chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
-    chooseStatus.getItems().addAll("new", "in progress", "done");
   }
 
   @FXML

@@ -33,7 +33,7 @@ public class MapEditorController {
   @FXML private ImageView mapImageView = new ImageView();
   @FXML private Pane topPane = new Pane();
   @FXML private GesturePane mapGesturePane;
-  @FXML private HBox mapEditorControls;
+  @FXML private VBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
 

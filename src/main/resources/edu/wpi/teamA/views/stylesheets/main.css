@@ -1,12 +1,14 @@
 .root{
     -fx-font-family: "Open Sans";
-    -fx-text-fill: bblue;
+    -fx-text-fill: #012D5A;
     -fx-background-color: #F1F1F1;
     bwhite:  #F1F1F1;
     bblue:  #012D5A;
     bblack:  #151515;
     blightblue: #98AABC;
     byellow: #F0C747;
+    bgrey: #D9D9D9;
+    bhighlight: #3788C8;
 }
 
 .borderpane{
@@ -29,31 +31,38 @@
 
 .blue-styled-button {
     -fx-pref-width: 100;
-    -fx-pref-height: 60;
+    -fx-pref-height: 50;
 
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-text-fill: #f1f1f1;
     -fx-font-weight: bold;
     -fx-background-color: #012D5A;
-    -fx-background-radius: 10;
+    -fx-background-radius: 21;
+    -fx-border-radius: 19;
+}
+
+.blue-styled-button:hover {
+    -fx-font-size: 20;
+    -fx-border-width: 3;
+    /*-fx-border-color: #3788C8;*/
 }
 
 .hollow-styled-button {
     -fx-pref-width: 100;
     -fx-pref-height: 50;
 
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-text-fill: #012D5A;
     -fx-font-weight: bold;
-    -fx-background-color: #D9D9D9;
+    -fx-background-color: #f1f1f1;
     -fx-background-radius: 20;
+    -fx-border-radius: 19;
 }
 
 .hollow-styled-button:hover {
     -fx-font-size: 20;
     -fx-border-width: 2;
-    -fx-border-color: #151515;
-    -fx-border-radius: 10;
+    -fx-border-color: #012D5A;
 }
 
 .hollow-styled-button:pressed {
