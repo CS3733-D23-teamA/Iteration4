@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -16,53 +17,60 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="750.0" prefWidth="868.0">
+            <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="130.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your Old Password" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Old Password Again" />
-                     </children>
-                     <padding>
-                        <Insets left="37.0" />
-                     </padding>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="150.0">
-                     <children>
-                        <MFXPasswordField fx:id="password1" onAction="#updatePassword" />
-                        <MFXPasswordField fx:id="password2" onAction="#updatePassword" />
-                     </children>
-                     <padding>
-                        <Insets left="50.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="120.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Your New Password" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter New Password Again" />
-                     </children>
-                     <padding>
-                        <Insets left="37.0" />
-                     </padding>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="150.0">
-                     <children>
-                        <MFXPasswordField fx:id="newPassword1" onAction="#updatePassword" />
-                        <MFXPasswordField fx:id="newPassword2" onAction="#updatePassword" />
-                     </children>
+                  <Label text="Change Password">
                      <VBox.margin>
-                        <Insets left="50.0" />
+                        <Insets />
                      </VBox.margin>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  </Label>
+                  <HBox alignment="CENTER_LEFT" spacing="100.0">
                      <children>
-                        <MFXButton fx:id="submitButton" onAction="#updatePassword" text="Submit" />
+                        <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Current Password" />
+                              <MFXPasswordField fx:id="password1" onAction="#validateUpdate" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Re-enter Current Password" />
+                              <MFXPasswordField fx:id="password2" onAction="#validateUpdate" prefWidth="200.0" />
+                           </children>
+                        </VBox>
                      </children>
                      <padding>
-                        <Insets left="215.0" />
+                        <Insets left="37.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="100.0">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Enter New Password" />
+                              <MFXPasswordField fx:id="newPassword1" onAction="#validateUpdate" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                        <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Re-enter New Password" />
+                              <MFXPasswordField fx:id="newPassword2" onAction="#validateUpdate" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_RIGHT">
+                           <children>
+                              <MFXButton fx:id="updateButton" onAction="#updatePassword" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Update" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets left="37.0" />
                      </padding>
                   </HBox>
                </children>
+               <padding>
+                  <Insets left="50.0" top="70.0" />
+               </padding>
             </VBox>
          </children>
         </StackPane>
