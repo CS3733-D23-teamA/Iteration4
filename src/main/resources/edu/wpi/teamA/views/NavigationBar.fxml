@@ -39,6 +39,7 @@
                               <MenuItem fx:id="flowerMenu" mnemonicParsing="false" onAction="#openFlowerRequest" text="Flower Delivery" />
                               <MenuItem fx:id="roomMenu" mnemonicParsing="false" onAction="#openRoomRequest" text="Conference Room Request   " />
                               <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" onAction="#openFurnitureRequest" text="Furniture Request" />
+                              <MenuItem fx:id="mealMenu" mnemonicParsing="false" text="Meal Request" />
                               <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" onAction="#openMyRequests" text="My Requests" />
                            </items>
                         </MenuButton>
@@ -54,11 +55,11 @@
                   <HBox alignment="CENTER" maxWidth="150.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
                      <children>
                         <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" text="MA" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#openAccount" text="My Account" />
-                            <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#openAccount" text="My Account" />
+                              <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
                               <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
-                          </items>
+                           </items>
                            <HBox.margin>
                               <Insets left="20.0" />
                            </HBox.margin>
