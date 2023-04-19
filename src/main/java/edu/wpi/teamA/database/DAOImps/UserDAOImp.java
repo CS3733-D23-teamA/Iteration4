@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class UserDAOImp {
-  ArrayList<User> UserArray;
+  private ArrayList<User> UserArray;
 
   static DBConnectionProvider UserLoginProvider = new DBConnectionProvider();
 

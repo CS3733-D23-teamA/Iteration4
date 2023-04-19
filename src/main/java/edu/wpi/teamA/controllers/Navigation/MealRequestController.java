@@ -1,7 +1,8 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.database.DAOImps.MealDAOImpl;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.MealEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -9,24 +10,22 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-public class FlowerRequestController extends PageController implements IServiceController {
-  @FXML private MFXButton submitButton;
-  @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox roomCombo;
-  @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox timeCombo;
-  @FXML private MFXComboBox flowerCombo;
-  @FXML private MFXTextField commentField;
+public class MealRequestController extends PageController implements IServiceController {
+  @FXML MFXButton submitButton;
+  @FXML MFXTextField nameField;
+  @FXML MFXComboBox<String> roomCombo;
+  @FXML DatePicker datePicker;
+  @FXML MFXComboBox<String> timeCombo;
+  @FXML MFXComboBox<String> mealCombo;
+  @FXML MFXTextField commentField;
 
-  // LocNameDAOImp locs = new LocNameDAOImp();
   private DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
-    flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
+    mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
     timeCombo
         .getItems()
         .addAll(
@@ -38,7 +37,6 @@ public class FlowerRequestController extends PageController implements IServiceC
     allRooms.addAll(databaseRepo.filterLocType("CONF"));
     allRooms.addAll(databaseRepo.filterLocType("INFO"));
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
-    Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
   }
 
@@ -52,7 +50,7 @@ public class FlowerRequestController extends PageController implements IServiceC
     if (nameField.getText().isEmpty()
         || datePicker.getValue() == null
         || timeCombo.getSelectedIndex() == -1
-        || flowerCombo.getSelectedIndex() == -1
+        || mealCombo.getSelectedIndex() == -1
         || roomCombo.getSelectedIndex() == -1) {
       submitButton.setDisable(true);
     } else {
@@ -66,23 +64,22 @@ public class FlowerRequestController extends PageController implements IServiceC
     roomCombo.getSelectionModel().clearSelection();
     commentField.clear();
     timeCombo.getSelectionModel().clearSelection();
-    flowerCombo.getSelectionModel().clearSelection();
+    mealCombo.getSelectionModel().clearSelection();
     datePicker.setValue(null);
   }
 
   public void submit() {
-    FlowerEntity flower =
-        new FlowerEntity(
-            databaseRepo.getNextID(),
+    MealEntity meal =
+        new MealEntity(
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             convertTime(timeCombo.getText()),
-            flowerCombo.getText(),
+            mealCombo.getText(),
             commentField.getText(),
-            "not assigned",
             "new");
-    databaseRepo.addFlower(flower);
+    MealDAOImpl md = new MealDAOImpl();
+    md.add(meal);
     clear();
   }
 

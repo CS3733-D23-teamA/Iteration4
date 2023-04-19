@@ -15,6 +15,12 @@ public class DataBaseRepository {
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
 
+<<<<<<< HEAD
+  private UserDAOImp userDAOImp;
+=======
+  private EmployeeDAOImp employeeDAOImp;
+>>>>>>> a5aa4aec290ee3fccd2c1abf56f62892fe8d6d53
+
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
@@ -23,6 +29,11 @@ public class DataBaseRepository {
     flowerDAOImpl = new FlowerDAOImpl();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
+<<<<<<< HEAD
+    userDAOImp = new UserDAOImp();
+=======
+    employeeDAOImp = new EmployeeDAOImp();
+>>>>>>> a5aa4aec290ee3fccd2c1abf56f62892fe8d6d53
   }
 
   // Node related methods
@@ -187,6 +198,14 @@ public class DataBaseRepository {
   }
 
   // Flower related methods
+  public HashMap<Integer, FlowerEntity> getFlowerMap() {
+    return flowerDAOImpl.getFlowerMap();
+  }
+
+  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+    return flowerDAOImpl.loadFlowersFromDatabaseInMap();
+  }
+
   public void addFlower(FlowerEntity flower) {
     flowerDAOImpl.addFlower(flower);
   }
@@ -195,19 +214,23 @@ public class DataBaseRepository {
     flowerDAOImpl.deleteFlower(flower);
   }
 
-  public List<FlowerEntity> getAllFlowers() {
-    return flowerDAOImpl.getAllFlowers();
-  }
-
-  public FlowerEntity getFlower(String name) {
-    return flowerDAOImpl.getFlower(name);
+  public FlowerEntity getFlower(int id) {
+    return flowerDAOImpl.getFlower(id);
   }
 
   public void updateFlower(FlowerEntity flower) {
     flowerDAOImpl.updateFlower(flower);
   }
 
+  public int getNextID() {
+    return flowerDAOImpl.getNextID();
+  }
+
   // Conference room service request related methods
+  public ArrayList<ConferenceRoomResRequest> getCrrrArray() {
+    return crrrDAOImp.getCrrrArray();
+  }
+
   public void addCRRR(ConferenceRoomResRequest crrr) {
     crrrDAOImp.addCRRR(crrr);
   }
@@ -229,6 +252,10 @@ public class DataBaseRepository {
   }
 
   // Furniture related methods
+  public ArrayList<FurnitureRequest> getFurnitureArray() {
+    return furnitureDAOImp.getFurnitureArray();
+  }
+
   public void addFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.addFurniture(furniture);
   }
@@ -243,5 +270,52 @@ public class DataBaseRepository {
 
   public void editFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.editFurniture(furniture);
+  }
+
+<<<<<<< HEAD
+  // user dao functions
+  public void createUserTable() {
+    userDAOImp.createUserTable();
+  }
+
+  public void addUser(
+      int adminYes, String userName, String password, String firstName, String lastName)
+      throws IncorrectLengthException {
+    userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
+  }
+
+  public User checkUser(String userName, String password) {
+    return userDAOImp.checkUser(userName, password);
+  }
+
+  public void updatePassword(
+      String password1, String password2, String newPassword1, String newPassword2) {
+    userDAOImp.updatePassword(password1, password2, newPassword1, newPassword2);
+=======
+  // Employee related methods
+
+  public HashMap<String, Employee> getEmployeeMap() {
+    return employeeDAOImp.getEmployeeMap();
+  }
+
+  public HashMap<String, Employee> loadEmployeesFromDatabaseInMap() {
+    return employeeDAOImp.loadEmployeesFromDatabaseInMap();
+  }
+
+  public Employee getEmployee(String name) {
+    return employeeDAOImp.getEmployee(name);
+  }
+
+  public void modifyEmployee(Employee employee) {
+    employeeDAOImp.modifyEmployee(employee);
+  }
+
+  public void addEmployee(Employee employee) {
+    employeeDAOImp.addEmployee(employee);
+  }
+
+  public void removeEmployee(Employee employee) {
+    employeeDAOImp.removeEmployee(employee);
+>>>>>>> a5aa4aec290ee3fccd2c1abf56f62892fe8d6d53
   }
 }
