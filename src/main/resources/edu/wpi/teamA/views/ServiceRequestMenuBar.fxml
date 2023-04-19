@@ -21,14 +21,14 @@
                <VBox.margin>
                   <Insets bottom="30.0" />
                </VBox.margin></Line>
-                <MFXButton fx:id="flowerbutton" minWidth="200.0" onAction="#openFlower" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Flower Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
+                <MFXButton fx:id="flowerbutton" minWidth="200.0" onAction="#openFlower" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Flower Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets />
                </VBox.margin></MFXButton>
-                <MFXButton fx:id="roomButton" minWidth="200.0" onAction="#openRoom" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Conference Room Booking" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
-                <MFXButton fx:id="furnitureButton" minWidth="200.0" onAction="#openFurniture" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Furniture Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
-                <MFXButton fx:id="mealButton" minWidth="200.0" onAction="#openMeal" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Meal Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="serviceRequestsButton" minWidth="200.0" onAction="#openServiceRequests" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Open Service Requests" textOverrun="WORD_ELLIPSIS" />
+                <MFXButton fx:id="roomButton" minWidth="200.0" onAction="#openRoom" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Conference Room Booking" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+                <MFXButton fx:id="furnitureButton" minWidth="200.0" onAction="#openFurniture" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Furniture Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+                <MFXButton fx:id="mealButton" minWidth="200.0" onAction="#openMeal" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Meal Delivery" textOverrun="WORD_ELLIPSIS" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="serviceRequestsButton" minWidth="200.0" onAction="#openServiceRequests" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Open Service Requests" textOverrun="WORD_ELLIPSIS" />
             </children>
             <BorderPane.margin>
                 <Insets />

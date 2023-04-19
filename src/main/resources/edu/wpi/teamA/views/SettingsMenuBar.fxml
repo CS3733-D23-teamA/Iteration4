@@ -22,10 +22,10 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
             </Line>
-            <MFXButton fx:id="employeeSettingsButton" onAction="#openEmployeeSettings" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="AccountSettingsButton" onAction="#openAccountSettings" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Account Settings" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="logoutButton" onAction="#logout" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Sign Out" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" style="-fx-background-color: blightblue; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Exit Application" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="AccountSettingsButton" onAction="#openAccountSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Account Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="employeeSettingsButton" onAction="#openEmployeeSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="logoutButton" onAction="#logout" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Sign Out" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Exit Application" VBox.vgrow="ALWAYS" />
          </children>
          <BorderPane.margin>
             <Insets />

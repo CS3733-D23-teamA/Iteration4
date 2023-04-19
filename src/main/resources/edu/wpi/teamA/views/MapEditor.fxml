@@ -177,7 +177,7 @@
          <content>
             <VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;">
                <children>
-                  <VBox alignment="CENTER">
+                  <VBox alignment="CENTER" spacing="5.0">
                      <VBox.margin>
                         <Insets bottom="20.0" />
                      </VBox.margin>
@@ -192,12 +192,15 @@
                               <Font name="Open Sans Regular" size="20.0" />
                            </font>
                         </Text>
-                        <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line" />
+                        <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line">
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin></Line>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0">
+                  <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0" stylesheets="@stylesheets/menu.css">
                      <children>
-                        <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
+                        <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
@@ -205,7 +208,7 @@
                               <Insets />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton fx:id="ModifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
+                        <MFXButton fx:id="ModifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Node" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
@@ -213,7 +216,7 @@
                               <Insets />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton fx:id="RemoveNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
+                        <MFXButton fx:id="RemoveNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Remove Node" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
@@ -221,17 +224,17 @@
                               <Insets />
                            </VBox.margin>
                         </MFXButton>
-                        <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Modify Edge" textFill="#012d5a">
+                        <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Edge" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Import" textFill="#012d5a">
+                        <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Import" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
+                        <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Export" textFill="#012d5a">
                            <font>
                               <Font name="Open Sans ExtraBold" size="28.0" />
                            </font>
@@ -268,7 +271,7 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets top="12.0" />
+                  <Insets top="30.0" />
                </padding>
             </VBox>
          </content>
