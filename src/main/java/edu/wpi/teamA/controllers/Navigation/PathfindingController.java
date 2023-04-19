@@ -77,8 +77,8 @@ public class PathfindingController extends PageController {
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
-    // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
 
+    // center and zoom onto map content
     Platform.runLater(
         () -> {
           gesturePane.centreOn(new Point2D(2265, 950));
