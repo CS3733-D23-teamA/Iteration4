@@ -1,8 +1,6 @@
 package edu.wpi.teamA.pathfinding;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Edge;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
 import java.util.ArrayList;
 
 public class AStar extends Search {
@@ -88,13 +86,6 @@ public class AStar extends Search {
                   + (int)
                       Math.hypot(
                           currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
-          if (!currentNode.getFloor().equals(otherGNode.getFloor())) {
-            if (isElevator(currentNode.getNodeID())) {
-              gCost += 5;
-            } else if (isStair(currentNode.getNodeID())) {
-              gCost += 10;
-            }
-          }
           int hCost =
               (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
           if (otherGNode.getPrev().getNodeID() == otherNodeID) {
@@ -151,25 +142,5 @@ public class AStar extends Search {
         break;
       }
     }
-  }
-
-  private boolean isElevator(int nodeID) {
-    MapEditorEntity mapEd = new MapEditorEntity();
-    LocationName locName = mapEd.getLocationName(nodeID);
-    String nodeType = locName.getNodeType();
-    if (nodeType.equals("ELEV")) {
-      return true;
-    }
-    return false;
-  }
-
-  private boolean isStair(int nodeID) {
-    MapEditorEntity mapEd = new MapEditorEntity();
-    LocationName locName = mapEd.getLocationName(nodeID);
-    String nodeType = locName.getNodeType();
-    if (nodeType.equals("STAI")) {
-      return true;
-    }
-    return false;
   }
 }

@@ -131,7 +131,7 @@ public class UserDAOImp {
       ps.setString(4, firstName);
       ps.setString(5, lastName);
       ps.executeUpdate();
-      if (userName.length() < 3
+      if (userName.length() < 5
           || password.length() < 5
           || firstName.length() < 1
           || lastName.length() < 1) {

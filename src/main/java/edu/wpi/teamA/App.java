@@ -51,6 +51,7 @@ public class App extends Application {
     // move to init?
     UserDAOImp un = new UserDAOImp();
     un.createUserTable();
+
     // set up map entity arrays for edges and nodes
     mapEditorEntity.loadFloorEdges();
     mapEditorEntity.loadFloorNodes();
