@@ -15,6 +15,8 @@ public class DataBaseRepository {
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
 
+  private UserDAOImp userDAOImp;
+
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
@@ -23,6 +25,7 @@ public class DataBaseRepository {
     flowerDAOImpl = new FlowerDAOImpl();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
+    userDAOImp = new UserDAOImp();
   }
 
   // Node related methods
@@ -243,5 +246,25 @@ public class DataBaseRepository {
 
   public void editFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.editFurniture(furniture);
+  }
+
+  // user dao functions
+  public void createUserTable() {
+    userDAOImp.createUserTable();
+  }
+
+  public void addUser(
+      int adminYes, String userName, String password, String firstName, String lastName)
+      throws IncorrectLengthException {
+    userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
+  }
+
+  public User checkUser(String userName, String password) {
+    return userDAOImp.checkUser(userName, password);
+  }
+
+  public void updatePassword(
+      String password1, String password2, String newPassword1, String newPassword2) {
+    userDAOImp.updatePassword(password1, password2, newPassword1, newPassword2);
   }
 }
