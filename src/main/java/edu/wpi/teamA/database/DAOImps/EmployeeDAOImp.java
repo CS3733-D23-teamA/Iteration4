@@ -93,7 +93,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
           "Create Table if not exists \"Prototype2_schema\".\"Employee\""
               + "(namee     Varchar(600),"
               + "username    Varchar(600),"
-              + "password    VarChar(600),)";
+              + "password    VarChar(600))";
       Statement stmtEmployee = employeeProvider.createConnection().createStatement();
       stmtEmployee.execute(sqlCreateEdge);
 

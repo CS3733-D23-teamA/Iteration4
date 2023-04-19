@@ -9,76 +9,70 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 
 <BorderPane maxHeight="900.0" maxWidth="1600.0" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
    <center>
-      <StackPane BorderPane.alignment="TOP_CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0">
+            <HBox alignment="CENTER" maxWidth="100.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
                <children>
-                  <HBox alignment="CENTER" maxWidth="100.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
+                  <ImageView fx:id="home" fitHeight="77.0" fitWidth="76.0" onMouseClicked="#goHome" HBox.hgrow="ALWAYS">
+                     <image>
+                        <Image url="@../images/icons/bwh-logo-white.png" />
+                     </image>
                      <HBox.margin>
-                        <Insets />
+                        <Insets left="10.0" right="10.0" />
                      </HBox.margin>
-                     <children>
-                        <ImageView fx:id="home" fitHeight="77.0" fitWidth="76.0" onMouseClicked="#goHome" HBox.hgrow="ALWAYS">
-                           <image>
-                              <Image url="@../images/icons/bwh-logo-white.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" spacing="30.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#openServiceRequests" styleClass="button" text="Service Requests" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
-                           <items>
-                              <MenuItem fx:id="flowerMenu" mnemonicParsing="false" onAction="#openFlowerRequest" text="Flower Delivery" />
-                              <MenuItem fx:id="roomMenu" mnemonicParsing="false" onAction="#openRoomRequest" text="Conference Room Request   " />
-                              <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" onAction="#openFurnitureRequest" text="Furniture Request" />
-                              <MenuItem fx:id="mealMenu" mnemonicParsing="false" onAction="#openMealRequest" text="Meal Request" />
-                              <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" onAction="#openMyRequests" text="My Requests" />
-                           </items>
-                        </MenuButton>
-                        <Button fx:id="pathfindingButton" alignment="CENTER" mnemonicParsing="false" onAction="#openPathfinding" text="Pathfinding" />
-                        <Button fx:id="signageButton" alignment="CENTER" mnemonicParsing="false" onAction="#openSignage" text="Signage" />
-                        <Button fx:id="mapEditorButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMapEditor" text="Map Editor" />
-                        <Button fx:id="movesButton" alignment="CENTER" mnemonicParsing="false" onAction="#openMoves" text="Moves" />
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" top="20.0" />
-                     </padding>
-                  </HBox>
-                  <HBox alignment="CENTER" maxWidth="150.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" text="MA" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#openAccount" text="My Account" />
-                            <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
-                              <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
-                          </items>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets right="-7.0" />
-                           </padding>
-                        </MenuButton>
-                     </children>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
-                  </HBox>
+                  </ImageView>
                </children>
             </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" spacing="30.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#openServiceRequests" styleClass="button" text="Service Requests" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                     <items>
+                        <MenuItem fx:id="flowerMenu" mnemonicParsing="false" onAction="#openFlowerRequest" text="Flower Delivery" />
+                        <MenuItem fx:id="roomMenu" mnemonicParsing="false" onAction="#openRoomRequest" text="Conference Room Request   " />
+                        <MenuItem fx:id="furnitureMenu" mnemonicParsing="false" onAction="#openFurnitureRequest" text="Furniture Request" />
+                        <MenuItem fx:id="myRequestsMenu" mnemonicParsing="false" onAction="#openMyRequests" text="My Requests" />
+                     </items>
+                  </MenuButton>
+                  <Button fx:id="pathfindingButton" alignment="CENTER" mnemonicParsing="false" onAction="#openPathfinding" text="Pathfinding" />
+                  <Button fx:id="signageButton" alignment="CENTER" mnemonicParsing="false" onAction="#openSignage" text="Signage" />
+                  <Button fx:id="mapEditorButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMapEditor" text="Map Editor" />
+                  <Button fx:id="movesButton" alignment="CENTER" mnemonicParsing="false" onAction="#openMoves" text="Moves" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" top="20.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" maxWidth="150.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" text="MA" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#openAccount" text="My Account" />
+                      <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
+                        <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
+                    </items>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets right="-7.0" />
+                     </padding>
+                  </MenuButton>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="20.0" />
+               </padding>
+            </HBox>
          </children>
-      </StackPane>
+      </HBox>
    </center>
    <stylesheets>
       <URL value="@stylesheets/main.css" />
