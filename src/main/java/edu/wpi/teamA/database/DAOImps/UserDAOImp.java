@@ -1,6 +1,6 @@
 package edu.wpi.teamA.database.DAOImps;
 
-import edu.wpi.teamA.controllers.Navigation.AccountSingleton;
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.database.ORMclasses.User;
@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class UserDAOImp {
-  ArrayList<User> UserArray;
+  private ArrayList<User> UserArray;
 
   static DBConnectionProvider UserLoginProvider = new DBConnectionProvider();
 

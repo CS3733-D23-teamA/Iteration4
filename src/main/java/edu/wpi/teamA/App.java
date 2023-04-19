@@ -3,7 +3,6 @@ package edu.wpi.teamA;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -49,6 +48,7 @@ public class App extends Application {
 
     App.rootPane = root;
 
+    // move to init?
     UserDAOImp un = new UserDAOImp();
     un.createUserTable();
 
@@ -57,6 +57,7 @@ public class App extends Application {
     mapEditorEntity.loadFloorNodes();
 
     final Scene scene = new Scene(root);
+    scene.getStylesheets().add("edu/wpi/teamA/views/stylesheets/main.css");
     primaryStage.setScene(scene);
     primaryStage.show();
 

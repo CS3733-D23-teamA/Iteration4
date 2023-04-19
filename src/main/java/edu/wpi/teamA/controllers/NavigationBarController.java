@@ -1,12 +1,14 @@
 package edu.wpi.teamA.controllers;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Navigation.AccountSingleton;
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 
 public class NavigationBarController {
@@ -17,17 +19,32 @@ public class NavigationBarController {
   //  @FXML private MenuItem otherMenu;
   //  @FXML private MenuItem myRequestsMenu;
 
-  // @FXML private MFXButton adminButton;
-  @FXML private ImageView bwhLogo;
+  @FXML private Button movesButton;
+  @FXML private Button mapEditorButton;
+  @FXML private ImageView home;
+  @FXML private MenuButton profileButton;
   @FXML private Label userNameLabel;
+  public Boolean isAdmin;
 
   @FXML
   public void initialize() {
-    StringBuilder sb = new StringBuilder();
+    // get first and last initial for user and set label over profile avatar
     char a = AccountSingleton.INSTANCE1.getValue().getFirstName().charAt(0);
     char b = AccountSingleton.INSTANCE1.getValue().getLastName().charAt(0);
-    sb.append(a).append(b);
-    userNameLabel.setText(sb.toString());
+    profileButton.setText(new StringBuilder().append(a).append(b).toString());
+    // sets isAdmin to true if admin value is set to 1 in singleton
+    isAdmin = 1 == AccountSingleton.INSTANCE1.getValue().getAdminYes();
+
+    // trying to figure out how to get screen value for yellow buttons
+    // System.out.println(Screen.EnumDesc);
+
+    // diables moves and map editor for non-admin
+    if (!isAdmin) {
+      movesButton.setVisible(false);
+      movesButton.setManaged(false);
+      mapEditorButton.setVisible(false);
+      mapEditorButton.setManaged(false);
+    }
   }
 
   // Are we running everything through intitalaze or onAction methods?
@@ -47,6 +64,10 @@ public class NavigationBarController {
     Navigation.navigate((Screen.FURNITURE));
   }
 
+  public void openMealRequest() {
+    Navigation.navigate((Screen.MEAL_REQUEST));
+  }
+
   public void openMyRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
@@ -61,6 +82,10 @@ public class NavigationBarController {
 
   public void openSignage() {
     Navigation.navigate(Screen.SIGNAGE);
+  }
+
+  public void openMoves() {
+    Navigation.navigate(Screen.MOVES);
   }
 
   public void exitApp() {

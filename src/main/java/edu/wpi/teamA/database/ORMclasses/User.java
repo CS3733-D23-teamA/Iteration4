@@ -16,7 +16,7 @@ public class User {
   @Getter @Setter private String lastName;
 
   public User(int adminYes, String userName, String password, String firstName, String lastName) {
-    this.adminYes = adminYes;
+    this.adminYes = adminYes; // 0 = not admin /  1 = admin
     this.userName = userName;
     this.password = password;
     this.firstName = firstName;

@@ -19,7 +19,7 @@ import javafx.stage.FileChooser;
 import lombok.Getter;
 
 public class MapEditorEntity {
-  private final DataBaseRepository databaseRepo = new DataBaseRepository();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
   @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
