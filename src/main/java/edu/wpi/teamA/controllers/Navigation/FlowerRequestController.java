@@ -1,6 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.FlowerDAOImpl;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import edu.wpi.teamA.navigation.Navigation;
@@ -74,15 +73,16 @@ public class FlowerRequestController extends PageController implements IServiceC
   public void submit() {
     FlowerEntity flower =
         new FlowerEntity(
+            databaseRepo.getNextID(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             convertTime(timeCombo.getText()),
             flowerCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
-    FlowerDAOImpl fd = new FlowerDAOImpl();
-    fd.addFlower(flower);
+    databaseRepo.addFlower(flower);
     clear();
   }
 

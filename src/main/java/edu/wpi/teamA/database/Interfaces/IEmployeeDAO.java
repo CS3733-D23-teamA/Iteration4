@@ -1,12 +1,13 @@
 package edu.wpi.teamA.database.Interfaces;
 
 import edu.wpi.teamA.database.ORMclasses.Employee;
-import java.util.List;
+import java.util.HashMap;
 
 public interface IEmployeeDAO {
-  public List<Employee> getAllEmployees();
 
   public Employee getEmployee(String name);
+
+  public HashMap<String, Employee> loadEmployeesFromDatabaseInMap();
 
   public void modifyEmployee(Employee employee);
 
