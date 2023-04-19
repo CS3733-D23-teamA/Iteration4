@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -68,15 +69,20 @@
         </StackPane>
     </center>
    <left>
-      <VBox prefHeight="750.0" prefWidth="432.0" spacing="150.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="TOP_CENTER">
          <children>
-            <MFXButton fx:id="changePasswordButton" text="Change Password" />
-            <MFXButton fx:id="updateNameButton" text="Update Name" />
-            <MFXButton fx:id="logoutButton" onAction="#logout" text="Logout" />
-            <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" text="Exit Application" />
+            <Label fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Account Settings">
+               <VBox.margin>
+                  <Insets bottom="50.0" />
+               </VBox.margin>
+            </Label>
+            <MFXButton fx:id="changePasswordButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Change Password" />
+            <MFXButton fx:id="updateNameButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Update Name" />
+            <MFXButton fx:id="logoutButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#logout" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Logout" />
+            <MFXButton fx:id="exitApplicationButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#exitApp" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Exit Application" />
          </children>
          <padding>
-            <Insets left="75.0" top="75.0" />
+            <Insets top="70.0" />
          </padding>
       </VBox>
    </left>
