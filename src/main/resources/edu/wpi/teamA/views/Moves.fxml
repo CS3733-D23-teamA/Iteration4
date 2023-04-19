@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MovesController">
     <top>
         <fx:include fx:id="adminnavbar" source="NavigationBar.fxml" />
     </top>
     <center>
-        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <children>
+                  <TableView fx:id="moveTable" prefHeight="166.0" prefWidth="1564.0" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="nodeCol" prefWidth="129.1107406616211" text="NodeID" />
+                        <TableColumn fx:id="nameCol" prefWidth="141.6795654296875" text="longname" />
+                        <TableColumn fx:id="dateCol" prefWidth="311.0" text="Local Date" />
+                     </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+         </children></StackPane>
     </center>
 </BorderPane>
