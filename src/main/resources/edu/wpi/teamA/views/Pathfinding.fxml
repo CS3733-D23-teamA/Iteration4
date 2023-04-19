@@ -11,15 +11,15 @@
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
 
-<BorderPane maxHeight="900.0" maxWidth="1600.0" prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.PathfindingController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.PathfindingController">
    <top>
-      <fx:include fx:id="navbar" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+      <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
    </top>
    <center>
       <StackPane alignment="TOP_CENTER" BorderPane.alignment="CENTER_RIGHT">
          <children>
-            <GesturePane fx:id="gesturePane" prefHeight="900.0" prefWidth="1300.0" />
-            <VBox alignment="CENTER" fillWidth="false" maxHeight="350.0" maxWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
+            <GesturePane fx:id="gesturePane" />
+            <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L1" textFill="#012d5a">
                      <font>
@@ -49,10 +49,13 @@
                </children>
             </VBox>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </StackPane>
    </center>
    <left>
-      <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="400.0" prefHeight="750.0" prefWidth="350.0" spacing="50.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER_LEFT">
+      <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" spacing="50.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER_LEFT">
          <children>
             <VBox alignment="CENTER_LEFT" spacing="20.0">
                <children>
@@ -105,7 +108,7 @@
             </VBox>
          </children>
          <padding>
-            <Insets top="50.0" />
+            <Insets bottom="50.0" left="10.0" right="10.0" top="50.0" />
          </padding>
       </VBox>
    </left>

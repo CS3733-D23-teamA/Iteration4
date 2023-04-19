@@ -6,23 +6,29 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.SettingsMenuBarController">
+<BorderPane style="-fx-background-color: #012D5A;" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.SettingsMenuBarController">
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="800.0" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="350.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="title" style="-fx-text-fill: #f1f1f1;" text="User Settings" VBox.vgrow="ALWAYS">
                <VBox.margin>
                   <Insets bottom="50.0" />
                </VBox.margin>
             </Label>
-            <MFXButton fx:id="employeeSettingsButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#openEmployeeSettings" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="AccountSettingsButton" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Account Settings" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="logoutButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#logout" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Sign Out" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="exitApplicationButton" maxWidth="-Infinity" minWidth="-Infinity" onAction="#exitApp" prefWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Exit Application" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="employeeSettingsButton" minWidth="200.0" onAction="#openEmployeeSettings" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="AccountSettingsButton" minWidth="200.0" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Account Settings" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="logoutButton" minWidth="200.0" onAction="#logout" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Sign Out" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="exitApplicationButton" minWidth="200.0" onAction="#exitApp" style="-fx-background-color: blightblue; -fx-text-fill: bblue;" styleClass="blue-styled-button" text="Exit Application" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
-            <Insets bottom="70.0" top="70.0" />
+            <Insets bottom="70.0" left="10.0" right="10.0" top="70.0" />
          </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
       </VBox>
    </center>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </BorderPane>

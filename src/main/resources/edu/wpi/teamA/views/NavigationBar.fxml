@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane maxHeight="900.0" maxWidth="1600.0" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
+<BorderPane styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
    <center>
-      <StackPane BorderPane.alignment="TOP_CENTER">
+      <StackPane BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="879.0">
+            <HBox alignment="CENTER" maxHeight="200.0" minHeight="-Infinity" prefHeight="100.0">
                <children>
-                  <HBox alignment="CENTER" maxWidth="100.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" maxWidth="100.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -32,7 +32,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="1000.0" spacing="30.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
                      <children>
                         <MenuButton fx:id="serviceRequestsButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="10.0" mnemonicParsing="false" onAction="#openServiceRequests" styleClass="button" text="Service Requests" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
                            <items>
@@ -52,7 +52,7 @@
                         <Insets bottom="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox alignment="CENTER" maxWidth="150.0" prefHeight="100.0" HBox.hgrow="ALWAYS">
+                  <HBox alignment="CENTER" maxWidth="150.0" HBox.hgrow="ALWAYS">
                      <children>
                         <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" text="MA" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
                            <items>
