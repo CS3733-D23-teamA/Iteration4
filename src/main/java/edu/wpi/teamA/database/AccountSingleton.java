@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.ORMclasses.User;
 
