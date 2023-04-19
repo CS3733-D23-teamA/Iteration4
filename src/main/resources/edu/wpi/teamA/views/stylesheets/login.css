@@ -1,0 +1,15 @@
+@import "main.css";
+
+.root{}
+
+.anchorpane-image{
+    -fx-background-image: url("../../images/home-page/bwh-outside-cropped.jpg");
+    -fx-background-insets: 0;
+    -fx-background-size: cover;
+    -fx-scale-shape: true;
+}
+
+.anchorpane{
+    -fx-background-size: cover;
+    -fx-scale-shape: true;
+}
