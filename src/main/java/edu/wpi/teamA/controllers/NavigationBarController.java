@@ -64,6 +64,10 @@ public class NavigationBarController {
     Navigation.navigate((Screen.FURNITURE));
   }
 
+  public void openMealRequest() {
+    Navigation.navigate((Screen.MEAL_REQUEST));
+  }
+
   public void openMyRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
