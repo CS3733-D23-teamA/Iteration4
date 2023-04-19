@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -14,21 +15,21 @@
 
 <BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.ConferenceRequestController">
    <center>
-      <StackPane prefHeight="900.0" prefWidth="1600.0" BorderPane.alignment="CENTER">
+      <StackPane BorderPane.alignment="CENTER">
          <children>
             <VBox>
                <children>
-                  <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Booking" textAlignment="CENTER" wrappingWidth="457.10888671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                  <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Booking" wrappingWidth="457.10888671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
                      <font>
                         <Font name="Open Sans Bold" size="48.0" />
                      </font>
                   </Text>
                </children>
                <padding>
-                  <Insets left="150.0" top="70.0" />
+                  <Insets left="50.0" top="50.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER" maxWidth="1400.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
+            <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
                <children>
                   <HBox maxWidth="1000.0" spacing="20.0">
                      <children>
@@ -139,13 +140,20 @@
                   <Insets right="-70.0" />
                </padding>
                <StackPane.margin>
-                  <Insets bottom="50.0" left="200.0" right="200.0" top="150.0" />
+                  <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
                </StackPane.margin>
             </VBox>
          </children>
       </StackPane>
    </center>
    <top>
-        <fx:include fx:id="navbar" source="NavigationBar.fxml" />
+        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
    </top>
+   <left>
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+            <fx:include source="ServiceRequestMenuBar.fxml" />
+         </content>
+      </ScrollPane>
+   </left>
 </BorderPane>

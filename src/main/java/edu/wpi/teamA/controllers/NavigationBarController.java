@@ -9,25 +9,18 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 
 public class NavigationBarController {
 
-  @FXML private MenuButton serviceRequestsButton;
-  //  @FXML private MenuItem flowerMenu;
-  //  @FXML private MenuItem roomMenu;
-  //  @FXML private MenuItem otherMenu;
-  //  @FXML private MenuItem myRequestsMenu;
-
+  @FXML private Button serviceRequestsButton;
   @FXML private Button pathfindingButton;
   @FXML private Button signageButton;
   @FXML private Button mapEditorButton;
   @FXML private Button movesButton;
-  @FXML private ImageView home;
+  @FXML private Button homeButton;
   @FXML private MenuButton profileButton;
-  public Boolean isAdmin;
 
   @FXML
   public void initialize() {
@@ -36,10 +29,12 @@ public class NavigationBarController {
     char b = AccountSingleton.INSTANCE1.getValue().getLastName().charAt(0);
     profileButton.setText(new StringBuilder().append(a).append(b).toString());
     // sets isAdmin to true if admin value is set to 1 in singleton
-    isAdmin = 1 == AccountSingleton.INSTANCE1.getValue().getAdminYes();
+
+    //    homeButton.setBackground(
+    //        new Background(new BackgroundImage(App.getHomeWhite(), null, null, null, null)));
 
     // diables moves and map editor for non-admin
-    if (!isAdmin) {
+    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       movesButton.setVisible(false);
       movesButton.setManaged(false);
       mapEditorButton.setVisible(false);
@@ -55,20 +50,20 @@ public class NavigationBarController {
               System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "PATHFINDING":
-              pathfindingButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              pathfindingButton.setBackground(Background.fill(Color.web("F0C747")));
               System.out.println(App.getPrimaryStage().getTitle());
 
               break;
             case "SIGNAGE":
-              signageButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              signageButton.setBackground(Background.fill(Color.web("F0C747")));
               System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "MAP_EDITOR":
-              mapEditorButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              mapEditorButton.setBackground(Background.fill(Color.web("F0C747")));
               System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "MOVES":
-              movesButton.setBackground(Background.fill(App.getYELLOWBWH()));
+              movesButton.setBackground(Background.fill(Color.web("F0C747")));
               System.out.println(App.getPrimaryStage().getTitle());
               break;
           }
@@ -77,26 +72,6 @@ public class NavigationBarController {
 
   // Are we running everything through intitalaze or onAction methods?
   public void openServiceRequests() {
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public void openFlowerRequest() {
-    Navigation.navigate(Screen.FLOWER_REQUEST);
-  }
-
-  public void openRoomRequest() {
-    Navigation.navigate(Screen.CONFERENCE_REQUEST);
-  }
-
-  public void openFurnitureRequest() {
-    Navigation.navigate((Screen.FURNITURE));
-  }
-
-  public void openMealRequest() {
-    Navigation.navigate((Screen.MEAL_REQUEST));
-  }
-
-  public void openMyRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 

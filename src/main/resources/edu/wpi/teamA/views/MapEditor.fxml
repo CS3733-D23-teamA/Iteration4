@@ -5,134 +5,36 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import net.kurobako.gesturefx.GesturePane?>
 
-<BorderPane prefHeight="900.0" prefWidth="1600.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.MapEditorController">
 
    <top>
-      <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" />
+      <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
    </top>
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="mapEditorControls" prefHeight="100.0" prefWidth="200.0">
+            <VBox fx:id="mapEditorControls">
                <children>
-                  <VBox alignment="CENTER" maxWidth="300.0" spacing="20.0" style="-fx-background-color: #012D5A;" HBox.hgrow="ALWAYS">
+                  <StackPane prefHeight="800.0">
                      <children>
-                        <VBox alignment="CENTER">
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                           <children>
-                              <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="32.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="levelDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0">
-                           <children>
-                              <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </MFXButton>
-                              <MFXButton fx:id="ModifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Modify Node" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </MFXButton>
-                              <MFXButton fx:id="RemoveNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Remove Node" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </MFXButton>
-                              <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Modify Edge" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Import" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: #98AABC;" text="Export" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Directions" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="24.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="editMapDirections" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" layoutX="10.0" layoutY="699.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Location" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="24.0" />
-                                 </font>
-                              </Text>
-                              <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="20.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </VBox>
+                        <GesturePane fx:id="mapGesturePane" />
                      </children>
-                     <padding>
-                        <Insets top="12.0" />
-                     </padding>
-                  </VBox>
-                  <VBox HBox.hgrow="ALWAYS">
-                     <children>
-                        <StackPane prefHeight="800.0">
-                           <children>
-                              <GesturePane fx:id="mapGesturePane" />
-                           </children>
-                        </StackPane>
-                     </children>
-                  </VBox>
+                  </StackPane>
                </children>
-            </HBox>
-            <VBox alignment="CENTER" fillWidth="false" maxHeight="350.0" maxWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
+            </VBox>
+            <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L1" textFill="#012d5a">
                      <font>
@@ -201,12 +103,12 @@
                   </VBox>
                </center>
             </MFXGenericDialog>
-            <MFXGenericDialog fx:id="inputDialog" visible="false" StackPane.alignment="CENTER_LEFT">
+            <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" visible="false" StackPane.alignment="CENTER_LEFT">
                <center>
-                  <GridPane prefHeight="502.0" prefWidth="533.0" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="502.0" prefWidth="450.0" BorderPane.alignment="CENTER">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="172.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="321.5" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="250.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
@@ -247,11 +149,11 @@
                               <Font name="Open Sans Regular" size="16.0" />
                            </font>
                         </Text>
-                        <MFXTextField fx:id="longNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" />
-                        <MFXTextField fx:id="shortNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <MFXComboBox fx:id="nodeTypeField" onHiding="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <MFXComboBox fx:id="floorField" onHiding="#validateButton" prefHeight="50.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <MFXTextField fx:id="longNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                        <MFXTextField fx:id="shortNameField" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <MFXComboBox fx:id="nodeTypeField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <MFXComboBox fx:id="floorField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <MFXButton fx:id="submitButton" onAction="#submit" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
                               <Font name="Open Sans Regular" size="25.0" />
@@ -264,10 +166,120 @@
                   </GridPane>
                </center>
                <StackPane.margin>
-                  <Insets left="40.0" />
+                  <Insets />
                </StackPane.margin>
             </MFXGenericDialog>
          </children>
       </StackPane>
    </center>
+   <left>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fitToHeight="true" fitToWidth="true">
+               <content>
+                  <VBox alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" spacing="20.0" style="-fx-background-color: #012D5A;">
+                     <children>
+                        <VBox alignment="CENTER" spacing="5.0">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Edit Map" textAlignment="CENTER" wrappingWidth="341.8850402832031">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="32.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="levelDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                              <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </Line>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0" stylesheets="@stylesheets/menu.css">
+                           <children>
+                              <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </MFXButton>
+                              <MFXButton fx:id="ModifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Node" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </MFXButton>
+                              <MFXButton fx:id="RemoveNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Remove Node" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </MFXButton>
+                              <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Edge" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Import" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Export" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Directions" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="editMapDirections" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" layoutX="10.0" layoutY="699.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Location" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets top="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </StackPane>
+   </left>
 </BorderPane>

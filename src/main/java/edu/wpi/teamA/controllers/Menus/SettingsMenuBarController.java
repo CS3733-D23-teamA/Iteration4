@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers;
+package edu.wpi.teamA.controllers.Menus;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.AccountSingleton;
@@ -15,10 +15,19 @@ public class SettingsMenuBarController {
   @FXML private Button employeeSettingsButton;
 
   @FXML
-  public void initialize() {}
+  public void initialize() {
+    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+      employeeSettingsButton.setVisible(false);
+      employeeSettingsButton.setManaged(false);
+    }
+  }
 
   public void openEmployeeSettings() {
     Navigation.navigate(Screen.EMPLOYEE_SETTINGS);
+  }
+
+  public void openAccountSettings() {
+    Navigation.navigate(Screen.ACCOUNT);
   }
 
   public void logout() {

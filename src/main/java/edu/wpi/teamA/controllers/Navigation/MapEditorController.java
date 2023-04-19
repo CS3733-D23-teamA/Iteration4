@@ -12,8 +12,10 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,7 +33,7 @@ public class MapEditorController {
   @FXML private ImageView mapImageView = new ImageView();
   @FXML private Pane topPane = new Pane();
   @FXML private GesturePane mapGesturePane;
-  @FXML private HBox mapEditorControls;
+  @FXML private VBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
 
@@ -105,6 +107,13 @@ public class MapEditorController {
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
+
+    // center and zoom onto map content
+    Platform.runLater(
+        () -> {
+          mapGesturePane.centreOn(new Point2D(2265, 950));
+          mapGesturePane.zoomTo(0.5, new Point2D(2265, 950));
+        });
 
     // set up dialog box visiblity
     mapEditorControls.setVisible(true);

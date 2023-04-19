@@ -1,0 +1,43 @@
+@import "main.css";
+
+.pane{
+    -fx-background-color: #012D5A;
+}
+
+.vbox{
+    -fx-pref-height: 800;
+    -fx-pref-width: 350;
+    -fx-min-width: 350;
+    -fx-max-width: 350;
+    -fx-spacing: 10;
+    -fx-padding: 50, 10, 50 ,10;
+    -fx-alignment: TOP_CENTER;
+}
+
+.mfx-button {
+    -fx-min-width: 150;
+    -fx-pref-width: 300;
+    -fx-pref-height: 60;
+
+    -fx-font-size: 18;
+    -fx-text-fill: #012D5A;
+    -fx-font-weight: BOLD;
+    -fx-background-color: #f1f1f1;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-text-overrun: WORD_ELLIPSIS;
+}
+
+.line{
+    -fx-padding: 0, 0, 30, 0;
+    -fx-fill: #f1f1f1;
+    -fx-stroke-width: 3;
+}
+
+.mfx-button:hover {
+    /*-fx-background-color: #F0C747;*/
+    -fx-border-color: #F0C747;
+    -fx-border-width: 3;
+    -fx-font-size: 20;
+}
+

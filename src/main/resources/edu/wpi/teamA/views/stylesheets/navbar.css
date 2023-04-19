@@ -1,3 +1,5 @@
+@import "main.css";
+
 .navpane{
     -fx-pref-height: 150;
     -fx-pref-width: 1600;
@@ -14,7 +16,7 @@
     -fx-pref-width: 500;
     -fx-pref-height: 80;
     -fx-border-radius: 10;
-    -fx-padding: 0, 0, 0, 200;
+    -fx-padding: 0, 0, 0, 0;
 }
 
 .button:hover {

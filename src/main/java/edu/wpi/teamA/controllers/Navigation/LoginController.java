@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class LoginController {
@@ -18,6 +19,7 @@ public class LoginController {
   @FXML private Label loginMessageLabel;
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
+  @FXML private AnchorPane imagePane;
 
   UserDAOImp checker = new UserDAOImp();
 
@@ -33,6 +35,7 @@ public class LoginController {
   }
 
   public void login() {
+
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
 
@@ -57,6 +60,7 @@ public class LoginController {
         loginMessageLabel.setText("Your password is incorrect.");
       } else if (user.getAdminYes() // else because it returned a user the password was correct
           == 1) { // checks if user is an admin, if so, do following commands
+
         AccountSingleton.INSTANCE1.setValue(user);
         Navigation.navigate(Screen.HOME);
       } else { // actions to be made if user is not an admin

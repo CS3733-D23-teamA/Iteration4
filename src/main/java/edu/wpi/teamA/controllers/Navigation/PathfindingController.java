@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
@@ -42,6 +43,7 @@ public class PathfindingController extends PageController {
   @FXML private Text searchAlgorithmText;
   @FXML private Text directions;
   @FXML private Text searchAlgorithmTextDirections;
+  @FXML private VBox searchAlgorithmVbox;
 
   // level buttons
   @FXML private MFXButton levelL1Button;
@@ -67,18 +69,14 @@ public class PathfindingController extends PageController {
   public void initialize() {
 
     // setting search algorithim selection visibility based on access level
-    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() != 1) {
-      searchAlgorithmSelection.setVisible(false);
-      searchAlgorithmSelection.setManaged(false);
-      searchAlgorithmText.setVisible(false);
-      searchAlgorithmText.setManaged(false);
-      searchAlgorithmTextDirections.setVisible(false);
-      searchAlgorithmTextDirections.setManaged(false);
+    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+      searchAlgorithmVbox.setVisible(false);
+      searchAlgorithmVbox.setManaged(false);
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
-    // gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
 
+    // center and zoom onto map content
     Platform.runLater(
         () -> {
           gesturePane.centreOn(new Point2D(2265, 950));
