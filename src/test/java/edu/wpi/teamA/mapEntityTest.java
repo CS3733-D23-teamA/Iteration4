@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.util.HashMap;
 import javafx.scene.paint.Color;
@@ -73,61 +74,98 @@ public class mapEntityTest {
     testNodeMap.put(node20.getNodeID(), node20);
   }
 
-  //  @Test
-  //  public void testGetFloorNodes() {
-  //    ArrayList<Node> L2FloorArrayExpected = new ArrayList<Node>();
-  //    L2FloorArrayExpected.add(node4);
-  //    L2FloorArrayExpected.add(node5);
-  //    L2FloorArrayExpected.add(node6);
-  //    L2FloorArrayExpected.add(node19);
-  //    ArrayList<Node> L2FloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "L2");
-  //    assertEquals(L2FloorArrayExpected, L2FloorArrayActual);
-  //
-  //    ArrayList<Node> GFloorArrayExpected = new ArrayList<Node>();
-  //    ArrayList<Node> GFloorArrayActual = MEEntity.getFloorNodes(testNodeArray, "G");
-  //    assertEquals(GFloorArrayExpected, GFloorArrayActual);
-  //  }
-  //
-  //  @Test
-  //  public void testGetFloorEdges() {
-  //    // TODO
-  //  }
-
   @Test
   public void testLoadFloorNodes() {
-    HashMap<Integer, Node> L2FloorArrayExpected = new HashMap<Integer, Node>();
-    L2FloorArrayExpected.put(node4.getNodeID(), node4);
-    L2FloorArrayExpected.put(node5.getNodeID(), node5);
-    L2FloorArrayExpected.put(node6.getNodeID(), node6);
-    L2FloorArrayExpected.put(node19.getNodeID(), node19);
-
+    MapEditorEntity MEEntity = new MapEditorEntity();
     MEEntity.loadFloorNodes();
-    assertEquals(L2FloorArrayExpected, MEEntity.getLevelL2NodeMap());
+    HashMap<Integer, Node> FloorL1 = MEEntity.getLevelL1NodeMap();
+    for (Node node : FloorL1.values()) {
+      assertEquals("L1", node.getFloor());
+    }
+    HashMap<Integer, Node> FloorL2 = MEEntity.getLevelL2NodeMap();
+    for (Node node : FloorL2.values()) {
+      assertEquals("L2", node.getFloor());
+    }
+    HashMap<Integer, Node> Floor1 = MEEntity.getLevel1NodeMap();
+    for (Node node : Floor1.values()) {
+      assertEquals("1", node.getFloor());
+    }
+    HashMap<Integer, Node> Floor2 = MEEntity.getLevel2NodeMap();
+    for (Node node : Floor2.values()) {
+      assertEquals("2", node.getFloor());
+    }
+    HashMap<Integer, Node> Floor3 = MEEntity.getLevel3NodeMap();
+    for (Node node : Floor3.values()) {
+      assertEquals("3", node.getFloor());
+    }
   }
 
   @Test
   public void testLoadFloorEdges() {
-    // TODO
+    MapEditorEntity MEEntity = new MapEditorEntity();
+    MEEntity.loadFloorEdges();
+    HashMap<String, Edge> FloorL1 = MEEntity.getLevelL1EdgeMap();
+    for (Edge edge : FloorL1.values()) {
+      Node startNode = MEEntity.getNodeInfo(edge.getStartNode());
+      assertEquals("L1", startNode.getFloor());
+    }
+    HashMap<String, Edge> FloorL2 = MEEntity.getLevelL2EdgeMap();
+    for (Edge edge : FloorL2.values()) {
+      Node startNode = MEEntity.getNodeInfo(edge.getStartNode());
+      assertEquals("L2", startNode.getFloor());
+    }
+    HashMap<String, Edge> Floor1 = MEEntity.getLevel1EdgeMap();
+    for (Edge edge : Floor1.values()) {
+      Node startNode = MEEntity.getNodeInfo(edge.getStartNode());
+      assertEquals("1", startNode.getFloor());
+    }
+    HashMap<String, Edge> Floor2 = MEEntity.getLevel2EdgeMap();
+    for (Edge edge : Floor2.values()) {
+      Node startnode = MEEntity.getNodeInfo(edge.getStartNode());
+      assertEquals("2", startnode.getFloor());
+    }
+    HashMap<String, Edge> Floor3 = MEEntity.getLevel3EdgeMap();
+    for (Edge edge : Floor3.values()) {
+      Node startNode = MEEntity.getNodeInfo(edge.getStartNode());
+      assertEquals("3", startNode.getFloor());
+    }
   }
 
-  //    @Test
-  //    public void testDetermineArray() {
-  //      assertArrayEquals(
-  //          MEEntity.getLevelL1NodeArray().toArray(),
-  //          MEEntity.determineNodeArray("Level L1").toArray());
-  //      assertArrayEquals(
-  //          MEEntity.getLevelL2NodeArray().toArray(),
-  //          MEEntity.determineNodeArray("Level L2").toArray());
-  //      assertArrayEquals(
-  //          MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineNodeArray("Level
-  //   1").toArray());
-  //      assertArrayEquals(
-  //          MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineNodeArray("Level
-  //   2").toArray());
-  //      assertArrayEquals(
-  //          MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineNodeArray("Level
-  //   3").toArray());
+  //  @Test
+  //  public void testDetermineLongNameExists(){
+  //    MapEditorEntity MEEntity = new MapEditorEntity();
+  //    MEEntity.loadFloorNodes();
+  //    for (Edge edge : FloorL1.values()) {
+  //      Node startNode = MEEntity.getNodeInfo(edge.getStartNode());
+  //      assertEquals("L1", startNode.getFloor());
   //    }
+  //    MEEntity.getLocationName()
+  //  }
+  //  public boolean determineLongNameExists(String longName) {
+  //    if (databaseRepo.getLocName(longName) == null) {
+  //      return false;
+  //    }
+  //    return true;
+  //  }
+
+  //      @Test
+  //      public void testDetermineArray() {
+  //        assertArrayEquals(
+  //            MEEntity.getLevelL1NodeArray().toArray(),
+  //            MEEntity.determineNodeArray("Level L1").toArray());
+  //        assertArrayEquals(
+  //            MEEntity.getLevelL2NodeArray().toArray(),
+  //            MEEntity.determineNodeArray("Level L2").toArray());
+  //        assertArrayEquals(
+  //            MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  // 1").toArray());
+  //        assertArrayEquals(
+  //            MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  // 2").toArray());
+  //        assertArrayEquals(
+  //            MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  // 3").toArray());
+  //      }
 
   @Test
   public void testAddCircle() {
@@ -169,3 +207,51 @@ public class mapEntityTest {
     //LocationName(longName, shortName, nodeType)
   }*/
 }
+
+  //    @Test
+  //    public void testDetermineArray() {
+  //      assertArrayEquals(
+  //          MEEntity.getLevelL1NodeArray().toArray(),
+  //          MEEntity.determineNodeArray("Level L1").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevelL2NodeArray().toArray(),
+  //          MEEntity.determineNodeArray("Level L2").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel1NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   1").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel2NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   2").toArray());
+  //      assertArrayEquals(
+  //          MEEntity.getLevel3NodeArray().toArray(), MEEntity.determineNodeArray("Level
+  //   3").toArray());
+  //    }
+
+//  @Test
+//  public void testDetermineNodeMap() {
+//    HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level1NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
+//    HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
+//
+//    MEEntity.loadFloorNodes();
+//    HashMap<Integer, Node> actualNodeMap = MEEntity.determineNodeMap("2");
+//    assertEquals(level2NodeMap, actualNodeMap);
+//
+//    actualNodeMap = MEEntity.determineNodeMap("L1");
+//    assertEquals(level2NodeMap, actualNodeMap);
+//  }
+  /*
+  @Test
+  public void testGetLocationName() {
+    int nodeID = node1.getNodeID();
+    String longName = "taxi stand";
+    String shortName = "taxi";
+    String nodeType = "HALL";
+    LocalDate localDate = new LocalDate(2023, 1, 1);
+    Move move = new Move(nodeID, longName, localDate);
+    LocationName locName_expected = new LocationName(longName, shortName, nodeType);
+
+    //LocationName(longName, shortName, nodeType)
+  }*/
