@@ -143,4 +143,13 @@ public class AStar extends Search {
       }
     }
   }
+
+  private boolean isElevator(int nodeID) {
+    //    MapEditorEntity mapEd = new MapEditorEntity();
+    //    LocationName locName = mapEd.getLocationName(nodeID);
+    //    String nodeType = locName.getNodeType();
+    //    if (nodeType.equals("")) {
+    //    }
+    return false;
+  }
 }

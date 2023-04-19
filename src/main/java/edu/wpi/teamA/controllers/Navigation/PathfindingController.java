@@ -2,9 +2,11 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -159,7 +161,7 @@ public class PathfindingController extends PageController {
       int endID = nameMap.get(endName);
 
       Search search;
-      if (AccountSingleton.INSTANCE1.user1.getAdminYes() == 1) {
+      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
         if (searchAlgorithm.equals("Breadth-First Search")) {
           search = new BFS(startID, endID);
           searchAlgorithmTextDirections.setText("Using Breadth-First Search");
@@ -173,7 +175,7 @@ public class PathfindingController extends PageController {
       } else {
         search = new AStar(startID, endID);
       }
-      directions.setText(search.toString());
+      directions.setText(generatePathString(search.getPath()));
       directions.setFill(Color.web("#f1f1f1"));
 
       System.out.println("Nodes submitted");
@@ -187,9 +189,9 @@ public class PathfindingController extends PageController {
 
   @FXML
   public void checkPath() {
-    System.out.println(AccountSingleton.INSTANCE1.user1.getAdminYes());
+    System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      if (AccountSingleton.INSTANCE1.user1.getAdminYes() == 1) {
+      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
         if (searchAlgorithmSelection.getSelectedItem() != null) {
           submit();
         }
@@ -242,6 +244,23 @@ public class PathfindingController extends PageController {
     if (startFloor.equals(floor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("0xEEBD28")));
     }
+  }
+
+  public String generatePathString(ArrayList<Integer> path) {
+    String stringPath = "Wow! You're already there! Good Job!";
+    if (path.size() > 1) {
+      MapEditorEntity mapEd = new MapEditorEntity();
+      LocationName locName = mapEd.getLocationName(path.get(0));
+      stringPath = "Start at " + locName.getLongName();
+
+      for (int i = 1; i < path.size(); i++) {
+        locName = mapEd.getLocationName(path.get(i));
+        stringPath += ", then go to " + locName.getLongName();
+      }
+      stringPath += ". You have reached your destination.";
+    }
+
+    return stringPath;
   }
 
   public void clearPath() {
