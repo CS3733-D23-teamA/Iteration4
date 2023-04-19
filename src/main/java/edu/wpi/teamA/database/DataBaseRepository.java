@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class DataBaseRepository {
+
+  private static DataBaseRepository instance = null;
   private NodeDAOImp nodeDAOImp;
   private EdgeDAOImp edgeDAOImp;
   private LocNameDAOImp locNameDAOImp;
@@ -18,7 +20,6 @@ public class DataBaseRepository {
 
   private EmployeeDAOImp employeeDAOImp;
 
-
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();
@@ -28,9 +29,15 @@ public class DataBaseRepository {
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
 
-            userDAOImp = new UserDAOImp();
+    userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
+  }
 
+  public static DataBaseRepository getInstance() {
+    if (instance == null) {
+      instance = new DataBaseRepository();
+    }
+    return instance;
   }
 
   // Node related methods
@@ -120,11 +127,11 @@ public class DataBaseRepository {
   }
 
   public void updateLocName(
-          String oldLongName,
-          String oldShortName,
-          String newLongName,
-          String newShortName,
-          String newNodeType) {
+      String oldLongName,
+      String oldShortName,
+      String newLongName,
+      String newShortName,
+      String newNodeType) {
     locNameDAOImp.Update(oldLongName, oldShortName, newLongName, newShortName, newNodeType);
   }
 
@@ -269,15 +276,14 @@ public class DataBaseRepository {
     furnitureDAOImp.editFurniture(furniture);
   }
 
-
   // user dao functions
   public void createUserTable() {
     userDAOImp.createUserTable();
   }
 
   public void addUser(
-          int adminYes, String userName, String password, String firstName, String lastName)
-          throws IncorrectLengthException {
+      int adminYes, String userName, String password, String firstName, String lastName)
+      throws IncorrectLengthException {
     userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
   }
 
@@ -286,34 +292,32 @@ public class DataBaseRepository {
   }
 
   public void updatePassword(
-          String password1, String password2, String newPassword1, String newPassword2) {
+      String password1, String password2, String newPassword1, String newPassword2) {
     userDAOImp.updatePassword(password1, password2, newPassword1, newPassword2);
   }
-    // Employee related methods
+  // Employee related methods
 
-    public HashMap<String, Employee> getEmployeeMap() {
-      return employeeDAOImp.getEmployeeMap();
-    }
-
-    public HashMap<String, Employee> loadEmployeesFromDatabaseInMap () {
-      return employeeDAOImp.loadEmployeesFromDatabaseInMap();
-    }
-
-    public Employee getEmployee (String name){
-      return employeeDAOImp.getEmployee(name);
-    }
-
-    public void modifyEmployee (Employee employee){
-      employeeDAOImp.modifyEmployee(employee);
-    }
-
-    public void addEmployee (Employee employee){
-      employeeDAOImp.addEmployee(employee);
-    }
-
-    public void removeEmployee (Employee employee){
-      employeeDAOImp.removeEmployee(employee);
-
-    }
+  public HashMap<String, Employee> getEmployeeMap() {
+    return employeeDAOImp.getEmployeeMap();
   }
 
+  public HashMap<String, Employee> loadEmployeesFromDatabaseInMap() {
+    return employeeDAOImp.loadEmployeesFromDatabaseInMap();
+  }
+
+  public Employee getEmployee(String name) {
+    return employeeDAOImp.getEmployee(name);
+  }
+
+  public void modifyEmployee(Employee employee) {
+    employeeDAOImp.modifyEmployee(employee);
+  }
+
+  public void addEmployee(Employee employee) {
+    employeeDAOImp.addEmployee(employee);
+  }
+
+  public void removeEmployee(Employee employee) {
+    employeeDAOImp.removeEmployee(employee);
+  }
+}

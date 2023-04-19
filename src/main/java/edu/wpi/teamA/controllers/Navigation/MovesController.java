@@ -22,7 +22,7 @@ public class MovesController extends PageController {
   @FXML private TableView<Move> moveTable;
 
   // Move table
-  private DataBaseRepository dataBaseRepository = new DataBaseRepository();
+  private DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
   @FXML private TableColumn<Move, Integer> nodeCol;
   @FXML private TableColumn<Move, String> nameCol;
   @FXML private TableColumn<Move, LocalDate> dateCol;

@@ -22,7 +22,7 @@ public class MealRequestController extends PageController implements IServiceCon
   @FXML MFXComboBox<String> mealCombo;
   @FXML MFXTextField commentField;
 
-  private DataBaseRepository databaseRepo = new DataBaseRepository();
+  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
     mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");

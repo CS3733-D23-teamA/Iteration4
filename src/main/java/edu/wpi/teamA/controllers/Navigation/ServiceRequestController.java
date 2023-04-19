@@ -20,7 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ServiceRequestController extends PageController {
 
-  private DataBaseRepository databaseRepo = new DataBaseRepository();
+  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
 
   @FXML private MFXComboBox<String> chooseServiceRequestEmployee;

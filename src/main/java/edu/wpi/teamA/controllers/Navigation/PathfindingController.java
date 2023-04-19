@@ -57,7 +57,7 @@ public class PathfindingController extends PageController {
   private String floor = "L1";
   // private final NodeDAOImp nodeDAO = new NodeDAOImp();
 
-  private final DataBaseRepository databaseRepo = new DataBaseRepository();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
     // Set up Map in Gesture pane using a StackPane
