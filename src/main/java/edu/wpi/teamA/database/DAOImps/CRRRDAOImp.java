@@ -6,9 +6,11 @@ import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public class CRRRDAOImp implements ICRRRDAO {
-  ArrayList<ConferenceRoomResRequest> crrrArray;
+  @Getter @Setter private ArrayList<ConferenceRoomResRequest> crrrArray;
   static DBConnectionProvider crrrProvider = new DBConnectionProvider();
 
   public CRRRDAOImp() {

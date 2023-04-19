@@ -1,12 +1,10 @@
 package edu.wpi.teamA.database.Interfaces;
 
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
-import java.util.List;
 
 public interface IFlowerDAO {
-  public List<FlowerEntity> getAllFlowers();
 
-  public FlowerEntity getFlower(String name);
+  public FlowerEntity getFlower(int id);
 
   public void updateFlower(FlowerEntity flower);
 
