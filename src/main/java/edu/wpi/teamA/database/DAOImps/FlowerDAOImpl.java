@@ -17,9 +17,43 @@ public class FlowerDAOImpl implements IFlowerDAO {
     this.flowerMap = loadFlowersFromDatabaseInMap();
   }
 
-  public FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
+  private FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
     this.flowerMap = flowerMap;
   }
+
+  //  private HashMap<Integer, FlowerEntity> loadDataFromCSV(String filePath) {
+  //    HashMap<Integer, FlowerEntity> nodes = new HashMap<>();
+  //
+  //    try {
+  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+  //      csvReader.readLine(); // Skip the header line
+  //      String row;
+  //
+  //      while ((row = csvReader.readLine()) != null) {
+  //        String[] data = row.split(",");
+  //
+  //        int id = Integer.parseInt(data[0]);
+  //        String name = data[1];
+  //        String room = data[2];
+  //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+  //        Date date = Date.parse(data[3]);
+  //        int time = Integer.parseInt(data[4]);
+  //        String flowerType = data[5];
+  //        String comment = data[6];
+  //        String employee = data[7];
+  //        String status = data[8];
+  //
+  //        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
+  //        nodes.put(nodeID, node);
+  //      }
+  //
+  //      csvReader.close();
+  //    } catch (IOException e) {
+  //      throw new RuntimeException(e);
+  //    }
+  //
+  //    return nodes;
+  //  }
 
   public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
     try {
@@ -74,12 +108,12 @@ public class FlowerDAOImpl implements IFlowerDAO {
               + "comment     Varchar(600),"
               + "employee Varchar(600),"
               + "status  Varchar(600))";
-      Statement stmtFlower = flowerProvider.createConnection().createStatement();
+      Statement stmtFlower =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       stmtFlower.execute(sqlCreateEdge);
 
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -106,8 +140,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
     try {
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
       ps.setInt(1, flower.getId());
       ps.executeUpdate();
@@ -118,11 +151,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  @Override
-  public FlowerEntity getFlower(int id) {
-    return flowerMap.get(id);
   }
 
   @Override
@@ -139,8 +167,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String status = flower.getStatus();
 
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Prototype2_schema\".\"Flower\" SET namee = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
@@ -161,6 +188,11 @@ public class FlowerDAOImpl implements IFlowerDAO {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public FlowerEntity getFlower(int id) {
+    return flowerMap.get(id);
   }
 
   public int getNextID() {
@@ -190,6 +222,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       throw new RuntimeException(e);
     }
 
+    assert largestID != null;
     return largestID.getId() + 1;
   }
 }
