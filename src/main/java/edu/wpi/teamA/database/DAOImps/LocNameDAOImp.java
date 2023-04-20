@@ -29,7 +29,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
   public static void createTable() {
     try {
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"LocationName\""
+          "Create Table if not exists \"Teama_schema\".\"LocationName\""
               + "(longName     Varchar(600) PRIMARY KEY,"
               + "shortName     Varchar(600),"
               + "nodeType      Varchar(600))";
@@ -81,7 +81,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
-                    "INSERT INTO \"Prototype2_schema\".\"LocationName\" VALUES (?, ?, ?)");
+                    "INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
         ps.setString(1, data[0]);
         ps.setString(2, data[1]);
         ps.setString(3, data[2]);
@@ -100,7 +100,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       String newFile = filePath + "/LocationName.csv";
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"LocationName\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"LocationName\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
       csvWriter.append("longname,shortname,nodetype\n");
@@ -125,7 +125,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"LocationName\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"LocationName\"");
 
       while (rs.next()) {
         String longName = rs.getString("longName");
@@ -148,7 +148,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"LocationName\" VALUES (?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
       ps.setString(1, longName);
       ps.setString(2, shortName);
       ps.setString(3, nodetype);
@@ -169,7 +169,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"LocationName\" WHERE longname = ? ");
+                  "DELETE FROM \"Teama_schema\".\"LocationName\" WHERE longname = ? ");
       ps.setString(1, longName);
       ps.executeUpdate();
 
@@ -191,7 +191,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"LocationName\" SET longname = ?, shortname = ?, nodetype = ? WHERE longname = ? AND shortname = ?");
+                  "UPDATE \"Teama_schema\".\"LocationName\" SET longname = ?, shortname = ?, nodetype = ? WHERE longname = ? AND shortname = ?");
       ps.setString(1, newLongName);
       ps.setString(2, newShortName);
       ps.setString(3, newNodeType);
@@ -216,7 +216,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"LocationName\" WHERE nodetype = ?");
+                  "SELECT * FROM \"Teama_schema\".\"LocationName\" WHERE nodetype = ?");
       ps.setString(1, type);
       ResultSet rs = ps.executeQuery();
 

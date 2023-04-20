@@ -25,7 +25,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\"");
 
       while (rs.next()) {
         int id = rs.getInt("id");
@@ -64,7 +64,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String status = flower.getStatus();
 
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Flower\""
+          "Create Table if not exists \"Teama_schema\".\"Flower\""
               + "(id     int,"
               + "namee    Varchar(600),"
               + "room    VarChar(600),"
@@ -81,7 +81,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
           flowerProvider
               .createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
       ps.setString(2, name);
       ps.setString(3, room);
@@ -108,7 +108,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       PreparedStatement ps =
           flowerProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Flower\" WHERE id = ?");
       ps.setInt(1, flower.getId());
       ps.executeUpdate();
 
@@ -142,7 +142,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
           flowerProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Flower\" SET namee = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Flower\" SET namee = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -170,7 +170,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
           st.executeQuery(
-              "SELECT * FROM \"Prototype2_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
+              "SELECT * FROM \"Teama_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
 
       if (rs.next()) {
         int id = rs.getInt("id");

@@ -32,7 +32,7 @@ public class CRRRDAOImp implements ICRRRDAO {
       String status = crrr.getStatus();
 
       String sqlCreateTable =
-          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"ConferenceRoomRequest\""
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"ConferenceRoomRequest\""
               + "(name VARCHAR(600),"
               + "room VARCHAR(600),"
               + "date DATE,"
@@ -47,7 +47,7 @@ public class CRRRDAOImp implements ICRRRDAO {
           crrrProvider
               .createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -71,7 +71,7 @@ public class CRRRDAOImp implements ICRRRDAO {
           crrrProvider
               .createConnection()
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE name = ?");
+                  "DELETE FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE name = ?");
       ps.setString(1, crrr.getName());
       ps.executeUpdate();
 
@@ -88,7 +88,7 @@ public class CRRRDAOImp implements ICRRRDAO {
     try {
       Statement stmt = crrrProvider.createConnection().createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\"");
+          stmt.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
 
       while (rs.next()) {
         String namee = rs.getString("name");

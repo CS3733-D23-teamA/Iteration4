@@ -33,7 +33,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
       String status = furniture.getStatus();
 
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Furniture\""
+          "Create Table if not exists \"Teama_schema\".\"Furniture\""
               + "(namee   Varchar(600),"
               + "room    Varchar(600),"
               + "datee    date,"
@@ -48,7 +48,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
           furnitureProvider
               .createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -72,7 +72,7 @@ public class FurnitureDAOImp implements IFurnitureDAO {
       PreparedStatement ps =
           furnitureProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Furniture\" WHERE name = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Furniture\" WHERE name = ?");
       ps.setString(1, furniture.getName());
       ps.executeUpdate();
 

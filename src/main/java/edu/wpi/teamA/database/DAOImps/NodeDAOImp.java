@@ -58,7 +58,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   public static void createTable() {
     try {
       String sqlCreateNode =
-          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Node\""
               + "(nodeID   INT PRIMARY KEY,"
               + "xcoord    INT,"
               + "ycoord    INT,"
@@ -80,7 +80,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       String row;
 
       String sqlCreateNode =
-          "Create Table if not exists \"Prototype2_schema\".\"Node\""
+          "Create Table if not exists \"Teama_schema\".\"Node\""
               + "(nodeID   int PRIMARY KEY,"
               + "xcoord    int,"
               + "ycoord    int,"
@@ -96,7 +96,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
-                    "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, Integer.parseInt(data[0]));
         ps.setInt(2, Integer.parseInt(data[1]));
         ps.setInt(3, Integer.parseInt(data[2]));
@@ -117,7 +117,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       String newFile = folderExportPath + "/Node.csv";
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
 
@@ -147,7 +147,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       while (rs.next()) {
         int nodeID = rs.getInt("nodeID");
@@ -170,7 +170,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Node\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       while (rs.next()) {
         int nodeID = rs.getInt("nodeID");
@@ -197,7 +197,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
       ps.setInt(3, ycoord);
@@ -222,7 +222,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Node\" WHERE nodeid = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -240,7 +240,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
+                  "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -266,7 +266,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
           st.executeQuery(
-              "SELECT * FROM \"Prototype2_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
+              "SELECT * FROM \"Teama_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
 
       if (rs.next()) {
         int nodeID = rs.getInt("nodeID");

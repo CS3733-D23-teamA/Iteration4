@@ -32,7 +32,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
       String status = meal.getStatus();
 
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Meal\""
+          "Create Table if not exists \"Teama_schema\".\"Meal\""
               + "(namee    Varchar(600),"
               + "room    VarChar(600),"
               + "datee    date,"
@@ -47,7 +47,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
           mealProvider
               .createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?)");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -71,7 +71,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
       PreparedStatement ps =
           mealProvider
               .createConnection()
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Meal\" WHERE namee = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Meal\" WHERE namee = ?");
       ps.setString(1, meal.getName());
       ps.executeUpdate();
 
@@ -87,7 +87,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     ArrayList<MealEntity> tempList = new ArrayList<>();
     try {
       Statement stmt = mealProvider.createConnection().createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Meal\"");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM \"Teama_schema\".\"Meal\"");
 
       while (rs.next()) {
         String namee = rs.getString("namee");
@@ -122,7 +122,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
       PreparedStatement ps =
           mealProvider
               .createConnection()
-              .prepareStatement("SELECT FROM \"Prototype2_schema\".\"Meal\" WHERE namee = ?");
+              .prepareStatement("SELECT FROM \"Teama_schema\".\"Meal\" WHERE namee = ?");
       ps.setString(1, name);
       ResultSet rs = ps.executeQuery();
       if (rs.next()) {
@@ -162,7 +162,7 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
           mealProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE Prototype2_schema.\"Meal\" SET room = ?, datee = ?, timee = ?, mealType = ?, comment = ?, status = ? WHERE namee = ?");
+                  "UPDATE Teama_schema.\"Meal\" SET room = ?, datee = ?, timee = ?, mealType = ?, comment = ?, status = ? WHERE namee = ?");
       ps.setString(1, room);
       ps.setDate(2, date);
       ps.setInt(3, time);

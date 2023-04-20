@@ -24,7 +24,7 @@ public class UserDAOImp {
     try {
       Statement stmtUser = UserLoginProvider.createConnection().createStatement();
       String sqlCreateUser =
-          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Users\" ("
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Users\" ("
               + "adminYes   int,"
               + "userName   VARCHAR(255) PRIMARY KEY,"
               + "password   VARCHAR(255),"
@@ -43,7 +43,7 @@ public class UserDAOImp {
     try {
       PreparedStatement ps =
           UserLoginProvider.createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Users\" WHERE userName = ?");
+              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, userName);
       ResultSet rs = ps.executeQuery();
 
@@ -76,7 +76,7 @@ public class UserDAOImp {
     try {
       PreparedStatement ps =
           UserLoginProvider.createConnection()
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Users\" WHERE userName = ?");
+              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, AccountSingleton.INSTANCE1.getValue().getUserName());
       ResultSet rs = ps.executeQuery();
 
@@ -90,7 +90,7 @@ public class UserDAOImp {
           PreparedStatement updatePs =
               UserLoginProvider.createConnection()
                   .prepareStatement(
-                      "UPDATE \"Prototype2_schema\".\"Users\" SET password = ? WHERE userName = ?");
+                      "UPDATE \"Teama_schema\".\"Users\" SET password = ? WHERE userName = ?");
           updatePs.setString(1, newPassword1);
           updatePs.setString(2, AccountSingleton.INSTANCE1.getValue().getUserName());
           updatePs.executeUpdate();
@@ -124,7 +124,7 @@ public class UserDAOImp {
       PreparedStatement ps =
           UserLoginProvider.createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"Users\" (adminYes, userName, password, firstName, lastName) VALUES (?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Users\" (adminYes, userName, password, firstName, lastName) VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, adminYes);
       ps.setString(2, userName);
       ps.setString(3, password);

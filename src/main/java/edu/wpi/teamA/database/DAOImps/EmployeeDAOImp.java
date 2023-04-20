@@ -42,7 +42,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Employee\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Employee\"");
 
       while (rs.next()) {
         String name = rs.getString("name");
@@ -70,7 +70,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
           employeeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
+                  "UPDATE \"Teama_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
       ps.setString(1, name);
       ps.setString(2, password);
       ps.setString(3, username);
@@ -90,7 +90,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       String password = employee.getPassword();
 
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Employee\""
+          "Create Table if not exists \"Teama_schema\".\"Employee\""
               + "(namee     Varchar(600),"
               + "username    Varchar(600),"
               + "password    VarChar(600))";
@@ -100,7 +100,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       PreparedStatement ps =
           employeeProvider
               .createConnection()
-              .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Employee\" VALUES (?, ?, ?)");
+              .prepareStatement("INSERT INTO \"Teama_schema\".\"Employee\" VALUES (?, ?, ?)");
       ps.setString(1, name);
       ps.setString(2, username);
       ps.setString(3, password);
@@ -119,7 +119,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
           employeeProvider
               .createConnection()
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"Employee\" WHERE username = ?");
+                  "DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
       ps.setString(1, employee.getUsername());
       ps.executeUpdate();
 
