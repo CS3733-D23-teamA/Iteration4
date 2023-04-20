@@ -1,14 +1,14 @@
 package edu.wpi.teamA.database.Interfaces;
 
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
 
 public interface IFlowerDAO {
 
-  public FlowerEntity getFlower(int id);
+  public Flower getFlower(int id);
 
-  public void updateFlower(FlowerEntity flower);
+  public void updateFlower(Flower flower);
 
-  public void addFlower(FlowerEntity flower);
+  public void addFlower(Flower flower);
 
-  public void deleteFlower(FlowerEntity flower);
+  public void deleteFlower(Flower flower);
 }

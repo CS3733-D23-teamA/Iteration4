@@ -2,7 +2,8 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
+import java.io.*;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Objects;
@@ -10,36 +11,68 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
-  @Getter @Setter private HashMap<Integer, FlowerEntity> flowerMap = new HashMap<>();
-  static DBConnectionProvider flowerProvider = new DBConnectionProvider();
-
+  @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
   public FlowerDAOImpl() {
     this.flowerMap = loadFlowersFromDatabaseInMap();
   }
 
-  public FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
+  private FlowerDAOImpl(HashMap<Integer, Flower> flowerMap) {
     this.flowerMap = flowerMap;
   }
 
-  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+  private HashMap<Integer, Flower> loadDataFromCSV(String filePath) {
+    HashMap<Integer, Flower> flowers = new HashMap<>();
+
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine(); // Skip the header line
+      String row;
+
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
+
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String room = data[2];
+        Date date = java.sql.Date.valueOf(data[3]);
+        int time = Integer.parseInt(data[4]);
+        String flowerType = data[5];
+        String comment = data[6];
+        String employee = data[7];
+        String status = data[8];
+
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        flowers.put(id, flower);
+      }
+
+      csvReader.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    return flowers;
+  }
+
+  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
 
       while (rs.next()) {
         int id = rs.getInt("id");
-        String namee = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        FlowerEntity flower =
-            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
         flowerMap.put(id, flower);
       }
     } catch (SQLException e) {
@@ -49,8 +82,87 @@ public class FlowerDAOImpl implements IFlowerDAO {
     return flowerMap;
   }
 
+  public HashMap<Integer, Flower> Import(String filePath) {
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine();
+      String row;
+
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
+
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String room = data[2];
+        Date date = java.sql.Date.valueOf(data[3]);
+        int time = Integer.parseInt(data[4]);
+        String flowerType = data[5];
+        String comment = data[6];
+        String employee = data[7];
+        String status = data[8];
+
+        PreparedStatement ps =
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
+                .prepareStatement(
+                    "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ps.setInt(1, id);
+        ps.setString(2, name);
+        ps.setString(3, room);
+        ps.setDate(4, date);
+        ps.setInt(5, time);
+        ps.setString(6, flowerType);
+        ps.setString(7, comment);
+        ps.setString(8, employee);
+        ps.setString(9, status);
+        ps.executeUpdate();
+
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        flowerMap.put(id, flower);
+      }
+      csvReader.close();
+    } catch (SQLException | IOException e) {
+
+      throw new RuntimeException(e);
+    }
+    return flowerMap;
+  }
+
+  public void Export(String folderExportPath) {
+    try {
+      String newFile = folderExportPath + "/Flower.csv";
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
+
+      FileWriter csvWriter = new FileWriter(newFile);
+
+      csvWriter.append("nodeid,xcoord,ycoord,floor,building\n");
+
+      while (rs.next()) {
+        csvWriter.append((rs.getInt("id")) + (","));
+        csvWriter.append((rs.getString("name")) + (","));
+        csvWriter.append((rs.getString("room")) + (","));
+        csvWriter.append(rs.getString("date")).append(",");
+        csvWriter.append((rs.getInt("time")) + (","));
+        csvWriter.append(rs.getString("flowertype")).append(",");
+        csvWriter.append(rs.getString("comment")).append(",");
+        csvWriter.append(rs.getString("employee")).append(",");
+        csvWriter.append(rs.getString("status")).append("\n");
+      }
+
+      csvWriter.flush();
+      csvWriter.close();
+
+      System.out.println("Flower table exported to Flower.csv");
+
+    } catch (SQLException | IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
-  public void addFlower(FlowerEntity flower) {
+  public void addFlower(Flower flower) {
     /** Insert new node object to the existing node table */
     try {
       int id = flower.getId();
@@ -63,25 +175,10 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String employee = flower.getEmployee();
       String status = flower.getStatus();
 
-      String sqlCreateEdge =
-          "Create Table if not exists \"Teama_schema\".\"Flower\""
-              + "(id     int,"
-              + "namee    Varchar(600),"
-              + "room    VarChar(600),"
-              + "datee    date,"
-              + "timee     int,"
-              + "flowerType     Varchar(600),"
-              + "comment     Varchar(600),"
-              + "employee Varchar(600),"
-              + "status  Varchar(600))";
-      Statement stmtFlower = flowerProvider.createConnection().createStatement();
-      stmtFlower.execute(sqlCreateEdge);
-
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
       ps.setString(2, name);
       ps.setString(3, room);
@@ -93,8 +190,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.setString(9, status);
       ps.executeUpdate();
 
-      flowerMap.put(
-          id, new FlowerEntity(id, name, room, date, time, type, comment, employee, status));
+      flowerMap.put(id, new Flower(id, name, room, date, time, type, comment, employee, status));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -102,18 +198,16 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public void deleteFlower(FlowerEntity flower) {
+  public void deleteFlower(Flower flower) {
 
     try {
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
-              .prepareStatement("DELETE FROM \"Teama_schema\".\"Flower\" WHERE id = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Flower\" WHERE id = ?");
       ps.setInt(1, flower.getId());
       ps.executeUpdate();
 
       flowerMap.remove(flower.getId());
-      // flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -121,12 +215,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public FlowerEntity getFlower(int id) {
-    return flowerMap.get(id);
-  }
-
-  @Override
-  public void updateFlower(FlowerEntity flower) {
+  public void updateFlower(Flower flower) {
     try {
       int id = flower.getId();
       String name = flower.getName();
@@ -139,10 +228,9 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String status = flower.getStatus();
 
       PreparedStatement ps =
-          flowerProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Flower\" SET namee = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+                  "UPDATE \"Prototype2_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -156,40 +244,44 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       flowerMap.put(
           flower.getId(),
-          new FlowerEntity(
-              flower.getId(), name, room, date, time, type, comment, employee, status));
+          new Flower(flower.getId(), name, room, date, time, type, comment, employee, status));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
+  @Override
+  public Flower getFlower(int id) {
+    return flowerMap.get(id);
+  }
+
   public int getNextID() {
-    FlowerEntity largestID = null;
+    Flower largestID = null;
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
           st.executeQuery(
-              "SELECT * FROM \"Teama_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
+              "SELECT * FROM \"Prototype2_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
 
       if (rs.next()) {
         int id = rs.getInt("id");
-        String name = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        largestID =
-            new FlowerEntity(id, name, room, date, time, flowerType, comment, employee, status);
+        largestID = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
+    assert largestID != null;
     return largestID.getId() + 1;
   }
 }

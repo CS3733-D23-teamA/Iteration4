@@ -1,7 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -71,8 +71,8 @@ public class FlowerRequestController extends PageController implements IServiceC
   }
 
   public void submit() {
-    FlowerEntity flower =
-        new FlowerEntity(
+    Flower flower =
+        new Flower(
             databaseRepo.getNextID(),
             nameField.getText(),
             roomCombo.getText(),

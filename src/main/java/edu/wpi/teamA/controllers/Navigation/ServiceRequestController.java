@@ -4,7 +4,7 @@ import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.Employee;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -35,15 +35,15 @@ public class ServiceRequestController extends PageController {
   @FXML private VBox employeeVbox;
   @FXML private VBox statusVbox;
 
-  @FXML private TableView<FlowerEntity> flowerTable;
-  @FXML private TableColumn<FlowerEntity, Integer> idCol;
-  @FXML private TableColumn<FlowerEntity, String> roomCol;
-  @FXML private TableColumn<FlowerEntity, String> dateCol;
-  @FXML private TableColumn<FlowerEntity, Integer> timeCol;
-  @FXML private TableColumn<FlowerEntity, String> flowerCol;
-  @FXML private TableColumn<FlowerEntity, String> commentCol;
-  @FXML private TableColumn<FlowerEntity, String> employeeCol;
-  @FXML private TableColumn<FlowerEntity, String> statusCol;
+  @FXML private TableView<Flower> flowerTable;
+  @FXML private TableColumn<Flower, Integer> idCol;
+  @FXML private TableColumn<Flower, String> roomCol;
+  @FXML private TableColumn<Flower, String> dateCol;
+  @FXML private TableColumn<Flower, Integer> timeCol;
+  @FXML private TableColumn<Flower, String> flowerCol;
+  @FXML private TableColumn<Flower, String> commentCol;
+  @FXML private TableColumn<Flower, String> employeeCol;
+  @FXML private TableColumn<Flower, String> statusCol;
 
   // private CRRRDAOImp cdao = new CRRRDAOImp();
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
@@ -67,7 +67,7 @@ public class ServiceRequestController extends PageController {
               if (newSelection != null) {
                 roomTable.getSelectionModel().clearSelection();
                 Navigation.navigate(Screen.FLOWER_REQUEST);
-                FlowerEntity f = newSelection;
+                Flower f = newSelection;
               }
             });
     roomTable
@@ -85,8 +85,8 @@ public class ServiceRequestController extends PageController {
       title.setText("Open Service Requests");
       ArrayList<String> allServiceRequests = new ArrayList<>();
       // HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
-      for (Map.Entry<Integer, FlowerEntity> entry : databaseRepo.getFlowerMap().entrySet()) {
-        FlowerEntity flower = entry.getValue();
+      for (Map.Entry<Integer, Flower> entry : databaseRepo.getFlowerMap().entrySet()) {
+        Flower flower = entry.getValue();
         allServiceRequests.add("Flower " + flower.getId());
       }
 
@@ -139,7 +139,7 @@ public class ServiceRequestController extends PageController {
     // figure out which service request we are dealing with
     if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Flower")) {
       // use service request type and name to get the service request
-      FlowerEntity flower = databaseRepo.getFlower(id);
+      Flower flower = databaseRepo.getFlower(id);
 
       // update status in the service request
       flower.setStatus(chooseStatus.getSelectedItem());
@@ -161,7 +161,7 @@ public class ServiceRequestController extends PageController {
     // figure out which service request we are dealing with
     if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Flower")) {
       // use service request type and name to get the service request
-      FlowerEntity flower = databaseRepo.getFlower(id);
+      Flower flower = databaseRepo.getFlower(id);
 
       // update assigned employee
       flower.setEmployee(assignedEmployee);

@@ -17,7 +17,6 @@ public class DataBaseRepository {
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
   private UserDAOImp userDAOImp;
-
   private EmployeeDAOImp employeeDAOImp;
 
   public DataBaseRepository() {
@@ -46,12 +45,16 @@ public class DataBaseRepository {
     return nodeDAOImp.getNodeMap();
   }
 
-  public ArrayList<Node> loadNodesFromDatabaseInArray() {
-    return nodeDAOImp.loadNodesFromDatabaseInArray();
+  public void createNodeTable() {
+    nodeDAOImp.createTable();
   }
 
   public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
-    return nodeDAOImp.loadNodesFromDatabaseInMap();
+    return nodeDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
+    return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
   public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
@@ -76,17 +79,20 @@ public class DataBaseRepository {
   }
 
   // Edge related methods
-
   public HashMap<String, Edge> getEdgeMap() {
     return edgeDAOImp.getEdgeMap();
   }
 
-  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
-    return edgeDAOImp.loadEdgesFromDatabaseInArray();
+  public void createEdgeTable() {
+    edgeDAOImp.createTable();
   }
 
   public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
-    return edgeDAOImp.loadEdgesFromDatabaseInMap();
+    return edgeDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
+    return edgeDAOImp.loadEdgesFromDatabaseInArray();
   }
 
   public Edge addEdge(int startNode, int endNode) {
@@ -114,8 +120,12 @@ public class DataBaseRepository {
     return locNameDAOImp.getLocNameMap();
   }
 
-  public HashMap<String, LocationName> loadLocNameFromDatabase() {
-    return locNameDAOImp.loadLocNamefromDatabase();
+  public void createLocNameTable() {
+    locNameDAOImp.createTable();
+  }
+
+  public HashMap<String, LocationName> loadLocNameFromDatabaseInMap() {
+    return locNameDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addLocName(String longName, String shortName, String nodeType) {
@@ -148,12 +158,12 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveMap();
   }
 
-  public ArrayList<Move> loadMovesFromDatabase() {
-    return moveDAOImp.loadMovesFromDatabase();
+  public void createMoveTable() {
+    moveDAOImp.createTable();
   }
 
   public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
-    return moveDAOImp.loadMovesFromDatabaseInMap();
+    return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addMove(int nodeID, String longName, String dateString) {
@@ -175,54 +185,54 @@ public class DataBaseRepository {
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {
-      HashMap<Integer, Node> importedNodes = NodeDAOImp.Import(filepath);
+      HashMap<Integer, Node> importedNodes = nodeDAOImp.Import(filepath);
       nodeDAOImp = new NodeDAOImp(importedNodes);
     } else if (type.equals("LocName")) {
-      HashMap<String, LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
+      HashMap<Integer, Move> importedMoves = moveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
-      HashMap<String, Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
       edgeDAOImp = new EdgeDAOImp(importedEdges);
     }
   }
 
   public void exportData(String folderExportPath, String type) {
     if (type.equals("Node")) {
-      NodeDAOImp.Export(folderExportPath);
+      nodeDAOImp.Export(folderExportPath);
     } else if (type.equals("LocName")) {
-      LocNameDAOImp.Export(folderExportPath);
+      locNameDAOImp.Export(folderExportPath);
     } else if (type.equals("Move")) {
-      MoveDAOImp.Export(folderExportPath);
+      moveDAOImp.Export(folderExportPath);
     } else if (type.equals("Edge")) {
-      EdgeDAOImp.Export(folderExportPath);
+      edgeDAOImp.Export(folderExportPath);
     }
   }
 
   // Flower related methods
-  public HashMap<Integer, FlowerEntity> getFlowerMap() {
+  public HashMap<Integer, Flower> getFlowerMap() {
     return flowerDAOImpl.getFlowerMap();
   }
 
-  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     return flowerDAOImpl.loadFlowersFromDatabaseInMap();
   }
 
-  public void addFlower(FlowerEntity flower) {
+  public void addFlower(Flower flower) {
     flowerDAOImpl.addFlower(flower);
   }
 
-  public void deleteFlower(FlowerEntity flower) {
+  public void deleteFlower(Flower flower) {
     flowerDAOImpl.deleteFlower(flower);
   }
 
-  public FlowerEntity getFlower(int id) {
+  public Flower getFlower(int id) {
     return flowerDAOImpl.getFlower(id);
   }
 
-  public void updateFlower(FlowerEntity flower) {
+  public void updateFlower(Flower flower) {
     flowerDAOImpl.updateFlower(flower);
   }
 
