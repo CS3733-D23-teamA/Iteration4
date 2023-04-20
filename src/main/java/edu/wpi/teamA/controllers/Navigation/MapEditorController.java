@@ -200,7 +200,9 @@ public class MapEditorController {
    * @param nodeMapForFloor the array with the data for that floor
    */
   private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
+
     for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
+      // Group g = new Group();
       Node node = entry.getValue();
       if (node != null) {
         Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
@@ -209,10 +211,13 @@ public class MapEditorController {
         circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
         topPane.getChildren().add(circle);
 
+        // g.getChildren().add(circle);
+
         if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
             && locationNameToggle.isSelected()) {
           Text text = entity.addText(node);
           topPane.getChildren().add(text);
+          // g.getChildren().add(text);
         }
       }
     }
@@ -254,6 +259,13 @@ public class MapEditorController {
     } else {
       locationDisplay.setText(entity.getLocationName(nodeID).getShortName());
     }
+
+    /*javafx.scene.Node circleText = circle.getParent().getChildrenUnmodifiable().get(1);
+    // String text = circleText.toString();
+    Text text = (Text) circleText;
+    Font font = new Font("Open Sans", 20);
+    text.setFont(font);
+    text.setStrokeWidth(2);*/
   }
 
   /**
