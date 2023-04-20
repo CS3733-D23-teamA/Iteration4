@@ -41,31 +41,31 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     }
   }
 
-  private HashMap<String, LocationName> loadDataFromCSV(String filePath) {
-    HashMap<String, LocationName> locationNames = new HashMap<>();
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        String longName = data[0];
-        String shortName = data[1];
-        String nodetype = data[2];
-        LocationName locationName = new LocationName(longName, shortName, nodetype);
-        locationNames.put(longName, locationName);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return locationNames;
-  }
+//  private HashMap<String, LocationName> loadDataFromCSV(String filePath) {
+//    HashMap<String, LocationName> locationNames = new HashMap<>();
+//
+//    try {
+//      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+//      csvReader.readLine(); // Skip the header line
+//      String row;
+//
+//      while ((row = csvReader.readLine()) != null) {
+//        String[] data = row.split(",");
+//
+//        String longName = data[0];
+//        String shortName = data[1];
+//        String nodetype = data[2];
+//        LocationName locationName = new LocationName(longName, shortName, nodetype);
+//        locationNames.put(longName, locationName);
+//      }
+//
+//      csvReader.close();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//
+//    return locationNames;
+//  }
 
   public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
     try {
@@ -89,8 +89,6 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
   }
 
   public HashMap<String, LocationName> Import(String filePath) {
-    HashMap<String, LocationName> LocNameMap = loadDataFromCSV(filePath);
-
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -99,14 +97,21 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
+        String longName = data[0];
+        String shortName = data[1];
+        String nodeType = data[2];
+
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
                     "INSERT INTO \"Prototype2_schema\".\"LocationName\" VALUES (?, ?, ?)");
-        ps.setString(1, data[0]);
-        ps.setString(2, data[1]);
-        ps.setString(3, data[2]);
+        ps.setString(1, longName);
+        ps.setString(2, shortName);
+        ps.setString(3, nodeType);
         ps.executeUpdate();
+
+        LocationName locName = new LocationName(longName, shortName, nodeType);
+        LocNameMap.put(longName, locName);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {

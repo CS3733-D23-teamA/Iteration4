@@ -50,31 +50,31 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     }
   }
 
-  private HashMap<String, Edge> loadDataFromCSV(String filePath) {
-    HashMap<String, Edge> edges = new HashMap<>();
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        Integer startNode = Integer.parseInt(data[0]);
-        Integer endNode = Integer.parseInt(data[1]);
-
-        Edge edge = new Edge(startNode, endNode);
-        edges.put(startNode + endNode.toString(), edge);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return edges;
-  }
+//  private HashMap<String, Edge> loadDataFromCSV(String filePath) {
+//    HashMap<String, Edge> edges = new HashMap<>();
+//
+//    try {
+//      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+//      csvReader.readLine(); // Skip the header line
+//      String row;
+//
+//      while ((row = csvReader.readLine()) != null) {
+//        String[] data = row.split(",");
+//
+//        Integer startNode = Integer.parseInt(data[0]);
+//        Integer endNode = Integer.parseInt(data[1]);
+//
+//        Edge edge = new Edge(startNode, endNode);
+//        edges.put(startNode + endNode.toString(), edge);
+//      }
+//
+//      csvReader.close();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//
+//    return edges;
+//  }
 
   public HashMap<String, Edge> loadDataFromDatabaseInMap() {
     // HashMap<String, Edge> edges = new HashMap<String, Edge>();
@@ -122,8 +122,6 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
   }
 
   public HashMap<String, Edge> Import(String filePath) {
-    HashMap<String, Edge> EdgeMap = loadDataFromCSV(filePath);
-
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -132,12 +130,18 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
+        int startNode = Integer.parseInt(data[0]);
+        int endNode = Integer.parseInt(data[1]);
+
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
-        ps.setInt(1, Integer.parseInt(data[0]));
-        ps.setInt(2, Integer.parseInt(data[1]));
+        ps.setInt(1, startNode);
+        ps.setInt(2, endNode);
         ps.executeUpdate();
+
+        Edge edge = new Edge(startNode, endNode);
+        EdgeMap.put(Integer.toString(startNode) + endNode, edge);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {

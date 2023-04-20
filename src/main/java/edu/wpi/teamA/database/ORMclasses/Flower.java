@@ -4,7 +4,7 @@ import java.sql.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-public class FlowerEntity {
+public class Flower {
   @Getter @Setter private int id;
   @Getter @Setter private String name;
   @Getter @Setter private String room;
@@ -15,20 +15,20 @@ public class FlowerEntity {
   @Getter @Setter private String employee;
   @Getter @Setter private String status;
 
-  public FlowerEntity(
-      int id, String a, String b, Date c, int d, String e, String f, String g, String h) {
+  public Flower(
+      int id, String name, String room, Date date, int time, String flowerType, String comment, String employee, String status) {
     this.id = id;
-    this.name = a;
-    this.room = b;
-    this.date = c;
-    this.time = d;
-    this.flowerType = e;
-    this.comment = f;
-    this.employee = g;
-    this.status = h;
+    this.name = name;
+    this.room = room;
+    this.date = date;
+    this.time = time;
+    this.flowerType = flowerType;
+    this.comment = comment;
+    this.employee = employee;
+    this.status = status;
   }
 
-  public FlowerEntity() {
+  public Flower() {
     this.id = -1;
     this.name = null;
     this.room = null;

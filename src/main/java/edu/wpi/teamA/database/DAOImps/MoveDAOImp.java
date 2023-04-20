@@ -50,33 +50,33 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
     }
   }
 
-  private HashMap<Integer, Move> loadDataFromCSV(String filePath) {
-    HashMap<Integer, Move> moves = new HashMap<>();
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        int nodeID = Integer.parseInt(data[0]);
-        String longName = data[1];
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        LocalDate localDate = LocalDate.parse(data[2], formatter);
-
-        Move move = new Move(nodeID, longName, localDate);
-        moves.put(nodeID, move);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return moves;
-  }
+//  private HashMap<Integer, Move> loadDataFromCSV(String filePath) {
+//    HashMap<Integer, Move> moves = new HashMap<>();
+//
+//    try {
+//      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+//      csvReader.readLine(); // Skip the header line
+//      String row;
+//
+//      while ((row = csvReader.readLine()) != null) {
+//        String[] data = row.split(",");
+//
+//        int nodeID = Integer.parseInt(data[0]);
+//        String longName = data[1];
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+//        LocalDate localDate = LocalDate.parse(data[2], formatter);
+//
+//        Move move = new Move(nodeID, longName, localDate);
+//        moves.put(nodeID, move);
+//      }
+//
+//      csvReader.close();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//
+//    return moves;
+//  }
 
   public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
     try {
@@ -100,8 +100,6 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
   }
 
   public HashMap<Integer, Move> Import(String filePath) {
-    HashMap<Integer, Move> MoveMap = loadDataFromCSV(filePath);
-
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -110,15 +108,23 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
+        int nodeID = Integer.parseInt(data[0]);
+        String longName = data[1];
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+        LocalDate localDate = LocalDate.parse(data[2], formatter);
+
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
-        ps.setInt(1, Integer.parseInt(data[0]));
-        ps.setString(2, data[1]);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        LocalDate localDate = LocalDate.parse(data[2], formatter);
+        ps.setInt(1, nodeID);
+        ps.setString(2, longName);
         ps.setDate(3, java.sql.Date.valueOf(localDate));
         ps.executeUpdate();
+
+        Move move = new Move(nodeID, longName, localDate);
+        MoveMap.put(nodeID, move);
+
+
       }
       csvReader.close();
     } catch (SQLException | IOException e) {

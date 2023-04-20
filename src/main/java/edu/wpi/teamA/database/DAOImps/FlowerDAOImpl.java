@@ -2,60 +2,69 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
+
+import edu.wpi.teamA.database.ORMclasses.Node;
 import lombok.Getter;
 import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
-  @Getter @Setter private HashMap<Integer, FlowerEntity> flowerMap = new HashMap<>();
+  @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
   static DBConnectionProvider flowerProvider = new DBConnectionProvider();
 
   public FlowerDAOImpl() {
     this.flowerMap = loadFlowersFromDatabaseInMap();
   }
 
-  private FlowerDAOImpl(HashMap<Integer, FlowerEntity> flowerMap) {
+  private FlowerDAOImpl(HashMap<Integer, Flower> flowerMap) {
     this.flowerMap = flowerMap;
   }
 
-  //  private HashMap<Integer, FlowerEntity> loadDataFromCSV(String filePath) {
-  //    HashMap<Integer, FlowerEntity> nodes = new HashMap<>();
-  //
-  //    try {
-  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-  //      csvReader.readLine(); // Skip the header line
-  //      String row;
-  //
-  //      while ((row = csvReader.readLine()) != null) {
-  //        String[] data = row.split(",");
-  //
-  //        int id = Integer.parseInt(data[0]);
-  //        String name = data[1];
-  //        String room = data[2];
-  //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-  //        Date date = Date.parse(data[3]);
-  //        int time = Integer.parseInt(data[4]);
-  //        String flowerType = data[5];
-  //        String comment = data[6];
-  //        String employee = data[7];
-  //        String status = data[8];
-  //
-  //        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-  //        nodes.put(nodeID, node);
-  //      }
-  //
-  //      csvReader.close();
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //
-  //    return nodes;
-  //  }
+    private HashMap<Integer, Flower> loadDataFromCSV(String filePath) {
+      HashMap<Integer, Flower> flowers = new HashMap<>();
 
-  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+      try {
+        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+        csvReader.readLine(); // Skip the header line
+        String row;
+
+        while ((row = csvReader.readLine()) != null) {
+          String[] data = row.split(",");
+
+          int id = Integer.parseInt(data[0]);
+          String name = data[1];
+          String room = data[2];
+          Date date = java.sql.Date.valueOf(data[3]);
+          int time = Integer.parseInt(data[4]);
+          String flowerType = data[5];
+          String comment = data[6];
+          String employee = data[7];
+          String status = data[8];
+
+          Flower flower = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+          flowers.put(id, flower);
+        }
+
+        csvReader.close();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+
+      return flowers;
+    }
+
+  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -63,17 +72,17 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       while (rs.next()) {
         int id = rs.getInt("id");
-        String namee = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        FlowerEntity flower =
-            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
         flowerMap.put(id, flower);
       }
     } catch (SQLException e) {
@@ -83,8 +92,69 @@ public class FlowerDAOImpl implements IFlowerDAO {
     return flowerMap;
   }
 
+
+  public HashMap<Integer, Flower> Import(String filePath) {
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine();
+      String row;
+
+      String sqlCreateFlower =
+              "Create Table if not exists \"Prototype2_schema\".\"Flower\""
+                      + "(id     int,"
+                      + "name    Varchar(600),"
+                      + "room    VarChar(600),"
+                      + "date    date,"
+                      + "time     int,"
+                      + "flowerType     Varchar(600),"
+                      + "comment     Varchar(600),"
+                      + "employee Varchar(600),"
+                      + "status  Varchar(600))";
+      Statement stmtNode =
+              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      stmtNode.execute(sqlCreateFlower);
+
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
+
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String room = data[2];
+        Date date = java.sql.Date.valueOf(data[3]);
+        int time = Integer.parseInt(data[4]);
+        String flowerType = data[5];
+        String comment = data[6];
+        String employee = data[7];
+        String status = data[8];
+
+        PreparedStatement ps =
+                Objects.requireNonNull(DBConnectionProvider.createConnection())
+                        .prepareStatement(
+                                "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ps.setInt(1, id);
+        ps.setString(2, name);
+        ps.setString(3, room);
+        ps.setDate(4, date);
+        ps.setInt(5, time);
+        ps.setString(6, flowerType);
+        ps.setString(7, comment);
+        ps.setString(8, employee);
+        ps.setString(9, status);
+        ps.executeUpdate();
+
+        Flower flower = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        flowerMap.put(id, flower);
+      }
+      csvReader.close();
+    } catch (SQLException | IOException e) {
+
+      throw new RuntimeException(e);
+    }
+    return flowerMap;
+  }
+
   @Override
-  public void addFlower(FlowerEntity flower) {
+  public void addFlower(Flower flower) {
     /** Insert new node object to the existing node table */
     try {
       int id = flower.getId();
@@ -96,21 +166,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
       String comment = flower.getComment();
       String employee = flower.getEmployee();
       String status = flower.getStatus();
-
-      String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Flower\""
-              + "(id     int,"
-              + "namee    Varchar(600),"
-              + "room    VarChar(600),"
-              + "datee    date,"
-              + "timee     int,"
-              + "flowerType     Varchar(600),"
-              + "comment     Varchar(600),"
-              + "employee Varchar(600),"
-              + "status  Varchar(600))";
-      Statement stmtFlower =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      stmtFlower.execute(sqlCreateEdge);
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
@@ -128,7 +183,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.executeUpdate();
 
       flowerMap.put(
-          id, new FlowerEntity(id, name, room, date, time, type, comment, employee, status));
+          id, new Flower(id, name, room, date, time, type, comment, employee, status));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -136,7 +191,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public void deleteFlower(FlowerEntity flower) {
+  public void deleteFlower(Flower flower) {
 
     try {
       PreparedStatement ps =
@@ -154,7 +209,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public void updateFlower(FlowerEntity flower) {
+  public void updateFlower(Flower flower) {
     try {
       int id = flower.getId();
       String name = flower.getName();
@@ -169,7 +224,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Flower\" SET namee = ?, room = ?, datee = ?, timee = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+                  "UPDATE \"Prototype2_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -183,7 +238,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       flowerMap.put(
           flower.getId(),
-          new FlowerEntity(
+          new Flower(
               flower.getId(), name, room, date, time, type, comment, employee, status));
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -191,12 +246,12 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
-  public FlowerEntity getFlower(int id) {
+  public Flower getFlower(int id) {
     return flowerMap.get(id);
   }
 
   public int getNextID() {
-    FlowerEntity largestID = null;
+    Flower largestID = null;
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -206,17 +261,17 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       if (rs.next()) {
         int id = rs.getInt("id");
-        String name = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
         largestID =
-            new FlowerEntity(id, name, room, date, time, flowerType, comment, employee, status);
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

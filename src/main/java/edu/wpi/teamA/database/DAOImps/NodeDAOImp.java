@@ -43,34 +43,34 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     }
   }
 
-  private HashMap<Integer, Node> loadDataFromCSV(String filePath) {
-    HashMap<Integer, Node> nodes = new HashMap<>();
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        int nodeID = Integer.parseInt(data[0]);
-        int xcoord = Integer.parseInt(data[1]);
-        int ycoord = Integer.parseInt(data[2]);
-        String floor = data[3];
-        String building = data[4];
-
-        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-        nodes.put(nodeID, node);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return nodes;
-  }
+//  private HashMap<Integer, Node> loadDataFromCSV(String filePath) {
+//    HashMap<Integer, Node> nodes = new HashMap<>();
+//
+//    try {
+//      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+//      csvReader.readLine(); // Skip the header line
+//      String row;
+//
+//      while ((row = csvReader.readLine()) != null) {
+//        String[] data = row.split(",");
+//
+//        int nodeID = Integer.parseInt(data[0]);
+//        int xcoord = Integer.parseInt(data[1]);
+//        int ycoord = Integer.parseInt(data[2]);
+//        String floor = data[3];
+//        String building = data[4];
+//
+//        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
+//        nodes.put(nodeID, node);
+//      }
+//
+//      csvReader.close();
+//    } catch (IOException e) {
+//      throw new RuntimeException(e);
+//    }
+//
+//    return nodes;
+//  }
 
   public HashMap<Integer, Node> loadDataFromDatabaseInMap() {
     try {
@@ -121,36 +121,33 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
   }
 
   public HashMap<Integer, Node> Import(String filePath) {
-    HashMap<Integer, Node> NodeMap = loadDataFromCSV(filePath);
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
       String row;
 
-      String sqlCreateNode =
-          "Create Table if not exists \"Prototype2_schema\".\"Node\""
-              + "(nodeID   int PRIMARY KEY,"
-              + "xcoord    int,"
-              + "ycoord    int,"
-              + "floor     Varchar(600),"
-              + "building  Varchar(600))";
-      Statement stmtNode =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      stmtNode.execute(sqlCreateNode);
-
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
+
+        int nodeID = Integer.parseInt(data[0]);
+        int xcoord = Integer.parseInt(data[1]);
+        int ycoord = Integer.parseInt(data[2]);
+        String floor = data[3];
+        String building = data[4];
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
                     "INSERT INTO \"Prototype2_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
-        ps.setInt(1, Integer.parseInt(data[0]));
-        ps.setInt(2, Integer.parseInt(data[1]));
-        ps.setInt(3, Integer.parseInt(data[2]));
-        ps.setString(4, data[3]);
-        ps.setString(5, data[4]);
+        ps.setInt(1, nodeID);
+        ps.setInt(2, xcoord);
+        ps.setInt(3, ycoord);
+        ps.setString(4, floor);
+        ps.setString(5, building);
         ps.executeUpdate();
+
+        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
+        NodeMap.put(nodeID, node);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {

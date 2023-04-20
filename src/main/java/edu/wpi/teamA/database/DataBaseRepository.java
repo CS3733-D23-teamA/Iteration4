@@ -212,27 +212,27 @@ public class DataBaseRepository {
   }
 
   // Flower related methods
-  public HashMap<Integer, FlowerEntity> getFlowerMap() {
+  public HashMap<Integer, Flower> getFlowerMap() {
     return flowerDAOImpl.getFlowerMap();
   }
 
-  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
+  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     return flowerDAOImpl.loadFlowersFromDatabaseInMap();
   }
 
-  public void addFlower(FlowerEntity flower) {
+  public void addFlower(Flower flower) {
     flowerDAOImpl.addFlower(flower);
   }
 
-  public void deleteFlower(FlowerEntity flower) {
+  public void deleteFlower(Flower flower) {
     flowerDAOImpl.deleteFlower(flower);
   }
 
-  public FlowerEntity getFlower(int id) {
+  public Flower getFlower(int id) {
     return flowerDAOImpl.getFlower(id);
   }
 
-  public void updateFlower(FlowerEntity flower) {
+  public void updateFlower(Flower flower) {
     flowerDAOImpl.updateFlower(flower);
   }
 
