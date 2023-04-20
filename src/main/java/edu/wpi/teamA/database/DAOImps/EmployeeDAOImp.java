@@ -22,16 +22,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
     this.employeeMap = employeeMap;
   }
 
-  //  @Getter @Setter private ArrayList<Employee> employeeArray;
-  //  static DBConnectionProvider employeeProvider = new DBConnectionProvider();
-  //
-  //  public EmployeeDAOImp() {
-  //    this.employeeArray = new ArrayList<>();
-  //  }
-  //
-  //  public EmployeeDAOImp(ArrayList<Employee> employeeArray) {
-  //    this.employeeArray = employeeArray;
-  //  }
+
 
   @Override
   public Employee getEmployee(String username) {
