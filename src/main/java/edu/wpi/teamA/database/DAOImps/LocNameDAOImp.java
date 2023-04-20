@@ -67,6 +67,27 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     return locationNames;
   }
 
+  public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"LocationName\"");
+
+      while (rs.next()) {
+        String longName = rs.getString("longName");
+        String shortName = rs.getString("shortName");
+        String nodetype = rs.getString("nodetype");
+
+        LocationName locationName = new LocationName(longName, shortName, nodetype);
+        LocNameMap.put(longName, locationName);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return LocNameMap;
+  }
+
   public HashMap<String, LocationName> Import(String filePath) {
     HashMap<String, LocationName> LocNameMap = loadDataFromCSV(filePath);
 
@@ -119,27 +140,6 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"LocationName\"");
-
-      while (rs.next()) {
-        String longName = rs.getString("longName");
-        String shortName = rs.getString("shortName");
-        String nodetype = rs.getString("nodetype");
-
-        LocationName locationName = new LocationName(longName, shortName, nodetype);
-        LocNameMap.put(longName, locationName);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return LocNameMap;
   }
 
   public LocationName Add(String longName, String shortName, String nodetype) {
@@ -210,6 +210,7 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     return LocNameMap.get(longName);
   }
 
+  // TODO refactor
   public ArrayList<String> filterLocType(String type) {
     ArrayList<String> lnList = new ArrayList<>();
     try {

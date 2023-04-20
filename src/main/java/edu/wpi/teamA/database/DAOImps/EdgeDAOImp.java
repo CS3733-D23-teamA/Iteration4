@@ -21,10 +21,6 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
 
   public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
     this.EdgeMap = EdgeMap;
-    // check if the table exist
-    // if it exist, populate the array list
-    // use select * to get all info from the table
-    // create objects based off of the results
   }
 
   public EdgeDAOImp() {
@@ -74,6 +70,51 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
 
       csvReader.close();
     } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
+    return edges;
+  }
+
+  public HashMap<String, Edge> loadDataFromDatabaseInMap() {
+    // HashMap<String, Edge> edges = new HashMap<String, Edge>();
+
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+
+      while (rs.next()) {
+        Integer startNode = rs.getInt("startNode");
+        Integer endNode = rs.getInt("endNode");
+
+        Edge edge = new Edge(startNode, endNode);
+        // edges.put(startNode.toString() + endNode.toString(), edge);
+        EdgeMap.put(startNode + endNode.toString(), edge);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return EdgeMap;
+  }
+
+  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
+    ArrayList<Edge> edges = new ArrayList<>();
+
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+
+      while (rs.next()) {
+        int startNode = rs.getInt("startNode");
+        int endNode = rs.getInt("endNode");
+
+        Edge edge = new Edge(startNode, endNode);
+        edges.add(edge);
+      }
+    } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
@@ -130,51 +171,6 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
-    ArrayList<Edge> edges = new ArrayList<>();
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
-
-      while (rs.next()) {
-        int startNode = rs.getInt("startNode");
-        int endNode = rs.getInt("endNode");
-
-        Edge edge = new Edge(startNode, endNode);
-        edges.add(edge);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return edges;
-  }
-
-  public HashMap<String, Edge> loadDataFromDatabaseInMap() {
-    // HashMap<String, Edge> edges = new HashMap<String, Edge>();
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
-
-      while (rs.next()) {
-        Integer startNode = rs.getInt("startNode");
-        Integer endNode = rs.getInt("endNode");
-
-        Edge edge = new Edge(startNode, endNode);
-        // edges.put(startNode.toString() + endNode.toString(), edge);
-        EdgeMap.put(startNode + endNode.toString(), edge);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return EdgeMap;
   }
 
   public Edge Add(Integer startNode, Integer endNode) {

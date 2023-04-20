@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import lombok.Getter;
@@ -26,17 +25,6 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
 
   public MoveDAOImp() {
     this.MoveMap = loadDataFromDatabaseInMap();
-  }
-
-  public static void createSchema() {
-    try {
-      Statement stmtSchema =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
-      stmtSchema.execute(sqlCreateSchema);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public void createTable() {
@@ -90,8 +78,28 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
     return moves;
   }
 
+  public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
+
+      while (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        String longName = rs.getString("longName");
+        LocalDate localDate = rs.getDate("localDate").toLocalDate();
+
+        Move move = new Move(nodeID, longName, localDate);
+        MoveMap.put(move.getNodeID(), move);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return MoveMap;
+  }
+
   public HashMap<Integer, Move> Import(String filePath) {
-    MoveDAOImp.createSchema();
     HashMap<Integer, Move> MoveMap = loadDataFromCSV(filePath);
 
     try {
@@ -144,50 +152,6 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
     } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public ArrayList<Move> loadMovesFromDatabase() {
-    ArrayList<Move> moves = new ArrayList<>();
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
-
-      while (rs.next()) {
-        int nodeID = rs.getInt("nodeID");
-        String longName = rs.getString("longName");
-        LocalDate localDate = rs.getDate("localDate").toLocalDate();
-
-        Move move = new Move(nodeID, longName, localDate);
-        moves.add(move);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return moves;
-  }
-
-  public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
-
-      while (rs.next()) {
-        int nodeID = rs.getInt("nodeID");
-        String longName = rs.getString("longName");
-        LocalDate localDate = rs.getDate("localDate").toLocalDate();
-
-        Move move = new Move(nodeID, longName, localDate);
-        MoveMap.put(move.getNodeID(), move);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return MoveMap;
   }
 
   /** create a new instance of Move and Insert the new object into database */

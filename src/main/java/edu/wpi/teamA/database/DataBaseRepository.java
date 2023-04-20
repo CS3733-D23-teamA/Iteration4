@@ -40,20 +40,21 @@ public class DataBaseRepository {
   }
 
   // Node related methods
-  public void createNodeTable() {
-    nodeDAOImp.createTable();
-  }
 
   public HashMap<Integer, Node> getNodeMap() {
     return nodeDAOImp.getNodeMap();
   }
 
-  public ArrayList<Node> loadNodesFromDatabaseInArray() {
-    return nodeDAOImp.loadNodesFromDatabaseInArray();
+  public void createNodeTable() {
+    nodeDAOImp.createTable();
   }
 
   public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
     return nodeDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public ArrayList<Node> loadNodesFromDatabaseInArray() {
+    return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
   public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
@@ -78,21 +79,20 @@ public class DataBaseRepository {
   }
 
   // Edge related methods
+  public HashMap<String, Edge> getEdgeMap() {
+    return edgeDAOImp.getEdgeMap();
+  }
 
   public void createEdgeTable() {
     edgeDAOImp.createTable();
   }
 
-  public HashMap<String, Edge> getEdgeMap() {
-    return edgeDAOImp.getEdgeMap();
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    return edgeDAOImp.loadDataFromDatabaseInMap();
   }
 
   public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
     return edgeDAOImp.loadEdgesFromDatabaseInArray();
-  }
-
-  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
-    return edgeDAOImp.loadDataFromDatabaseInMap();
   }
 
   public Edge addEdge(int startNode, int endNode) {
@@ -116,16 +116,15 @@ public class DataBaseRepository {
   }
 
   // LocationName related methods
+  public HashMap<String, LocationName> getLocNameMap() {
+    return locNameDAOImp.getLocNameMap();
+  }
 
   public void createLocNameTable() {
     locNameDAOImp.createTable();
   }
 
-  public HashMap<String, LocationName> getLocNameMap() {
-    return locNameDAOImp.getLocNameMap();
-  }
-
-  public HashMap<String, LocationName> loadLocNameFromDatabase() {
+  public HashMap<String, LocationName> loadLocNameFromDatabaseInMap() {
     return locNameDAOImp.loadDataFromDatabaseInMap();
   }
 
@@ -155,17 +154,12 @@ public class DataBaseRepository {
   }
 
   // Move related methods
-
-  public void createMoveTable() {
-    moveDAOImp.createTable();
-  }
-
   public HashMap<Integer, Move> getMoveMap() {
     return moveDAOImp.getMoveMap();
   }
 
-  public ArrayList<Move> loadMovesFromDatabaseInArray() {
-    return moveDAOImp.loadMovesFromDatabase();
+  public void createMoveTable() {
+    moveDAOImp.createTable();
   }
 
   public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
