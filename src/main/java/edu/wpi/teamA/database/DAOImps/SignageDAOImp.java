@@ -32,7 +32,7 @@ public class SignageDAOImp implements ISignageDAO {
         try {
             Statement st =
                     Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"SignageComponent\"");
+            ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"SignageComponent\"");
 
             while (rs.next()) {
                 String locationName = rs.getString("locationName");
@@ -62,7 +62,7 @@ public class SignageDAOImp implements ISignageDAO {
                     signageProvider
                             .createConnection()
                             .prepareStatement(
-                                    "UPDATE \"Prototype2_schema\".\"SignageComponent\" SET direction = ?, date = ?, time = ? WHERE locationName = ?");
+                                    "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ?, time = ? WHERE locationName = ?");
             ps.setString(1, direction);
             ps.setDate(2, date);
             ps.setTime(3, time);
