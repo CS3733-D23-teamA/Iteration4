@@ -5,20 +5,20 @@ import edu.wpi.teamA.database.Interfaces.ICRRRDAO;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 public class CRRRDAOImp implements ICRRRDAO {
-  @Getter @Setter private ArrayList<ConferenceRoomResRequest> crrrArray;
-  static DBConnectionProvider crrrProvider = new DBConnectionProvider();
+  @Getter @Setter private HashMap<Integer, ConferenceRoomResRequest> crrrMap;
 
   public CRRRDAOImp() {
-    this.crrrArray = new ArrayList<>();
+    this.crrrMap = loadCRRRFromDatabase();
   }
 
-  public CRRRDAOImp(ArrayList<ConferenceRoomResRequest> crrrArray) {
-    this.crrrArray = crrrArray;
+  public CRRRDAOImp(HashMap<Integer, ConferenceRoomResRequest> crrrMap) {
+    this.crrrMap = crrrMap;
   }
 
   public void addCRRR(ConferenceRoomResRequest crrr) {

@@ -12,8 +12,6 @@ import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
   @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
-  static DBConnectionProvider flowerProvider = new DBConnectionProvider();
-
   public FlowerDAOImpl() {
     this.flowerMap = loadFlowersFromDatabaseInMap();
   }
