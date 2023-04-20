@@ -3,16 +3,10 @@ package edu.wpi.teamA.database.DAOImps;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
 import edu.wpi.teamA.database.ORMclasses.Flower;
-
 import java.io.*;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
-
-import edu.wpi.teamA.database.ORMclasses.Node;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,38 +22,39 @@ public class FlowerDAOImpl implements IFlowerDAO {
     this.flowerMap = flowerMap;
   }
 
-    private HashMap<Integer, Flower> loadDataFromCSV(String filePath) {
-      HashMap<Integer, Flower> flowers = new HashMap<>();
+  private HashMap<Integer, Flower> loadDataFromCSV(String filePath) {
+    HashMap<Integer, Flower> flowers = new HashMap<>();
 
-      try {
-        BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-        csvReader.readLine(); // Skip the header line
-        String row;
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine(); // Skip the header line
+      String row;
 
-        while ((row = csvReader.readLine()) != null) {
-          String[] data = row.split(",");
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
 
-          int id = Integer.parseInt(data[0]);
-          String name = data[1];
-          String room = data[2];
-          Date date = java.sql.Date.valueOf(data[3]);
-          int time = Integer.parseInt(data[4]);
-          String flowerType = data[5];
-          String comment = data[6];
-          String employee = data[7];
-          String status = data[8];
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String room = data[2];
+        Date date = java.sql.Date.valueOf(data[3]);
+        int time = Integer.parseInt(data[4]);
+        String flowerType = data[5];
+        String comment = data[6];
+        String employee = data[7];
+        String status = data[8];
 
-          Flower flower = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
-          flowers.put(id, flower);
-        }
-
-        csvReader.close();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        flowers.put(id, flower);
       }
 
-      return flowers;
+      csvReader.close();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+
+    return flowers;
+  }
 
   public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     try {
@@ -89,7 +84,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
     return flowerMap;
   }
 
-
   public HashMap<Integer, Flower> Import(String filePath) {
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -110,9 +104,9 @@ public class FlowerDAOImpl implements IFlowerDAO {
         String status = data[8];
 
         PreparedStatement ps =
-                Objects.requireNonNull(DBConnectionProvider.createConnection())
-                        .prepareStatement(
-                                "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
+                .prepareStatement(
+                    "INSERT INTO \"Prototype2_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
         ps.setString(2, name);
         ps.setString(3, room);
@@ -124,7 +118,8 @@ public class FlowerDAOImpl implements IFlowerDAO {
         ps.setString(9, status);
         ps.executeUpdate();
 
-        Flower flower = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        Flower flower =
+            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
         flowerMap.put(id, flower);
       }
       csvReader.close();
@@ -139,7 +134,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
     try {
       String newFile = folderExportPath + "/Flower.csv";
       Statement st =
-              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -197,8 +192,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.setString(9, status);
       ps.executeUpdate();
 
-      flowerMap.put(
-          id, new Flower(id, name, room, date, time, type, comment, employee, status));
+      flowerMap.put(id, new Flower(id, name, room, date, time, type, comment, employee, status));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -252,8 +246,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       flowerMap.put(
           flower.getId(),
-          new Flower(
-              flower.getId(), name, room, date, time, type, comment, employee, status));
+          new Flower(flower.getId(), name, room, date, time, type, comment, employee, status));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -284,8 +277,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        largestID =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
+        largestID = new Flower(id, name, room, date, time, flowerType, comment, employee, status);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

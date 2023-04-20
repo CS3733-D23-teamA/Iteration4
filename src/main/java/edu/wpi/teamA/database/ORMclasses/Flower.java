@@ -16,7 +16,15 @@ public class Flower {
   @Getter @Setter private String status;
 
   public Flower(
-      int id, String name, String room, Date date, int time, String flowerType, String comment, String employee, String status) {
+      int id,
+      String name,
+      String room,
+      Date date,
+      int time,
+      String flowerType,
+      String comment,
+      String employee,
+      String status) {
     this.id = id;
     this.name = name;
     this.room = room;
