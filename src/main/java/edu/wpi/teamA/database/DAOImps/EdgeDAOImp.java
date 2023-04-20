@@ -30,16 +30,16 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
   public void createTable() {
     try {
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Edge\""
+          "Create Table if not exists \"Teama_schema\".\"Edge\""
               + "(startNode   int,"
               + "endNode    int,"
               + "CONSTRAINT fk_startnode "
               + "FOREIGN KEY(startNode) "
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid)"
+              + "REFERENCES \"Teama_schema\".\"Node\"(nodeid)"
               + "ON DELETE CASCADE,"
               + "CONSTRAINT fk_endnode "
               + "FOREIGN KEY(endNode)"
-              + "REFERENCES \"Prototype2_schema\".\"Node\"(nodeid)"
+              + "REFERENCES \"Teama_schema\".\"Node\"(nodeid)"
               + "ON DELETE CASCADE)";
 
       Statement stmtEdge =
@@ -82,7 +82,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       while (rs.next()) {
         Integer startNode = rs.getInt("startNode");
@@ -105,7 +105,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       while (rs.next()) {
         int startNode = rs.getInt("startNode");
@@ -135,7 +135,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
-                .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
+                .prepareStatement("INSERT INTO \"Teama_schema\".\"Edge\" VALUES (?, ?)");
         ps.setInt(1, startNode);
         ps.setInt(2, endNode);
         ps.executeUpdate();
@@ -157,7 +157,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
       String newFile = folderExportPath + "/Edge.csv";
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Edge\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
       csvWriter.append("startnode,endode\n");
@@ -184,7 +184,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Edge\" VALUES (?, ?)");
+              .prepareStatement("INSERT INTO \"Teama_schema\".\"Edge\" VALUES (?, ?)");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
       ps.executeUpdate();
@@ -208,7 +208,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startnode = ? AND endnode = ?");
+                  "DELETE FROM \"Teama_schema\".\"Edge\" WHERE startnode = ? AND endnode = ?");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
       ps.executeUpdate();
@@ -230,7 +230,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Edge\" SET startnode = ?, endnode = ? WHERE startnode = ? AND endnode = ?");
+                  "UPDATE \"Teama_schema\".\"Edge\" SET startnode = ?, endnode = ? WHERE startnode = ? AND endnode = ?");
       ps.setInt(1, newStartNode);
       ps.setInt(2, newEndNode);
       ps.setInt(3, oldStartNode);
@@ -255,7 +255,7 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"Edge\" WHERE startnode = ? OR endnode = ?");
+                  "DELETE FROM \"Teama_schema\".\"Edge\" WHERE startnode = ? OR endnode = ?");
       ps.setInt(1, nodeID);
       ps.setInt(2, nodeID);
       ps.executeUpdate();
