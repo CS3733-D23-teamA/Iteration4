@@ -4,10 +4,7 @@ import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
 import edu.wpi.teamA.database.ORMclasses.Flower;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -99,21 +96,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
       csvReader.readLine();
       String row;
 
-      String sqlCreateFlower =
-              "Create Table if not exists \"Prototype2_schema\".\"Flower\""
-                      + "(id     int,"
-                      + "name    Varchar(600),"
-                      + "room    VarChar(600),"
-                      + "date    date,"
-                      + "time     int,"
-                      + "flowerType     Varchar(600),"
-                      + "comment     Varchar(600),"
-                      + "employee Varchar(600),"
-                      + "status  Varchar(600))";
-      Statement stmtNode =
-              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      stmtNode.execute(sqlCreateFlower);
-
       while ((row = csvReader.readLine()) != null) {
         String[] data = row.split(",");
 
@@ -151,6 +133,39 @@ public class FlowerDAOImpl implements IFlowerDAO {
       throw new RuntimeException(e);
     }
     return flowerMap;
+  }
+
+  public void Export(String folderExportPath) {
+    try {
+      String newFile = folderExportPath + "/Flower.csv";
+      Statement st =
+              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Flower\"");
+
+      FileWriter csvWriter = new FileWriter(newFile);
+
+      csvWriter.append("nodeid,xcoord,ycoord,floor,building\n");
+
+      while (rs.next()) {
+        csvWriter.append((rs.getInt("id")) + (","));
+        csvWriter.append((rs.getString("name")) + (","));
+        csvWriter.append((rs.getString("room")) + (","));
+        csvWriter.append(rs.getString("date")).append(",");
+        csvWriter.append((rs.getInt("time")) + (","));
+        csvWriter.append(rs.getString("flowertype")).append(",");
+        csvWriter.append(rs.getString("comment")).append(",");
+        csvWriter.append(rs.getString("employee")).append(",");
+        csvWriter.append(rs.getString("status")).append("\n");
+      }
+
+      csvWriter.flush();
+      csvWriter.close();
+
+      System.out.println("Flower table exported to Flower.csv");
+
+    } catch (SQLException | IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
@@ -201,7 +216,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
       ps.executeUpdate();
 
       flowerMap.remove(flower.getId());
-      // flowerArray.removeIf(flowerEntity -> flowerEntity.getId() == (flower.getId()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
