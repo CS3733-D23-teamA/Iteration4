@@ -1,9 +1,14 @@
 package edu.wpi.teamA.database.DAOImps;
 
-public interface IDataBase {
-  static void Import(String s) {};
+import java.util.HashMap;
 
-  static void Export(String s) {};
+public interface IDatabaseDAO {
+
+  HashMap loadDataFromDatabaseInMap();
+
+  HashMap Import(String filepath);
+
+  void Export(String filepath);
 
   // void Add();
 

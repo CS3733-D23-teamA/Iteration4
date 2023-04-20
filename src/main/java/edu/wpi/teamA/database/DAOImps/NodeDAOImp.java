@@ -14,7 +14,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class NodeDAOImp implements IDataBase, INodeDAO {
+public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
   // ArrayList<Node> NodeArray;
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
@@ -23,10 +23,10 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
   }
 
   public NodeDAOImp() {
-    this.NodeMap = loadNodesFromDatabaseInMap();
+    this.NodeMap = loadDataFromDatabaseInMap();
   }
 
-  private static HashMap<Integer, Node> loadNodesFromCSV(String filePath) {
+  private HashMap<Integer, Node> loadDataFromCSV(String filePath) {
     HashMap<Integer, Node> nodes = new HashMap<>();
 
     try {
@@ -55,7 +55,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  public static void createTable() {
+  public void createTable() {
     try {
       String sqlCreateNode =
           "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"Node\""
@@ -72,8 +72,8 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     }
   }
 
-  public static HashMap<Integer, Node> Import(String filePath) {
-    HashMap<Integer, Node> NodeMap = loadNodesFromCSV(filePath);
+  public HashMap<Integer, Node> Import(String filePath) {
+    HashMap<Integer, Node> NodeMap = loadDataFromCSV(filePath);
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -112,7 +112,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return NodeMap;
   }
 
-  public static void Export(String folderExportPath) {
+  public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Node.csv";
       Statement st =
@@ -166,7 +166,7 @@ public class NodeDAOImp implements IDataBase, INodeDAO {
     return nodes;
   }
 
-  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+  public HashMap<Integer, Node> loadDataFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();

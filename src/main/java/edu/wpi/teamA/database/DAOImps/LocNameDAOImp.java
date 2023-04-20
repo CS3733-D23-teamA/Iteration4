@@ -14,7 +14,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class LocNameDAOImp implements IDataBase, ILocNameDAO {
+public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
 
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
 
@@ -23,10 +23,10 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
   }
 
   public LocNameDAOImp() {
-    this.LocNameMap = loadLocNamefromDatabase();
+    this.LocNameMap = loadDataFromDatabaseInMap();
   }
 
-  public static void createTable() {
+  public void createTable() {
     try {
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"LocationName\""
@@ -41,7 +41,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     }
   }
 
-  public static HashMap<String, LocationName> loadLocNamesFromCSV(String filePath) {
+  private HashMap<String, LocationName> loadDataFromCSV(String filePath) {
     HashMap<String, LocationName> locationNames = new HashMap<>();
 
     try {
@@ -67,8 +67,8 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     return locationNames;
   }
 
-  public static HashMap<String, LocationName> Import(String filePath) {
-    HashMap<String, LocationName> LocNameMap = loadLocNamesFromCSV(filePath);
+  public HashMap<String, LocationName> Import(String filePath) {
+    HashMap<String, LocationName> LocNameMap = loadDataFromCSV(filePath);
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -95,7 +95,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     return LocNameMap;
   }
 
-  public static void Export(String filePath) {
+  public void Export(String filePath) {
     try {
       String newFile = filePath + "/LocationName.csv";
       Statement st =
@@ -121,7 +121,7 @@ public class LocNameDAOImp implements IDataBase, ILocNameDAO {
     }
   }
 
-  public HashMap<String, LocationName> loadLocNamefromDatabase() {
+  public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();

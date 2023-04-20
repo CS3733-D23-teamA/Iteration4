@@ -16,7 +16,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MoveDAOImp implements IDataBase, IMoveDAO {
+public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
 
   @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
 
@@ -25,7 +25,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public MoveDAOImp() {
-    this.MoveMap = loadMovesFromDatabaseInMap();
+    this.MoveMap = loadDataFromDatabaseInMap();
   }
 
   public static void createSchema() {
@@ -39,7 +39,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  public static void createTable() {
+  public void createTable() {
     try {
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"Move\""
@@ -62,7 +62,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  public static HashMap<Integer, Move> loadMovesFromCSV(String filePath) {
+  private HashMap<Integer, Move> loadDataFromCSV(String filePath) {
     HashMap<Integer, Move> moves = new HashMap<>();
 
     try {
@@ -90,9 +90,9 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     return moves;
   }
 
-  public static HashMap<Integer, Move> Import(String filePath) {
+  public HashMap<Integer, Move> Import(String filePath) {
     MoveDAOImp.createSchema();
-    HashMap<Integer, Move> MoveMap = loadMovesFromCSV(filePath);
+    HashMap<Integer, Move> MoveMap = loadDataFromCSV(filePath);
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -120,7 +120,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     return MoveMap;
   }
 
-  public static void Export(String filePath) {
+  public void Export(String filePath) {
     try {
       String newFile = filePath + "/Move.csv";
       Statement st =
@@ -169,7 +169,7 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     return moves;
   }
 
-  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+  public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();

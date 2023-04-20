@@ -15,7 +15,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class EdgeDAOImp implements IDataBase, IEdgeDAO {
+public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
@@ -28,10 +28,10 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
   }
 
   public EdgeDAOImp() {
-    this.EdgeMap = loadEdgesFromDatabaseInMap();
+    this.EdgeMap = loadDataFromDatabaseInMap();
   }
 
-  public static void createTable() {
+  public void createTable() {
     try {
       String sqlCreateEdge =
           "Create Table if not exists \"Prototype2_schema\".\"Edge\""
@@ -54,7 +54,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     }
   }
 
-  private static HashMap<String, Edge> loadEdgesFromCSV(String filePath) {
+  private HashMap<String, Edge> loadDataFromCSV(String filePath) {
     HashMap<String, Edge> edges = new HashMap<>();
 
     try {
@@ -80,8 +80,8 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public static HashMap<String, Edge> Import(String filePath) {
-    HashMap<String, Edge> EdgeMap = loadEdgesFromCSV(filePath);
+  public HashMap<String, Edge> Import(String filePath) {
+    HashMap<String, Edge> EdgeMap = loadDataFromCSV(filePath);
 
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
@@ -107,7 +107,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return EdgeMap;
   }
 
-  public static void Export(String folderExportPath) {
+  public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Edge.csv";
       Statement st =
@@ -154,7 +154,7 @@ public class EdgeDAOImp implements IDataBase, IEdgeDAO {
     return edges;
   }
 
-  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+  public HashMap<String, Edge> loadDataFromDatabaseInMap() {
     // HashMap<String, Edge> edges = new HashMap<String, Edge>();
 
     try {
