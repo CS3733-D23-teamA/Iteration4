@@ -187,6 +187,7 @@ public class MapEditorController {
     level = button.getText();
 
     // display new dots and edges
+
     displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
     displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
@@ -213,8 +214,13 @@ public class MapEditorController {
   private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
     for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
       Edge edge = entry.getValue();
-      Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
-      topPane.getChildren().add(line);
+      if (entity
+          .getNodeInfo(edge.getStartNode())
+          .getFloor()
+          .equals(entity.getNodeInfo(edge.getEndNode()).getFloor())) {
+        Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
+        topPane.getChildren().add(line);
+      }
     }
     App.getPrimaryStage().show();
   }
