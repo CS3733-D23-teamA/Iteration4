@@ -76,7 +76,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="startSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0">
+                              <MFXFilterComboBox fx:id="startSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="300.0">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -90,7 +90,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="endSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
+                              <MFXFilterComboBox fx:id="endSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="300.0" />
                            </children>
                         </VBox>
                         <VBox fx:id="searchAlgorithmVbox" spacing="5.0">
@@ -100,7 +100,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="searchAlgorithmSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="207.0" />
+                              <MFXFilterComboBox fx:id="searchAlgorithmSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="300.0" />
                            </children>
                         </VBox>
                      </children>

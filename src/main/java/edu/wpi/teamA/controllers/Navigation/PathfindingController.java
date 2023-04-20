@@ -72,6 +72,7 @@ public class PathfindingController extends PageController {
     if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
+      searchAlgorithmTextDirections.setVisible(false);
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
@@ -97,7 +98,6 @@ public class PathfindingController extends PageController {
     searchOptions.add("Depth-First Search");
 
     // Setting ComboBox Selection Options (for start + end locations)
-
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
