@@ -8,6 +8,7 @@ import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +52,7 @@ public class MapEditorController {
   private String level = "L1";
 
   @FXML private MFXButton modifyEdgeButton;
+  @FXML private MFXToggleButton locationNameToggle;
 
   // text displays
   @FXML private Text locationDisplay;
@@ -152,7 +154,6 @@ public class MapEditorController {
    * @param button button chosen
    */
   private void changeLevelText(MFXButton button) {
-
     // get pre-loaded map image from App
     switch (button.getText()) {
       case "L1":
@@ -185,11 +186,12 @@ public class MapEditorController {
 
     // button
     level = button.getText();
+    changeLocationNameDisplay();
 
     // display new dots and edges
-
-    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
-    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
+    //
+    //    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    //    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
 
   /**
@@ -207,7 +209,8 @@ public class MapEditorController {
         circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
         topPane.getChildren().add(circle);
 
-        if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")) {
+        if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
+            && locationNameToggle.isSelected()) {
           Text text = entity.addText(node);
           topPane.getChildren().add(text);
         }
@@ -230,6 +233,13 @@ public class MapEditorController {
     App.getPrimaryStage().show();
   }
 
+  @FXML
+  public void changeLocationNameDisplay() {
+    System.out.println("Change location name");
+    topPane.getChildren().clear();
+    displayEdgeData(entity.determineEdgeMap(level));
+    displayNodeData(entity.determineNodeMap(level));
+  }
   /**
    * Defines behavior for when you hover over a dot on the map
    *
