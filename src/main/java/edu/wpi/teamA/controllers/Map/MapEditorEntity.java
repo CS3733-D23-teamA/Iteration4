@@ -14,6 +14,8 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
@@ -109,6 +111,18 @@ public class MapEditorEntity {
     circle.setRadius(10);
     circle.setVisible(true);
     return circle;
+  }
+
+  public Text addText(Node node) {
+    double xCoord = node.getXcoord() + 20;
+    double yCoord = node.getYcoord() - 10;
+    String locText = getLocationName(node.getNodeID()).getShortName();
+    Text text = new Text(locText);
+    text.setX(xCoord);
+    text.setY(yCoord);
+    text.setFill(Color.web("0x151515"));
+    text.setFont(new Font("Open Sans", 20));
+    return text;
   }
 
   public Line addLine(int startNodeID, int endNodeID) {

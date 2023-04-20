@@ -206,6 +206,11 @@ public class MapEditorController {
         circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
         circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
         topPane.getChildren().add(circle);
+
+        if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")) {
+          Text text = entity.addText(node);
+          topPane.getChildren().add(text);
+        }
       }
     }
     App.getPrimaryStage().show();
