@@ -1,7 +1,9 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Flower;
+import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -17,15 +19,15 @@ import javafx.scene.control.DatePicker;
 public class FlowerRequestController extends PageController implements IServiceController {
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox roomCombo;
+  @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox timeCombo;
-  @FXML private MFXComboBox flowerCombo;
+  @FXML private MFXComboBox<String> timeCombo;
+  @FXML private MFXComboBox<String> flowerCombo;
   @FXML private MFXTextField commentField;
   @FXML private MFXGenericDialog confirmationDialog;
 
-  // LocNameDAOImp locs = new LocNameDAOImp();
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final ServiceRequestEntity entity = App.getServiceRequestEntity();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
@@ -58,15 +60,12 @@ public class FlowerRequestController extends PageController implements IServiceC
 
   @FXML
   public void validateButton() {
-    if (nameField.getText().isEmpty()
-        || datePicker.getValue() == null
-        || timeCombo.getSelectedIndex() == -1
-        || flowerCombo.getSelectedIndex() == -1
-        || roomCombo.getSelectedIndex() == -1) {
-      submitButton.setDisable(true);
-    } else {
-      submitButton.setDisable(false);
-    }
+    submitButton.setDisable(
+        nameField.getText().isEmpty()
+            || datePicker.getValue() == null
+            || timeCombo.getSelectedIndex() == -1
+            || flowerCombo.getSelectedIndex() == -1
+            || roomCombo.getSelectedIndex() == -1);
   }
 
   public void clear() {
@@ -86,7 +85,7 @@ public class FlowerRequestController extends PageController implements IServiceC
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
-            convertTime(timeCombo.getText()),
+            entity.convertTime(timeCombo.getText()),
             flowerCombo.getText(),
             commentField.getText(),
             "not assigned",
@@ -95,21 +94,6 @@ public class FlowerRequestController extends PageController implements IServiceC
     clear();
     confirmationDialog.setVisible(true);
     confirmationDialog.setDisable(false);
-  }
-
-  public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(3);
-    }
-    num = Integer.parseInt(newString);
-    return num;
   }
 
   @FXML
