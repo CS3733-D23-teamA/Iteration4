@@ -4,7 +4,6 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DataBaseRepository {
 
@@ -13,11 +12,11 @@ public class DataBaseRepository {
   private EdgeDAOImp edgeDAOImp;
   private LocNameDAOImp locNameDAOImp;
   private MoveDAOImp moveDAOImp;
-  private FlowerDAOImpl flowerDAOImpl;
+  private FlowerDAOImp flowerDAOImp;
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
+  private MealDAOImp mealDAOImp;
   private UserDAOImp userDAOImp;
-
   private EmployeeDAOImp employeeDAOImp;
 
   public DataBaseRepository() {
@@ -25,9 +24,10 @@ public class DataBaseRepository {
     edgeDAOImp = new EdgeDAOImp();
     locNameDAOImp = new LocNameDAOImp();
     moveDAOImp = new MoveDAOImp();
-    flowerDAOImpl = new FlowerDAOImpl();
+    flowerDAOImp = new FlowerDAOImp();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
+    mealDAOImp = new MealDAOImp();
 
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
@@ -46,25 +46,29 @@ public class DataBaseRepository {
     return nodeDAOImp.getNodeMap();
   }
 
+  public void createNodeTable() {
+    nodeDAOImp.createTable();
+  }
+
+  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
+    return nodeDAOImp.loadDataFromDatabaseInMap();
+  }
+
   public ArrayList<Node> loadNodesFromDatabaseInArray() {
     return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
-  public HashMap<Integer, Node> loadNodesFromDatabaseInMap() {
-    return nodeDAOImp.loadNodesFromDatabaseInMap();
+  public Node addNode(Node node) {
+    return nodeDAOImp.Add(node);
   }
 
-  public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
-    return nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
+  public void deleteNode(Node node) {
+    nodeDAOImp.Delete(node);
+    edgeDAOImp.deleteEdgesWithNode(node);
   }
 
-  public void deleteNode(int id) {
-    nodeDAOImp.Delete(id);
-    edgeDAOImp.deleteEdgesWithNode(id);
-  }
-
-  public void updateNode(int id, int xcoord, int ycoord, String floor, String building) {
-    nodeDAOImp.Update(id, xcoord, ycoord, floor, building);
+  public void updateNode(Node node) {
+    nodeDAOImp.Update(node);
   }
 
   public Node getNode(int id) {
@@ -76,37 +80,40 @@ public class DataBaseRepository {
   }
 
   // Edge related methods
-
   public HashMap<String, Edge> getEdgeMap() {
     return edgeDAOImp.getEdgeMap();
+  }
+
+  public void createEdgeTable() {
+    edgeDAOImp.createTable();
+  }
+
+  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
+    return edgeDAOImp.loadDataFromDatabaseInMap();
   }
 
   public ArrayList<Edge> loadEdgesFromDatabaseInArray() {
     return edgeDAOImp.loadEdgesFromDatabaseInArray();
   }
 
-  public HashMap<String, Edge> loadEdgesFromDatabaseInMap() {
-    return edgeDAOImp.loadEdgesFromDatabaseInMap();
+  public Edge addEdge(Edge edge) {
+    return edgeDAOImp.Add(edge);
   }
 
-  public Edge addEdge(int startNode, int endNode) {
-    return edgeDAOImp.Add(startNode, endNode);
+  public void deleteEdge(Edge edge) {
+    edgeDAOImp.Delete(edge);
   }
 
-  public void deleteEdge(int startNode, int endNode) {
-    edgeDAOImp.Delete(startNode, endNode);
-  }
-
-  public void updateEdge(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
-    edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
+  public void updateEdge(Edge edge) {
+    // edgeDAOImp.Update();
   }
 
   public Edge getEdge(int startNode, int endNode) {
     return edgeDAOImp.getEdge(startNode, endNode);
   }
 
-  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
-    return edgeDAOImp.deleteEdgesWithNode(nodeID);
+  public ArrayList<Edge> deleteEdgesWithNode(Node node) {
+    return edgeDAOImp.deleteEdgesWithNode(node);
   }
 
   // LocationName related methods
@@ -114,25 +121,24 @@ public class DataBaseRepository {
     return locNameDAOImp.getLocNameMap();
   }
 
-  public HashMap<String, LocationName> loadLocNameFromDatabase() {
-    return locNameDAOImp.loadLocNamefromDatabase();
+  public void createLocNameTable() {
+    locNameDAOImp.createTable();
   }
 
-  public void addLocName(String longName, String shortName, String nodeType) {
-    locNameDAOImp.Add(longName, shortName, nodeType);
+  public HashMap<String, LocationName> loadLocNameFromDatabaseInMap() {
+    return locNameDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public void deleteLocName(String longName) {
-    locNameDAOImp.Delete(longName);
+  public void addLocName(LocationName locName) {
+    locNameDAOImp.Add(locName);
   }
 
-  public void updateLocName(
-      String oldLongName,
-      String oldShortName,
-      String newLongName,
-      String newShortName,
-      String newNodeType) {
-    locNameDAOImp.Update(oldLongName, oldShortName, newLongName, newShortName, newNodeType);
+  public void deleteLocName(LocationName locName) {
+    locNameDAOImp.Delete(locName);
+  }
+
+  public void updateLocName(LocationName locName) {
+    locNameDAOImp.Update(locName);
   }
 
   public LocationName getLocName(String longName) {
@@ -148,24 +154,24 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveMap();
   }
 
-  public ArrayList<Move> loadMovesFromDatabase() {
-    return moveDAOImp.loadMovesFromDatabase();
+  public void createMoveTable() {
+    moveDAOImp.createTable();
   }
 
   public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
-    return moveDAOImp.loadMovesFromDatabaseInMap();
+    return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public void addMove(int nodeID, String longName, String dateString) {
-    moveDAOImp.Add(nodeID, longName, dateString);
+  public void addMove(Move move) {
+    moveDAOImp.Add(move);
   }
 
-  public void deleteMove(int nodeID) {
-    moveDAOImp.Delete(nodeID);
+  public void deleteMove(Move move) {
+    moveDAOImp.Delete(move);
   }
 
-  public void updateMove(int nodeID, String longName, String dateString) {
-    moveDAOImp.Update(nodeID, longName, dateString);
+  public void updateMove(Move move) {
+    moveDAOImp.Update(move);
   }
 
   public Move getMove(int nodeID) {
@@ -175,105 +181,146 @@ public class DataBaseRepository {
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {
-      HashMap<Integer, Node> importedNodes = NodeDAOImp.Import(filepath);
+      HashMap<Integer, Node> importedNodes = nodeDAOImp.Import(filepath);
       nodeDAOImp = new NodeDAOImp(importedNodes);
     } else if (type.equals("LocName")) {
-      HashMap<String, LocationName> importedLocationNames = LocNameDAOImp.Import(filepath);
+      HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      HashMap<Integer, Move> importedMoves = MoveDAOImp.Import(filepath);
+      HashMap<Integer, Move> importedMoves = moveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
-      HashMap<String, Edge> importedEdges = EdgeDAOImp.Import(filepath);
+      HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
       edgeDAOImp = new EdgeDAOImp(importedEdges);
     }
   }
 
   public void exportData(String folderExportPath, String type) {
     if (type.equals("Node")) {
-      NodeDAOImp.Export(folderExportPath);
+      nodeDAOImp.Export(folderExportPath);
     } else if (type.equals("LocName")) {
-      LocNameDAOImp.Export(folderExportPath);
+      locNameDAOImp.Export(folderExportPath);
     } else if (type.equals("Move")) {
-      MoveDAOImp.Export(folderExportPath);
+      moveDAOImp.Export(folderExportPath);
     } else if (type.equals("Edge")) {
-      EdgeDAOImp.Export(folderExportPath);
+      edgeDAOImp.Export(folderExportPath);
     }
   }
 
   // Flower related methods
-  public HashMap<Integer, FlowerEntity> getFlowerMap() {
-    return flowerDAOImpl.getFlowerMap();
+  public HashMap<Integer, Flower> getFlowerMap() {
+    return flowerDAOImp.getFlowerMap();
   }
 
-  public HashMap<Integer, FlowerEntity> loadFlowersFromDatabaseInMap() {
-    return flowerDAOImpl.loadFlowersFromDatabaseInMap();
+  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
+    return flowerDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public void addFlower(FlowerEntity flower) {
-    flowerDAOImpl.addFlower(flower);
+  public void addFlower(Flower flower) {
+    flowerDAOImp.add(flower);
   }
 
-  public void deleteFlower(FlowerEntity flower) {
-    flowerDAOImpl.deleteFlower(flower);
+  public void deleteFlower(Flower flower) {
+    flowerDAOImp.delete(flower);
   }
 
-  public FlowerEntity getFlower(int id) {
-    return flowerDAOImpl.getFlower(id);
+  public void updateFlower(Flower flower) {
+    flowerDAOImp.update(flower);
   }
 
-  public void updateFlower(FlowerEntity flower) {
-    flowerDAOImpl.updateFlower(flower);
+  public Flower getFlower(int id) {
+    return flowerDAOImp.getFlower(id);
   }
 
-  public int getNextID() {
-    return flowerDAOImpl.getNextID();
+  public int getNextFlowerID() {
+    return flowerDAOImp.getNextID();
   }
 
   // Conference room service request related methods
-  public ArrayList<ConferenceRoomResRequest> getCrrrArray() {
-    return crrrDAOImp.getCrrrArray();
+  public HashMap<Integer, ConferenceRoomResRequest> getCrrrMap() {
+    return crrrDAOImp.getCrrrMap();
+  }
+
+  public HashMap<Integer, ConferenceRoomResRequest> loadCRRRFromDatabaseInMap() {
+    return crrrDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.addCRRR(crrr);
+    crrrDAOImp.add(crrr);
   }
 
   public void deleteCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.deleteCRRR(crrr);
-  }
-
-  public List<ConferenceRoomResRequest> getAllCRRR() {
-    return crrrDAOImp.getAllCRRR();
-  }
-
-  public ConferenceRoomResRequest getCRRR(String name) {
-    return crrrDAOImp.getCRRR(name);
+    crrrDAOImp.delete(crrr);
   }
 
   public void updateCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.updateCRRR(crrr);
+    crrrDAOImp.update(crrr);
+  }
+
+  public ConferenceRoomResRequest getCRRR(int id) {
+    return crrrDAOImp.getCRRR(id);
+  }
+
+  public int getNextCRRRID() {
+    return crrrDAOImp.getNextID();
   }
 
   // Furniture related methods
-  public ArrayList<FurnitureRequest> getFurnitureArray() {
-    return furnitureDAOImp.getFurnitureArray();
+  public HashMap<Integer, FurnitureRequest> getFurnitureMap() {
+    return furnitureDAOImp.getFurnitureMap();
+  }
+
+  public HashMap<Integer, FurnitureRequest> loadFurnitureFromDatabaseInMap() {
+    return furnitureDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.addFurniture(furniture);
+    furnitureDAOImp.add(furniture);
   }
 
   public void deleteFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.deleteFurniture(furniture);
+    furnitureDAOImp.delete(furniture);
   }
 
   public void updateFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.updateFurniture(furniture);
+    furnitureDAOImp.update(furniture);
   }
 
-  public void editFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.editFurniture(furniture);
+  public FurnitureRequest getFurniture(int id) {
+    return furnitureDAOImp.getFurniture(id);
+  }
+
+  public int getNextFurnitureID() {
+    return furnitureDAOImp.getNextID();
+  }
+
+  // Meal related methods
+  public HashMap<Integer, Meal> getMealMap() {
+    return mealDAOImp.getMealMap();
+  }
+
+  public HashMap<Integer, Meal> loadMealsFromDatabaseInMap() {
+    return mealDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public void addMeal(Meal meal) {
+    mealDAOImp.add(meal);
+  }
+
+  public void deleteMeal(Meal meal) {
+    mealDAOImp.delete(meal);
+  }
+
+  public void updateMeal(Meal meal) {
+    mealDAOImp.update(meal);
+  }
+
+  public Meal getMeal(int id) {
+    return mealDAOImp.getMeal(id);
+  }
+
+  public int getNextMealID() {
+    return mealDAOImp.getNextID();
   }
 
   // user dao functions

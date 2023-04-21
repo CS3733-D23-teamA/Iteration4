@@ -1,6 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.FurnitureDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.navigation.Navigation;
@@ -73,15 +72,16 @@ public class FurnitureRequestController extends PageController implements IServi
   public void submit() {
     FurnitureRequest furniture =
         new FurnitureRequest(
+            databaseRepo.getNextFurnitureID(),
             nameField.getText(),
             roomComboBox.getText(),
             Date.valueOf(datePicker.getValue()),
             convertTime(timeCombo.getText()),
             furnitureCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
-    FurnitureDAOImp fd = new FurnitureDAOImp();
-    fd.addFurniture(furniture);
+    databaseRepo.addFurniture(furniture);
     clear();
   }
 

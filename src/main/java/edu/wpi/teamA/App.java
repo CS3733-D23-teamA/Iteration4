@@ -3,6 +3,7 @@ package edu.wpi.teamA;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -26,6 +27,7 @@ public class App extends Application {
 
   // map entities + images
   @Getter private static MapEditorEntity mapEditorEntity = new MapEditorEntity();
+  DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @Getter private static Image mapL1 = new Image("edu/wpi/teamA/images/map-page/Level L1.png");
   @Getter private static Image mapL2 = new Image("edu/wpi/teamA/images/map-page/Level L2.png");
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
@@ -46,10 +48,10 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
-    NodeDAOImp.createTable();
-    EdgeDAOImp.createTable();
-    LocNameDAOImp.createTable();
-    MoveDAOImp.createTable();
+    databaseRepo.createNodeTable();
+    databaseRepo.createEdgeTable();
+    databaseRepo.createLocNameTable();
+    databaseRepo.createMoveTable();
   }
 
   @Override

@@ -8,6 +8,7 @@ import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,84 +136,47 @@ public class MapEditorEntity {
     return databaseRepo.getLocName(move.getLongName());
   }
 
-  public void determineAddAction(
-      String level,
-      int x,
-      int y,
-      String longName,
-      String shortName,
-      String floor,
-      String building,
-      String nodeType) {
+  public void determineAddAction(String level, Node node, LocationName locName, Move move) {
     int newNodeID = databaseRepo.getLargestNodeID().getNodeID() + 5;
-    Node node = databaseRepo.addNode(newNodeID, x, y, floor, building);
-    String month = Integer.toString(LocalDate.now().getMonthValue());
-    String day = Integer.toString(LocalDate.now().getDayOfMonth());
-    if (month.length() == 1) {
-      month = "0" + month;
-    }
-    if (day.length() == 1) {
-      day = "0" + day;
-    }
-
-    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    databaseRepo.addLocName(longName, shortName, nodeType);
-    databaseRepo.addMove(newNodeID, longName, dateString);
+    node.setNodeID(newNodeID);
+    move.setNodeID(newNodeID);
+    databaseRepo.addNode(node);
+    databaseRepo.addLocName(locName);
+    databaseRepo.addMove(move);
     determineNodeMap(level).put(newNodeID, node);
   }
 
   public void determineRemoveAction(int nodeID, String level) {
-    ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(nodeID);
+    ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(databaseRepo.getNode(nodeID));
+
     for (Edge edge : edgesToRemove) {
       String key = edge.getStartNode().toString() + edge.getEndNode().toString();
       determineEdgeMap(level).remove(key);
     }
-    databaseRepo.deleteNode(nodeID);
-    databaseRepo.deleteLocName(databaseRepo.getMove(nodeID).getLongName());
-    databaseRepo.deleteMove(nodeID);
+    databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
+    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMove(nodeID).getLongName()));
+    databaseRepo.deleteMove(databaseRepo.getMove(nodeID));
     determineNodeMap(level).remove(nodeID);
   }
 
-  public void determineModifyAction(
-      String level,
-      int nodeID,
-      int x,
-      int y,
-      String oldLongName,
-      String oldShortName,
-      String longName,
-      String shortName,
-      String floor,
-      String building,
-      String nodeType) {
-    databaseRepo.updateNode(nodeID, x, y, floor, building);
-    String month = Integer.toString(LocalDate.now().getMonthValue());
-    String day = Integer.toString(LocalDate.now().getDayOfMonth());
-    if (month.length() == 1) {
-      month = "0" + month;
-    }
-    if (day.length() == 1) {
-      day = "0" + day;
-    }
-
-    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    databaseRepo.updateLocName(oldLongName, oldShortName, longName, shortName, nodeType);
-    databaseRepo.updateMove(nodeID, longName, dateString);
-
-    Node node = databaseRepo.getNode(nodeID);
-    determineNodeMap(level).put(nodeID, node);
+  public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
+    databaseRepo.updateNode(node);
+    databaseRepo.updateLocName(locName);
+    databaseRepo.updateMove(move);
+    determineNodeMap(level).put(node.getNodeID(), node);
   }
 
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
+    Edge edge = new Edge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
     Edge temp = databaseRepo.getEdgeMap().get(key);
     if (!(firstNode.getNodeID().toString().equals(secondNode.getNodeID().toString()))) {
       if (temp == null) { // if there is no edge between the nodes, we must add edges
-        Edge edge = databaseRepo.addEdge(firstNode.getNodeID(), secondNode.getNodeID());
+        databaseRepo.addEdge(edge);
         determineEdgeMap(level).put(key, edge);
         return true;
       } else { // there is an edge, so we must remove the edge
-        databaseRepo.deleteEdge(firstNode.getNodeID(), secondNode.getNodeID());
+        databaseRepo.deleteEdge(edge);
         determineEdgeMap(level).remove(key);
         return false;
       }
@@ -256,5 +220,20 @@ public class MapEditorEntity {
         databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       }
     }
+  }
+
+  public LocalDate determineLocalDate() {
+    String month = Integer.toString(LocalDate.now().getMonthValue());
+    String day = Integer.toString(LocalDate.now().getDayOfMonth());
+    if (month.length() == 1) {
+      month = "0" + month;
+    }
+    if (day.length() == 1) {
+      day = "0" + day;
+    }
+
+    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    return LocalDate.parse(dateString, formatter);
   }
 }

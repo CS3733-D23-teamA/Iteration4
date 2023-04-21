@@ -22,7 +22,16 @@ public class EmployeeDAOImp implements IEmployeeDAO {
     this.employeeMap = employeeMap;
   }
 
-
+  //  @Getter @Setter private ArrayList<Employee> employeeArray;
+  //  static DBConnectionProvider employeeProvider = new DBConnectionProvider();
+  //
+  //  public EmployeeDAOImp() {
+  //    this.employeeArray = new ArrayList<>();
+  //  }
+  //
+  //  public EmployeeDAOImp(ArrayList<Employee> employeeArray) {
+  //    this.employeeArray = employeeArray;
+  //  }
 
   @Override
   public Employee getEmployee(String username) {
@@ -61,7 +70,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
           employeeProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
+                  "UPDATE \"Teama_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
       ps.setString(1, name);
       ps.setString(2, password);
       ps.setString(3, username);
@@ -109,8 +118,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       PreparedStatement ps =
           employeeProvider
               .createConnection()
-              .prepareStatement(
-                  "DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
       ps.setString(1, employee.getUsername());
       ps.executeUpdate();
 
