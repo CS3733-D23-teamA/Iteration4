@@ -1,6 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -48,34 +49,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       throw new RuntimeException(e);
     }
   }
-
-  //  private HashMap<Integer, Move> loadDataFromCSV(String filePath) {
-  //    HashMap<Integer, Move> moves = new HashMap<>();
-  //
-  //    try {
-  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-  //      csvReader.readLine(); // Skip the header line
-  //      String row;
-  //
-  //      while ((row = csvReader.readLine()) != null) {
-  //        String[] data = row.split(",");
-  //
-  //        int nodeID = Integer.parseInt(data[0]);
-  //        String longName = data[1];
-  //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-  //        LocalDate localDate = LocalDate.parse(data[2], formatter);
-  //
-  //        Move move = new Move(nodeID, longName, localDate);
-  //        moves.put(nodeID, move);
-  //      }
-  //
-  //      csvReader.close();
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //
-  //    return moves;
-  //  }
 
   public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
     try {

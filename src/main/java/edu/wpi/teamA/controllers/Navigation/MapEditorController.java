@@ -297,7 +297,6 @@ public class MapEditorController {
     }
 
     if (secondNodeClicked) {
-      System.out.println("AHHHH");
       if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
         // add a line for the new edge
         Line line = entity.addLine(firstNode.getNodeID(), nodeID);

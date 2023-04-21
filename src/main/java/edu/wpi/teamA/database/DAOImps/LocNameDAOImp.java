@@ -1,6 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.Interfaces.ILocNameDAO;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import java.io.BufferedReader;
@@ -40,32 +41,6 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
       throw new RuntimeException(e);
     }
   }
-
-  //  private HashMap<String, LocationName> loadDataFromCSV(String filePath) {
-  //    HashMap<String, LocationName> locationNames = new HashMap<>();
-  //
-  //    try {
-  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-  //      csvReader.readLine(); // Skip the header line
-  //      String row;
-  //
-  //      while ((row = csvReader.readLine()) != null) {
-  //        String[] data = row.split(",");
-  //
-  //        String longName = data[0];
-  //        String shortName = data[1];
-  //        String nodetype = data[2];
-  //        LocationName locationName = new LocationName(longName, shortName, nodetype);
-  //        locationNames.put(longName, locationName);
-  //      }
-  //
-  //      csvReader.close();
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //
-  //    return locationNames;
-  //  }
 
   public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
     try {

@@ -1,6 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,35 +42,6 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
       throw new RuntimeException(e);
     }
   }
-
-  //  private HashMap<Integer, Node> loadDataFromCSV(String filePath) {
-  //    HashMap<Integer, Node> nodes = new HashMap<>();
-  //
-  //    try {
-  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-  //      csvReader.readLine(); // Skip the header line
-  //      String row;
-  //
-  //      while ((row = csvReader.readLine()) != null) {
-  //        String[] data = row.split(",");
-  //
-  //        int nodeID = Integer.parseInt(data[0]);
-  //        int xcoord = Integer.parseInt(data[1]);
-  //        int ycoord = Integer.parseInt(data[2]);
-  //        String floor = data[3];
-  //        String building = data[4];
-  //
-  //        Node node = new Node(nodeID, xcoord, ycoord, floor, building);
-  //        nodes.put(nodeID, node);
-  //      }
-  //
-  //      csvReader.close();
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //
-  //    return nodes;
-  //  }
 
   public HashMap<Integer, Node> loadDataFromDatabaseInMap() {
     try {

@@ -1,6 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.BufferedReader;
@@ -49,32 +50,6 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
       throw new RuntimeException(e);
     }
   }
-
-  //  private HashMap<String, Edge> loadDataFromCSV(String filePath) {
-  //    HashMap<String, Edge> edges = new HashMap<>();
-  //
-  //    try {
-  //      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-  //      csvReader.readLine(); // Skip the header line
-  //      String row;
-  //
-  //      while ((row = csvReader.readLine()) != null) {
-  //        String[] data = row.split(",");
-  //
-  //        Integer startNode = Integer.parseInt(data[0]);
-  //        Integer endNode = Integer.parseInt(data[1]);
-  //
-  //        Edge edge = new Edge(startNode, endNode);
-  //        edges.put(startNode + endNode.toString(), edge);
-  //      }
-  //
-  //      csvReader.close();
-  //    } catch (IOException e) {
-  //      throw new RuntimeException(e);
-  //    }
-  //
-  //    return edges;
-  //  }
 
   public HashMap<String, Edge> loadDataFromDatabaseInMap() {
     // HashMap<String, Edge> edges = new HashMap<String, Edge>();

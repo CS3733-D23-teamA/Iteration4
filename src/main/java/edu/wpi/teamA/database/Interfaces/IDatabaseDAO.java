@@ -1,4 +1,4 @@
-package edu.wpi.teamA.database.DAOImps;
+package edu.wpi.teamA.database.Interfaces;
 
 import java.util.HashMap;
 

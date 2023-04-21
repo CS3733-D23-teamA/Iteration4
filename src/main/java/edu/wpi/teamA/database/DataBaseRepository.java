@@ -13,7 +13,7 @@ public class DataBaseRepository {
   private EdgeDAOImp edgeDAOImp;
   private LocNameDAOImp locNameDAOImp;
   private MoveDAOImp moveDAOImp;
-  private FlowerDAOImpl flowerDAOImpl;
+  private FlowerDAOImp flowerDAOImp;
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
   private UserDAOImp userDAOImp;
@@ -24,7 +24,7 @@ public class DataBaseRepository {
     edgeDAOImp = new EdgeDAOImp();
     locNameDAOImp = new LocNameDAOImp();
     moveDAOImp = new MoveDAOImp();
-    flowerDAOImpl = new FlowerDAOImpl();
+    flowerDAOImp = new FlowerDAOImp();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
 
@@ -104,7 +104,7 @@ public class DataBaseRepository {
   }
 
   public void updateEdge(Edge edge) {
-    // edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
+    //edgeDAOImp.Update();
   }
 
   public Edge getEdge(int startNode, int endNode) {
@@ -208,31 +208,31 @@ public class DataBaseRepository {
 
   // Flower related methods
   public HashMap<Integer, Flower> getFlowerMap() {
-    return flowerDAOImpl.getFlowerMap();
+    return flowerDAOImp.getFlowerMap();
   }
 
   public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
-    return flowerDAOImpl.loadFlowersFromDatabaseInMap();
+    return flowerDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFlower(Flower flower) {
-    flowerDAOImpl.addFlower(flower);
+    flowerDAOImp.add(flower);
   }
 
   public void deleteFlower(Flower flower) {
-    flowerDAOImpl.deleteFlower(flower);
+    flowerDAOImp.delete(flower);
   }
 
   public Flower getFlower(int id) {
-    return flowerDAOImpl.getFlower(id);
+    return flowerDAOImp.getFlower(id);
   }
 
   public void updateFlower(Flower flower) {
-    flowerDAOImpl.updateFlower(flower);
+    flowerDAOImp.update(flower);
   }
 
   public int getNextID() {
-    return flowerDAOImpl.getNextID();
+    return flowerDAOImp.getNextID();
   }
 
   // Conference room service request related methods

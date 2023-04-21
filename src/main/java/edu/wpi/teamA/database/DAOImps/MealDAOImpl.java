@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MealDAOImpl implements IServiceDAO<MealEntity> {
+public class MealDAOImpl {
   ArrayList<MealEntity> mealArray;
   static DBConnectionProvider mealProvider = new DBConnectionProvider();
 
@@ -19,7 +19,6 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     this.mealArray = mealArray;
   }
 
-  @Override
   public void add(MealEntity meal) {
     /** Insert new node object to the existing node table */
     try {
@@ -64,7 +63,6 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     }
   }
 
-  @Override
   public void delete(MealEntity meal) {
 
     try {
@@ -82,7 +80,6 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     }
   }
 
-  @Override
   public List<MealEntity> getAll() {
     ArrayList<MealEntity> tempList = new ArrayList<>();
     try {
@@ -115,7 +112,6 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     return tempList;
   }
 
-  @Override
   public MealEntity get(String name) {
     MealEntity temp = new MealEntity();
     try {
@@ -148,7 +144,6 @@ public class MealDAOImpl implements IServiceDAO<MealEntity> {
     return temp;
   }
 
-  @Override
   public void update(MealEntity meal) {
     try {
       String room = meal.getRoom();

@@ -1,7 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
+import edu.wpi.teamA.database.Interfaces.IServiceDAO;
 import edu.wpi.teamA.database.ORMclasses.Flower;
 import java.io.*;
 import java.sql.*;
@@ -10,52 +10,18 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class FlowerDAOImpl implements IFlowerDAO {
+public class FlowerDAOImp implements IServiceDAO<Flower> {
   @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
 
-  public FlowerDAOImpl() {
-    this.flowerMap = loadFlowersFromDatabaseInMap();
+  public FlowerDAOImp() {
+    this.flowerMap = loadDataFromDatabaseInMap();
   }
 
-  private FlowerDAOImpl(HashMap<Integer, Flower> flowerMap) {
+  private FlowerDAOImp(HashMap<Integer, Flower> flowerMap) {
     this.flowerMap = flowerMap;
   }
 
-  private HashMap<Integer, Flower> loadDataFromCSV(String filePath) {
-    HashMap<Integer, Flower> flowers = new HashMap<>();
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
-        int id = Integer.parseInt(data[0]);
-        String name = data[1];
-        String room = data[2];
-        Date date = java.sql.Date.valueOf(data[3]);
-        int time = Integer.parseInt(data[4]);
-        String flowerType = data[5];
-        String comment = data[6];
-        String employee = data[7];
-        String status = data[8];
-
-        Flower flower =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status);
-        flowers.put(id, flower);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return flowers;
-  }
-
-  public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
+  public HashMap<Integer, Flower> loadDataFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -162,8 +128,8 @@ public class FlowerDAOImpl implements IFlowerDAO {
     }
   }
 
-  @Override
-  public void addFlower(Flower flower) {
+
+  public void add(Flower flower) {
     /** Insert new node object to the existing node table */
     try {
       int id = flower.getId();
@@ -198,8 +164,8 @@ public class FlowerDAOImpl implements IFlowerDAO {
     }
   }
 
-  @Override
-  public void deleteFlower(Flower flower) {
+
+  public void delete(Flower flower) {
 
     try {
       PreparedStatement ps =
@@ -215,8 +181,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
     }
   }
 
-  @Override
-  public void updateFlower(Flower flower) {
+  public void update(Flower flower) {
     try {
       int id = flower.getId();
       String name = flower.getName();
@@ -251,7 +216,6 @@ public class FlowerDAOImpl implements IFlowerDAO {
     }
   }
 
-  @Override
   public Flower getFlower(int id) {
     return flowerMap.get(id);
   }
