@@ -15,7 +15,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
+public class MoveDAOImp implements IDatabaseDAO<Move>, IMoveDAO {
 
   @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
 
@@ -183,7 +183,8 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
     return move;
   }
 
-  public void Delete(int nodeID) {
+  public void Delete(Move move) {
+    Integer nodeID = move.getNodeID();
     try {
 
       PreparedStatement ps =

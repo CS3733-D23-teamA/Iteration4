@@ -14,7 +14,9 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
+import javax.xml.stream.Location;
+
+public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
 
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
 
@@ -186,31 +188,28 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     }
   }
 
-  public void Update(
-      String oldLongName,
-      String oldShortName,
-      String newLongName,
-      String newShortName,
-      String newNodeType) {
+  public void Update(LocationName locName) {
+    String longName = locName.getLongName();
+    String shortName = locName.getShortName();
+    String nodeType = locName.getNodeType();
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"LocationName\" SET longname = ?, shortname = ?, nodetype = ? WHERE longname = ? AND shortname = ?");
-      ps.setString(1, newLongName);
-      ps.setString(2, newShortName);
-      ps.setString(3, newNodeType);
-      ps.setString(4, oldLongName);
-      ps.setString(5, oldShortName);
+              Objects.requireNonNull(DBConnectionProvider.createConnection())
+                      .prepareStatement(
+                              "UPDATE \"Teama_schema\".\"LocationName\" SET shortname = ?, nodetype = ? WHERE longname = ?");
+      ps.setString(1, longName);
+      ps.setString(2, shortName);
+      ps.setString(3, nodeType);
       ps.executeUpdate();
 
-      LocNameMap.put(newLongName, new LocationName(newLongName, newShortName, newNodeType));
+      LocNameMap.put(longName, new LocationName(longName, shortName, nodeType));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
+
 
   public LocationName getLocName(String longName) {
     return LocNameMap.get(longName);
