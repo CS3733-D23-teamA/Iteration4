@@ -4,7 +4,6 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class DataBaseRepository {
 
@@ -104,7 +103,7 @@ public class DataBaseRepository {
   }
 
   public void updateEdge(Edge edge) {
-    //edgeDAOImp.Update();
+    // edgeDAOImp.Update();
   }
 
   public Edge getEdge(int startNode, int endNode) {
@@ -223,41 +222,45 @@ public class DataBaseRepository {
     flowerDAOImp.delete(flower);
   }
 
-  public Flower getFlower(int id) {
-    return flowerDAOImp.getFlower(id);
-  }
-
   public void updateFlower(Flower flower) {
     flowerDAOImp.update(flower);
   }
 
-  public int getNextID() {
+  public Flower getFlower(int id) {
+    return flowerDAOImp.getFlower(id);
+  }
+
+  public int getNextFlowerID() {
     return flowerDAOImp.getNextID();
   }
 
   // Conference room service request related methods
-  public ArrayList<ConferenceRoomResRequest> getCrrrArray() {
-    return crrrDAOImp.getCrrrArray();
+  public HashMap<Integer, ConferenceRoomResRequest> getCrrrMap() {
+    return crrrDAOImp.getCrrrMap();
+  }
+
+  public HashMap<Integer, ConferenceRoomResRequest> loadCRRRFromDatabaseInMap() {
+    return crrrDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.addCRRR(crrr);
+    crrrDAOImp.add(crrr);
   }
 
   public void deleteCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.deleteCRRR(crrr);
-  }
-
-  public List<ConferenceRoomResRequest> getAllCRRR() {
-    return crrrDAOImp.getAllCRRR();
-  }
-
-  public ConferenceRoomResRequest getCRRR(String name) {
-    return crrrDAOImp.getCRRR(name);
+    crrrDAOImp.delete(crrr);
   }
 
   public void updateCRRR(ConferenceRoomResRequest crrr) {
-    crrrDAOImp.updateCRRR(crrr);
+    crrrDAOImp.update(crrr);
+  }
+
+  public ConferenceRoomResRequest getCRRR(int id) {
+    return crrrDAOImp.getCRRR(id);
+  }
+
+  public int getNextCRRRID() {
+    return crrrDAOImp.getNextID();
   }
 
   // Furniture related methods

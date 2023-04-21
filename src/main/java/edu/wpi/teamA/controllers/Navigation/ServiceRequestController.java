@@ -10,7 +10,6 @@ import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -36,28 +35,32 @@ public class ServiceRequestController extends PageController {
   @FXML private VBox statusVbox;
 
   @FXML private TableView<Flower> flowerTable;
-  @FXML private TableColumn<Flower, Integer> idCol;
-  @FXML private TableColumn<Flower, String> roomCol;
-  @FXML private TableColumn<Flower, String> dateCol;
-  @FXML private TableColumn<Flower, Integer> timeCol;
-  @FXML private TableColumn<Flower, String> flowerCol;
-  @FXML private TableColumn<Flower, String> commentCol;
-  @FXML private TableColumn<Flower, String> employeeCol;
-  @FXML private TableColumn<Flower, String> statusCol;
+  @FXML private TableColumn<Flower, Integer> flowerIDCol;
+  @FXML private TableColumn<Flower, String> flowerNameCol;
+  @FXML private TableColumn<Flower, String> flowerRoomCol;
+  @FXML private TableColumn<Flower, String> flowerDateCol;
+  @FXML private TableColumn<Flower, Integer> flowerTimeCol;
+  @FXML private TableColumn<Flower, String> flowerTypeCol;
+  @FXML private TableColumn<Flower, String> flowerCommentCol;
+  @FXML private TableColumn<Flower, String> flowerEmployeeCol;
+  @FXML private TableColumn<Flower, String> flowerStatusCol;
 
   // private CRRRDAOImp cdao = new CRRRDAOImp();
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> roomCol1;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> dateCol1;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> startCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> endCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> commentCol1;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> statusCol1;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrIDCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrNameCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrRoomCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrDateCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrStartCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrEndCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrCommentCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrEmployeeCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrStatusCol;
 
   @FXML
   public void initialize() {
     displayFlowerRequests();
-    displayRoomRequests(databaseRepo.getAllCRRR());
+    displayCRRRRequests();
 
     flowerTable
         .getSelectionModel()
@@ -84,10 +87,17 @@ public class ServiceRequestController extends PageController {
     if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       title.setText("Open Service Requests");
       ArrayList<String> allServiceRequests = new ArrayList<>();
-      // HashMap<Integer, FlowerEntity> flowerRequests = databaseRepo.getFlowerMap();
+      // load flowers
       for (Map.Entry<Integer, Flower> entry : databaseRepo.getFlowerMap().entrySet()) {
         Flower flower = entry.getValue();
         allServiceRequests.add("Flower " + flower.getId());
+      }
+
+      // load CRRRs
+      for (Map.Entry<Integer, ConferenceRoomResRequest> entry :
+          databaseRepo.getCrrrMap().entrySet()) {
+        ConferenceRoomResRequest crrr = entry.getValue();
+        allServiceRequests.add("Conference " + crrr.getId());
       }
 
       ArrayList<String> allEmployeeUsernames = new ArrayList<>();
@@ -131,6 +141,7 @@ public class ServiceRequestController extends PageController {
 
   @FXML
   public void submitStatus() {
+    String status = chooseStatus.getSelectedItem();
     String serviceRequest = chooseServiceRequestStatus.getSelectedItem();
 
     // get the id of the service request
@@ -142,11 +153,21 @@ public class ServiceRequestController extends PageController {
       Flower flower = databaseRepo.getFlower(id);
 
       // update status in the service request
-      flower.setStatus(chooseStatus.getSelectedItem());
+      flower.setStatus(status);
       databaseRepo.updateFlower(flower);
 
       // update display
       displayFlowerRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Conference")) {
+      // use service request type and name to get the service request
+      ConferenceRoomResRequest crrr = databaseRepo.getCRRR(id);
+
+      // update status in the service request
+      crrr.setStatus(status);
+      databaseRepo.updateCRRR(crrr);
+
+      // update display
+      displayCRRRRequests();
     }
   }
 
@@ -169,32 +190,46 @@ public class ServiceRequestController extends PageController {
 
       // update display
       displayFlowerRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Conference")) {
+      // use service request type and name to get the service request
+      ConferenceRoomResRequest crrr = databaseRepo.getCRRR(id);
+
+      // update status in the service request
+      crrr.setEmployee(assignedEmployee);
+      databaseRepo.updateCRRR(crrr);
+
+      // update display
+      displayCRRRRequests();
     }
   }
 
   public void displayFlowerRequests() {
-    idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-    roomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-    timeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    flowerCol.setCellValueFactory(new PropertyValueFactory<>("flowerType"));
-    commentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
-    employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
-    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    flowerIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+    flowerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    flowerRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+    flowerDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    flowerTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+    flowerTypeCol.setCellValueFactory(new PropertyValueFactory<>("flowerType"));
+    flowerCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    flowerEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+    flowerStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
     flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
     flowerTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
-  public void displayRoomRequests(List<ConferenceRoomResRequest> CRRRArrayList) {
-    roomCol1.setCellValueFactory(new PropertyValueFactory<>("room"));
-    dateCol1.setCellValueFactory(new PropertyValueFactory<>("date"));
-    startCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-    endCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-    commentCol1.setCellValueFactory(new PropertyValueFactory<>("comment"));
-    statusCol1.setCellValueFactory(new PropertyValueFactory<>("status"));
+  public void displayCRRRRequests() {
+    crrrIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+    crrrNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    crrrRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+    crrrDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    crrrStartCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+    crrrEndCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+    crrrCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    crrrEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+    crrrStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    roomTable.setItems(FXCollections.observableArrayList(CRRRArrayList));
+    roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
     roomTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 }

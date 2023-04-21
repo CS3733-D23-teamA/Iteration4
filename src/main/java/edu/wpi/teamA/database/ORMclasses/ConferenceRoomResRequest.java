@@ -5,23 +5,35 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ConferenceRoomResRequest {
+  @Getter @Setter private int id;
   @Getter @Setter private String name;
   @Getter @Setter private String room;
   @Getter @Setter private Date date;
   @Getter @Setter private int startTime;
   @Getter @Setter private int endTime;
   @Getter @Setter private String comment;
+  @Getter @Setter private String employee;
   @Getter @Setter private String status;
 
   public ConferenceRoomResRequest(
-      String a, String b, Date c, int d, int e, String f, String status) {
-    this.name = a;
-    this.room = b;
-    this.date = c;
-    this.startTime = d;
-    this.endTime = e;
-    this.comment = f;
-    this.status = "new";
+      int id,
+      String name,
+      String room,
+      Date date,
+      int startTime,
+      int endTime,
+      String comment,
+      String employee,
+      String status) {
+    this.id = id;
+    this.name = name;
+    this.room = room;
+    this.date = date;
+    this.startTime = startTime;
+    this.endTime = endTime;
+    this.comment = comment;
+    this.employee = employee;
+    this.status = status;
   }
 
   public ConferenceRoomResRequest() {

@@ -73,7 +73,7 @@ public class FlowerRequestController extends PageController implements IServiceC
   public void submit() {
     Flower flower =
         new Flower(
-            databaseRepo.getNextID(),
+            databaseRepo.getNextFlowerID(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),

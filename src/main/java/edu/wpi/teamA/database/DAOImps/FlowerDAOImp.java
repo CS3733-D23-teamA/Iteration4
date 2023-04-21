@@ -104,7 +104,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("nodeid,xcoord,ycoord,floor,building\n");
+      csvWriter.append("id,name,room,date,time,flowertype,comment,employee,status\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("id")) + (","));
@@ -127,7 +127,6 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       throw new RuntimeException(e);
     }
   }
-
 
   public void add(Flower flower) {
     /** Insert new node object to the existing node table */
@@ -164,7 +163,6 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     }
   }
 
-
   public void delete(Flower flower) {
 
     try {
@@ -196,7 +194,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, flowerType = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, flowertype = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
@@ -208,9 +206,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       ps.setInt(9, id);
       ps.executeUpdate();
 
-      flowerMap.put(
-          flower.getId(),
-          new Flower(flower.getId(), name, room, date, time, type, comment, employee, status));
+      flowerMap.put(id, new Flower(id, name, room, date, time, type, comment, employee, status));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
