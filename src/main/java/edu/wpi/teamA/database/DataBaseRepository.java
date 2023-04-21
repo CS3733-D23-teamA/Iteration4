@@ -226,8 +226,16 @@ public class DataBaseRepository {
     flowerDAOImpl.updateFlower(flower);
   }
 
+  public void editFlower(FlowerEntity oldFlower, FlowerEntity newFlower) {
+    flowerDAOImpl.editFlower(oldFlower, newFlower);
+  }
+
   public int getNextID() {
     return flowerDAOImpl.getNextID();
+  }
+
+  public List<FlowerEntity> filterFlowerEmployee(String username) {
+    return flowerDAOImpl.filterFlowerEmployee(username);
   }
 
   // Conference room service request related methods

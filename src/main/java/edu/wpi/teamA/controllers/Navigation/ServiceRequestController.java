@@ -2,6 +2,7 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.FlowerSingleton;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.Employee;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
@@ -22,7 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class ServiceRequestController extends PageController {
-
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   // private FlowerDAOImpl fdao = new FlowerDAOImpl();
   @FXML private Text title;
@@ -65,9 +65,8 @@ public class ServiceRequestController extends PageController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                roomTable.getSelectionModel().clearSelection();
-                Navigation.navigate(Screen.FLOWER_REQUEST);
-                FlowerEntity f = newSelection;
+                FlowerSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.FLOWER_EDIT);
               }
             });
     roomTable
@@ -181,9 +180,15 @@ public class ServiceRequestController extends PageController {
     commentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     employeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-    flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
-    flowerTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+      flowerTable.setItems(
+          FXCollections.observableArrayList(
+              databaseRepo.filterFlowerEmployee(
+                  AccountSingleton.INSTANCE1.getValue().getUserName())));
+    } else {
+      flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
+    }
+    flowerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayRoomRequests(List<ConferenceRoomResRequest> CRRRArrayList) {

@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IFlowerDAO;
 import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import lombok.Getter;
@@ -29,17 +30,17 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       while (rs.next()) {
         int id = rs.getInt("id");
-        String namee = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
 
         FlowerEntity flower =
-            new FlowerEntity(id, namee, room, date, time, flowerType, comment, employee, status);
+            new FlowerEntity(id, name, room, date, time, flowerType, comment, employee, status);
         flowerMap.put(id, flower);
       }
     } catch (SQLException e) {
@@ -121,6 +122,19 @@ public class FlowerDAOImpl implements IFlowerDAO {
   }
 
   @Override
+  public void editFlower(FlowerEntity oldFlower, FlowerEntity newFlower) {
+    int id = oldFlower.getId();
+    String employee = oldFlower.getEmployee();
+    String status = oldFlower.getStatus();
+
+    deleteFlower(oldFlower);
+    newFlower.setId(id);
+    newFlower.setStatus(status);
+    newFlower.setEmployee(employee);
+    addFlower(newFlower);
+  }
+
+  @Override
   public FlowerEntity getFlower(int id) {
     return flowerMap.get(id);
   }
@@ -174,10 +188,10 @@ public class FlowerDAOImpl implements IFlowerDAO {
 
       if (rs.next()) {
         int id = rs.getInt("id");
-        String name = rs.getString("namee");
+        String name = rs.getString("name");
         String room = rs.getString("room");
-        Date date = rs.getDate("datee");
-        int time = rs.getInt("timee");
+        Date date = rs.getDate("date");
+        int time = rs.getInt("time");
         String flowerType = rs.getString("flowertype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
@@ -191,5 +205,36 @@ public class FlowerDAOImpl implements IFlowerDAO {
     }
 
     return largestID.getId() + 1;
+  }
+
+  public ArrayList<FlowerEntity> filterFlowerEmployee(String username) {
+    ArrayList<FlowerEntity> flowers = new ArrayList<>();
+    try {
+      PreparedStatement ps =
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Flower\" WHERE employee = ?");
+      ps.setString(1, username);
+      ResultSet rs = ps.executeQuery();
+
+      while (rs.next()) {
+        int a = rs.getInt("id");
+        String b = rs.getString("name");
+        String c = rs.getString("room");
+        Date d = rs.getDate("date");
+        int e = rs.getInt("time");
+        String f = rs.getString("flowerType");
+        String g = rs.getString("comment");
+        String h = rs.getString("employee");
+        String i = rs.getString("status");
+
+        FlowerEntity temp = new FlowerEntity(a, b, c, d, e, f, g, h, i);
+        flowers.add(temp);
+      }
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return flowers;
   }
 }

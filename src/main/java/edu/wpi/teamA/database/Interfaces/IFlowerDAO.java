@@ -11,4 +11,6 @@ public interface IFlowerDAO {
   public void addFlower(FlowerEntity flower);
 
   public void deleteFlower(FlowerEntity flower);
+
+  public void editFlower(FlowerEntity oldFlower, FlowerEntity newFlower);
 }
