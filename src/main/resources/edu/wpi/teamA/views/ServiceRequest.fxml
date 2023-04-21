@@ -112,6 +112,8 @@
                             <RowConstraints maxHeight="843.0" minHeight="0.0" prefHeight="281.1253662109375" vgrow="SOMETIMES" />
                             <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="134.45831298828125" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="134.45831298828125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="272.06072998046875" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -141,8 +143,22 @@
                                     <TableColumn fx:id="crrrStatusCol" prefWidth="141.6795654296875" text="Status" />
                                  </columns>
                               </TableView>
+                              <TableView fx:id="furnitureTable" minHeight="100.0" GridPane.rowIndex="5">
+                                 <columns>
+                                    <TableColumn fx:id="furnitureIDCol" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="furnitureNameCol" prefWidth="129.1107406616211" text="Name" />
+                                    <TableColumn fx:id="furnitureRoomCol" prefWidth="129.1107406616211" text="Room" />
+                                    <TableColumn fx:id="furnitureDateCol" prefWidth="167.4798126220703" text="Date" />
+                                    <TableColumn fx:id="furnitureTimeCol" prefWidth="158.57208251953125" text="Time" />
+                                    <TableColumn fx:id="furnitureTypeCol" prefWidth="240.06204223632812" text="Furniture Type" />
+                                    <TableColumn fx:id="furnitureCommentCol" prefWidth="249.33331298828125" text="Comment" />
+                                    <TableColumn fx:id="furnitureEmployeeCol" minWidth="0.0" prefWidth="180.666748046875" text="Employee" />
+                                    <TableColumn fx:id="furnitureStatusCol" prefWidth="141.6795654296875" text="Status" />
+                                 </columns>
+                              </TableView>
                               <Label style="-fx-font-size: 24;" text="Flower Request" />
                               <Label style="-fx-font-size: 24;" text="Conference Room Request" GridPane.rowIndex="2" />
+                              <Label style="-fx-font-size: 24;" text="Furniture Request" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </children>

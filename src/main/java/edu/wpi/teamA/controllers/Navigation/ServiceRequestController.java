@@ -5,6 +5,7 @@ import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.ORMclasses.Employee;
 import edu.wpi.teamA.database.ORMclasses.Flower;
+import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -23,7 +24,6 @@ import javafx.scene.text.Text;
 public class ServiceRequestController extends PageController {
 
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
-  // private FlowerDAOImpl fdao = new FlowerDAOImpl();
   @FXML private Text title;
   @FXML private MFXComboBox<String> chooseServiceRequestEmployee;
   @FXML private MFXComboBox<String> chooseServiceRequestStatus;
@@ -45,7 +45,6 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<Flower, String> flowerEmployeeCol;
   @FXML private TableColumn<Flower, String> flowerStatusCol;
 
-  // private CRRRDAOImp cdao = new CRRRDAOImp();
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
   @FXML private TableColumn<ConferenceRoomResRequest, String> crrrIDCol;
   @FXML private TableColumn<ConferenceRoomResRequest, String> crrrNameCol;
@@ -57,10 +56,22 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<ConferenceRoomResRequest, String> crrrEmployeeCol;
   @FXML private TableColumn<ConferenceRoomResRequest, String> crrrStatusCol;
 
+  @FXML private TableView<FurnitureRequest> furnitureTable;
+  @FXML private TableColumn<FurnitureRequest, Integer> furnitureIDCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureNameCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureRoomCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureDateCol;
+  @FXML private TableColumn<FurnitureRequest, Integer> furnitureTimeCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureTypeCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureCommentCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureEmployeeCol;
+  @FXML private TableColumn<FurnitureRequest, String> furnitureStatusCol;
+
   @FXML
   public void initialize() {
     displayFlowerRequests();
     displayCRRRRequests();
+    displayFurnitureRequests();
 
     flowerTable
         .getSelectionModel()
@@ -98,6 +109,12 @@ public class ServiceRequestController extends PageController {
           databaseRepo.getCrrrMap().entrySet()) {
         ConferenceRoomResRequest crrr = entry.getValue();
         allServiceRequests.add("Conference " + crrr.getId());
+      }
+
+      // load furniture
+      for (Map.Entry<Integer, FurnitureRequest> entry : databaseRepo.getFurnitureMap().entrySet()) {
+        FurnitureRequest furniture = entry.getValue();
+        allServiceRequests.add("Furniture " + furniture.getId());
       }
 
       ArrayList<String> allEmployeeUsernames = new ArrayList<>();
@@ -168,6 +185,16 @@ public class ServiceRequestController extends PageController {
 
       // update display
       displayCRRRRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Furniture")) {
+      // use service request type and name to get the service request
+      FurnitureRequest furniture = databaseRepo.getFurniture(id);
+
+      // update status in the service request
+      furniture.setStatus(status);
+      databaseRepo.updateFurniture(furniture);
+
+      // update display
+      displayFurnitureRequests();
     }
   }
 
@@ -200,6 +227,16 @@ public class ServiceRequestController extends PageController {
 
       // update display
       displayCRRRRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Furniture")) {
+      // use service request type and name to get the service request
+      FurnitureRequest furniture = databaseRepo.getFurniture(id);
+
+      // update status in the service request
+      furniture.setEmployee(assignedEmployee);
+      databaseRepo.updateFurniture(furniture);
+
+      // update display
+      displayFurnitureRequests();
     }
   }
 
@@ -231,5 +268,21 @@ public class ServiceRequestController extends PageController {
 
     roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
     roomTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+  }
+
+  public void displayFurnitureRequests() {
+    furnitureIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+    furnitureNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    furnitureRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+    furnitureDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    furnitureTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+    furnitureTypeCol.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
+    furnitureCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    furnitureEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+    furnitureStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+    furnitureTable.setItems(
+        FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
+    furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 }

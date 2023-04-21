@@ -264,24 +264,32 @@ public class DataBaseRepository {
   }
 
   // Furniture related methods
-  public ArrayList<FurnitureRequest> getFurnitureArray() {
-    return furnitureDAOImp.getFurnitureArray();
+  public HashMap<Integer, FurnitureRequest> getFurnitureMap() {
+    return furnitureDAOImp.getFurnitureMap();
+  }
+
+  public HashMap<Integer, FurnitureRequest> loadFurnitureFromDatabaseInMap() {
+    return furnitureDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.addFurniture(furniture);
+    furnitureDAOImp.add(furniture);
   }
 
   public void deleteFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.deleteFurniture(furniture);
+    furnitureDAOImp.delete(furniture);
   }
 
   public void updateFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.updateFurniture(furniture);
+    furnitureDAOImp.update(furniture);
   }
 
-  public void editFurniture(FurnitureRequest furniture) {
-    furnitureDAOImp.editFurniture(furniture);
+  public FurnitureRequest getFurniture(int id) {
+    return furnitureDAOImp.getFurniture(id);
+  }
+
+  public int getNextFurnitureID() {
+    return furnitureDAOImp.getNextID();
   }
 
   // user dao functions
