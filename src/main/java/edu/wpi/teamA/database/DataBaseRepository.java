@@ -61,9 +61,9 @@ public class DataBaseRepository {
     return nodeDAOImp.Add(node);
   }
 
-  public void deleteNode(int id) {
-    nodeDAOImp.Delete(id);
-    edgeDAOImp.deleteEdgesWithNode(id);
+  public void deleteNode(Node node) {
+    nodeDAOImp.Delete(node);
+    edgeDAOImp.deleteEdgesWithNode(node);
   }
 
   public void updateNode(Node node) {
@@ -104,7 +104,7 @@ public class DataBaseRepository {
   }
 
   public void updateEdge(Edge edge) {
-    edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
+    //edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
   }
 
   public Edge getEdge(int startNode, int endNode) {

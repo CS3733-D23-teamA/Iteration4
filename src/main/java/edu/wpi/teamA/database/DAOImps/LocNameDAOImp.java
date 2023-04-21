@@ -103,8 +103,7 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
-                .prepareStatement(
-                    "INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
+                .prepareStatement("INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
         ps.setString(1, longName);
         ps.setString(2, shortName);
         ps.setString(3, nodeType);
@@ -154,8 +153,7 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     try {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
+              .prepareStatement("INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
       ps.setString(1, longName);
       ps.setString(2, shortName);
       ps.setString(3, nodetype);

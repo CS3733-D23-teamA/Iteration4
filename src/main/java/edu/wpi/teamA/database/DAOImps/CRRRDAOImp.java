@@ -87,8 +87,7 @@ public class CRRRDAOImp implements ICRRRDAO {
     ArrayList<ConferenceRoomResRequest> tempList = new ArrayList<>();
     try {
       Statement stmt = crrrProvider.createConnection().createStatement();
-      ResultSet rs =
-          stmt.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
 
       while (rs.next()) {
         String namee = rs.getString("name");

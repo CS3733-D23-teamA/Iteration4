@@ -118,8 +118,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       PreparedStatement ps =
           employeeProvider
               .createConnection()
-              .prepareStatement(
-                  "DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
       ps.setString(1, employee.getUsername());
       ps.executeUpdate();
 

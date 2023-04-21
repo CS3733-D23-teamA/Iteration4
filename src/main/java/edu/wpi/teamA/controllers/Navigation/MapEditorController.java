@@ -437,7 +437,9 @@ public class MapEditorController {
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
-    Node node = new Node(currentNodeID, XYCoords[0], XYCoords[1],floorField.getText(), buildingField.getText());
+    Node node =
+        new Node(
+            currentNodeID, XYCoords[0], XYCoords[1], floorField.getText(), buildingField.getText());
     if (modifyNodeClicked) {
       entity.determineModifyAction(
           level,
@@ -451,11 +453,7 @@ public class MapEditorController {
       currentCircle.setDisable(true);
     } else if (addNodeClicked) {
       entity.determineAddAction(
-          level,
-          node,
-          longNameField.getText(),
-          shortNameField.getText(),
-          nodeTypeField.getText());
+          level, node, longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
     }
 
     clear();

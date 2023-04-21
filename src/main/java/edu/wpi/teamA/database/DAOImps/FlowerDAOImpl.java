@@ -12,6 +12,7 @@ import lombok.Setter;
 
 public class FlowerDAOImpl implements IFlowerDAO {
   @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
+
   public FlowerDAOImpl() {
     this.flowerMap = loadFlowersFromDatabaseInMap();
   }
@@ -261,8 +262,7 @@ public class FlowerDAOImpl implements IFlowerDAO {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
-          st.executeQuery(
-              "SELECT * FROM \"Teama_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
+          st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
 
       if (rs.next()) {
         int id = rs.getInt("id");

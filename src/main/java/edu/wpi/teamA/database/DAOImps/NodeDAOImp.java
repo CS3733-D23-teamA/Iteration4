@@ -1,7 +1,6 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.INodeDAO;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,7 +13,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
+public class NodeDAOImp implements IDatabaseDAO {
   // ArrayList<Node> NodeArray;
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
@@ -95,6 +94,7 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     return NodeMap;
   }
 
+  //TODO delete
   public ArrayList<Node> loadNodesFromDatabaseInArray() {
     ArrayList<Node> nodes = new ArrayList<>();
 
@@ -137,8 +137,7 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
-                .prepareStatement(
-                    "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
+                .prepareStatement("INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, nodeID);
         ps.setInt(2, xcoord);
         ps.setInt(3, ycoord);
@@ -186,6 +185,16 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     }
   }
 
+  @Override
+  public void Delete(Object obj) {
+
+  }
+
+  @Override
+  public void Update(Object obj) {
+
+  }
+
   public Node Add(Node node) {
     /* Insert new node object to the existing node table */
     int nodeID = node.getNodeID();
@@ -196,9 +205,8 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     try {
 
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement("INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
       ps.setInt(3, ycoord);
@@ -215,7 +223,6 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     return node;
   }
 
-
   public void Delete(Node node) {
     /* delete one of the node according to the nodeID, also delete the node from the arraylist */
     int nodeID = node.getNodeID();
@@ -224,8 +231,8 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
       edgeDAO.deleteEdgesWithNode(nodeID);
 
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -246,9 +253,9 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     try {
 
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -263,7 +270,6 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     }
   }
 
-
   public Node getNode(int nodeID) {
     return NodeMap.get(nodeID);
   }
@@ -274,8 +280,7 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
-          st.executeQuery(
-              "SELECT * FROM \"Teama_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
+          st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
 
       if (rs.next()) {
         int nodeID = rs.getInt("nodeID");
