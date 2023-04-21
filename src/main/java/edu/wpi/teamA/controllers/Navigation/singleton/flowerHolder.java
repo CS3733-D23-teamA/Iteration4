@@ -1,9 +1,9 @@
 package edu.wpi.teamA.controllers.Navigation.singleton;
 
-import edu.wpi.teamA.database.ORMclasses.FlowerEntity;
+import edu.wpi.teamA.database.ORMclasses.Flower;
 
 public class flowerHolder {
-  private FlowerEntity f;
+  private Flower f;
   private static final flowerHolder INSTANCE = new flowerHolder();
 
   private flowerHolder() {}
@@ -12,11 +12,11 @@ public class flowerHolder {
     return INSTANCE;
   }
 
-  public void setUser(FlowerEntity flower) {
+  public void setUser(Flower flower) {
     this.f = flower;
   }
 
-  public FlowerEntity getUser() {
+  public Flower getUser() {
     return this.f;
   }
 }

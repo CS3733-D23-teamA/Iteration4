@@ -1,8 +1,8 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.MealDAOImpl;
+import edu.wpi.teamA.database.DAOImps.MealDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.MealEntity;
+import edu.wpi.teamA.database.ORMclasses.Meal;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -69,16 +69,18 @@ public class MealRequestController extends PageController implements IServiceCon
   }
 
   public void submit() {
-    MealEntity meal =
-        new MealEntity(
+    Meal meal =
+        new Meal(
+            databaseRepo.getNextMealID(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             convertTime(timeCombo.getText()),
             mealCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
-    MealDAOImpl md = new MealDAOImpl();
+    MealDAOImp md = new MealDAOImp();
     md.add(meal);
     clear();
   }

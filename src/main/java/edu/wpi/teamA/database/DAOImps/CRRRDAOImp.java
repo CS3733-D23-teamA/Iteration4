@@ -1,125 +1,260 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.ICRRRDAO;
+import edu.wpi.teamA.database.Interfaces.IServiceDAO;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class CRRRDAOImp implements ICRRRDAO {
-  @Getter @Setter private ArrayList<ConferenceRoomResRequest> crrrArray;
-  static DBConnectionProvider crrrProvider = new DBConnectionProvider();
+public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
+  @Getter @Setter private HashMap<Integer, ConferenceRoomResRequest> crrrMap = new HashMap<>();
 
   public CRRRDAOImp() {
-    this.crrrArray = new ArrayList<>();
+    this.crrrMap = loadDataFromDatabaseInMap();
   }
 
-  public CRRRDAOImp(ArrayList<ConferenceRoomResRequest> crrrArray) {
-    this.crrrArray = crrrArray;
+  public CRRRDAOImp(HashMap<Integer, ConferenceRoomResRequest> crrrMap) {
+    this.crrrMap = crrrMap;
   }
 
-  public void addCRRR(ConferenceRoomResRequest crrr) {
+  public HashMap<Integer, ConferenceRoomResRequest> loadDataFromDatabaseInMap() {
     try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
+
+      while (rs.next()) {
+        int id = rs.getInt("id");
+        String name = rs.getString("name");
+        String room = rs.getString("room");
+        Date date = rs.getDate("date");
+        int starttime = rs.getInt("starttime");
+        int endtime = rs.getInt("endtime");
+        String comment = rs.getString("comment");
+        String employee = rs.getString("employee");
+        String status = rs.getString("status");
+
+        ConferenceRoomResRequest crrr =
+            new ConferenceRoomResRequest(
+                id, name, room, date, starttime, endtime, comment, employee, status);
+        crrrMap.put(id, crrr);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return crrrMap;
+  }
+
+  public HashMap<Integer, ConferenceRoomResRequest> Import(String filePath) {
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine();
+      String row;
+
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
+
+        int id = Integer.parseInt(data[0]);
+        String name = data[1];
+        String room = data[2];
+        Date date = java.sql.Date.valueOf(data[3]);
+        int starttime = Integer.parseInt(data[4]);
+        int endtime = Integer.parseInt(data[5]);
+        String comment = data[6];
+        String employee = data[7];
+        String status = data[8];
+
+        PreparedStatement ps =
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
+                .prepareStatement(
+                    "INSERT INTO \"Teama_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        ps.setInt(1, id);
+        ps.setString(2, name);
+        ps.setString(3, room);
+        ps.setDate(4, date);
+        ps.setInt(5, starttime);
+        ps.setInt(6, endtime);
+        ps.setString(7, comment);
+        ps.setString(8, employee);
+        ps.setString(9, status);
+        ps.executeUpdate();
+
+        ConferenceRoomResRequest crrr =
+            new ConferenceRoomResRequest(
+                id, name, room, date, starttime, endtime, comment, employee, status);
+        crrrMap.put(id, crrr);
+      }
+      csvReader.close();
+    } catch (SQLException | IOException e) {
+
+      throw new RuntimeException(e);
+    }
+    return crrrMap;
+  }
+
+  public void Export(String folderExportPath) {
+    try {
+      String newFile = folderExportPath + "/CRRR.csv";
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
+
+      FileWriter csvWriter = new FileWriter(newFile);
+
+      csvWriter.append("id,name,room,date,starttime,endtime,comment,employee,status\n");
+
+      while (rs.next()) {
+        csvWriter.append(String.valueOf((rs.getInt("id")))).append(",");
+        csvWriter.append(rs.getString("name")).append(",");
+        csvWriter.append(rs.getString("room")).append(",");
+        csvWriter.append(rs.getString("date")).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("starttime")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("endtime")))).append(",");
+        csvWriter.append(rs.getString("comment")).append(",");
+        csvWriter.append(rs.getString("employee")).append(",");
+        csvWriter.append(rs.getString("status")).append("\n");
+      }
+
+      csvWriter.flush();
+      csvWriter.close();
+
+      System.out.println("CRRR table exported to CRRR.csv");
+
+    } catch (SQLException | IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void add(ConferenceRoomResRequest crrr) {
+    try {
+      int id = crrr.getId();
       String name = crrr.getName();
       String room = crrr.getRoom();
       Date date = crrr.getDate();
       int startTime = crrr.getStartTime();
       int endTime = crrr.getEndTime();
       String comment = crrr.getComment();
+      String employee = crrr.getEmployee();
       String status = crrr.getStatus();
 
-      String sqlCreateTable =
-          "CREATE TABLE IF NOT EXISTS \"Prototype2_schema\".\"ConferenceRoomRequest\""
-              + "(name VARCHAR(600),"
-              + "room VARCHAR(600),"
-              + "date DATE,"
-              + "startTime INT,"
-              + "endTime INT,"
-              + "comment VARCHAR(600),"
-              + "status VARCHAR(600))";
-      Statement stmtCRRR = crrrProvider.createConnection().createStatement();
-      stmtCRRR.execute(sqlCreateTable);
+      PreparedStatement ps =
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "INSERT INTO \"Teama_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      ps.setInt(1, id);
+      ps.setString(2, name);
+      ps.setString(3, room);
+      ps.setDate(4, date);
+      ps.setInt(5, startTime);
+      ps.setInt(6, endTime);
+      ps.setString(7, comment);
+      ps.setString(8, employee);
+      ps.setString(9, status);
+      ps.executeUpdate();
+
+      crrrMap.put(
+          id,
+          new ConferenceRoomResRequest(
+              id, name, room, date, startTime, endTime, comment, employee, status));
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void delete(ConferenceRoomResRequest crrr) {
+    try {
+      PreparedStatement ps =
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "DELETE FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE id = ?");
+      ps.setInt(1, crrr.getId());
+      ps.executeUpdate();
+
+      crrrMap.remove(crrr.getId());
+
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void update(ConferenceRoomResRequest crrr) {
+    try {
+      int id = crrr.getId();
+      String name = crrr.getName();
+      String room = crrr.getRoom();
+      Date date = crrr.getDate();
+      int startTime = crrr.getStartTime();
+      int endTime = crrr.getEndTime();
+      String comment = crrr.getComment();
+      String employee = crrr.getEmployee();
+      String status = crrr.getStatus();
 
       PreparedStatement ps =
-          crrrProvider
-              .createConnection()
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "INSERT INTO \"Prototype2_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?)");
+                  "UPDATE \"Teama_schema\".\"ConferenceRoomRequest\" SET name = ?, room = ?, date = ?, starttime = ?, endtime = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, startTime);
       ps.setInt(5, endTime);
       ps.setString(6, comment);
-      ps.setString(7, status);
+      ps.setString(7, employee);
+      ps.setString(8, status);
+      ps.setInt(9, id);
       ps.executeUpdate();
 
-      crrrArray.add(
-          new ConferenceRoomResRequest(name, room, date, startTime, endTime, comment, status));
-
+      crrrMap.put(
+          id,
+          new ConferenceRoomResRequest(
+              id, name, room, date, startTime, endTime, comment, employee, status));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void deleteCRRR(ConferenceRoomResRequest crrr) {
-    try {
-      PreparedStatement ps =
-          crrrProvider
-              .createConnection()
-              .prepareStatement(
-                  "DELETE FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE name = ?");
-      ps.setString(1, crrr.getName());
-      ps.executeUpdate();
-
-      crrrArray.removeIf(crrrEntity -> crrrEntity.getName().equals(crrr.getName()));
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+  public ConferenceRoomResRequest getCRRR(int id) {
+    return crrrMap.get(id);
   }
 
-  @Override
-  public List<ConferenceRoomResRequest> getAllCRRR() {
-    ArrayList<ConferenceRoomResRequest> tempList = new ArrayList<>();
+  public int getNextID() {
+    ConferenceRoomResRequest largestID = null;
     try {
-      Statement stmt = crrrProvider.createConnection().createStatement();
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
-          stmt.executeQuery("SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\"");
+          st.executeQuery(
+              "SELECT * FROM \"Teama_schema\".\"ConferenceServiceRequest\" ORDER BY id DESC LIMIT 1");
 
-      while (rs.next()) {
-        String namee = rs.getString("name");
+      if (rs.next()) {
+        int id = rs.getInt("id");
+        String name = rs.getString("name");
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int startTime = rs.getInt("starttime");
         int endTime = rs.getInt("endtime");
         String comment = rs.getString("comment");
+        String employee = rs.getString("employee");
         String status = rs.getString("status");
 
-        ConferenceRoomResRequest temp = new ConferenceRoomResRequest();
-        temp.setName(namee);
-        temp.setRoom(room);
-        temp.setDate(date);
-        temp.setStartTime(startTime);
-        temp.setEndTime(endTime);
-        temp.setComment(comment);
-        temp.setStatus(status);
-
-        tempList.add(temp);
+        largestID =
+            new ConferenceRoomResRequest(
+                id, name, room, date, startTime, endTime, comment, employee, status);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return tempList;
-  }
 
-  @Override
-  public ConferenceRoomResRequest getCRRR(String name) {
-    return null;
+    assert largestID != null;
+    return largestID.getId() + 1;
   }
-
-  public void updateCRRR(ConferenceRoomResRequest crrr) {}
 }

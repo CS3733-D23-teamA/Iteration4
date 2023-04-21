@@ -1,6 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.CRRRDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.navigation.Navigation;
@@ -46,21 +45,6 @@ public class ConferenceRequestController extends PageController implements IServ
     roomCombo.getItems().addAll(allRooms);
   }
 
-  @Override
-  public void back() {
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public void clear() {
-    submitButton.setDisable(true);
-    nameField.clear();
-    roomCombo.getSelectionModel().clearSelection();
-    commentField.clear();
-    startCombo.getSelectionModel().clearSelection();
-    endCombo.getSelectionModel().clearSelection();
-    datePicker.setValue(null);
-  }
-
   @FXML
   public void validateButton() {
     if (nameField.getText().isEmpty()
@@ -78,26 +62,38 @@ public class ConferenceRequestController extends PageController implements IServ
     }
   }
 
+  @Override
+  public void back() {
+    Navigation.navigate(Screen.SERVICE_REQUEST);
+  }
+
+  public void clear() {
+    submitButton.setDisable(true);
+    nameField.clear();
+    roomCombo.getSelectionModel().clearSelection();
+    commentField.clear();
+    startCombo.getSelectionModel().clearSelection();
+    endCombo.getSelectionModel().clearSelection();
+    datePicker.setValue(null);
+  }
+
   public void submit() {
     System.out.println("Submit button clicked");
     try {
       ConferenceRoomResRequest crrr =
           new ConferenceRoomResRequest(
+              databaseRepo.getNextCRRRID(),
               nameField.getText(),
               roomCombo.getText(),
               Date.valueOf(datePicker.getValue()),
               convertTime(startCombo.getText()),
               convertTime(endCombo.getText()),
               commentField.getText(),
+              "not assigned",
               "new");
-      System.out.println("ConferenceRoomResRequest created: " + crrr);
 
-      CRRRDAOImp cd = new CRRRDAOImp();
-      cd.addCRRR(crrr);
-      System.out.println("ConferenceRoomResRequest added");
-
+      databaseRepo.addCRRR(crrr);
       clear();
-      System.out.println("Fields cleared");
     } catch (Exception e) {
       e.printStackTrace();
     }
