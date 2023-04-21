@@ -114,6 +114,8 @@
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="134.45831298828125" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="134.45831298828125" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
                               <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="272.06072998046875" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -156,9 +158,23 @@
                                     <TableColumn fx:id="furnitureStatusCol" prefWidth="141.6795654296875" text="Status" />
                                  </columns>
                               </TableView>
+                              <TableView fx:id="mealTable" minHeight="100.0" GridPane.rowIndex="7">
+                                 <columns>
+                                    <TableColumn fx:id="mealIDCol" prefWidth="50.0" text="ID" />
+                                    <TableColumn fx:id="mealNameCol" prefWidth="129.1107406616211" text="Name" />
+                                    <TableColumn fx:id="mealRoomCol" prefWidth="129.1107406616211" text="Room" />
+                                    <TableColumn fx:id="mealDateCol" prefWidth="167.4798126220703" text="Date" />
+                                    <TableColumn fx:id="mealTimeCol" prefWidth="158.57208251953125" text="Time" />
+                                    <TableColumn fx:id="mealTypeCol" prefWidth="240.06204223632812" text="Meal Type" />
+                                    <TableColumn fx:id="mealCommentCol" prefWidth="249.33331298828125" text="Comment" />
+                                    <TableColumn fx:id="mealEmployeeCol" minWidth="0.0" prefWidth="180.666748046875" text="Employee" />
+                                    <TableColumn fx:id="mealStatusCol" prefWidth="141.6795654296875" text="Status" />
+                                 </columns>
+                              </TableView>
                               <Label style="-fx-font-size: 24;" text="Flower Request" />
                               <Label style="-fx-font-size: 24;" text="Conference Room Request" GridPane.rowIndex="2" />
                               <Label style="-fx-font-size: 24;" text="Furniture Request" GridPane.rowIndex="4" />
+                              <Label style="-fx-font-size: 24;" text="Meal Request" GridPane.rowIndex="6" />
                            </children>
                         </GridPane>
                      </children>

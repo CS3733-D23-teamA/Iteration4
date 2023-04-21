@@ -15,6 +15,7 @@ public class DataBaseRepository {
   private FlowerDAOImp flowerDAOImp;
   private CRRRDAOImp crrrDAOImp;
   private FurnitureDAOImp furnitureDAOImp;
+  private MealDAOImp mealDAOImp;
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
 
@@ -26,6 +27,7 @@ public class DataBaseRepository {
     flowerDAOImp = new FlowerDAOImp();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
+    mealDAOImp = new MealDAOImp();
 
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
@@ -290,6 +292,35 @@ public class DataBaseRepository {
 
   public int getNextFurnitureID() {
     return furnitureDAOImp.getNextID();
+  }
+
+  // Meal related methods
+  public HashMap<Integer, Meal> getMealMap() {
+    return mealDAOImp.getMealMap();
+  }
+
+  public HashMap<Integer, Meal> loadMealsFromDatabaseInMap() {
+    return mealDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public void addMeal(Meal meal) {
+    mealDAOImp.add(meal);
+  }
+
+  public void deleteMeal(Meal meal) {
+    mealDAOImp.delete(meal);
+  }
+
+  public void updateMeal(Meal meal) {
+    mealDAOImp.update(meal);
+  }
+
+  public Meal getMeal(int id) {
+    return mealDAOImp.getMeal(id);
+  }
+
+  public int getNextMealID() {
+    return mealDAOImp.getNextID();
   }
 
   // user dao functions

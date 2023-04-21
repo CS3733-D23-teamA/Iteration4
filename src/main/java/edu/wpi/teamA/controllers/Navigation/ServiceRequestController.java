@@ -2,10 +2,7 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
-import edu.wpi.teamA.database.ORMclasses.Employee;
-import edu.wpi.teamA.database.ORMclasses.Flower;
-import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
+import edu.wpi.teamA.database.ORMclasses.*;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -67,11 +64,23 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<FurnitureRequest, String> furnitureEmployeeCol;
   @FXML private TableColumn<FurnitureRequest, String> furnitureStatusCol;
 
+  @FXML private TableView<Meal> mealTable;
+  @FXML private TableColumn<Meal, Integer> mealIDCol;
+  @FXML private TableColumn<Meal, String> mealNameCol;
+  @FXML private TableColumn<Meal, String> mealRoomCol;
+  @FXML private TableColumn<Meal, String> mealDateCol;
+  @FXML private TableColumn<Meal, Integer> mealTimeCol;
+  @FXML private TableColumn<Meal, String> mealTypeCol;
+  @FXML private TableColumn<Meal, String> mealCommentCol;
+  @FXML private TableColumn<Meal, String> mealEmployeeCol;
+  @FXML private TableColumn<Meal, String> mealStatusCol;
+
   @FXML
   public void initialize() {
     displayFlowerRequests();
     displayCRRRRequests();
     displayFurnitureRequests();
+    displayMealRequests();
 
     flowerTable
         .getSelectionModel()
@@ -94,7 +103,6 @@ public class ServiceRequestController extends PageController {
               }
             });
 
-    // TODO ADMIN ONLY
     if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       title.setText("Open Service Requests");
       ArrayList<String> allServiceRequests = new ArrayList<>();
@@ -115,6 +123,12 @@ public class ServiceRequestController extends PageController {
       for (Map.Entry<Integer, FurnitureRequest> entry : databaseRepo.getFurnitureMap().entrySet()) {
         FurnitureRequest furniture = entry.getValue();
         allServiceRequests.add("Furniture " + furniture.getId());
+      }
+
+      // load meals
+      for (Map.Entry<Integer, Meal> entry : databaseRepo.getMealMap().entrySet()) {
+        Meal meal = entry.getValue();
+        allServiceRequests.add("Meal " + meal.getId());
       }
 
       ArrayList<String> allEmployeeUsernames = new ArrayList<>();
@@ -195,6 +209,16 @@ public class ServiceRequestController extends PageController {
 
       // update display
       displayFurnitureRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Meal")) {
+      // use service request type and name to get the service request
+      Meal meal = databaseRepo.getMeal(id);
+
+      // update status in the service request
+      meal.setStatus(status);
+      databaseRepo.updateMeal(meal);
+
+      // update display
+      displayMealRequests();
     }
   }
 
@@ -237,6 +261,16 @@ public class ServiceRequestController extends PageController {
 
       // update display
       displayFurnitureRequests();
+    } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Meal")) {
+      // use service request type and name to get the service request
+      Meal meal = databaseRepo.getMeal(id);
+
+      // update status in the service request
+      meal.setEmployee(assignedEmployee);
+      databaseRepo.updateMeal(meal);
+
+      // update display
+      displayMealRequests();
     }
   }
 
@@ -284,5 +318,20 @@ public class ServiceRequestController extends PageController {
     furnitureTable.setItems(
         FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
     furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+  }
+
+  public void displayMealRequests() {
+    mealIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+    mealNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    mealRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+    mealDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    mealTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
+    mealTypeCol.setCellValueFactory(new PropertyValueFactory<>("mealType"));
+    mealCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    mealEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+    mealStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+    mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
+    mealTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 }
