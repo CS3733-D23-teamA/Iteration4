@@ -1,7 +1,6 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.IMoveDAO;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +14,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MoveDAOImp implements IDatabaseDAO<Move>, IMoveDAO {
+public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
 
@@ -162,11 +161,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move>, IMoveDAO {
   public Move Add(Move move) {
     Integer nodeID = move.getNodeID();
     String longName = move.getLongName();
-    String dateString = String.valueOf(move.getDate());
+    LocalDate localDate = move.getDate();
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-      LocalDate localDate = LocalDate.parse(dateString, formatter);
-
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
@@ -200,21 +196,18 @@ public class MoveDAOImp implements IDatabaseDAO<Move>, IMoveDAO {
     }
   }
 
-  public void Update(int nodeID, String longName, String dateString) {
+  public void Update(Move move) {
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-      LocalDate localDate = LocalDate.parse(dateString, formatter);
-
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ? WHERE nodeid = ?");
-      ps.setString(1, longName);
-      ps.setDate(2, java.sql.Date.valueOf(localDate));
-      ps.setInt(3, nodeID);
+      ps.setString(1, move.getLongName());
+      ps.setDate(2, java.sql.Date.valueOf(move.getDate()));
+      ps.setInt(3, move.getNodeID());
       ps.executeUpdate();
 
-      MoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+      MoveMap.put(move.getNodeID(), move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

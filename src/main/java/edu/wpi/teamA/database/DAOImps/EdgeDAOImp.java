@@ -1,8 +1,8 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.IEdgeDAO;
 import edu.wpi.teamA.database.ORMclasses.Edge;
+import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class EdgeDAOImp implements IDatabaseDAO<Edge>, IEdgeDAO {
+public class EdgeDAOImp implements IDatabaseDAO<Edge> {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
@@ -224,15 +224,13 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge>, IEdgeDAO {
     }
   }
 
-  public void Update(Edge obj) {
-
-  }
+  public void Update(Edge obj) {}
 
   public Edge getEdge(Integer startNode, Integer endNode) {
     return EdgeMap.get(startNode.toString() + endNode.toString());
   }
 
-  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
+  public ArrayList<Edge> deleteEdgesWithNode(Node node) {
     ArrayList<Edge> edgesToRemove = new ArrayList<>();
     HashMap<String, Edge> copiedEdgeMap = new HashMap<>(EdgeMap);
     try {
@@ -240,13 +238,13 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge>, IEdgeDAO {
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"Edge\" WHERE startnode = ? OR endnode = ?");
-      ps.setInt(1, nodeID);
-      ps.setInt(2, nodeID);
+      ps.setInt(1, node.getNodeID());
+      ps.setInt(2, node.getNodeID());
       ps.executeUpdate();
 
       for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
         Edge edge = entry.getValue();
-        if (edge.getStartNode() == nodeID || edge.getEndNode() == nodeID) {
+        if (edge.getStartNode() == node.getNodeID() || edge.getEndNode() == node.getNodeID()) {
           EdgeMap.remove(edge.getStartNode() + edge.getEndNode().toString());
           edgesToRemove.add(edge);
         }

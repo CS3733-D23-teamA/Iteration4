@@ -14,8 +14,6 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.xml.stream.Location;
-
 public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
 
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
@@ -195,9 +193,9 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
     try {
 
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "UPDATE \"Teama_schema\".\"LocationName\" SET shortname = ?, nodetype = ? WHERE longname = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "UPDATE \"Teama_schema\".\"LocationName\" SET shortname = ?, nodetype = ? WHERE longname = ?");
       ps.setString(1, longName);
       ps.setString(2, shortName);
       ps.setString(3, nodeType);
@@ -209,7 +207,6 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
       throw new RuntimeException(e);
     }
   }
-
 
   public LocationName getLocName(String longName) {
     return LocNameMap.get(longName);

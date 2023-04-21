@@ -104,15 +104,15 @@ public class DataBaseRepository {
   }
 
   public void updateEdge(Edge edge) {
-    //edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
+    // edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
   }
 
   public Edge getEdge(int startNode, int endNode) {
     return edgeDAOImp.getEdge(startNode, endNode);
   }
 
-  public ArrayList<Edge> deleteEdgesWithNode(int nodeID) {
-    return edgeDAOImp.deleteEdgesWithNode(nodeID);
+  public ArrayList<Edge> deleteEdgesWithNode(Node node) {
+    return edgeDAOImp.deleteEdgesWithNode(node);
   }
 
   // LocationName related methods
@@ -169,8 +169,8 @@ public class DataBaseRepository {
     moveDAOImp.Delete(move);
   }
 
-  public void updateMove(int nodeID, String longName, String dateString) {
-    moveDAOImp.Update(nodeID, longName, dateString);
+  public void updateMove(Move move) {
+    moveDAOImp.Update(move);
   }
 
   public Move getMove(int nodeID) {

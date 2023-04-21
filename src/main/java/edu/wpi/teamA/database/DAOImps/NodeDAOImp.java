@@ -13,7 +13,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class NodeDAOImp implements IDatabaseDAO {
+public class NodeDAOImp implements IDatabaseDAO<Node> {
   // ArrayList<Node> NodeArray;
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
@@ -94,7 +94,7 @@ public class NodeDAOImp implements IDatabaseDAO {
     return NodeMap;
   }
 
-  //TODO delete
+  // TODO delete
   public ArrayList<Node> loadNodesFromDatabaseInArray() {
     ArrayList<Node> nodes = new ArrayList<>();
 
@@ -185,16 +185,6 @@ public class NodeDAOImp implements IDatabaseDAO {
     }
   }
 
-  @Override
-  public void Delete(Object obj) {
-
-  }
-
-  @Override
-  public void Update(Object obj) {
-
-  }
-
   public Node Add(Node node) {
     /* Insert new node object to the existing node table */
     int nodeID = node.getNodeID();
@@ -228,7 +218,7 @@ public class NodeDAOImp implements IDatabaseDAO {
     int nodeID = node.getNodeID();
     try {
       EdgeDAOImp edgeDAO = new EdgeDAOImp();
-      edgeDAO.deleteEdgesWithNode(nodeID);
+      edgeDAO.deleteEdgesWithNode(node);
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
@@ -263,7 +253,7 @@ public class NodeDAOImp implements IDatabaseDAO {
       ps.setInt(5, nodeID);
       ps.executeUpdate();
 
-      NodeMap.put(nodeID, new Node(nodeID, xcoord, ycoord, floor, building));
+      NodeMap.put(nodeID, node);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

@@ -1,7 +1,5 @@
 package edu.wpi.teamA.database.DAOImps;
 
-import edu.wpi.teamA.database.ORMclasses.Node;
-
 import java.util.HashMap;
 
 public interface IDatabaseDAO<T> {

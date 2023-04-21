@@ -297,6 +297,7 @@ public class MapEditorController {
     }
 
     if (secondNodeClicked) {
+      System.out.println("AHHHH");
       if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
         // add a line for the new edge
         Line line = entity.addLine(firstNode.getNodeID(), nodeID);
@@ -438,22 +439,19 @@ public class MapEditorController {
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
-    Node node = new Node(currentNodeID, XYCoords[0], XYCoords[1],floorField.getText(), buildingField.getText());
-    LocationName locName = new LocationName(longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), String.valueOf(move.getDate()));
+    Node node =
+        new Node(
+            currentNodeID, XYCoords[0], XYCoords[1], floorField.getText(), buildingField.getText());
+    LocationName locName =
+        new LocationName(
+            longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
+    Move move = new Move(currentNodeID, longNameField.getText(), entity.determineLocalDate());
     if (modifyNodeClicked) {
-      entity.determineModifyAction(
-          level,
-          node,
-          locName, move);
+      entity.determineModifyAction(level, node, locName, move);
       currentCircle.setVisible(false);
       currentCircle.setDisable(true);
     } else if (addNodeClicked) {
-      entity.determineAddAction(
-          level,
-          node,
-          locName,
-              move);
+      entity.determineAddAction(level, node, locName, move);
     }
 
     clear();
