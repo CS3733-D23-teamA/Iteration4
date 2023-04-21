@@ -7,6 +7,7 @@ import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +22,7 @@ public class FlowerRequestController extends PageController implements IServiceC
   @FXML private MFXComboBox timeCombo;
   @FXML private MFXComboBox flowerCombo;
   @FXML private MFXTextField commentField;
+  @FXML private MFXGenericDialog confirmationDialog;
 
   // LocNameDAOImp locs = new LocNameDAOImp();
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
@@ -40,6 +42,13 @@ public class FlowerRequestController extends PageController implements IServiceC
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
     Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
   }
 
   @Override
@@ -84,6 +93,8 @@ public class FlowerRequestController extends PageController implements IServiceC
             "new");
     databaseRepo.addFlower(flower);
     clear();
+    confirmationDialog.setVisible(true);
+    confirmationDialog.setDisable(false);
   }
 
   public int convertTime(String time) {
@@ -99,5 +110,11 @@ public class FlowerRequestController extends PageController implements IServiceC
     }
     num = Integer.parseInt(newString);
     return num;
+  }
+
+  @FXML
+  public void closeConfirmation() {
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
   }
 }
