@@ -159,8 +159,10 @@ public class MoveDAOImp implements IDatabaseDAO, IMoveDAO {
   }
 
   /** create a new instance of Move and Insert the new object into database */
-  public Move Add(int nodeID, String longName, String dateString) {
-    Move move = null;
+  public Move Add(Move move) {
+    Integer nodeID = move.getNodeID();
+    String longName = move.getLongName();
+    String dateString = String.valueOf(move.getDate());
     try {
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
       LocalDate localDate = LocalDate.parse(dateString, formatter);

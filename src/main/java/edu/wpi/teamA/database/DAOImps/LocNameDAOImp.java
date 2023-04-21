@@ -147,8 +147,10 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     }
   }
 
-  public LocationName Add(String longName, String shortName, String nodetype) {
-    LocationName locName = null;
+  public LocationName Add(LocationName locName) {
+    String longName = locName.getLongName();
+    String shortName = locName.getShortName();
+    String nodetype = locName.getNodeType();
     try {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
@@ -168,7 +170,8 @@ public class LocNameDAOImp implements IDatabaseDAO, ILocNameDAO {
     return locName;
   }
 
-  public void Delete(String longName) {
+  public void Delete(LocationName locName) {
+    String longName = locName.getLongName();
     try {
 
       PreparedStatement ps =

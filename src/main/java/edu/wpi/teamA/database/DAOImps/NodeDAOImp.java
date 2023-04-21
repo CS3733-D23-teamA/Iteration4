@@ -186,15 +186,19 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     }
   }
 
-  public Node Add(int nodeID, int xcoord, int ycoord, String floor, String building) {
+  public Node Add(Node node) {
     /* Insert new node object to the existing node table */
-    Node node = null;
+    int nodeID = node.getNodeID();
+    int xcoord = node.getXcoord();
+    int ycoord = node.getYcoord();
+    String floor = node.getFloor();
+    String building = node.getBuilding();
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
+              Objects.requireNonNull(DBConnectionProvider.createConnection())
+                      .prepareStatement(
+                              "INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
       ps.setInt(3, ycoord);
@@ -211,15 +215,17 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     return node;
   }
 
-  public void Delete(int nodeID) {
+
+  public void Delete(Node node) {
     /* delete one of the node according to the nodeID, also delete the node from the arraylist */
+    int nodeID = node.getNodeID();
     try {
       EdgeDAOImp edgeDAO = new EdgeDAOImp();
       edgeDAO.deleteEdgesWithNode(nodeID);
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
+              Objects.requireNonNull(DBConnectionProvider.createConnection())
+                      .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -230,14 +236,19 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
     }
   }
 
-  public void Update(int nodeID, int xcoord, int ycoord, String floor, String building) {
+  public void Update(Node node) {
     /* update the node fields in the database and arraylist according to the inserts */
+    int nodeID = node.getNodeID();
+    int xcoord = node.getXcoord();
+    int ycoord = node.getYcoord();
+    String floor = node.getFloor();
+    String building = node.getBuilding();
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
+              Objects.requireNonNull(DBConnectionProvider.createConnection())
+                      .prepareStatement(
+                              "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
       ps.setInt(2, ycoord);
       ps.setString(3, floor);
@@ -251,6 +262,7 @@ public class NodeDAOImp implements IDatabaseDAO, INodeDAO {
       throw new RuntimeException(e);
     }
   }
+
 
   public Node getNode(int nodeID) {
     return NodeMap.get(nodeID);

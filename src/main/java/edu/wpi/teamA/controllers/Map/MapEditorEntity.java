@@ -137,15 +137,11 @@ public class MapEditorEntity {
 
   public void determineAddAction(
       String level,
-      int x,
-      int y,
-      String longName,
-      String shortName,
-      String floor,
-      String building,
-      String nodeType) {
+      Node node,
+      LocationName locName,
+      Move move) {
     int newNodeID = databaseRepo.getLargestNodeID().getNodeID() + 5;
-    Node node = databaseRepo.addNode(newNodeID, x, y, floor, building);
+    databaseRepo.addNode(node);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -156,8 +152,8 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    databaseRepo.addLocName(longName, shortName, nodeType);
-    databaseRepo.addMove(newNodeID, longName, dateString);
+    databaseRepo.addLocName(locName);
+    databaseRepo.addMove(move);
     determineNodeMap(level).put(newNodeID, node);
   }
 
@@ -168,24 +164,20 @@ public class MapEditorEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(nodeID);
-    databaseRepo.deleteLocName(databaseRepo.getMove(nodeID).getLongName());
+    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMove(nodeID).getLongName()));
     databaseRepo.deleteMove(nodeID);
     determineNodeMap(level).remove(nodeID);
   }
 
   public void determineModifyAction(
       String level,
-      int nodeID,
-      int x,
-      int y,
+      Node node,
       String oldLongName,
       String oldShortName,
       String longName,
       String shortName,
-      String floor,
-      String building,
       String nodeType) {
-    databaseRepo.updateNode(nodeID, x, y, floor, building);
+    databaseRepo.updateNode(node);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
     if (month.length() == 1) {
@@ -199,20 +191,21 @@ public class MapEditorEntity {
     databaseRepo.updateLocName(oldLongName, oldShortName, longName, shortName, nodeType);
     databaseRepo.updateMove(nodeID, longName, dateString);
 
-    Node node = databaseRepo.getNode(nodeID);
+     databaseRepo.getNode(nodeID);
     determineNodeMap(level).put(nodeID, node);
   }
 
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
+    Edge edge = new Edge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
     Edge temp = databaseRepo.getEdgeMap().get(key);
     if (!(firstNode.getNodeID().toString().equals(secondNode.getNodeID().toString()))) {
       if (temp == null) { // if there is no edge between the nodes, we must add edges
-        Edge edge = databaseRepo.addEdge(firstNode.getNodeID(), secondNode.getNodeID());
+        databaseRepo.addEdge(edge);
         determineEdgeMap(level).put(key, edge);
         return true;
       } else { // there is an edge, so we must remove the edge
-        databaseRepo.deleteEdge(firstNode.getNodeID(), secondNode.getNodeID());
+        databaseRepo.deleteEdge(edge);
         determineEdgeMap(level).remove(key);
         return false;
       }

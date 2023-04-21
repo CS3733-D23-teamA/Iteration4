@@ -57,8 +57,8 @@ public class DataBaseRepository {
     return nodeDAOImp.loadNodesFromDatabaseInArray();
   }
 
-  public Node addNode(int id, int xcoord, int ycoord, String floor, String building) {
-    return nodeDAOImp.Add(id, xcoord, ycoord, floor, building);
+  public Node addNode(Node node) {
+    return nodeDAOImp.Add(node);
   }
 
   public void deleteNode(int id) {
@@ -66,8 +66,8 @@ public class DataBaseRepository {
     edgeDAOImp.deleteEdgesWithNode(id);
   }
 
-  public void updateNode(int id, int xcoord, int ycoord, String floor, String building) {
-    nodeDAOImp.Update(id, xcoord, ycoord, floor, building);
+  public void updateNode(Node node) {
+    nodeDAOImp.Update(node);
   }
 
   public Node getNode(int id) {
@@ -95,15 +95,15 @@ public class DataBaseRepository {
     return edgeDAOImp.loadEdgesFromDatabaseInArray();
   }
 
-  public Edge addEdge(int startNode, int endNode) {
-    return edgeDAOImp.Add(startNode, endNode);
+  public Edge addEdge(Edge edge) {
+    return edgeDAOImp.Add(edge);
   }
 
-  public void deleteEdge(int startNode, int endNode) {
-    edgeDAOImp.Delete(startNode, endNode);
+  public void deleteEdge(Edge edge) {
+    edgeDAOImp.Delete(edge);
   }
 
-  public void updateEdge(int oldStartNode, int oldEndNode, int newStartNode, int newEndNode) {
+  public void updateEdge(Edge edge) {
     edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
   }
 
@@ -128,12 +128,12 @@ public class DataBaseRepository {
     return locNameDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public void addLocName(String longName, String shortName, String nodeType) {
-    locNameDAOImp.Add(longName, shortName, nodeType);
+  public void addLocName(LocationName locName) {
+    locNameDAOImp.Add(locName);
   }
 
-  public void deleteLocName(String longName) {
-    locNameDAOImp.Delete(longName);
+  public void deleteLocName(LocationName locName) {
+    locNameDAOImp.Delete(locName);
   }
 
   public void updateLocName(
@@ -166,8 +166,8 @@ public class DataBaseRepository {
     return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public void addMove(int nodeID, String longName, String dateString) {
-    moveDAOImp.Add(nodeID, longName, dateString);
+  public void addMove(Move move) {
+    moveDAOImp.Add(move);
   }
 
   public void deleteMove(int nodeID) {

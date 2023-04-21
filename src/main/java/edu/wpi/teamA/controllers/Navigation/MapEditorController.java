@@ -437,31 +437,24 @@ public class MapEditorController {
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
-
+    Node node = new Node(currentNodeID, XYCoords[0], XYCoords[1],floorField.getText(), buildingField.getText());
     if (modifyNodeClicked) {
       entity.determineModifyAction(
           level,
-          currentNodeID,
-          XYCoords[0],
-          XYCoords[1],
+          node,
           oldLongName,
           oldShortName,
           longNameField.getText(),
           shortNameField.getText(),
-          floorField.getText(),
-          buildingField.getText(),
           nodeTypeField.getText());
       currentCircle.setVisible(false);
       currentCircle.setDisable(true);
     } else if (addNodeClicked) {
       entity.determineAddAction(
           level,
-          XYCoords[0],
-          XYCoords[1],
+          node,
           longNameField.getText(),
           shortNameField.getText(),
-          floorField.getText(),
-          buildingField.getText(),
           nodeTypeField.getText());
     }
 

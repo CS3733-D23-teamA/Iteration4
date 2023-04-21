@@ -177,9 +177,11 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     }
   }
 
-  public Edge Add(Integer startNode, Integer endNode) {
+  public Edge Add(Edge edge) {
     /* Insert new edge object to the existing edge table and the arraylist */
-    Edge edge = null;
+    Integer startNode = edge.getStartNode();
+    Integer endNode = edge.getEndNode();
+
     try {
 
       PreparedStatement ps =
@@ -199,10 +201,12 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     return edge;
   }
 
-  public void Delete(Integer startNode, Integer endNode) {
+  public void Delete(Edge edge) {
     /*
      * delete the edge when specified with a composite key (startNode+endNode) and in the arrayList
      */
+    Integer startNode = edge.getStartNode();
+    Integer endNode = edge.getEndNode();
     try {
 
       PreparedStatement ps =
@@ -220,11 +224,14 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     }
   }
 
-  public void Update(int oldStartNode, int oldEndNode, Integer newStartNode, Integer newEndNode) {
+  public void Update(Edge edge) {
     /*
      * update the edge startNode and endNode when specified with a composite key (startNode +
      * ednNode) and In the arrayList
      */
+    Integer newStartNode = edge.getStartNode();
+    Integer newEndNode = edge.getEndNode();
+
     try {
 
       PreparedStatement ps =
