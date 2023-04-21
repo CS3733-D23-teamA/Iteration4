@@ -4,6 +4,7 @@ import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
+import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -438,24 +439,21 @@ public class MapEditorController {
   public void submit() {
     // once submit button has been clicked, update database
     Node node = new Node(currentNodeID, XYCoords[0], XYCoords[1],floorField.getText(), buildingField.getText());
+    LocationName locName = new LocationName(longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
+    Move move = new Move(currentNodeID, longNameField.getText(), String.valueOf(move.getDate()));
     if (modifyNodeClicked) {
       entity.determineModifyAction(
           level,
           node,
-          oldLongName,
-          oldShortName,
-          longNameField.getText(),
-          shortNameField.getText(),
-          nodeTypeField.getText());
+          locName, move);
       currentCircle.setVisible(false);
       currentCircle.setDisable(true);
     } else if (addNodeClicked) {
       entity.determineAddAction(
           level,
           node,
-          longNameField.getText(),
-          shortNameField.getText(),
-          nodeTypeField.getText());
+          locName,
+              move);
     }
 
     clear();

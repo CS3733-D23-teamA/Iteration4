@@ -159,6 +159,7 @@ public class MapEditorEntity {
 
   public void determineRemoveAction(int nodeID, String level) {
     ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(nodeID);
+
     for (Edge edge : edgesToRemove) {
       String key = edge.getStartNode().toString() + edge.getEndNode().toString();
       determineEdgeMap(level).remove(key);
@@ -172,11 +173,8 @@ public class MapEditorEntity {
   public void determineModifyAction(
       String level,
       Node node,
-      String oldLongName,
-      String oldShortName,
-      String longName,
-      String shortName,
-      String nodeType) {
+      LocationName locName,
+      Move move) {
     databaseRepo.updateNode(node);
     String month = Integer.toString(LocalDate.now().getMonthValue());
     String day = Integer.toString(LocalDate.now().getDayOfMonth());
@@ -188,11 +186,11 @@ public class MapEditorEntity {
     }
 
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    databaseRepo.updateLocName(oldLongName, oldShortName, longName, shortName, nodeType);
-    databaseRepo.updateMove(nodeID, longName, dateString);
+    databaseRepo.updateLocName(locName);
+    databaseRepo.updateMove(move.getNodeID(), move.getLongName(), String.valueOf(move.getDate()));
 
-     databaseRepo.getNode(nodeID);
-    determineNodeMap(level).put(nodeID, node);
+     databaseRepo.getNode(node.getNodeID());
+    determineNodeMap(level).put(node.getNodeID(), node);
   }
 
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {

@@ -15,7 +15,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
+public class EdgeDAOImp implements IDatabaseDAO<Edge>, IEdgeDAO {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
@@ -224,31 +224,8 @@ public class EdgeDAOImp implements IDatabaseDAO, IEdgeDAO {
     }
   }
 
-  public void Update(Edge edge) {
-    /*
-     * update the edge startNode and endNode when specified with a composite key (startNode +
-     * ednNode) and In the arrayList
-     */
-    Integer newStartNode = edge.getStartNode();
-    Integer newEndNode = edge.getEndNode();
+  public void Update(Edge obj) {
 
-    try {
-
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Edge\" SET startnode = ?, endnode = ? WHERE startnode = ? AND endnode = ?");
-      ps.setInt(1, newStartNode);
-      ps.setInt(2, newEndNode);
-      ps.setInt(3, oldStartNode);
-      ps.setInt(4, oldEndNode);
-      ps.executeUpdate();
-
-      EdgeMap.put(newStartNode + newEndNode.toString(), new Edge(newStartNode, newEndNode));
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public Edge getEdge(Integer startNode, Integer endNode) {

@@ -103,9 +103,6 @@ public class DataBaseRepository {
     edgeDAOImp.Delete(edge);
   }
 
-  public void updateEdge(Edge edge) {
-    edgeDAOImp.Update(oldStartNode, oldEndNode, newStartNode, newEndNode);
-  }
 
   public Edge getEdge(int startNode, int endNode) {
     return edgeDAOImp.getEdge(startNode, endNode);
@@ -136,13 +133,8 @@ public class DataBaseRepository {
     locNameDAOImp.Delete(locName);
   }
 
-  public void updateLocName(
-      String oldLongName,
-      String oldShortName,
-      String newLongName,
-      String newShortName,
-      String newNodeType) {
-    locNameDAOImp.Update(oldLongName, oldShortName, newLongName, newShortName, newNodeType);
+  public void updateLocName(LocationName locName) {
+    locNameDAOImp.Update(locName);
   }
 
   public LocationName getLocName(String longName) {
@@ -170,8 +162,8 @@ public class DataBaseRepository {
     moveDAOImp.Add(move);
   }
 
-  public void deleteMove(int nodeID) {
-    moveDAOImp.Delete(nodeID);
+  public void deleteMove(Move move) {
+    moveDAOImp.Delete(move);
   }
 
   public void updateMove(int nodeID, String longName, String dateString) {
