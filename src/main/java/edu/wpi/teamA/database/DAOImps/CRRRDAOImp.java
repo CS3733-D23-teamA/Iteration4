@@ -233,7 +233,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
           st.executeQuery(
-              "SELECT * FROM \"Teama_schema\".\"ConferenceServiceRequest\" ORDER BY id DESC LIMIT 1");
+              "SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\" ORDER BY id DESC LIMIT 1");
 
       if (rs.next()) {
         int id = rs.getInt("id");
