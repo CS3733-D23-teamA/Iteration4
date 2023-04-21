@@ -1,27 +1,31 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.MealDAOImpl;
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.MealEntity;
+import edu.wpi.teamA.database.ORMclasses.Meal;
+import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
 public class MealRequestController extends PageController implements IServiceController {
-  @FXML MFXButton submitButton;
-  @FXML MFXTextField nameField;
-  @FXML MFXComboBox<String> roomCombo;
-  @FXML DatePicker datePicker;
-  @FXML MFXComboBox<String> timeCombo;
-  @FXML MFXComboBox<String> mealCombo;
-  @FXML MFXTextField commentField;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXTextField nameField;
+  @FXML private MFXComboBox<String> roomCombo;
+  @FXML private DatePicker datePicker;
+  @FXML private MFXComboBox<String> timeCombo;
+  @FXML private MFXComboBox<String> mealCombo;
+  @FXML private MFXTextField commentField;
+  @FXML private MFXGenericDialog confirmationDialog;
 
+  private final ServiceRequestEntity entity = App.getServiceRequestEntity();
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
@@ -38,6 +42,13 @@ public class MealRequestController extends PageController implements IServiceCon
     allRooms.addAll(databaseRepo.filterLocType("INFO"));
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
     roomCombo.getItems().addAll(allRooms);
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
   }
 
   @Override
@@ -69,32 +80,26 @@ public class MealRequestController extends PageController implements IServiceCon
   }
 
   public void submit() {
-    MealEntity meal =
-        new MealEntity(
+    Meal meal =
+        new Meal(
+            databaseRepo.getNextMealID(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
-            convertTime(timeCombo.getText()),
+            entity.convertTime(timeCombo.getText()),
             mealCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
-    MealDAOImpl md = new MealDAOImpl();
-    md.add(meal);
+    databaseRepo.addMeal(meal);
     clear();
+    confirmationDialog.setVisible(true);
+    confirmationDialog.setDisable(false);
   }
 
-  public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(3);
-    }
-    num = Integer.parseInt(newString);
-    return num;
+  @FXML
+  public void closeConfirmation() {
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
   }
 }
