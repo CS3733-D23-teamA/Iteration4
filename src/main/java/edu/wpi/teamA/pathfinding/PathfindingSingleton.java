@@ -1,23 +1,21 @@
 package edu.wpi.teamA.pathfinding;
 
-import static edu.wpi.teamA.pathfinding.PathfindingAlgorithm.BFS;
-import static edu.wpi.teamA.pathfinding.PathfindingAlgorithm.DFS;
 import static edu.wpi.teamA.pathfinding.PathfindingAlgorithm.ASTAR;
 
 public class PathfindingSingleton {
 
-    private PathfindingAlgorithm algo;
-    private static PathfindingSingleton INSTANCE = new PathfindingSingleton();
+  private static PathfindingAlgorithm algo;
+  private static PathfindingSingleton INSTANCE = new PathfindingSingleton();
 
-    private PathfindingSingleton() {
-        algo = ASTAR;
-    }
+  private PathfindingSingleton() {
+    algo = ASTAR;
+  }
 
-    public void setAlgo(PathfindingAlgorithm algo) {
-        this.algo = algo;
-    }
+  public static void setAlgo(PathfindingAlgorithm algorithm) {
+    algo = algorithm;
+  }
 
-    public PathfindingAlgorithm getAlgo() {
-        return this.algo;
-    }
+  public static PathfindingAlgorithm getAlgo() {
+    return algo;
+  }
 }
