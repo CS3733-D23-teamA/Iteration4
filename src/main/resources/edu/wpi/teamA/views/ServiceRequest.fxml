@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.ServiceRequestController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.ServiceRequestController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
@@ -117,30 +117,19 @@
                            <children>
                               <TableView fx:id="flowerTable" minHeight="100.0" GridPane.rowIndex="1">
                                  <columns>
-                                    <TableColumn fx:id="idCol" prefWidth="64.02249145507812" text="ID" />
-                                    <TableColumn fx:id="roomCol" prefWidth="117.24542236328125" text="Room" />
-                                    <TableColumn fx:id="dateCol" prefWidth="106.36029052734375" text="Date" />
-                                    <TableColumn fx:id="timeCol" prefWidth="105.08856201171875" text="Time" />
-                                    <TableColumn fx:id="flowerCol" prefWidth="136.39349365234375" text="Flower Type" />
-                                    <TableColumn fx:id="commentCol" prefWidth="248.60498046875" text="Comment" />
-                                    <TableColumn fx:id="employeeCol" minWidth="0.0" prefWidth="129.8377685546875" text="Employee" />
-                                    <TableColumn fx:id="statusCol" prefWidth="172.5968017578125" text="Status" />
-                                 </columns>
-                              </TableView>
-                              <TableView fx:id="roomTable" minHeight="100.0" GridPane.rowIndex="3">
-                                 <columns>
-                                    <TableColumn fx:id="roomCol1" prefWidth="129.1107406616211" text="Room" />
-                                    <TableColumn fx:id="dateCol1" prefWidth="167.4798126220703" text="Date" />
-                                    <TableColumn fx:id="startCol" prefWidth="182.11627197265625" text="Start Time" />
-                                    <TableColumn fx:id="endCol" prefWidth="217.38381958007812" text="End Time" />
-                                    <TableColumn fx:id="commentCol1" prefWidth="360.85418701171875" text="Comment" />
-                                    <TableColumn minWidth="0.0" prefWidth="68.3892822265625" />
-                                    <TableColumn fx:id="statusCol1" prefWidth="141.6795654296875" text="Status" />
-                                    <TableColumn fx:id="actionCol1" prefWidth="311.0" text="Actions" />
+                                    <TableColumn fx:id="flowerIDCol" prefWidth="64.02249145507812" text="ID" />
+                                    <TableColumn fx:id="flowerNameCol" prefWidth="131.48492431640625" text="Name" />
+                                    <TableColumn fx:id="flowerRoomCol" prefWidth="68.01507568359375" text="Room" />
+                                    <TableColumn fx:id="flowerDateCol" prefWidth="71.46612548828125" text="Date" />
+                                    <TableColumn fx:id="flowerTimeCol" prefWidth="54.81158447265625" text="Time" />
+                                    <TableColumn fx:id="flowerTypeCol" prefWidth="120.31829833984375" text="Flower Type" />
+                                    <TableColumn fx:id="flowerCommentCol" minWidth="0.0" prefWidth="276.3992919921875" text="Comment" />
+                                    <TableColumn fx:id="flowerEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
+                                    <TableColumn fx:id="flowerCreatorCol" prefWidth="117.1685791015625" text="Creator" />
+                                    <TableColumn fx:id="flowerStatusCol" prefWidth="108.0830078125" text="Status" />
                                  </columns>
                               </TableView>
                               <Label style="-fx-font-size: 24;" text="Flower Request" />
-                              <Label style="-fx-font-size: 24;" text="Conference Room Request" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>

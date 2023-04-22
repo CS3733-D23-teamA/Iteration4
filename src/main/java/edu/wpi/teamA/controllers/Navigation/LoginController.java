@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.AccountSingleton;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.UserDAOImp;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.navigation.Navigation;

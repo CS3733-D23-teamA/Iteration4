@@ -1,6 +1,8 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.controllers.Navigation.PageController;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
@@ -99,7 +101,8 @@ public class ConferenceRequestController extends PageController implements IServ
               entity.convertTime(endCombo.getText()),
               commentField.getText(),
               "not assigned",
-              "new");
+              "new",
+                  AccountSingleton.INSTANCE1.getValue().getUserName());
 
       databaseRepo.addCRRR(crrr);
       clear();

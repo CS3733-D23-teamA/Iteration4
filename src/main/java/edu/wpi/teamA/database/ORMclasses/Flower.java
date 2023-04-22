@@ -14,6 +14,7 @@ public class Flower {
   @Getter @Setter private String comment;
   @Getter @Setter private String employee;
   @Getter @Setter private String status;
+  @Getter @Setter private String creator;
 
   public Flower(
       int id,
@@ -24,7 +25,8 @@ public class Flower {
       String flowerType,
       String comment,
       String employee,
-      String status) {
+      String status,
+      String creator) {
     this.id = id;
     this.name = name;
     this.room = room;
@@ -34,6 +36,7 @@ public class Flower {
     this.comment = comment;
     this.employee = employee;
     this.status = status;
+    this.creator = creator;
   }
 
   public Flower() {
@@ -45,5 +48,6 @@ public class Flower {
     this.flowerType = null;
     this.comment = null;
     this.status = null;
+    this.creator = null;
   }
 }
