@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DataBaseRepository {
 
@@ -18,6 +19,7 @@ public class DataBaseRepository {
   private MealDAOImp mealDAOImp;
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
+  private SignageDAOImp signageDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
@@ -366,5 +368,30 @@ public class DataBaseRepository {
 
   public void removeEmployee(Employee employee) {
     employeeDAOImp.removeEmployee(employee);
+  }
+
+
+  public HashMap<String, SignageComponent> getSignageMap() {
+    return signageDAOImp.getSignageMap();
+  }
+
+  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+    return signageDAOImp.loadSignagesFromDatabaseInMap();
+  }
+
+  public SignageComponent getSignage(String locationName) {
+    return signageDAOImp.getSignage(locationName);
+  }
+
+  public void modifySignage(SignageComponent signage) {
+    signageDAOImp.modifySignage(signage);
+  }
+
+  public void addSignage(SignageComponent signage) {
+    signageDAOImp.addSignage(signage);
+  }
+
+  public void removeSignage(SignageComponent signage) {
+    signageDAOImp.removeSignage(signage);
   }
 }

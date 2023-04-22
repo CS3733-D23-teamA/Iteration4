@@ -32,9 +32,9 @@ public class EmployeeSettingsController {
   @FXML private MFXButton modifyButton;
 
   @FXML private TableView<Employee> employeeTableView;
-  @FXML private TableColumn<Flower, String> nameCol;
-  @FXML private TableColumn<Flower, String> userCol;
-  @FXML private TableColumn<Flower, String> passCol;
+  @FXML private TableColumn<Employee, String> nameCol;
+  @FXML private TableColumn<Employee, String> userCol;
+  @FXML private TableColumn<Employee, String> passCol;
 
   public void initialize() {
     ArrayList<String> allEmployeeUsernames = new ArrayList<>();

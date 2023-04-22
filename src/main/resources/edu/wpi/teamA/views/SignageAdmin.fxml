@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.SignageController">
+   <top>
+       <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+   </top>
+   <center>
+      <ScrollPane fitToWidth="true" BorderPane.alignment="TOP_CENTER">
+         <content>
+            <VBox alignment="TOP_CENTER" spacing="50.0">
+               <children>
+                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Add Signage" />
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
+                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
+                                    <MFXTextField fx:id="directionAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                                    <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                 <children>
+                                    <MFXButton fx:id="addButton" onAction="#addSignage" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Add" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="-40.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Remove Signage" />
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
+                                    <MFXFilterComboBox fx:id="chooseEmployeeRemove" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                 <children>
+                                    <MFXButton fx:id="removeButton" onAction="#removeSignage" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Remove" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="-40.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label text="Modify Signage" />
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
+                                    <MFXFilterComboBox fx:id="chooseEmployeeModify" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
+                                    <MFXTextField fx:id="modifyNameInput" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                                    <DatePicker fx:id="modifyDateInput" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                 <children>
+                                    <MFXButton fx:id="modifyButton" onAction="#modifySignage" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Modify" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="-40.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox spacing="30.0">
+                     <children>
+                        <Label text="Current Signages" />
+                        <TableView fx:id="employeeTableView" prefHeight="400.0" prefWidth="1140.0">
+                           <columns>
+                              <TableColumn fx:id="locationNameCol" minWidth="200.0" prefWidth="380.0" text="Location Name" />
+                              <TableColumn fx:id="directionCol" minWidth="200.0" prefWidth="380.0" text="Direction" />
+                              <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="380.0" text="Date" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+         </padding>
+      </ScrollPane>
+   </center>
+</BorderPane>
