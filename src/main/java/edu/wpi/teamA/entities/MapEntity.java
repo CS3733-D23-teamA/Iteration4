@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
+import net.kurobako.gesturefx.GesturePane;
 
 public class MapEntity {
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
@@ -104,10 +105,20 @@ public class MapEntity {
     }
   }
 
-  public Circle addCircle(double X, double Y) {
+  public Circle addTempCircle(double X, double Y) {
     Circle circle = new Circle();
     circle.setCenterX(X);
     circle.setCenterY(Y);
+    circle.setFill(Color.web("0xf74c4c"));
+    circle.setRadius(10);
+    circle.setVisible(true);
+    return circle;
+  }
+
+  public Circle addCircle(GesturePane mapGesturePane, Node node) {
+    Circle circle = new Circle();
+    circle.setCenterX(node.getXcoord());
+    circle.setCenterY(node.getYcoord());
     circle.setFill(Color.web("0x012D5A"));
     circle.setRadius(10);
     circle.setVisible(true);
@@ -115,19 +126,29 @@ public class MapEntity {
     //    DraggableMaker draggableMaker = new DraggableMaker();
     //    draggableMaker.makeDraggable(circle);
 
+    circle.setOnMousePressed(
+        mouseEvent -> {
+          mapGesturePane.setGestureEnabled(false);
+        });
     circle.setOnMouseDragged(
         mouseEvent -> {
           circle.setCenterX(mouseEvent.getX());
           circle.setCenterY(mouseEvent.getY());
         });
 
-    circle.setOnMouseReleased(
-        mouseEvent -> {
-          System.out.println(circle.getCenterX());
-          System.out.println(circle.getCenterY());
-        });
-
     return circle;
+  }
+
+  public void dragReleased(Circle circle, Node node, GesturePane mapGesturePane) {
+    node.setXcoord((int) circle.getCenterX());
+    node.setYcoord((int) circle.getCenterY());
+    mapGesturePane.setGestureEnabled(true);
+    // update database and big hashmap
+    Move move = databaseRepo.getMove(node.getNodeID());
+    determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
+    // update level hashmap
+    // determineNodeMap(node.getFloor()).remove(node.getNodeID());
+    determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
   }
 
   public Text addText(Node node) {

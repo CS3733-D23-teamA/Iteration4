@@ -94,7 +94,7 @@ public class MapEditorController {
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
-    mapGesturePane.setGestureEnabled(false);
+    mapGesturePane.setGestureEnabled(true);
     // set up level buttons
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
@@ -207,7 +207,15 @@ public class MapEditorController {
       // Group g = new Group();
       Node node = entry.getValue();
       if (node != null) {
-        Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
+        Circle circle = entity.addCircle(mapGesturePane, node);
+        circle.setOnMouseReleased(
+            mouseEvent -> {
+              entity.dragReleased(circle, node, mapGesturePane);
+              topPane.getChildren().clear();
+              displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+              displayNodeData(entity.determineNodeMap(node.getFloor()));
+            });
+
         circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
         circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
         circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
@@ -513,8 +521,7 @@ public class MapEditorController {
             XYCoords[1] = (int) (Y);
             // new red circle indicating new location
 
-            Circle circle = entity.addCircle(X, Y);
-            circle.setFill(Color.web("0xf74c4c"));
+            Circle circle = entity.addTempCircle(X, Y);
             topPane.getChildren().add(circle);
             currentPositionClicked = circle;
             validateButton();
