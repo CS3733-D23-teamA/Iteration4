@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class ConferenceRoomResRequest {
-  @Getter @Setter private int id;
-  @Getter @Setter private String name;
-  @Getter @Setter private String room;
-  @Getter @Setter private Date date;
-  @Getter @Setter private int startTime;
-  @Getter @Setter private int endTime;
-  @Getter @Setter private String comment;
-  @Getter @Setter private String employee;
-  @Getter @Setter private String status;
+  @Getter @Setter int id;
+  @Getter @Setter String name;
+  @Getter @Setter String room;
+  @Getter @Setter Date date;
+  @Getter @Setter int startTime;
+  @Getter @Setter int endTime;
+  @Getter @Setter String comment;
+  @Getter @Setter String employee;
+  @Getter @Setter String status;
 
   public ConferenceRoomResRequest(
       int id,

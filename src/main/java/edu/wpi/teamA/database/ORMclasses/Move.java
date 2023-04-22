@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Move {
-  @Getter @Setter private Integer nodeID;
+  @Getter @Setter Integer nodeID;
 
-  @Getter @Setter private String longName;
+  @Getter @Setter String longName;
 
-  @Getter @Setter private LocalDate date;
+  @Getter @Setter LocalDate date;
 
   public Move(Integer nodeID, String longName, LocalDate date) {
     this.nodeID = nodeID;
