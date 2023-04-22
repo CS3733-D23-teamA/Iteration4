@@ -1,11 +1,11 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.entities.MapEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -29,7 +29,7 @@ import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  private final MapEditorEntity entity = App.getMapEditorEntity();
+  private final MapEntity entity = App.getMapEntity();
 
   // larger panes
   @FXML private ImageView mapImageView = new ImageView();
@@ -94,6 +94,7 @@ public class MapEditorController {
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
+    mapGesturePane.setGestureEnabled(false);
     // set up level buttons
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));

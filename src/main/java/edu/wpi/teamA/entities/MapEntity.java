@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers.Map;
+package edu.wpi.teamA.entities;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
@@ -21,7 +21,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
 
-public class MapEditorEntity {
+public class MapEntity {
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
@@ -111,6 +111,22 @@ public class MapEditorEntity {
     circle.setFill(Color.web("0x012D5A"));
     circle.setRadius(10);
     circle.setVisible(true);
+
+    //    DraggableMaker draggableMaker = new DraggableMaker();
+    //    draggableMaker.makeDraggable(circle);
+
+    circle.setOnMouseDragged(
+        mouseEvent -> {
+          circle.setCenterX(mouseEvent.getX());
+          circle.setCenterY(mouseEvent.getY());
+        });
+
+    circle.setOnMouseReleased(
+        mouseEvent -> {
+          System.out.println(circle.getCenterX());
+          System.out.println(circle.getCenterY());
+        });
+
     return circle;
   }
 

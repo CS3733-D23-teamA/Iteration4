@@ -2,10 +2,10 @@ package edu.wpi.teamA;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.entities.MapEntity;
 import java.util.HashMap;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 
 public class mapEntityTest {
   private NodeDAOImp nodeDAO = new NodeDAOImp();
-  MapEditorEntity MEEntity = new MapEditorEntity();
+  MapEntity MEEntity = new MapEntity();
   HashMap<Integer, Node> testNodeMap = new HashMap<Integer, Node>();
 
   // L1
@@ -76,7 +76,7 @@ public class mapEntityTest {
 
   @Test
   public void testLoadFloorNodes() {
-    MapEditorEntity MEEntity = new MapEditorEntity();
+    MapEntity MEEntity = new MapEntity();
     MEEntity.loadFloorNodes();
     HashMap<Integer, Node> FloorL1 = MEEntity.getLevelL1NodeMap();
     for (Node node : FloorL1.values()) {
@@ -102,7 +102,7 @@ public class mapEntityTest {
 
   @Test
   public void testLoadFloorEdges() {
-    MapEditorEntity MEEntity = new MapEditorEntity();
+    MapEntity MEEntity = new MapEntity();
     MEEntity.loadFloorEdges();
     HashMap<String, Edge> FloorL1 = MEEntity.getLevelL1EdgeMap();
     for (Edge edge : FloorL1.values()) {
