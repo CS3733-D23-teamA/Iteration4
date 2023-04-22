@@ -1,7 +1,7 @@
 package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.Interfaces.IMoveDAO;
+import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,13 +10,12 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MoveDAOImp implements IDataBase, IMoveDAO {
+public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
 
@@ -25,34 +24,23 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
   }
 
   public MoveDAOImp() {
-    this.MoveMap = loadMovesFromDatabaseInMap();
+    this.MoveMap = loadDataFromDatabaseInMap();
   }
 
-  public static void createSchema() {
-    try {
-      Statement stmtSchema =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
-      stmtSchema.execute(sqlCreateSchema);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  public static void createTable() {
+  public void createTable() {
     try {
       String sqlCreateEdge =
-          "Create Table if not exists \"Prototype2_schema\".\"Move\""
+          "Create Table if not exists \"Teama_schema\".\"Move\""
               + "(nodeID   int PRIMARY KEY,"
               + "longName  Varchar(600),"
               + "localDate     date,"
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
-              + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
+              + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
               + "ON DELETE CASCADE,"
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
-              + "REFERENCES \"Prototype2_schema\".\"LocationName\"(longname)"
+              + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
               + "ON UPDATE CASCADE)";
       Statement stmtMove =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -62,12 +50,31 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  public static HashMap<Integer, Move> loadMovesFromCSV(String filePath) {
-    HashMap<Integer, Move> moves = new HashMap<>();
+  public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
+      while (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        String longName = rs.getString("longName");
+        LocalDate localDate = rs.getDate("localDate").toLocalDate();
+
+        Move move = new Move(nodeID, longName, localDate);
+        MoveMap.put(move.getNodeID(), move);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return MoveMap;
+  }
+
+  public HashMap<Integer, Move> Import(String filePath) {
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine(); // Skip the header line
+      csvReader.readLine();
       String row;
 
       while ((row = csvReader.readLine()) != null) {
@@ -78,39 +85,16 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
         LocalDate localDate = LocalDate.parse(data[2], formatter);
 
-        Move move = new Move(nodeID, longName, localDate);
-        moves.put(nodeID, move);
-      }
-
-      csvReader.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-
-    return moves;
-  }
-
-  public static HashMap<Integer, Move> Import(String filePath) {
-    MoveDAOImp.createSchema();
-    HashMap<Integer, Move> MoveMap = loadMovesFromCSV(filePath);
-
-    try {
-      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
-      csvReader.readLine();
-      String row;
-
-      while ((row = csvReader.readLine()) != null) {
-        String[] data = row.split(",");
-
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
-                .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
-        ps.setInt(1, Integer.parseInt(data[0]));
-        ps.setString(2, data[1]);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
-        LocalDate localDate = LocalDate.parse(data[2], formatter);
+                .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
+        ps.setInt(1, nodeID);
+        ps.setString(2, longName);
         ps.setDate(3, java.sql.Date.valueOf(localDate));
         ps.executeUpdate();
+
+        Move move = new Move(nodeID, longName, localDate);
+        MoveMap.put(nodeID, move);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {
@@ -120,12 +104,12 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     return MoveMap;
   }
 
-  public static void Export(String filePath) {
+  public void Export(String filePath) {
     try {
       String newFile = filePath + "/Move.csv";
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
       csvWriter.append("nodeid,longname,localdate\n");
@@ -146,60 +130,15 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  public ArrayList<Move> loadMovesFromDatabase() {
-    ArrayList<Move> moves = new ArrayList<>();
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
-
-      while (rs.next()) {
-        int nodeID = rs.getInt("nodeID");
-        String longName = rs.getString("longName");
-        LocalDate localDate = rs.getDate("localDate").toLocalDate();
-
-        Move move = new Move(nodeID, longName, localDate);
-        moves.add(move);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return moves;
-  }
-
-  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs = st.executeQuery("SELECT * FROM \"Prototype2_schema\".\"Move\"");
-
-      while (rs.next()) {
-        int nodeID = rs.getInt("nodeID");
-        String longName = rs.getString("longName");
-        LocalDate localDate = rs.getDate("localDate").toLocalDate();
-
-        Move move = new Move(nodeID, longName, localDate);
-        MoveMap.put(move.getNodeID(), move);
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-
-    return MoveMap;
-  }
-
   /** create a new instance of Move and Insert the new object into database */
-  public Move Add(int nodeID, String longName, String dateString) {
-    Move move = null;
+  public Move Add(Move move) {
+    Integer nodeID = move.getNodeID();
+    String longName = move.getLongName();
+    LocalDate localDate = move.getDate();
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-      LocalDate localDate = LocalDate.parse(dateString, formatter);
-
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("INSERT INTO \"Prototype2_schema\".\"Move\" VALUES (?, ?, ?)");
+              .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
       ps.setDate(3, java.sql.Date.valueOf(localDate));
@@ -213,12 +152,13 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     return move;
   }
 
-  public void Delete(int nodeID) {
+  public void Delete(Move move) {
+    Integer nodeID = move.getNodeID();
     try {
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("DELETE FROM \"Prototype2_schema\".\"Move\" WHERE nodeid = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
 
@@ -229,21 +169,18 @@ public class MoveDAOImp implements IDataBase, IMoveDAO {
     }
   }
 
-  public void Update(int nodeID, String longName, String dateString) {
+  public void Update(Move move) {
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-      LocalDate localDate = LocalDate.parse(dateString, formatter);
-
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Prototype2_schema\".\"Move\" SET longname = ?, localdate = ? WHERE nodeid = ?");
-      ps.setString(1, longName);
-      ps.setDate(2, java.sql.Date.valueOf(localDate));
-      ps.setInt(3, nodeID);
+                  "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ? WHERE nodeid = ?");
+      ps.setString(1, move.getLongName());
+      ps.setDate(2, java.sql.Date.valueOf(move.getDate()));
+      ps.setInt(3, move.getNodeID());
       ps.executeUpdate();
 
-      MoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+      MoveMap.put(move.getNodeID(), move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

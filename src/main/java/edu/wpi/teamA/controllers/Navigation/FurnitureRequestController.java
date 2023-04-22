@@ -1,13 +1,15 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.FurnitureDAOImp;
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
+import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -17,13 +19,15 @@ public class FurnitureRequestController extends PageController implements IServi
 
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox roomComboBox;
-
+  @FXML private MFXComboBox<String> roomComboBox;
   @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox timeCombo;
-  @FXML private MFXComboBox furnitureCombo;
+  @FXML private MFXComboBox<String> timeCombo;
+  @FXML private MFXComboBox<String> furnitureCombo;
   @FXML private MFXTextField commentField;
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  @FXML private MFXGenericDialog confirmationDialog;
+
+  private final ServiceRequestEntity entity = App.getServiceRequestEntity();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
     furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
@@ -40,6 +44,13 @@ public class FurnitureRequestController extends PageController implements IServi
     rooms.addAll(databaseRepo.filterLocType("LABS"));
     rooms.addAll(databaseRepo.filterLocType("REST"));
     roomComboBox.getItems().addAll(rooms);
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
   }
 
   @Override
@@ -73,30 +84,24 @@ public class FurnitureRequestController extends PageController implements IServi
   public void submit() {
     FurnitureRequest furniture =
         new FurnitureRequest(
+            databaseRepo.getNextFurnitureID(),
             nameField.getText(),
             roomComboBox.getText(),
             Date.valueOf(datePicker.getValue()),
-            convertTime(timeCombo.getText()),
+            entity.convertTime(timeCombo.getText()),
             furnitureCombo.getText(),
             commentField.getText(),
+            "not assigned",
             "new");
-    FurnitureDAOImp fd = new FurnitureDAOImp();
-    fd.addFurniture(furniture);
+    databaseRepo.addFurniture(furniture);
     clear();
+    confirmationDialog.setVisible(true);
+    confirmationDialog.setDisable(false);
   }
 
-  public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(2);
-    }
-    num = Integer.parseInt(newString);
-    return num;
+  @FXML
+  public void closeConfirmation() {
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
   }
 }
