@@ -2,9 +2,7 @@ package edu.wpi.teamA.database.Interfaces;
 
 import java.util.HashMap;
 
-public interface IServiceDAO<T> {
-
-  HashMap map = new HashMap<>();
+public interface IDatabaseDAO<T> {
 
   HashMap loadDataFromDatabaseInMap();
 
@@ -12,9 +10,9 @@ public interface IServiceDAO<T> {
 
   void Export(String filepath);
 
-  void add(T obj);
+  T Add(T obj);
 
-  void delete(T obj);
+  void Delete(T obj);
 
-  void update(T obj);
+  void Update(T obj);
 }

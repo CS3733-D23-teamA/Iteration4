@@ -10,7 +10,7 @@ public class Adb {
   public static void createSchema() {
     try {
       Statement stmtSchema = mainProvider.createConnection().createStatement();
-      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Prototype2_schema\"";
+      String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Teama_schema\"";
       stmtSchema.execute(sqlCreateSchema);
     } catch (SQLException e) {
       throw new RuntimeException(e);
