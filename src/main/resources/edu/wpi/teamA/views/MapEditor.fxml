@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
@@ -265,6 +266,7 @@
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
+                              <MFXToggleButton fx:id="locationNameToggle" contentDisplay="GRAPHIC_ONLY" contentDisposition="CENTER" ellipsisString="" graphicTextGap="0.0" onMouseClicked="#changeLocationNameDisplay" style="-fx-background-color: #f1f1f1;" textAlignment="CENTER" textOverrun="CLIP" />
                               <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
                                  <font>
                                     <Font name="Open Sans Regular" size="20.0" />

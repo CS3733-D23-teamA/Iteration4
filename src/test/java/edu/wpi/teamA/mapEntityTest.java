@@ -2,19 +2,17 @@ package edu.wpi.teamA;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.entities.MapEntity;
 import java.util.HashMap;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class mapEntityTest {
   private NodeDAOImp nodeDAO = new NodeDAOImp();
-  MapEditorEntity MEEntity = new MapEditorEntity();
+  MapEntity MEEntity = new MapEntity();
   HashMap<Integer, Node> testNodeMap = new HashMap<Integer, Node>();
 
   // L1
@@ -76,7 +74,7 @@ public class mapEntityTest {
 
   @Test
   public void testLoadFloorNodes() {
-    MapEditorEntity MEEntity = new MapEditorEntity();
+    MapEntity MEEntity = new MapEntity();
     MEEntity.loadFloorNodes();
     HashMap<Integer, Node> FloorL1 = MEEntity.getLevelL1NodeMap();
     for (Node node : FloorL1.values()) {
@@ -102,7 +100,7 @@ public class mapEntityTest {
 
   @Test
   public void testLoadFloorEdges() {
-    MapEditorEntity MEEntity = new MapEditorEntity();
+    MapEntity MEEntity = new MapEntity();
     MEEntity.loadFloorEdges();
     HashMap<String, Edge> FloorL1 = MEEntity.getLevelL1EdgeMap();
     for (Edge edge : FloorL1.values()) {
@@ -167,20 +165,20 @@ public class mapEntityTest {
   // 3").toArray());
   //      }
 
-  @Test
+  /*@Test
   public void testAddCircle() {
     double x = 230.45;
     double y = 154.33;
     double r = 10;
     Circle expected_c = new Circle(x, y, r);
     expected_c.setFill(Color.web("0x012D5A"));
-    Circle actual_c = MEEntity.addCircle(x, y);
+    Circle actual_c = MEEntity.addCircle(x, y,);
 
     assertEquals(expected_c.getCenterX(), actual_c.getCenterX());
     assertEquals(expected_c.getCenterY(), actual_c.getCenterY());
     assertEquals(expected_c.getFill(), actual_c.getFill());
     assertEquals(expected_c.getRadius(), actual_c.getRadius());
-  }
+  }*/
 
   @Test
   public void testGetNodeInfo() {

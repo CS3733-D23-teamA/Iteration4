@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers.Map;
+package edu.wpi.teamA.entities;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
@@ -15,11 +15,14 @@ import java.util.Map;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import lombok.Getter;
+import net.kurobako.gesturefx.GesturePane;
 
-public class MapEditorEntity {
+public class MapEntity {
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
@@ -102,14 +105,62 @@ public class MapEditorEntity {
     }
   }
 
-  public Circle addCircle(double X, double Y) {
+  public Circle addTempCircle(double X, double Y) {
     Circle circle = new Circle();
     circle.setCenterX(X);
     circle.setCenterY(Y);
-    circle.setFill(Color.web("0x012D5A"));
+    circle.setFill(Color.web("0xf74c4c"));
     circle.setRadius(10);
     circle.setVisible(true);
     return circle;
+  }
+
+  public Circle addCircle(GesturePane mapGesturePane, Node node) {
+    Circle circle = new Circle();
+    circle.setCenterX(node.getXcoord());
+    circle.setCenterY(node.getYcoord());
+    circle.setFill(Color.web("0x012D5A"));
+    circle.setRadius(10);
+    circle.setVisible(true);
+
+    //    DraggableMaker draggableMaker = new DraggableMaker();
+    //    draggableMaker.makeDraggable(circle);
+
+    circle.setOnMousePressed(
+        mouseEvent -> {
+          mapGesturePane.setGestureEnabled(false);
+        });
+    circle.setOnMouseDragged(
+        mouseEvent -> {
+          circle.setCenterX(mouseEvent.getX());
+          circle.setCenterY(mouseEvent.getY());
+        });
+
+    return circle;
+  }
+
+  public void dragReleased(Circle circle, Node node, GesturePane mapGesturePane) {
+    node.setXcoord((int) circle.getCenterX());
+    node.setYcoord((int) circle.getCenterY());
+    mapGesturePane.setGestureEnabled(true);
+    // update database and big hashmap
+    Move move = databaseRepo.getMove(node.getNodeID());
+    determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
+    // update level hashmap
+    // determineNodeMap(node.getFloor()).remove(node.getNodeID());
+    determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
+  }
+
+  public Text addText(Node node) {
+    double xCoord = node.getXcoord() + 20;
+    double yCoord = node.getYcoord() - 10;
+    String locText = getLocationName(node.getNodeID()).getShortName();
+    Text text = new Text(locText);
+    text.setX(xCoord);
+    text.setY(yCoord);
+    text.setFill(Color.web("0x151515"));
+    text.setFont(new Font("Open Sans", 20));
+    return text;
   }
 
   public Line addLine(int startNodeID, int endNodeID) {
