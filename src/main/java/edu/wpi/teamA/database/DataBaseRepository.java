@@ -229,11 +229,15 @@ public class DataBaseRepository {
   }
 
   public Flower getFlower(int id) {
-    return flowerDAOImp.getFlower(id);
+    return flowerDAOImp.get(id);
   }
 
   public int getNextFlowerID() {
     return flowerDAOImp.getNextID();
+  }
+
+  public void editFlower(Flower o, Flower n) {
+    flowerDAOImp.edit(o, n);
   }
 
   // Conference room service request related methods
@@ -258,11 +262,15 @@ public class DataBaseRepository {
   }
 
   public ConferenceRoomResRequest getCRRR(int id) {
-    return crrrDAOImp.getCRRR(id);
+    return crrrDAOImp.get(id);
   }
 
   public int getNextCRRRID() {
     return crrrDAOImp.getNextID();
+  }
+
+  public void editCRRR(ConferenceRoomResRequest o, ConferenceRoomResRequest n) {
+    crrrDAOImp.edit(o, n);
   }
 
   // Furniture related methods
@@ -294,6 +302,10 @@ public class DataBaseRepository {
     return furnitureDAOImp.getNextID();
   }
 
+  public void editFurniture(FurnitureRequest o, FurnitureRequest n) {
+    furnitureDAOImp.edit(o, n);
+  }
+
   // Meal related methods
   public HashMap<Integer, Meal> getMealMap() {
     return mealDAOImp.getMealMap();
@@ -321,6 +333,10 @@ public class DataBaseRepository {
 
   public int getNextMealID() {
     return mealDAOImp.getNextID();
+  }
+
+  public void editMeal(Meal o, Meal n) {
+    mealDAOImp.edit(o, n);
   }
 
   // user dao functions

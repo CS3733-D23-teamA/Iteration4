@@ -1,5 +1,6 @@
 package edu.wpi.teamA.database.Interfaces;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface IServiceDAO<T> {
@@ -14,7 +15,15 @@ public interface IServiceDAO<T> {
 
   void add(T obj);
 
+  T get(int ID);
+
   void delete(T obj);
 
   void update(T obj);
+
+  void edit(T o, T n);
+
+  ArrayList<T> getAssigned(String username);
+
+  ArrayList<T> getCreated(String username);
 }

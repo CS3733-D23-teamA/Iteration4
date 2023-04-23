@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Menus;
 
-import edu.wpi.teamA.database.AccountSingleton;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;

@@ -14,6 +14,7 @@ public class FurnitureRequest {
   @Getter @Setter private String comment;
   @Getter @Setter private String employee;
   @Getter @Setter private String status;
+  @Getter @Setter private String creator;
 
   public FurnitureRequest(
       int id,
@@ -24,7 +25,8 @@ public class FurnitureRequest {
       String furnitureType,
       String comment,
       String employee,
-      String status) {
+      String status,
+      String creator) {
     this.id = id;
     this.name = name;
     this.room = room;
@@ -34,5 +36,6 @@ public class FurnitureRequest {
     this.comment = comment;
     this.employee = employee;
     this.status = status;
+    this.creator = creator;
   }
 }
