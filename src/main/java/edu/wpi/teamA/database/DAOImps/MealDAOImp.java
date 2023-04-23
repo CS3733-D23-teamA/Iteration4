@@ -37,7 +37,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String items = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
@@ -67,7 +67,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = data[2];
         Date date = java.sql.Date.valueOf(data[3]);
         int time = Integer.parseInt(data[4]);
-        String mealType = data[5];
+        String items = data[5];
         String comment = data[6];
         String employee = data[7];
         String status = data[8];
@@ -82,15 +82,14 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         ps.setString(3, room);
         ps.setDate(4, date);
         ps.setInt(5, time);
-        ps.setString(6, mealType);
+        ps.setString(6, items);
         ps.setString(7, comment);
         ps.setString(8, employee);
         ps.setString(9, status);
         ps.setString(10, creator);
         ps.executeUpdate();
 
-        Meal meal =
-            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal meal = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
       csvReader.close();
@@ -110,7 +109,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("id,name,room,date,time,mealtype,comment,employee,status,creator\n");
+      csvWriter.append("id,name,room,date,time,items,comment,employee,status,creator\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("id")) + (","));
@@ -118,7 +117,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         csvWriter.append((rs.getString("room")) + (","));
         csvWriter.append(rs.getString("date")).append(",");
         csvWriter.append((rs.getInt("time")) + (","));
-        csvWriter.append(rs.getString("mealtype")).append(",");
+        csvWriter.append(rs.getString("items")).append(",");
         csvWriter.append(rs.getString("comment")).append(",");
         csvWriter.append(rs.getString("employee")).append(",");
         csvWriter.append(rs.getString("status")).append(",");
@@ -143,7 +142,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getItems();
+      String items = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
@@ -158,7 +157,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       ps.setString(3, room);
       ps.setDate(4, date);
       ps.setInt(5, time);
-      ps.setString(6, type);
+      ps.setString(6, items);
       ps.setString(7, comment);
       ps.setString(8, employee);
       ps.setString(9, status);
@@ -166,7 +165,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       ps.executeUpdate();
 
       mealMap.put(
-          id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
+          id, new Meal(id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -201,7 +200,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getItems();
+      String items = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
@@ -210,12 +209,12 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Meal\" SET name = ?, room = ?, date = ?, time = ?, mealtype = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Meal\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, time);
-      ps.setString(5, type);
+      ps.setString(5, items);
       ps.setString(6, comment);
       ps.setString(7, employee);
       ps.setString(8, status);
@@ -225,7 +224,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       ps.executeUpdate();
 
       mealMap.put(
-          id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
+          id, new Meal(id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -263,14 +262,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        Meal temp =
-            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal temp = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         meals.add(temp);
       }
 
@@ -296,14 +294,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        Meal temp =
-            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal temp = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         meals.add(temp);
       }
 
@@ -331,14 +328,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        largestID =
-            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        largestID = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

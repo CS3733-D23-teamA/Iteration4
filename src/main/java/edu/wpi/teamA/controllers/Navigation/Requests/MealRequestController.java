@@ -3,12 +3,15 @@ package edu.wpi.teamA.controllers.Navigation.Requests;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.ORMclasses.Meal;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.entities.ServiceRequestItem;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.sql.Date;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -121,6 +124,11 @@ public class MealRequestController extends PageController implements IServiceCon
     commentField.clear();
     timeCombo.getSelectionModel().clearSelection();
     datePicker.setValue(null);
+    drinkCombo.getSelectionModel().clearSelection();
+    drinkQuantity.getSelectionModel().clearSelection();
+    foodCombo.getSelectionModel().clearSelection();
+    foodQuantity.getSelectionModel().clearSelection();
+    itemsTable.getItems().clear();
   }
 
   @FXML
@@ -150,7 +158,6 @@ public class MealRequestController extends PageController implements IServiceCon
     } else {
       int prevQuantity = item.getQuantity();
       item.setQuantity(prevQuantity + quantity);
-      System.out.println(item.getQuantity());
       itemsTable.getItems().remove(item);
       itemsTable.getItems().add(item);
     }
@@ -168,7 +175,6 @@ public class MealRequestController extends PageController implements IServiceCon
     } else {
       int prevQuantity = item.getQuantity();
       item.setQuantity(prevQuantity + quantity);
-      System.out.println(item.getQuantity());
       itemsTable.getItems().remove(item);
       itemsTable.getItems().add(item);
     }
@@ -180,27 +186,31 @@ public class MealRequestController extends PageController implements IServiceCon
     submitButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
-  public void submit() {}
+  @FXML
+  public void submit() {
+    StringBuilder items = new StringBuilder();
+    for (ServiceRequestItem item : itemsTable.getItems()) {
+      items.append(item.getItem()).append(" ").append(item.getQuantity()).append(", ");
+    }
 
-  //  @FXML
-  //  public void submit() {
-  //    Meal meal =
-  //        new Meal(
-  //            databaseRepo.getNextMealID(),
-  //            nameField.getText(),
-  //            roomCombo.getText(),
-  //            Date.valueOf(datePicker.getValue()),
-  //            entity.convertTime(timeCombo.getText()),
-  //            mealCombo.getText(),
-  //            commentField.getText(),
-  //            "not assigned",
-  //            "new",
-  //            AccountSingleton.INSTANCE1.getValue().getUserName());
-  //    databaseRepo.addMeal(meal);
-  //    clear();
-  //    confirmationDialog.setVisible(true);
-  //    confirmationDialog.setDisable(false);
-  //  }
+    Meal meal =
+        new Meal(
+            databaseRepo.getNextMealID(),
+            nameField.getText(),
+            roomCombo.getText(),
+            Date.valueOf(datePicker.getValue()),
+            entity.convertTime(timeCombo.getText()),
+            items.toString(),
+            commentField.getText(),
+            "not assigned",
+            "new",
+            AccountSingleton.INSTANCE1.getValue().getUserName());
+    databaseRepo.addMeal(meal);
+    clear();
+    back();
+    confirmationDialog.setVisible(true);
+    confirmationDialog.setDisable(false);
+  }
 
   @FXML
   public void closeConfirmation() {
