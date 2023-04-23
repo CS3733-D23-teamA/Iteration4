@@ -38,9 +38,8 @@ public class SignageDAOImp implements ISignageDAO {
         String locationName = rs.getString("locationName");
         String direction = rs.getString("direction");
         Date date = rs.getDate("date");
-        Time time = rs.getTime("time");
 
-        SignageComponent signage = new SignageComponent(locationName, direction, date, time);
+        SignageComponent signage = new SignageComponent(locationName, direction, date);
         signageMap.put(locationName, signage);
       }
     } catch (SQLException e) {
@@ -62,15 +61,14 @@ public class SignageDAOImp implements ISignageDAO {
           signageProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ?, time = ? WHERE locationName = ?");
+                  "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ? WHERE locationName = ?");
       ps.setString(1, direction);
       ps.setDate(2, date);
-      ps.setTime(3, time);
-      ps.setString(4, locationName);
+      ps.setString(3, locationName);
 
       signageMap.put(
           signage.getLocationName(),
-          new SignageComponent(signage.getLocationName(), direction, date, time));
+          new SignageComponent(signage.getLocationName(), direction, date));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -88,14 +86,13 @@ public class SignageDAOImp implements ISignageDAO {
       PreparedStatement ps =
               Objects.requireNonNull(DBConnectionProvider.createConnection())
                       .prepareStatement(
-                              "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?)");
+                              "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?)");
       ps.setString(1, locationName);
       ps.setString(2, direction);
       ps.setDate(3, date);
-      ps.setTime(4, time);
       ps.executeUpdate();
 
-      signageMap.put(locationName, new SignageComponent(locationName, direction, date, time));
+      signageMap.put(locationName, new SignageComponent(locationName, direction, date));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

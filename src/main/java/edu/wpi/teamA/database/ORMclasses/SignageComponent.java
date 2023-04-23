@@ -11,17 +11,15 @@ public class SignageComponent {
   @Getter @Setter private Date date;
   @Getter @Setter private Time time;
 
-  public SignageComponent(String locationName, String direction, Date date, Time time) {
+  public SignageComponent(String locationName, String direction, Date date) {
     this.locationName = locationName;
     this.direction = direction;
     this.date = date;
-    this.time = time;
   }
 
   public SignageComponent() {
     this.locationName = null;
     this.direction = null;
     this.date = null;
-    this.time = null;
   }
 }

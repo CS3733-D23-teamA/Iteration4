@@ -9,14 +9,17 @@ import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -27,13 +30,13 @@ public class SignageAdminController {
     private DataBaseRepository db = DataBaseRepository.getInstance();
 
     @FXML private MFXTextField locNameAddInput;
-    @FXML private MFXTextField directionAddInput;
-    @FXML private MFXTextField dateAddInput;
+    @FXML private MFXFilterComboBox directionAddInput;
+    @FXML private DatePicker dateAddInput;
     @FXML private MFXComboBox<String> chooseSignageRemove;
     @FXML private MFXComboBox<String> chooseSignageModify;
     @FXML private MFXTextField modifyLocNameInput;
     @FXML private MFXTextField modifyDirectionInput;
-    @FXML private MFXTextField modifyDateInput;
+    @FXML private DatePicker modifyDateInput;
     @FXML private MFXButton addButton;
     @FXML private MFXButton removeButton;
     @FXML private MFXButton modifyButton;
@@ -52,6 +55,7 @@ public class SignageAdminController {
 
         chooseSignageRemove.getItems().addAll(allSignageLocationNames);
         chooseSignageModify.getItems().addAll(allSignageLocationNames);
+        directionAddInput.getItems().addAll("up", "down", "right", "left", "stop right here");
 
         displaySignages();
         addButton.setDisable(true);
@@ -69,8 +73,10 @@ public class SignageAdminController {
     }
 
     public void addSignage() {
+        //Date date = dateAddInput.getValue();
+
         SignageComponent signage =
-                new SignageComponent(locNameAddInput.getText(), directionAddInput.getText(), dateAddInput.getSelection());
+                new SignageComponent(locNameAddInput.getText(), directionAddInput.getText(), Date.valueOf(dateAddInput.getValue()));
         db.addSignage(signage);
         Navigation.navigate(Screen.ACCOUNT);
     }
@@ -93,7 +99,7 @@ public class SignageAdminController {
     public void validateAdd() {
         if (locNameAddInput.getText().isEmpty()
                 || directionAddInput.getText().isEmpty()
-                || dateAddInput.getText().isEmpty()) {
+                || dateAddInput.getValue()==null) {
             removeButton.setDisable(true);
         } else {
             removeButton.setDisable(false);
@@ -106,4 +112,6 @@ public class SignageAdminController {
         } else {
             removeButton.setDisable(false);
         }
+    }
+
 }
