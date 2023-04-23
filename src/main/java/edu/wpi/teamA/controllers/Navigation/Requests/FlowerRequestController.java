@@ -1,8 +1,10 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Flower;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -89,7 +91,8 @@ public class FlowerRequestController extends PageController implements IServiceC
             flowerCombo.getText(),
             commentField.getText(),
             "not assigned",
-            "new");
+            "new",
+            AccountSingleton.INSTANCE1.getValue().getUserName());
     databaseRepo.addFlower(flower);
     clear();
     confirmationDialog.setVisible(true);
