@@ -2,7 +2,7 @@ package edu.wpi.teamA.database.Singletons;
 
 import edu.wpi.teamA.database.ORMclasses.Flower;
 
-public enum FlowerSingleton implements IRequestSingleton<Flower>{
+public enum FlowerSingleton implements IRequestSingleton<Flower> {
   INSTANCE;
   // example of how attributes are added to the Enum
   Flower f;

@@ -11,8 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-
-import edu.wpi.teamA.database.ORMclasses.Flower;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -90,7 +88,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
         ps.setString(7, comment);
         ps.setString(8, employee);
         ps.setString(9, status);
-        ps.setString(10,creator);
+        ps.setString(10, creator);
         ps.executeUpdate();
 
         ConferenceRoomResRequest crrr =
@@ -166,7 +164,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       ps.setString(7, comment);
       ps.setString(8, employee);
       ps.setString(9, status);
-      ps.setString(10,creator);
+      ps.setString(10, creator);
       ps.executeUpdate();
 
       crrrMap.put(
@@ -258,9 +256,9 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE employee = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE employee = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -277,11 +275,11 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
         String creator = rs.getString("creator");
 
         ConferenceRoomResRequest temp =
-                new ConferenceRoomResRequest(
-                        id, name, room, date, startTime, endTime, comment, employee, status, creator);
-          rooms.add(temp);
-        }
-      } catch (SQLException e) {
+            new ConferenceRoomResRequest(
+                id, name, room, date, startTime, endTime, comment, employee, status, creator);
+        rooms.add(temp);
+      }
+    } catch (SQLException e) {
       throw new RuntimeException(e);
     }
     return rooms;
@@ -292,9 +290,9 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE creator = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE creator = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -311,8 +309,8 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
         String creator = rs.getString("creator");
 
         ConferenceRoomResRequest temp =
-                new ConferenceRoomResRequest(
-                        id, name, room, date, startTime, endTime, comment, employee, status, creator);
+            new ConferenceRoomResRequest(
+                id, name, room, date, startTime, endTime, comment, employee, status, creator);
         rooms.add(temp);
       }
     } catch (SQLException e) {
@@ -344,7 +342,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
 
         largestID =
             new ConferenceRoomResRequest(
-                id, name, room, date, startTime, endTime, comment, employee, status,creator);
+                id, name, room, date, startTime, endTime, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

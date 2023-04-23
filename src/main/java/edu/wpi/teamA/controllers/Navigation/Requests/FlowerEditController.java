@@ -2,8 +2,8 @@ package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.Singletons.FlowerSingleton;
 import edu.wpi.teamA.database.ORMclasses.Flower;
+import edu.wpi.teamA.database.Singletons.FlowerSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -31,14 +31,14 @@ public class FlowerEditController extends PageController {
     populateFields();
   }
 
-  public void populateCombos(){
+  public void populateCombos() {
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
     timeCombo
-            .getItems()
-            .addAll(
-                    "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-                    "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-                    "19:00", "20:00", "21:00", "22:00", "23:00");
+        .getItems()
+        .addAll(
+            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
+            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
+            "19:00", "20:00", "21:00", "22:00", "23:00");
 
     ArrayList<String> allRooms = new ArrayList<>();
     allRooms.addAll(databaseRepo.filterLocType("CONF"));
@@ -48,7 +48,7 @@ public class FlowerEditController extends PageController {
     roomCombo.getItems().addAll(allRooms);
   }
 
-  public void populateFields(){
+  public void populateFields() {
     nameField.setText(FlowerSingleton.INSTANCE.getValue().getName());
     commentField.setText(FlowerSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FlowerSingleton.INSTANCE.getValue().getRoom());

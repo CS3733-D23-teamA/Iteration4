@@ -2,9 +2,9 @@ package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Navigation.PageController;
-import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Meal;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -93,7 +93,7 @@ public class MealRequestController extends PageController implements IServiceCon
             commentField.getText(),
             "not assigned",
             "new",
-                AccountSingleton.INSTANCE1.getValue().getUserName());
+            AccountSingleton.INSTANCE1.getValue().getUserName());
     databaseRepo.addMeal(meal);
     clear();
     confirmationDialog.setVisible(true);

@@ -11,8 +11,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-
-import edu.wpi.teamA.database.ORMclasses.Meal;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -171,7 +169,9 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       ps.executeUpdate();
 
       furnitureMap.put(
-          id, new FurnitureRequest(id, name, room, date, time, type, comment, employee, status, creator));
+          id,
+          new FurnitureRequest(
+              id, name, room, date, time, type, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -229,7 +229,9 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       ps.executeUpdate();
 
       furnitureMap.put(
-          id, new FurnitureRequest(id, name, room, date, time, type, comment, employee, status, creator));
+          id,
+          new FurnitureRequest(
+              id, name, room, date, time, type, comment, employee, status, creator));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -255,8 +257,9 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE employee = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE employee = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -273,7 +276,8 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String creator = rs.getString("creator");
 
         FurnitureRequest temp =
-                new FurnitureRequest(id, name, room, date, time, furnitureType, comment, employee, status, creator);
+            new FurnitureRequest(
+                id, name, room, date, time, furnitureType, comment, employee, status, creator);
         furnitureRequests.add(temp);
       }
 
@@ -288,8 +292,9 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE creator = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE creator = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -306,7 +311,8 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String creator = rs.getString("creator");
 
         FurnitureRequest temp =
-                new FurnitureRequest(id, name, room, date, time, furnitureType, comment, employee, status, creator);
+            new FurnitureRequest(
+                id, name, room, date, time, furnitureType, comment, employee, status, creator);
         furnitureRequests.add(temp);
       }
 

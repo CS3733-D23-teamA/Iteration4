@@ -1,9 +1,9 @@
 package edu.wpi.teamA.database.DAOImps;
 
-import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.database.ORMclasses.User;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

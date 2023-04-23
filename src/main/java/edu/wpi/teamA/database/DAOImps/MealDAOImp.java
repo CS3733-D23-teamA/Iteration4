@@ -2,7 +2,6 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
-import edu.wpi.teamA.database.ORMclasses.Flower;
 import edu.wpi.teamA.database.ORMclasses.Meal;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -44,7 +43,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        Meal meal = new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal meal =
+            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
     } catch (SQLException e) {
@@ -90,7 +90,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         ps.setString(10, creator);
         ps.executeUpdate();
 
-        Meal meal = new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal meal =
+            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
       csvReader.close();
@@ -165,7 +166,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       ps.setString(10, creator);
       ps.executeUpdate();
 
-      mealMap.put(id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
+      mealMap.put(
+          id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -223,7 +225,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
 
       ps.executeUpdate();
 
-      mealMap.put(id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
+      mealMap.put(
+          id, new Meal(id, name, room, date, time, type, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -250,8 +253,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE employee = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE employee = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -268,7 +271,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String creator = rs.getString("creator");
 
         Meal temp =
-                new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
         meals.add(temp);
       }
 
@@ -283,8 +286,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE creator = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE creator = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
 
@@ -301,7 +304,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String creator = rs.getString("creator");
 
         Meal temp =
-                new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
         meals.add(temp);
       }
 
@@ -335,7 +338,8 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        largestID = new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        largestID =
+            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
