@@ -29,7 +29,7 @@ public class App extends Application {
   // map entities + images
   @Getter private static MapEntity mapEntity = new MapEntity();
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
-  DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @Getter private static Image mapL1 = new Image("edu/wpi/teamA/images/map-page/Level L1.png");
   @Getter private static Image mapL2 = new Image("edu/wpi/teamA/images/map-page/Level L2.png");
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");

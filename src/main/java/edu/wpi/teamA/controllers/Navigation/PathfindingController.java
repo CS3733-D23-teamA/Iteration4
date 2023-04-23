@@ -1,12 +1,12 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;

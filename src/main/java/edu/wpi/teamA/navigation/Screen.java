@@ -17,6 +17,7 @@ public enum Screen {
   MEAL_REQUEST("views/MealRequest.fxml"),
   MOVES("views/Moves.fxml"),
   ACCOUNT("views/AccountSettings.fxml"),
+  FLOWER_EDIT("views/FlowerEdit.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml");
   // SIGNAGE_ADMIN("views/SignageAdmin.fxml");
 
