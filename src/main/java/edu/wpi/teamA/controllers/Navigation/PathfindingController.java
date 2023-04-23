@@ -53,7 +53,6 @@ public class PathfindingController extends PageController {
   @FXML private MFXButton level3Button;
 
   // Node implementation
-
   private ArrayList<String> nodeOptions = new ArrayList<>();
   private ArrayList<String> searchOptions = new ArrayList<>();
   private ArrayList<Node> nodeList;
@@ -62,10 +61,7 @@ public class PathfindingController extends PageController {
   private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
   private final MapEntity map = new MapEntity();
   private String floor = "L1";
-  // private final NodeDAOImp nodeDAO = new NodeDAOImp();
-
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
-
   private Search search;
 
   public void initialize() {
@@ -104,6 +100,7 @@ public class PathfindingController extends PageController {
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
     initiateAlgorithm();
+
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changLevel(levelL1Button));
     levelL2Button.setOnAction(event -> changLevel(levelL2Button));
@@ -123,6 +120,10 @@ public class PathfindingController extends PageController {
       case ASTAR:
         searchAlgorithmSelection.setValue("A*");
         break;
+    }
+
+    if (searchAlgorithmSelection != null) {
+      setAlgorithm(searchAlgorithmSelection.getValue());
     }
   }
 
@@ -206,9 +207,7 @@ public class PathfindingController extends PageController {
       createSearch(startID, endID);
 
       directions.setText(generatePathString(search.getPath()));
-      directions.setFill(Color.web("#f1f1f1"));
-
-      System.out.println("Nodes submitted");
+      directions.setFill(Color.web("#151515"));
 
       drawPath();
 
@@ -217,18 +216,15 @@ public class PathfindingController extends PageController {
     }
   }
 
-  @FXML
-  public void selectedAlgorithm() {
-    setAlgorithm(searchAlgorithmSelection.getSelectedItem());
-    checkPath();
-  }
-
+  /**
+   * wrapper for submit called upon user input, runs submit when user sets something for all inputs
+   */
   @FXML
   public void checkPath() {
     System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
-        if (searchAlgorithmSelection.getSelectedItem() != null) {
+      if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+        if (searchAlgorithmSelection.getValue() != null) {
           submit();
         }
       } else {
@@ -244,29 +240,29 @@ public class PathfindingController extends PageController {
    */
   public void drawPath() {
 
+    // get list of node IDs and set graph node to gnode from search
     ArrayList<Integer> nodePathIDs = search.getPath();
     GraphNode gNode = search.getGraphNode(nodePathIDs.get(0));
 
+    // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
 
+    // set starting floor and x and y coords
     String startFloor = gNode.getFloor();
     int startX = lastX;
     int startY = lastY;
 
+    // make a line
     Line line;
 
     for (int i = 1; i < nodePathIDs.size(); i++) {
       gNode = search.getGraphNode(nodePathIDs.get(i));
       if (gNode.getFloor().equals(floor)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
-        line.setFill(Color.web("0x012D5A"));
+        line.setFill(Color.web("#012D5A"));
         line.setStrokeWidth(7);
-
-        topPane
-            .getChildren()
-            .addAll(
-                line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.web("0x012D5A")));
+        topPane.getChildren().add(line);
       }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
