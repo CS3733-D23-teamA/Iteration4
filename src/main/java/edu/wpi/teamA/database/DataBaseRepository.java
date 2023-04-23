@@ -4,7 +4,6 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class DataBaseRepository {
 
@@ -369,7 +368,6 @@ public class DataBaseRepository {
   public void removeEmployee(Employee employee) {
     employeeDAOImp.removeEmployee(employee);
   }
-
 
   public HashMap<String, SignageComponent> getSignageMap() {
     return signageDAOImp.getSignageMap();

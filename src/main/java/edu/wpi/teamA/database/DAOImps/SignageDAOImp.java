@@ -2,7 +2,6 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.ISignageDAO;
-import edu.wpi.teamA.database.ORMclasses.Flower;
 import edu.wpi.teamA.database.ORMclasses.SignageComponent;
 import java.sql.*;
 import java.util.HashMap;
@@ -84,9 +83,9 @@ public class SignageDAOImp implements ISignageDAO {
       Time time = signage.getTime();
 
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement(
-                              "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?)");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?)");
       ps.setString(1, locationName);
       ps.setString(2, direction);
       ps.setDate(3, date);
@@ -103,8 +102,9 @@ public class SignageDAOImp implements ISignageDAO {
   public void removeSignage(SignageComponent signage) {
     try {
       PreparedStatement ps =
-              Objects.requireNonNull(DBConnectionProvider.createConnection())
-                      .prepareStatement("DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE locationName = ?");
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE locationName = ?");
       ps.setString(1, signage.getLocationName());
       ps.executeUpdate();
 

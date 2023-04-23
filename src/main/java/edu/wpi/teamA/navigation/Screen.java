@@ -18,6 +18,7 @@ public enum Screen {
   MOVES("views/Moves.fxml"),
   ACCOUNT("views/AccountSettings.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml");
+  // SIGNAGE_ADMIN("views/SignageAdmin.fxml");
 
   private final String filename;
 
