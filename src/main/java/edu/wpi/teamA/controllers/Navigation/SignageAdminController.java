@@ -23,12 +23,11 @@ public class SignageAdminController {
   private DataBaseRepository db = DataBaseRepository.getInstance();
 
   @FXML private MFXTextField locNameAddInput;
-  @FXML private MFXFilterComboBox directionAddInput;
+  @FXML private MFXFilterComboBox directionAddInputCombo;
   @FXML private DatePicker dateAddInput;
-  @FXML private MFXComboBox<String> chooseSignageRemove;
-  @FXML private MFXComboBox<String> chooseSignageModify;
-  @FXML private MFXTextField modifyLocNameInput;
-  @FXML private MFXTextField modifyDirectionInput;
+  @FXML private MFXComboBox<String> locNameRemoveCombo;
+  @FXML private MFXComboBox<String> locNameModifyCombo;
+  @FXML private MFXComboBox<String> directionModifyCombo;
   @FXML private DatePicker modifyDateInput;
   @FXML private MFXButton addButton;
   @FXML private MFXButton removeButton;
@@ -46,14 +45,17 @@ public class SignageAdminController {
       allSignageLocationNames.add(signage.getLocationName());
     }
 
-    chooseSignageRemove.getItems().addAll(allSignageLocationNames);
-    chooseSignageModify.getItems().addAll(allSignageLocationNames);
-    directionAddInput.getItems().addAll("up", "down", "right", "left", "stop right here");
+    locNameRemoveCombo.getItems().addAll(allSignageLocationNames);
+    locNameModifyCombo.getItems().addAll(allSignageLocationNames);
+    directionAddInputCombo.getItems().addAll("up", "down", "right", "left", "stop right here");
 
     displaySignages();
     addButton.setDisable(true);
     removeButton.setDisable(true);
     modifyButton.setDisable(true);
+    validateAdd();
+    validateModify();
+    validateRemove();
   }
 
   public void displaySignages() {
@@ -71,22 +73,22 @@ public class SignageAdminController {
     SignageComponent signage =
         new SignageComponent(
             locNameAddInput.getText(),
-            directionAddInput.getText(),
+            directionAddInputCombo.getText(),
             Date.valueOf(dateAddInput.getValue()));
     db.addSignage(signage);
     Navigation.navigate(Screen.ACCOUNT);
   }
 
   public void removeSignage() {
-    SignageComponent signage = db.getSignage(chooseSignageRemove.getSelectedItem());
+    SignageComponent signage = db.getSignage(locNameRemoveCombo.getSelectedItem());
     db.removeSignage(signage);
     Navigation.navigate(Screen.ACCOUNT);
   }
 
   public void modifySignage() {
-    SignageComponent signage = db.getSignage(chooseSignageModify.getSelectedItem());
-    signage.setLocationName(modifyLocNameInput.getText());
-    signage.setDirection(modifyDirectionInput.getText());
+    SignageComponent signage = db.getSignage(locNameModifyCombo.getSelectedItem());
+    signage.setLocationName(locNameModifyCombo.getText());
+    signage.setDirection(directionModifyCombo.getText());
     // signage.setDirection(modifyDirectionInput.getText()); for date
     db.modifySignage(signage);
     Navigation.navigate(Screen.ACCOUNT);
@@ -94,19 +96,29 @@ public class SignageAdminController {
 
   public void validateAdd() {
     if (locNameAddInput.getText().isEmpty()
-        || directionAddInput.getText().isEmpty()
+        || directionAddInputCombo.getText().isEmpty()
         || dateAddInput.getValue() == null) {
+      addButton.setDisable(true);
+    } else {
+      addButton.setDisable(false);
+    }
+  }
+
+  public void validateRemove() {
+    if (locNameRemoveCombo.getSelectedIndex() == -1) {
       removeButton.setDisable(true);
     } else {
       removeButton.setDisable(false);
     }
   }
 
-  public void validateRemove() {
-    if (chooseSignageRemove.getSelectedIndex() == -1) {
-      removeButton.setDisable(true);
+  public void validateModify() {
+    if (locNameModifyCombo.getText().isEmpty()
+        || directionModifyCombo.getText().isEmpty()
+        || modifyDateInput.getValue() == null) {
+      modifyButton.setDisable(true);
     } else {
-      removeButton.setDisable(false);
+      modifyButton.setDisable(false);
     }
   }
 }

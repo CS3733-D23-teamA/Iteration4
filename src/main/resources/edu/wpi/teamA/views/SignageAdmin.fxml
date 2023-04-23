@@ -31,19 +31,19 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                                    <MFXFilterComboBox fx:id="directionAddInput" minWidth="150.0" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="directionAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
-                                    <DatePicker fx:id="dateAddInput" minWidth="150.0" prefHeight="50.0" prefWidth="250.0" />
+                                    <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -66,7 +66,7 @@
                               <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXFilterComboBox fx:id="chooseSignageRemove" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="locNameRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -89,19 +89,19 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXFilterComboBox fx:id="chooseEmployeeModify" minWidth="150.0" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="locNameModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                                    <MFXFilterComboBox fx:id="modifyNameInput" minWidth="150.0" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="directionModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
-                                    <DatePicker fx:id="modifyDateInput" minWidth="150.0" prefHeight="50.0" prefWidth="250.0" />
+                                    <DatePicker fx:id="modifyDateInput" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -119,7 +119,7 @@
                   <VBox spacing="30.0">
                      <children>
                         <Label text="Current Signages" />
-                        <TableView fx:id="employeeTableView" prefHeight="400.0" prefWidth="1140.0">
+                        <TableView fx:id="signageTableView" prefHeight="400.0" prefWidth="1140.0">
                            <columns>
                               <TableColumn fx:id="locationNameCol" minWidth="200.0" prefWidth="380.0" text="Location Name" />
                               <TableColumn fx:id="directionCol" minWidth="200.0" prefWidth="380.0" text="Direction" />

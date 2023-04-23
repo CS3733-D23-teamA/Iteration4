@@ -32,6 +32,7 @@ public class DataBaseRepository {
 
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
+    signageDAOImp = new SignageDAOImp();
   }
 
   public static DataBaseRepository getInstance() {
