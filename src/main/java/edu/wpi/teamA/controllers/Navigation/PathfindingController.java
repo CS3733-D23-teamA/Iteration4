@@ -66,12 +66,15 @@ public class PathfindingController extends PageController {
 
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
+  private Search search;
+
   public void initialize() {
 
     // setting search algorithim selection visibility based on access level
     if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
+      searchAlgorithmTextDirections.setVisible(false);
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
@@ -97,17 +100,44 @@ public class PathfindingController extends PageController {
     searchOptions.add("Depth-First Search");
 
     // Setting ComboBox Selection Options (for start + end locations)
-
     startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
-
+    initiateAlgorithm();
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changLevel(levelL1Button));
     levelL2Button.setOnAction(event -> changLevel(levelL2Button));
     level1Button.setOnAction(event -> changLevel(level1Button));
     level2Button.setOnAction(event -> changLevel(level2Button));
     level3Button.setOnAction(event -> changLevel(level3Button));
+  }
+
+  private void initiateAlgorithm() {
+    switch (PathfindingSingleton.getAlgo()) {
+      case DFS:
+        searchAlgorithmSelection.setValue("Depth-First Search");
+        break;
+      case BFS:
+        searchAlgorithmSelection.setValue("Breadth-First Search");
+        break;
+      case ASTAR:
+        searchAlgorithmSelection.setValue("A*");
+        break;
+    }
+  }
+
+  private void setAlgorithm(String algorithm) {
+    switch (algorithm) {
+      case "Depth-First Search":
+        PathfindingSingleton.setAlgo(PathfindingAlgorithm.DFS);
+        break;
+      case "Breadth-First Search":
+        PathfindingSingleton.setAlgo(PathfindingAlgorithm.BFS);
+        break;
+      case "A*":
+        PathfindingSingleton.setAlgo(PathfindingAlgorithm.ASTAR);
+        break;
+    }
   }
 
   private void changLevel(MFXButton button) {
@@ -145,6 +175,21 @@ public class PathfindingController extends PageController {
     this.mapView.setImage(Objects.requireNonNull(mapImage));
   }
 
+  private void createSearch(int startID, int endID) {
+    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+      if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
+        search = new BFS(startID, endID);
+        searchAlgorithmTextDirections.setText("Using Breadth-First Search");
+      } else if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.DFS) {
+        search = new DFS(startID, endID);
+        searchAlgorithmTextDirections.setText("Using Depth-First Search");
+      } else {
+        search = new AStar(startID, endID);
+        searchAlgorithmTextDirections.setText("Using A* Search");
+      }
+    }
+  }
+
   /**
    * Called upon user submit, clears the pane of drawings and implements Astar on start and end
    * selection, sends directions to the user and draws graphical path.
@@ -154,36 +199,28 @@ public class PathfindingController extends PageController {
       clearPath();
       String startName = startSelection.getSelectedItem();
       String endName = endSelection.getSelectedItem();
-      String searchAlgorithm = searchAlgorithmSelection.getSelectedItem();
 
       int startID = nameMap.get(startName);
       int endID = nameMap.get(endName);
 
-      Search search;
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
-        if (searchAlgorithm.equals("Breadth-First Search")) {
-          search = new BFS(startID, endID);
-          searchAlgorithmTextDirections.setText("Using Breadth-First Search");
-        } else if (searchAlgorithm.equals("Depth-First Search")) {
-          search = new DFS(startID, endID);
-          searchAlgorithmTextDirections.setText("Using Depth-First Search");
-        } else {
-          search = new AStar(startID, endID);
-          searchAlgorithmTextDirections.setText("Using A* Search");
-        }
-      } else {
-        search = new AStar(startID, endID);
-      }
+      createSearch(startID, endID);
+
       directions.setText(generatePathString(search.getPath()));
       directions.setFill(Color.web("#f1f1f1"));
 
       System.out.println("Nodes submitted");
 
-      drawPath(search);
+      drawPath();
 
     } catch (NullPointerException e) {
       System.out.println("Null Value " + e.getMessage());
     }
+  }
+
+  @FXML
+  public void selectedAlgorithm() {
+    setAlgorithm(searchAlgorithmSelection.getSelectedItem());
+    checkPath();
   }
 
   @FXML
@@ -203,9 +240,9 @@ public class PathfindingController extends PageController {
   /**
    * Helper method for submit, draws graphical path
    *
-   * @param search Astar object implementation to determine path
+   * @param
    */
-  public void drawPath(Search search) {
+  public void drawPath() {
 
     ArrayList<Integer> nodePathIDs = search.getPath();
     GraphNode gNode = search.getGraphNode(nodePathIDs.get(0));
