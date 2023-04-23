@@ -143,9 +143,17 @@ public class MealRequestController extends PageController implements IServiceCon
   public void addDrink() {
     String drink = drinkCombo.getSelectedItem();
     int quantity = drinkQuantity.getSelectedItem();
-    //    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
-    //    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-    itemsTable.getItems().add(new ServiceRequestItem(drink, quantity));
+
+    ServiceRequestItem item = entity.tableContainsItem(itemsTable, drink);
+    if (item == null) {
+      itemsTable.getItems().add(new ServiceRequestItem(drink, quantity));
+    } else {
+      int prevQuantity = item.getQuantity();
+      item.setQuantity(prevQuantity + quantity);
+      System.out.println(item.getQuantity());
+      itemsTable.getItems().remove(item);
+      itemsTable.getItems().add(item);
+    }
     validateButton();
   }
 
@@ -153,9 +161,17 @@ public class MealRequestController extends PageController implements IServiceCon
   public void addFood() {
     String food = foodCombo.getSelectedItem();
     int quantity = foodQuantity.getSelectedItem();
-    //    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
-    //    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-    itemsTable.getItems().add(new ServiceRequestItem(food, quantity));
+
+    ServiceRequestItem item = entity.tableContainsItem(itemsTable, food);
+    if (item == null) {
+      itemsTable.getItems().add(new ServiceRequestItem(food, quantity));
+    } else {
+      int prevQuantity = item.getQuantity();
+      item.setQuantity(prevQuantity + quantity);
+      System.out.println(item.getQuantity());
+      itemsTable.getItems().remove(item);
+      itemsTable.getItems().add(item);
+    }
     validateButton();
   }
 

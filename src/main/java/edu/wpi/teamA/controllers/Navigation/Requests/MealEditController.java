@@ -52,7 +52,7 @@ public class MealEditController extends PageController {
     nameField.setText(MealSingleton.INSTANCE.getValue().getName());
     commentField.setText(MealSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(MealSingleton.INSTANCE.getValue().getRoom());
-    mealCombo.setText(MealSingleton.INSTANCE.getValue().getMealType());
+    mealCombo.setText(MealSingleton.INSTANCE.getValue().getItems());
     datePicker.setValue(MealSingleton.INSTANCE.getValue().getDate().toLocalDate());
     timeCombo.setText(convertInt(MealSingleton.INSTANCE.getValue().getTime()));
   }

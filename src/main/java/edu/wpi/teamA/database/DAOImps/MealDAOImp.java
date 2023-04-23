@@ -37,14 +37,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("mealtype");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
-        Meal meal =
-            new Meal(id, name, room, date, time, mealType, comment, employee, status, creator);
+        Meal meal = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
     } catch (SQLException e) {
@@ -144,7 +143,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getMealType();
+      String type = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
@@ -202,7 +201,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getMealType();
+      String type = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
