@@ -30,8 +30,29 @@ public class NavigationBarController {
     profileButton.setText(new StringBuilder().append(a).append(b).toString());
     // sets isAdmin to true if admin value is set to 1 in singleton
 
-    //    homeButton.setBackground(
-    //        new Background(new BackgroundImage(App.getHomeWhite(), null, null, null, null)));
+    switch (App.getPrimaryStage().getTitle()) {
+      case "SERVICE_REQUEST":
+        serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
+        System.out.println(App.getPrimaryStage().getTitle()); // set style mouse entered
+        break;
+      case "PATHFINDING":
+        pathfindingButton.setStyle("-fx-background-color: #F0C747");
+        System.out.println(App.getPrimaryStage().getTitle());
+
+        break;
+      case "SIGNAGE":
+        signageButton.setStyle("-fx-background-color: #F0C747");
+        System.out.println(App.getPrimaryStage().getTitle());
+        break;
+      case "MAP_EDITOR":
+        mapEditorButton.setStyle("-fx-background-color: #F0C747");
+        System.out.println(App.getPrimaryStage().getTitle());
+        break;
+      case "MOVES":
+        movesButton.setStyle("-fx-background-color: #F0C747");
+        System.out.println(App.getPrimaryStage().getTitle());
+        break;
+    }
 
     // diables moves and map editor for non-admin
     if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
