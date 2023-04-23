@@ -32,6 +32,7 @@ public class FurnitureRequest {
     this.time = time;
     this.furnitureType = furnitureType;
     this.comment = comment;
+    this.employee = employee;
     this.status = status;
   }
 }

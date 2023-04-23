@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
@@ -146,6 +147,22 @@
                   <Insets right="-70.0" />
                </padding>
             </VBox>
+            <MFXGenericDialog fx:id="confirmationDialog">
+               <center>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="24.0" />
+                     </font>
+                  </Text>
+               </center>
+               <bottom>
+                  <MFXButton fx:id="closeConfirmation" defaultButton="true" mnemonicParsing="false" onAction="#closeConfirmation" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Close" textFill="#eebd28" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </MFXButton>
+               </bottom>
+            </MFXGenericDialog>
             </children>
         </StackPane>
     </center>

@@ -229,7 +229,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
-          st.executeQuery("SELECT * FROM \"Teama_schema\".\"FUrniture\" ORDER BY id DESC LIMIT 1");
+          st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\" ORDER BY id DESC LIMIT 1");
 
       if (rs.next()) {
         int id = rs.getInt("id");
