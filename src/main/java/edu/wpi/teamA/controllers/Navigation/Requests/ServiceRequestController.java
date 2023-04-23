@@ -1,7 +1,9 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
-import edu.wpi.teamA.database.AccountSingleton;
+import edu.wpi.teamA.controllers.Navigation.PageController;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.Singletons.FlowerSingleton;
 import edu.wpi.teamA.database.ORMclasses.*;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -41,6 +43,7 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<Flower, String> flowerCommentCol;
   @FXML private TableColumn<Flower, String> flowerEmployeeCol;
   @FXML private TableColumn<Flower, String> flowerStatusCol;
+  @FXML private TableColumn<Flower, String> flowerCreatorCol;
 
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
   @FXML private TableColumn<ConferenceRoomResRequest, String> crrrIDCol;
@@ -78,28 +81,15 @@ public class ServiceRequestController extends PageController {
   @FXML
   public void initialize() {
     displayFlowerRequests();
-    displayCRRRRequests();
-    displayFurnitureRequests();
-    displayMealRequests();
-
+    /** displayCRRRRequests(); displayFurnitureRequests(); displayMealRequests(); */
     flowerTable
         .getSelectionModel()
         .selectedItemProperty()
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                roomTable.getSelectionModel().clearSelection();
-                Navigation.navigate(Screen.FLOWER_REQUEST);
-                Flower f = newSelection;
-              }
-            });
-    roomTable
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (obs, oldSelection, newSelection) -> {
-              if (newSelection != null) {
-                flowerTable.getSelectionModel().clearSelection();
+                FlowerSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.FLOWER_EDIT);
               }
             });
 
@@ -284,6 +274,7 @@ public class ServiceRequestController extends PageController {
     flowerCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     flowerEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     flowerStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    flowerCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
     flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
     flowerTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);

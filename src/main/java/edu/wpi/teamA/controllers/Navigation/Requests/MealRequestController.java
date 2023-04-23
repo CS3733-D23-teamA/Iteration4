@@ -1,8 +1,10 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.controllers.Navigation.PageController;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.Flower;
+import edu.wpi.teamA.database.ORMclasses.Meal;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -12,25 +14,24 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-public class FlowerRequestController extends PageController implements IServiceController {
+public class MealRequestController extends PageController implements IServiceController {
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField nameField;
   @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
   @FXML private MFXComboBox<String> timeCombo;
-  @FXML private MFXComboBox<String> flowerCombo;
+  @FXML private MFXComboBox<String> mealCombo;
   @FXML private MFXTextField commentField;
   @FXML private MFXGenericDialog confirmationDialog;
 
   private final ServiceRequestEntity entity = App.getServiceRequestEntity();
-  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
-    flowerCombo.getItems().addAll("Roses", "Tulips", "Daises");
+    mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
     timeCombo
         .getItems()
         .addAll(
@@ -42,7 +43,6 @@ public class FlowerRequestController extends PageController implements IServiceC
     allRooms.addAll(databaseRepo.filterLocType("CONF"));
     allRooms.addAll(databaseRepo.filterLocType("INFO"));
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
-    Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
@@ -60,12 +60,15 @@ public class FlowerRequestController extends PageController implements IServiceC
 
   @FXML
   public void validateButton() {
-    submitButton.setDisable(
-        nameField.getText().isEmpty()
-            || datePicker.getValue() == null
-            || timeCombo.getSelectedIndex() == -1
-            || flowerCombo.getSelectedIndex() == -1
-            || roomCombo.getSelectedIndex() == -1);
+    if (nameField.getText().isEmpty()
+        || datePicker.getValue() == null
+        || timeCombo.getSelectedIndex() == -1
+        || mealCombo.getSelectedIndex() == -1
+        || roomCombo.getSelectedIndex() == -1) {
+      submitButton.setDisable(true);
+    } else {
+      submitButton.setDisable(false);
+    }
   }
 
   public void clear() {
@@ -74,23 +77,24 @@ public class FlowerRequestController extends PageController implements IServiceC
     roomCombo.getSelectionModel().clearSelection();
     commentField.clear();
     timeCombo.getSelectionModel().clearSelection();
-    flowerCombo.getSelectionModel().clearSelection();
+    mealCombo.getSelectionModel().clearSelection();
     datePicker.setValue(null);
   }
 
   public void submit() {
-    Flower flower =
-        new Flower(
-            databaseRepo.getNextFlowerID(),
+    Meal meal =
+        new Meal(
+            databaseRepo.getNextMealID(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             entity.convertTime(timeCombo.getText()),
-            flowerCombo.getText(),
+            mealCombo.getText(),
             commentField.getText(),
             "not assigned",
-            "new");
-    databaseRepo.addFlower(flower);
+            "new",
+                AccountSingleton.INSTANCE1.getValue().getUserName());
+    databaseRepo.addMeal(meal);
     clear();
     confirmationDialog.setVisible(true);
     confirmationDialog.setDisable(false);
