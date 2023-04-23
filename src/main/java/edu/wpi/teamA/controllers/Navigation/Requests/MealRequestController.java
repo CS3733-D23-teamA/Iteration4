@@ -3,35 +3,58 @@ package edu.wpi.teamA.controllers.Navigation.Requests;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.Meal;
-import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
-import edu.wpi.teamA.navigation.Navigation;
-import edu.wpi.teamA.navigation.Screen;
+import edu.wpi.teamA.entities.ServiceRequestItem;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.sql.Date;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 
 public class MealRequestController extends PageController implements IServiceController {
-  @FXML private MFXButton submitButton;
+  @FXML private StackPane infoDisplay;
+  @FXML private StackPane cartDisplay;
+
+  @FXML private MFXButton nextButton;
   @FXML private MFXTextField nameField;
   @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
   @FXML private MFXComboBox<String> timeCombo;
-  @FXML private MFXComboBox<String> mealCombo;
   @FXML private MFXTextField commentField;
   @FXML private MFXGenericDialog confirmationDialog;
+
+  @FXML private MFXComboBox<String> drinkCombo;
+  @FXML private MFXComboBox<Integer> drinkQuantity;
+  @FXML private MFXComboBox<String> foodCombo;
+  @FXML private MFXComboBox<Integer> foodQuantity;
+
+  @FXML private TableView<ServiceRequestItem> itemsTable;
+  @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
+  @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
+
+  @FXML private MFXButton backButton;
+  @FXML private MFXButton submitButton;
+  @FXML private MFXButton addDrink;
+  @FXML private MFXButton addFood;
 
   private final ServiceRequestEntity entity = App.getServiceRequestEntity();
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
-    mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
+    cartDisplay.setDisable(true);
+    cartDisplay.setVisible(false);
+    infoDisplay.setDisable(false);
+    infoDisplay.setVisible(true);
+
+    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
+    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
     timeCombo
         .getItems()
         .addAll(
@@ -44,6 +67,13 @@ public class MealRequestController extends PageController implements IServiceCon
     allRooms.addAll(databaseRepo.filterLocType("INFO"));
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
     roomCombo.getItems().addAll(allRooms);
+
+    drinkCombo.getItems().addAll("Lemonade", "Coca-Cola", "Diet Coca-Cola", "Root Beer", "Water");
+    foodCombo.getItems().addAll("Burger", "Cheeseburger", "Hot Dog");
+
+    drinkQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    foodQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
     confirmationDialog.setOnClose(
@@ -53,52 +83,108 @@ public class MealRequestController extends PageController implements IServiceCon
         });
   }
 
-  @Override
-  public void back() {
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
   @FXML
-  public void validateButton() {
+  public void validateNext() {
     if (nameField.getText().isEmpty()
         || datePicker.getValue() == null
         || timeCombo.getSelectedIndex() == -1
-        || mealCombo.getSelectedIndex() == -1
         || roomCombo.getSelectedIndex() == -1) {
-      submitButton.setDisable(true);
+      nextButton.setDisable(true);
     } else {
-      submitButton.setDisable(false);
+      nextButton.setDisable(false);
     }
   }
 
+  @FXML
+  public void validateAddDrink() {
+    if (drinkCombo.getSelectedIndex() == -1 || drinkQuantity.getSelectedIndex() == -1) {
+      addDrink.setDisable(true);
+    } else {
+      addDrink.setDisable(false);
+    }
+  }
+
+  @FXML
+  public void validateAddFood() {
+    if (foodCombo.getSelectedIndex() == -1 || foodQuantity.getSelectedIndex() == -1) {
+      addFood.setDisable(true);
+    } else {
+      addFood.setDisable(false);
+    }
+  }
+
+  @FXML
   public void clear() {
     submitButton.setDisable(true);
     nameField.clear();
     roomCombo.getSelectionModel().clearSelection();
     commentField.clear();
     timeCombo.getSelectionModel().clearSelection();
-    mealCombo.getSelectionModel().clearSelection();
     datePicker.setValue(null);
   }
 
-  public void submit() {
-    Meal meal =
-        new Meal(
-            databaseRepo.getNextMealID(),
-            nameField.getText(),
-            roomCombo.getText(),
-            Date.valueOf(datePicker.getValue()),
-            entity.convertTime(timeCombo.getText()),
-            mealCombo.getText(),
-            commentField.getText(),
-            "not assigned",
-            "new",
-            AccountSingleton.INSTANCE1.getValue().getUserName());
-    databaseRepo.addMeal(meal);
-    clear();
-    confirmationDialog.setVisible(true);
-    confirmationDialog.setDisable(false);
+  @FXML
+  public void next() {
+    infoDisplay.setDisable(true);
+    infoDisplay.setVisible(false);
+    cartDisplay.setDisable(false);
+    cartDisplay.setVisible(true);
   }
+
+  @FXML
+  public void back() {
+    cartDisplay.setDisable(true);
+    cartDisplay.setVisible(false);
+    infoDisplay.setDisable(false);
+    infoDisplay.setVisible(true);
+  }
+
+  @FXML
+  public void addDrink() {
+    String drink = drinkCombo.getSelectedItem();
+    int quantity = drinkQuantity.getSelectedItem();
+    //    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
+    //    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    itemsTable.getItems().add(new ServiceRequestItem(drink, quantity));
+    validateButton();
+  }
+
+  @FXML
+  public void addFood() {
+    String food = foodCombo.getSelectedItem();
+    int quantity = foodQuantity.getSelectedItem();
+    //    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
+    //    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+    itemsTable.getItems().add(new ServiceRequestItem(food, quantity));
+    validateButton();
+  }
+
+  // TODO change to validate submit
+  public void validateButton() {
+    submitButton.setDisable(itemsTable.getItems().isEmpty());
+  }
+
+  public void submit() {}
+
+  //  @FXML
+  //  public void submit() {
+  //    Meal meal =
+  //        new Meal(
+  //            databaseRepo.getNextMealID(),
+  //            nameField.getText(),
+  //            roomCombo.getText(),
+  //            Date.valueOf(datePicker.getValue()),
+  //            entity.convertTime(timeCombo.getText()),
+  //            mealCombo.getText(),
+  //            commentField.getText(),
+  //            "not assigned",
+  //            "new",
+  //            AccountSingleton.INSTANCE1.getValue().getUserName());
+  //    databaseRepo.addMeal(meal);
+  //    clear();
+  //    confirmationDialog.setVisible(true);
+  //    confirmationDialog.setDisable(false);
+  //  }
 
   @FXML
   public void closeConfirmation() {
