@@ -1,10 +1,10 @@
 package edu.wpi.teamA;
 
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
+import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -27,9 +27,9 @@ public class App extends Application {
   @Setter @Getter private static BorderPane rootPane;
 
   // map entities + images
-  @Getter private static MapEditorEntity mapEditorEntity = new MapEditorEntity();
+  @Getter private static MapEntity mapEntity = new MapEntity();
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
-  DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @Getter private static Image mapL1 = new Image("edu/wpi/teamA/images/map-page/Level L1.png");
   @Getter private static Image mapL2 = new Image("edu/wpi/teamA/images/map-page/Level L2.png");
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
@@ -71,8 +71,8 @@ public class App extends Application {
     un.createUserTable();
 
     // set up map entity arrays for edges and nodes
-    mapEditorEntity.loadFloorEdges();
-    mapEditorEntity.loadFloorNodes();
+    mapEntity.loadFloorEdges();
+    mapEntity.loadFloorNodes();
 
     final Scene scene = new Scene(root);
     scene.getStylesheets().add("edu/wpi/teamA/views/stylesheets/main.css");

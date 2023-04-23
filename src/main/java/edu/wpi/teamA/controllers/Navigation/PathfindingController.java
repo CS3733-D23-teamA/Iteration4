@@ -1,13 +1,13 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
-import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
+import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
@@ -60,7 +60,7 @@ public class PathfindingController extends PageController {
   private final NodeDAOImp nodeDAO = new NodeDAOImp();
   private final MoveDAOImp moveDAO = new MoveDAOImp();
   private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
-  private final MapEditorEntity map = new MapEditorEntity();
+  private final MapEntity map = new MapEntity();
   private String floor = "L1";
   // private final NodeDAOImp nodeDAO = new NodeDAOImp();
 
@@ -248,7 +248,7 @@ public class PathfindingController extends PageController {
   public String generatePathString(ArrayList<Integer> path) {
     String stringPath = "Wow! You're already there! Good Job!";
     if (path.size() > 1) {
-      MapEditorEntity mapEd = new MapEditorEntity();
+      MapEntity mapEd = new MapEntity();
       LocationName locName = mapEd.getLocationName(path.get(0));
       stringPath = "Start at " + locName.getLongName();
 
