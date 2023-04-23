@@ -1,18 +1,18 @@
- package edu.wpi.teamA;
+package edu.wpi.teamA;
 
- import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
- import edu.wpi.teamA.controllers.Map.MapEditorEntity;
- import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
- import edu.wpi.teamA.database.ORMclasses.Edge;
- import edu.wpi.teamA.database.ORMclasses.Node;
- import java.util.HashMap;
- import javafx.scene.paint.Color;
- import javafx.scene.shape.Circle;
- import org.junit.jupiter.api.BeforeEach;
- import org.junit.jupiter.api.Test;
+import edu.wpi.teamA.controllers.Map.MapEditorEntity;
+import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
+import edu.wpi.teamA.database.ORMclasses.Edge;
+import edu.wpi.teamA.database.ORMclasses.Node;
+import java.util.HashMap;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
- public class mapEntityTest {
+public class mapEntityTest {
   private NodeDAOImp nodeDAO = new NodeDAOImp();
   MapEditorEntity MEEntity = new MapEditorEntity();
   HashMap<Integer, Node> testNodeMap = new HashMap<Integer, Node>();
@@ -206,7 +206,7 @@
 
     //LocationName(longName, shortName, nodeType)
   }*/
- }
+}
 
   //    @Test
   //    public void testDetermineArray() {
