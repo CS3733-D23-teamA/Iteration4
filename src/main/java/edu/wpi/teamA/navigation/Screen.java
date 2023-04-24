@@ -4,6 +4,7 @@ public enum Screen {
   ROOT("views/Root.fxml"),
   LOGIN("views/LoginPage.fxml"),
   HOME("views/Home.fxml"),
+
   SERVICE_REQUEST("views/ServiceRequest.fxml"),
   MAP("views/Map.fxml"),
   SIGNAGE("views/Signage.fxml"),
@@ -18,7 +19,11 @@ public enum Screen {
   MOVES("views/Moves.fxml"),
   ACCOUNT("views/AccountSettings.fxml"),
   FLOWER_EDIT("views/FlowerEdit.fxml"),
-  EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml");
+  ROOM_EDIT("views/RoomEdit.fxml"),
+  MEAL_EDIT("views/MealEdit.fxml"),
+  FURNITURE_EDIT("views/FurnitureEdit.fxml"),
+  EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
+  CALENDAR("views/RoomCalendar");
 
   private final String filename;
 
