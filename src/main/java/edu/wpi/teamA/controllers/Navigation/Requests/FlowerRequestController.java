@@ -155,7 +155,7 @@ public class FlowerRequestController extends PageController implements IServiceC
             commentField.getText(),
             "not assigned",
             "new",
-            AccountSingleton.INSTANCE1.getValue().getUserName());
+            AccountSingleton.INSTANCE.getValue().getUserName());
     databaseRepo.addFlower(flower);
     clear();
     back();

@@ -149,7 +149,7 @@
                               <TableColumn fx:id="mealTypeCol" prefWidth="126.99951171875" text="Meal Items" />
                               <TableColumn fx:id="mealCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
                               <TableColumn fx:id="mealEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
-                              <TableColumn fx:id="flowerCreatorCol1" prefWidth="117.1685791015625" text="Creator" />
+                              <TableColumn fx:id="mealCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="mealStatusCol" prefWidth="108.0830078125" text="Status" />
                            </columns>
                         </TableView>

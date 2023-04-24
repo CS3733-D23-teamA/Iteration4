@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -237,88 +238,32 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
   }
 
   @Override
-  public void edit(ConferenceRoomResRequest o, ConferenceRoomResRequest n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
-  @Override
   public ArrayList<ConferenceRoomResRequest> getAssigned(String username) {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int startTime = rs.getInt("starttime");
-        int endTime = rs.getInt("endtime");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        ConferenceRoomResRequest temp =
-            new ConferenceRoomResRequest(
-                id, name, room, date, startTime, endTime, comment, employee, status, creator);
-        rooms.add(temp);
+    for (Map.Entry<Integer, ConferenceRoomResRequest> entry : crrrMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)) {
+        rooms.add(entry.getValue());
       }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return rooms;
   }
 
   @Override
   public ArrayList<ConferenceRoomResRequest> getCreated(String username) {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"ConferenceRoomRequest\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int startTime = rs.getInt("starttime");
-        int endTime = rs.getInt("endtime");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        ConferenceRoomResRequest temp =
-            new ConferenceRoomResRequest(
-                id, name, room, date, startTime, endTime, comment, employee, status, creator);
-        rooms.add(temp);
+    for (Map.Entry<Integer, ConferenceRoomResRequest> entry : crrrMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)) {
+        rooms.add(entry.getValue());
       }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return rooms;
   }
 
+  @Override
   public int getNextID() {
     ConferenceRoomResRequest largestID = null;
     try {

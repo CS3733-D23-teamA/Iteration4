@@ -83,7 +83,7 @@ public class FlowerEditController extends PageController {
             FlowerSingleton.INSTANCE.getValue().getEmployee(),
             FlowerSingleton.INSTANCE.getValue().getStatus(),
             FlowerSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.editFlower(FlowerSingleton.INSTANCE.getValue(), flower);
+    databaseRepo.updateFlower(flower);
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 

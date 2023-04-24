@@ -35,8 +35,7 @@ public class ServiceRequestEntity {
     } else {
       int prevQuantity = item.getQuantity();
       item.setQuantity(prevQuantity + quantity);
-      itemsTable.getItems().remove(item);
-      itemsTable.getItems().add(item);
+      itemsTable.refresh();
     }
   }
 

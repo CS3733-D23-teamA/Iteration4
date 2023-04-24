@@ -21,9 +21,9 @@ public interface IServiceDAO<T> {
 
   void update(T obj);
 
-  void edit(T o, T n);
-
   ArrayList<T> getAssigned(String username);
 
   ArrayList<T> getCreated(String username);
+
+  int getNextID();
 }

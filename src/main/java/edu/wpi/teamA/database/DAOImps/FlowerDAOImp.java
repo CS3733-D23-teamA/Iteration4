@@ -7,6 +7,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -225,25 +226,37 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   }
 
   @Override
-  public void edit(Flower o, Flower n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
-  @Override
   public Flower get(int id) {
     return flowerMap.get(id);
   }
 
+  @Override
+  public ArrayList<Flower> getAssigned(String username) {
+    ArrayList<Flower> flowers = new ArrayList<>();
+
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)) {
+        flowers.add(entry.getValue());
+      }
+    }
+
+    return flowers;
+  }
+
+  @Override
+  public ArrayList<Flower> getCreated(String username) {
+    ArrayList<Flower> flowers = new ArrayList<>();
+
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)) {
+        flowers.add(entry.getValue());
+      }
+    }
+
+    return flowers;
+  }
+
+  @Override
   public int getNextID() {
     Flower largestID = null;
     try {
@@ -273,71 +286,5 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
     assert largestID != null;
     return largestID.getId() + 1;
-  }
-
-  public ArrayList<Flower> getAssigned(String username) {
-    ArrayList<Flower> flowers = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Flower\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
-
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Flower temp =
-            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
-        flowers.add(temp);
-      }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return flowers;
-  }
-
-  @Override
-  public ArrayList<Flower> getCreated(String username) {
-    ArrayList<Flower> flowers = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Flower\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
-
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Flower temp =
-            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
-        flowers.add(temp);
-      }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return flowers;
   }
 }
