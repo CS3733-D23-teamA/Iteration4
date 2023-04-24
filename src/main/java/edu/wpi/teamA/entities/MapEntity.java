@@ -205,7 +205,8 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMoveForNode(nodeID).getLongName()));
+    databaseRepo.deleteLocName(
+        databaseRepo.getLocName(databaseRepo.getMoveForNode(nodeID).getLongName()));
     databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
     determineNodeMap(level).remove(nodeID);
   }
