@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,7 +38,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String furnitureType = rs.getString("furnituretype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
@@ -45,7 +46,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
         FurnitureRequest fr =
             new FurnitureRequest(
-                id, name, room, date, time, furnitureType, comment, employee, status, creator);
+                id, name, room, date, time, items, comment, employee, status, creator);
         furnitureMap.put(id, fr);
       }
     } catch (SQLException e) {
@@ -69,7 +70,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String room = data[2];
         Date date = java.sql.Date.valueOf(data[3]);
         int time = Integer.parseInt(data[4]);
-        String furnitureType = data[5];
+        String items = data[5];
         String comment = data[6];
         String employee = data[7];
         String status = data[8];
@@ -84,7 +85,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         ps.setString(3, room);
         ps.setDate(4, date);
         ps.setInt(5, time);
-        ps.setString(6, furnitureType);
+        ps.setString(6, items);
         ps.setString(7, comment);
         ps.setString(8, employee);
         ps.setString(9, status);
@@ -93,7 +94,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
         FurnitureRequest fr =
             new FurnitureRequest(
-                id, name, room, date, time, furnitureType, comment, employee, status, creator);
+                id, name, room, date, time, items, comment, employee, status, creator);
         furnitureMap.put(id, fr);
       }
       csvReader.close();
@@ -113,7 +114,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("id,name,room,date,time,furnituretype,comment,employee,status,creator\n");
+      csvWriter.append("id,name,room,date,time,items,comment,employee,status,creator\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("id")) + (","));
@@ -121,7 +122,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         csvWriter.append((rs.getString("room")) + (","));
         csvWriter.append(rs.getString("date")).append(",");
         csvWriter.append((rs.getInt("time")) + (","));
-        csvWriter.append(rs.getString("furnituretype")).append(",");
+        csvWriter.append(rs.getString("items")).append(",");
         csvWriter.append(rs.getString("comment")).append(",");
         csvWriter.append(rs.getString("employee")).append(",");
         csvWriter.append(rs.getString("status")).append(",");
@@ -146,7 +147,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String room = furniture.getRoom();
       Date date = furniture.getDate();
       int time = furniture.getTime();
-      String type = furniture.getFurnitureType();
+      String items = furniture.getItems();
       String comment = furniture.getComment();
       String employee = furniture.getEmployee();
       String status = furniture.getStatus();
@@ -161,7 +162,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       ps.setString(3, room);
       ps.setDate(4, date);
       ps.setInt(5, time);
-      ps.setString(6, type);
+      ps.setString(6, items);
       ps.setString(7, comment);
       ps.setString(8, employee);
       ps.setString(9, status);
@@ -171,7 +172,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       furnitureMap.put(
           id,
           new FurnitureRequest(
-              id, name, room, date, time, type, comment, employee, status, creator));
+              id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -206,7 +207,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String room = furniture.getRoom();
       Date date = furniture.getDate();
       int time = furniture.getTime();
-      String type = furniture.getFurnitureType();
+      String items = furniture.getItems();
       String comment = furniture.getComment();
       String employee = furniture.getEmployee();
       String status = furniture.getStatus();
@@ -215,12 +216,12 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Furniture\" SET name = ?, room = ?, date = ?, time = ?, furnituretype = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Furniture\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, time);
-      ps.setString(5, type);
+      ps.setString(5, items);
       ps.setString(6, comment);
       ps.setString(7, employee);
       ps.setString(8, status);
@@ -231,94 +232,35 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       furnitureMap.put(
           id,
           new FurnitureRequest(
-              id, name, room, date, time, type, comment, employee, status, creator));
+              id, name, room, date, time, items, comment, employee, status, creator));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  @Override
-  public void edit(FurnitureRequest o, FurnitureRequest n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
   }
 
   @Override
   public ArrayList<FurnitureRequest> getAssigned(String username) {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String furnitureType = rs.getString("furnituretype");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        FurnitureRequest temp =
-            new FurnitureRequest(
-                id, name, room, date, time, furnitureType, comment, employee, status, creator);
-        furnitureRequests.add(temp);
+    for (Map.Entry<Integer, FurnitureRequest> entry : furnitureMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)) {
+        furnitureRequests.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return furnitureRequests;
   }
 
   @Override
   public ArrayList<FurnitureRequest> getCreated(String username) {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Furniture\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String furnitureType = rs.getString("furnituretype");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        FurnitureRequest temp =
-            new FurnitureRequest(
-                id, name, room, date, time, furnitureType, comment, employee, status, creator);
-        furnitureRequests.add(temp);
+    for (Map.Entry<Integer, FurnitureRequest> entry : furnitureMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)) {
+        furnitureRequests.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return furnitureRequests;
   }
 
@@ -326,6 +268,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     return furnitureMap.get(id);
   }
 
+  @Override
   public int getNextID() {
     FurnitureRequest largestID = null;
     try {
@@ -340,7 +283,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String furnitureType = rs.getString("furnituretype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
@@ -348,7 +291,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
         largestID =
             new FurnitureRequest(
-                id, name, room, date, time, furnitureType, comment, employee, status, creator);
+                id, name, room, date, time, items, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

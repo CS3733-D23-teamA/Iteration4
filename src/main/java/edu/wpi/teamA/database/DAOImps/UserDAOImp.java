@@ -76,7 +76,7 @@ public class UserDAOImp {
       PreparedStatement ps =
           UserLoginProvider.createConnection()
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
-      ps.setString(1, AccountSingleton.INSTANCE1.getValue().getUserName());
+      ps.setString(1, AccountSingleton.INSTANCE.getValue().getUserName());
       ResultSet rs = ps.executeQuery();
 
       if (rs.next()) {
@@ -91,7 +91,7 @@ public class UserDAOImp {
                   .prepareStatement(
                       "UPDATE \"Teama_schema\".\"Users\" SET password = ? WHERE userName = ?");
           updatePs.setString(1, newPassword1);
-          updatePs.setString(2, AccountSingleton.INSTANCE1.getValue().getUserName());
+          updatePs.setString(2, AccountSingleton.INSTANCE.getValue().getUserName());
           updatePs.executeUpdate();
 
           // Update the user object in AccountSingleton
@@ -102,7 +102,7 @@ public class UserDAOImp {
                   newPassword1,
                   rs.getString("firstName"),
                   rs.getString("lastName"));
-          AccountSingleton.INSTANCE1.setValue(returnUser);
+          AccountSingleton.INSTANCE.setValue(returnUser);
 
         } else {
           System.out.println("Incorrect Password");

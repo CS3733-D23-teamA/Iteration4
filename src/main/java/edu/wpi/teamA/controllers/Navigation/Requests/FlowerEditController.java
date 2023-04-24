@@ -52,7 +52,7 @@ public class FlowerEditController extends PageController {
     nameField.setText(FlowerSingleton.INSTANCE.getValue().getName());
     commentField.setText(FlowerSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FlowerSingleton.INSTANCE.getValue().getRoom());
-    flowerCombo.setText(FlowerSingleton.INSTANCE.getValue().getFlowerType());
+    flowerCombo.setText(FlowerSingleton.INSTANCE.getValue().getItems());
     datePicker.setValue(FlowerSingleton.INSTANCE.getValue().getDate().toLocalDate());
     timeCombo.setText(convertInt(FlowerSingleton.INSTANCE.getValue().getTime()));
   }
@@ -83,7 +83,7 @@ public class FlowerEditController extends PageController {
             FlowerSingleton.INSTANCE.getValue().getEmployee(),
             FlowerSingleton.INSTANCE.getValue().getStatus(),
             FlowerSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.editFlower(FlowerSingleton.INSTANCE.getValue(), flower);
+    databaseRepo.updateFlower(flower);
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 

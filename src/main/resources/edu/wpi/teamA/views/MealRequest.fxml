@@ -26,16 +26,16 @@
               <StackPane fx:id="infoDisplay" visible="false">
                   <children>
                       <VBox StackPane.alignment="TOP_LEFT">
-                          <children>
-                              <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Info" wrappingWidth="325.30218505859375" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
-                                  <font>
-                                      <Font name="Open Sans Bold" size="48.0" />
-                                  </font>
-                              </Text>
-                          </children>
                           <padding>
                               <Insets left="50.0" top="50.0" />
                           </padding>
+                     <children>
+                        <Text fx:id="title11" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Info View" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
+                           <font>
+                              <Font name="Open Sans Bold" size="32.0" />
+                           </font>
+                        </Text>
+                     </children>
                       </VBox>
                       <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;" StackPane.alignment="CENTER">
                           <children>
@@ -142,22 +142,6 @@
                               <Insets right="-70.0" />
                           </padding>
                       </VBox>
-                  <MFXGenericDialog fx:id="confirmationDialog">
-                     <center>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="Open Sans Bold" size="24.0" />
-                           </font>
-                        </Text>
-                     </center>
-                     <bottom>
-                        <MFXButton fx:id="closeConfirmation" defaultButton="true" mnemonicParsing="false" onAction="#closeConfirmation" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Close" textFill="#eebd28" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </MFXButton>
-                     </bottom>
-                  </MFXGenericDialog>
                   </children>
               </StackPane>
             <StackPane fx:id="cartDisplay">
@@ -167,9 +151,9 @@
                         <Insets left="50.0" top="50.0" />
                      </padding>
                      <children>
-                        <Text fx:id="title1" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Cart View" wrappingWidth="325.30218505859375" x="290.0" y="100.0">
+                        <Text fx:id="title111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Cart View" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
                            <font>
-                              <Font name="Open Sans Bold" size="48.0" />
+                              <Font name="Open Sans Bold" size="32.0" />
                            </font>
                         </Text>
                      </children>
@@ -295,6 +279,22 @@
                   </VBox>
                </children>
             </StackPane>
+            <MFXGenericDialog fx:id="confirmationDialog">
+               <center>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="24.0" />
+                     </font>
+                  </Text>
+               </center>
+               <bottom>
+                  <MFXButton fx:id="closeConfirmation" defaultButton="true" mnemonicParsing="false" onAction="#closeConfirmation" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Close" textFill="#eebd28" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </MFXButton>
+               </bottom>
+            </MFXGenericDialog>
          </children>
       </StackPane>
     </center>

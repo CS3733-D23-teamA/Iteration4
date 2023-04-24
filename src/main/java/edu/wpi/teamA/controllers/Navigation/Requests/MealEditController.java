@@ -83,7 +83,7 @@ public class MealEditController extends PageController {
             MealSingleton.INSTANCE.getValue().getEmployee(),
             MealSingleton.INSTANCE.getValue().getStatus(),
             MealSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.editMeal(MealSingleton.INSTANCE.getValue(), meal);
+    databaseRepo.updateMeal(meal);
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 
