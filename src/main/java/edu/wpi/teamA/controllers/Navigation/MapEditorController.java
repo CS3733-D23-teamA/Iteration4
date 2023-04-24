@@ -11,6 +11,7 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -68,10 +69,17 @@ public class MapEditorController {
   @FXML private MFXComboBox<String> nodeTypeField;
   @FXML private MFXButton submitButton;
 
+  // alignment variables
   @FXML private MFXButton AlignNodesButton;
   @FXML private HBox alignmentHBox;
   @FXML private MFXButton hAlignmentButton;
   @FXML private MFXButton vAlignmentButton;
+  private boolean alignNodesClicked;
+  private boolean stopAlignment;
+  private boolean horizontal;
+  private boolean vertical;
+
+  private ArrayList<Node> nodesToAlign = new ArrayList<>();
 
   // booleans for add, remove, modify
   private boolean removeNodeClicked;
@@ -113,9 +121,12 @@ public class MapEditorController {
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    alignNodesClicked = false;
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
+    stopAlignment = false;
+    nodesToAlign = new ArrayList<>();
     alignmentHBox.setVisible(false);
 
     // center and zoom onto map content
@@ -354,6 +365,14 @@ public class MapEditorController {
       displayEdgeData(entity.determineEdgeMap(level));
       displayNodeData(entity.determineNodeMap(level));
     }
+
+    if (alignNodesClicked == true && stopAlignment == false) {
+      // if stop alignment is not clicked then continue to add the nodes to the arraylist
+      System.out.println("Added node to arraylist");
+      nodesToAlign.add(entity.getNodeInfo(nodeID));
+    }
+    System.out.println(alignNodesClicked);
+    System.out.println(stopAlignment);
   }
 
   /** Sets up screen for the user to remove a node */
@@ -363,6 +382,7 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = false;
     modifyEdgeClicked = false;
+    alignNodesClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -373,6 +393,7 @@ public class MapEditorController {
     modifyNodeClicked = true;
     addNodeClicked = false;
     modifyEdgeClicked = false;
+    alignNodesClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
   }
 
@@ -383,6 +404,7 @@ public class MapEditorController {
       removeNodeClicked = false;
       modifyNodeClicked = false;
       addNodeClicked = false;
+      alignNodesClicked = false;
 
       editMapDirections.setText("Click a node to modify its edges.");
     } else {
@@ -434,6 +456,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
+    alignNodesClicked = false;
     modifyEdgeClicked = false;
     floorField.selectItem(level);
     floorField.setDisable(true);
@@ -553,24 +576,47 @@ public class MapEditorController {
   @FXML
   public void clickAlignNodesButton() {
     if (AlignNodesButton.getText().equals("Align Nodes")) {
-      editMapDirections.setText("Select the nodes you want to align. Then, click how you would like the nodes to be aligned (H/V)");
+      stopAlignment = false;
+      alignNodesClicked = true;
+      nodesToAlign =
+          new ArrayList<>(); // initializes the array before an alignment is done/before the
+      // selection
+
+      editMapDirections.setText(
+          "Select the nodes you want to align. Then, click how you would like the nodes to be aligned (H/V)");
       AlignNodesButton.setText("Stop Alignment");
       alignmentHBox.setVisible(true);
     } else {
+      alignNodesClicked = false;
+      stopAlignment = true;
       editMapDirections.setText("");
-      alignmentHBox.setVisible(false);
       AlignNodesButton.setText("Align Nodes");
+      if (horizontal) {
+        entity.determineHorizontalNodeAlignment(nodesToAlign);
+      } else if (vertical) {
+        entity.determineVerticalNodeAlignment(nodesToAlign);
+      }
     }
   }
 
   @FXML
   public void horizontalNodeAlignment() {
     editMapDirections.setText("");
+    horizontal = true;
+    vertical = false;
+    alignNodesClicked = true;
+    stopAlignment = false;
+    alignmentHBox.setVisible(false);
   }
 
   @FXML
   public void verticalNodeAlignment() {
     editMapDirections.setText("");
+    alignNodesClicked = true;
+    stopAlignment = false;
+    vertical = true;
+    horizontal = false;
+    alignmentHBox.setVisible(false);
   }
 
   /**
