@@ -143,7 +143,7 @@
                   </VBox>
                   </children>
               </StackPane>
-            <StackPane fx:id="cartDisplay" visible="false">
+            <StackPane fx:id="cartDisplay">
                <children>
                   <VBox StackPane.alignment="TOP_LEFT">
                      <padding>
