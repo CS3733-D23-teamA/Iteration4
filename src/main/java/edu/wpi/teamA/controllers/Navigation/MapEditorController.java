@@ -68,6 +68,11 @@ public class MapEditorController {
   @FXML private MFXComboBox<String> nodeTypeField;
   @FXML private MFXButton submitButton;
 
+  @FXML private MFXButton AlignNodesButton;
+  @FXML private HBox alignmentHBox;
+  @FXML private MFXButton hAlignmentButton;
+  @FXML private MFXButton vAlignmentButton;
+
   // booleans for add, remove, modify
   private boolean removeNodeClicked;
   private boolean addNodeClicked;
@@ -111,6 +116,7 @@ public class MapEditorController {
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
+    alignmentHBox.setVisible(false);
 
     // center and zoom onto map content
     Platform.runLater(
@@ -539,6 +545,32 @@ public class MapEditorController {
     impExpDialog.setVisible(true);
     impExpDialog.setDisable(false);
   }
+
+
+  /*@FXML private HBox alignmentHBox;
+  @FXML private MFXButton hAlignmentButton;
+  @FXML private MFXButton vAlignmentButton;*/
+
+  @FXML
+  public void clickAlignNodesButton(){
+    if(AlignNodesButton.getText().equals("Align Nodes")){
+      alignmentHBox.setVisible(true);
+    }
+    else{
+      alignmentHBox.setVisible(false);
+    }
+  }
+
+  @FXML
+  public void horizontalNodeAlignment(){
+
+  }
+
+  @FXML
+  public void verticalNodeAlignment(){
+
+  }
+
 
   /**
    * once export button is clicked, sets export boolean to true and pops up options of what the user
