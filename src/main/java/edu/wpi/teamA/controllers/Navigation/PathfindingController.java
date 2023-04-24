@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
@@ -53,9 +52,7 @@ public class PathfindingController extends PageController {
 
   // Map helper entity
   private final MapEntity map = new MapEntity();
-
-  private String floor = "L1";
-  private Search searchEntity;
+  private String currentLevel = "L1";
 
   public void initialize() {
 
@@ -88,7 +85,7 @@ public class PathfindingController extends PageController {
     startSelection.setItems(FXCollections.observableArrayList(locationOptions));
     endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
-    initiateAlgorithm();
+    searchAlgorithmSelection.setText(SearchSingleton.getSearchAlgorithm().toString());
 
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changeLevel(levelL1Button));
@@ -96,38 +93,6 @@ public class PathfindingController extends PageController {
     level1Button.setOnAction(event -> changeLevel(level1Button));
     level2Button.setOnAction(event -> changeLevel(level2Button));
     level3Button.setOnAction(event -> changeLevel(level3Button));
-  }
-
-  /** */
-  private void initiateAlgorithm() {
-    switch (PathfindingSingleton.getAlgo()) {
-      case DFS:
-        searchAlgorithmSelection.setValue("Depth-First Search");
-        break;
-      case BFS:
-        searchAlgorithmSelection.setValue("Breadth-First Search");
-        break;
-      case ASTAR:
-        searchAlgorithmSelection.setValue("A*");
-        break;
-    }
-
-    searchAlgorithmSelection.setText(PathfindingSingleton.getAlgo().toString());
-  }
-
-  /** @param algorithm */
-  private void setAlgorithm(String algorithm) {
-    switch (algorithm) {
-      case "Depth-First Search":
-        PathfindingSingleton.setAlgo(PathfindingAlgorithm.DFS);
-        break;
-      case "Breadth-First Search":
-        PathfindingSingleton.setAlgo(PathfindingAlgorithm.BFS);
-        break;
-      case "A*":
-        PathfindingSingleton.setAlgo(PathfindingAlgorithm.ASTAR);
-        break;
-    }
   }
 
   /**
@@ -142,52 +107,33 @@ public class PathfindingController extends PageController {
     switch (button.getText()) {
       case "L1":
         mapImage = App.getMapL1();
-        floor = "L1";
+        currentLevel = "L1";
         checkSelections();
         break;
       case "L2":
         mapImage = App.getMapL2();
-        floor = "L2";
+        currentLevel = "L2";
         checkSelections();
         break;
       case "1":
         mapImage = App.getMap1();
-        floor = "1";
+        currentLevel = "1";
         checkSelections();
         break;
       case "2":
         mapImage = App.getMap2();
-        floor = "2";
+        currentLevel = "2";
         checkSelections();
         break;
       case "3":
         mapImage = App.getMap3();
-        floor = "3";
+        currentLevel = "3";
         checkSelections();
         break;
     }
 
     // set map image
     this.mapView.setImage(Objects.requireNonNull(mapImage));
-  }
-
-  /**
-   * Creates a search object based off user inputed start and end, and global algorithm object
-   *
-   * @param endID int value of starting node ID
-   * @param startID int value of ending node ID
-   */
-  private void createSearch(int startID, int endID) {
-    if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
-      searchEntity = new BFS(startID, endID);
-      searchAlgorithmTextDirections.setText("Using Breadth-First Search");
-    } else if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.DFS) {
-      searchEntity = new DFS(startID, endID);
-      searchAlgorithmTextDirections.setText("Using Depth-First Search");
-    } else {
-      searchEntity = new AStar(startID, endID);
-      searchAlgorithmTextDirections.setText("Using A* Search");
-    }
   }
 
   /**
@@ -205,12 +151,15 @@ public class PathfindingController extends PageController {
     int startID = map.getIDFromLongName(startName);
     int endID = map.getIDFromLongName(endName);
 
-    // sends to create search
-    setAlgorithm(searchAlgorithmSelection.getValue());
-    createSearch(startID, endID);
+    // sends user input starting and ending IDs and set search algorithm to singleton
+    SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+    SearchSingleton.createSearch(startID, endID);
+
+    // set algorithm text
+    searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     // set text directions
-    directions.setText(generatePathString(searchEntity.getPath()));
+    directions.setText(SearchSingleton.pathString());
     directions.setFill(Color.web("#151515"));
 
     // indicate floor buttons
@@ -224,31 +173,27 @@ public class PathfindingController extends PageController {
    */
   @FXML
   public void checkSelections() {
-    System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
-    if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
-        if (searchAlgorithmSelection.getValue() != null) {
+    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+      if (searchAlgorithmSelection.getValue() != null) {
+        SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
           submit();
         }
-      } else {
+      }
+    } else {
+      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
         submit();
       }
     }
-  }
-
-  // Called when algorithm combobox changes
-  @FXML
-  public void changeAlgorithm() {
-    setAlgorithm(searchAlgorithmSelection.getValue());
-    checkSelections();
   }
 
   /** Helper method for submit, draws graphical path and includes the starting and ending node */
   public void drawPath() {
 
     // get list of node IDs and set graph node to gnode from search
-    ArrayList<Integer> pathIDs = searchEntity.getPath();
-    GraphNode gNode = searchEntity.getGraphNode(pathIDs.get(0));
+    System.out.println(SearchSingleton.getSearchAlgorithm());
+    ArrayList<Integer> pathIDs = SearchSingleton.getPath();
+    GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
@@ -264,8 +209,8 @@ public class PathfindingController extends PageController {
 
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
-      gNode = searchEntity.getGraphNode(pathIDs.get(i));
-      if (gNode.getFloor().equals(floor)) {
+      gNode = SearchSingleton.getGraphNode(i);
+      if (gNode.getFloor().equals(currentLevel)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
         line.setStrokeWidth(7);
@@ -276,38 +221,16 @@ public class PathfindingController extends PageController {
     }
 
     // sets end node is current floor is displaying the end of the path
-    if (gNode.getFloor().equals(floor)) {
+    if (gNode.getFloor().equals(currentLevel)) {
       Rectangle end = new Rectangle(lastX - 8, lastY - 8, 16, 16);
       end.setFill(Color.web("#F0C747"));
       topPane.getChildren().add(end);
     }
 
     // sets the start node if current floor is displaying the start of the path
-    if (startFloor.equals(floor)) {
+    if (startFloor.equals(currentLevel)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
-  }
-
-  /**
-   * Helper method for submit, returns a string of graphical directions
-   *
-   * @param path takes an array list of Node IDs to represent the path
-   */
-  public String generatePathString(ArrayList<Integer> path) {
-    String stringPath = "Wow! You're already there! Good Job!";
-    if (path.size() > 1) {
-      MapEntity mapEd = new MapEntity();
-      LocationName locName = mapEd.getLocationName(path.get(0));
-      stringPath = "Start at " + locName.getLongName();
-
-      for (int i = 1; i < path.size(); i++) {
-        locName = mapEd.getLocationName(path.get(i));
-        stringPath += ", then go to " + locName.getLongName();
-      }
-      stringPath += ". You have reached your destination.";
-    }
-
-    return stringPath;
   }
 
   /** Helper method to clear path */
