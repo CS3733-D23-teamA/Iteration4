@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.FurnitureEditController">
+    <top>
+        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <VBox>
+                    <children>
+                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Furniture Delivery" wrappingWidth="355.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                            <font>
+                                <Font name="Open Sans Bold" size="48.0" />
+                            </font>
+                        </Text>
+                    </children>
+                    <padding>
+                        <Insets left="50.0" top="50.0" />
+                    </padding>
+                </VBox>
+                <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
+                    <children>
+                        <HBox maxWidth="1000.0" spacing="20.0">
+                            <children>
+                                <VBox spacing="10.0" HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Name">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Furniture Type">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXFilterComboBox fx:id="furnitureCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </HBox>
+                        <HBox maxWidth="1000.0" spacing="25.0">
+                            <children>
+                                <VBox spacing="10.0" HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Room">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0" HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Time">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                                <VBox spacing="10.0" HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Date">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                    </children>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </HBox>
+                        <HBox maxWidth="1000.0">
+                            <children>
+                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Additional Comments">
+                                            <font>
+                                                <Font size="25.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" />
+                                    </children>
+                                </VBox>
+                                <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
+                                    <children>
+                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Cancel" textFill="#eebd28">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                        </MFXButton>
+                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Delete" textFill="#eebd28">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                        </MFXButton>
+                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Update" textFill="#eebd28">
+                                            <font>
+                                                <Font name="System Bold" size="20.0" />
+                                            </font>
+                                        </MFXButton>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                            <padding>
+                                <Insets left="50.0" right="130.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets right="-70.0" />
+                    </padding>
+                    <StackPane.margin>
+                        <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
+                    </StackPane.margin>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+    <left>
+        <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+        </ScrollPane>
+    </left>
+</BorderPane>

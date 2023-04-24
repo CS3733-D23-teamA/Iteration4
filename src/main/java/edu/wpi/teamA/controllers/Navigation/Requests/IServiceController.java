@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;

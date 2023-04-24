@@ -229,7 +229,15 @@ public class DataBaseRepository {
   }
 
   public Flower getFlower(int id) {
-    return flowerDAOImp.getFlower(id);
+    return flowerDAOImp.get(id);
+  }
+
+  public ArrayList<Flower> getAssignedFlower(String username) {
+    return flowerDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<Flower> getCreatedFlower(String username) {
+    return flowerDAOImp.getCreated(username);
   }
 
   public int getNextFlowerID() {
@@ -258,7 +266,15 @@ public class DataBaseRepository {
   }
 
   public ConferenceRoomResRequest getCRRR(int id) {
-    return crrrDAOImp.getCRRR(id);
+    return crrrDAOImp.get(id);
+  }
+
+  public ArrayList<ConferenceRoomResRequest> getAssignedCRRR(String username) {
+    return crrrDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<ConferenceRoomResRequest> getCreatedCRR(String username) {
+    return crrrDAOImp.getCreated(username);
   }
 
   public int getNextCRRRID() {
@@ -290,6 +306,14 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurniture(id);
   }
 
+  public ArrayList<FurnitureRequest> getAssignedFurniture(String username) {
+    return furnitureDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<FurnitureRequest> getCreatedFurniture(String username) {
+    return furnitureDAOImp.getCreated(username);
+  }
+
   public int getNextFurnitureID() {
     return furnitureDAOImp.getNextID();
   }
@@ -317,6 +341,14 @@ public class DataBaseRepository {
 
   public Meal getMeal(int id) {
     return mealDAOImp.getMeal(id);
+  }
+
+  public ArrayList<Meal> getAssignedMeal(String username) {
+    return mealDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<Meal> getCreatedMeal(String username) {
+    return mealDAOImp.getCreated(username);
   }
 
   public int getNextMealID() {
