@@ -312,6 +312,7 @@ public class MapEntity {
     }
   }
 
+  //Creates a list of the long names that correspond to the nodes
   public ArrayList<String> makeListOfLongNames() {
     ArrayList<String> nameOptions = new ArrayList<String>();
     for (Node node : nodeList) {
@@ -323,7 +324,35 @@ public class MapEntity {
     return nameOptions;
   }
 
+  //takes a long name and returns the corresponding id
   public int getIDFromLongName(String longName) {
     return nameMap.get(longName);
+  }
+
+  //takes a path of node ids and returns a list of levels travelled to
+  public ArrayList<String> floorsTravelledTo(ArrayList<Integer> path) {
+    ArrayList<String> floors = new ArrayList<String>();
+
+    //Goes through the path checking for floors
+    for (int nodeID : path) {
+      Node node = databaseRepo.getNode(nodeID);
+
+      //gets the floor
+      String nodeFloor = node.getFloor();
+
+      //checks if it was seen before
+      boolean checked = false;
+      for (String pastFloor : floors) {
+        if (pastFloor.equals(nodeFloor)) {
+          checked = true;
+        }
+      }
+
+      //if it wasnt seen before, adds it to the list
+      if (!checked) {
+        floors.add(nodeFloor);
+      }
+    }
+    return floors;
   }
 }
