@@ -237,20 +237,6 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     }
   }
 
-  @Override
-  public void edit(ConferenceRoomResRequest o, ConferenceRoomResRequest n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
 
   @Override
   public ArrayList<ConferenceRoomResRequest> getAssigned(String username) {
@@ -278,6 +264,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     return rooms;
   }
 
+  @Override
   public int getNextID() {
     ConferenceRoomResRequest largestID = null;
     try {

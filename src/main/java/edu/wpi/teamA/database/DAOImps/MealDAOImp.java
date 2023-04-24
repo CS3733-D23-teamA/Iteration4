@@ -233,21 +233,6 @@ public class MealDAOImp implements IServiceDAO<Meal> {
   }
 
   @Override
-  public void edit(Meal o, Meal n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
-  @Override
   public ArrayList<Meal> getAssigned(String username) {
     ArrayList<Meal> meals = new ArrayList<>();
 
@@ -277,6 +262,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     return mealMap.get(id);
   }
 
+  @Override
   public int getNextID() {
     Meal largestID = null;
     try {

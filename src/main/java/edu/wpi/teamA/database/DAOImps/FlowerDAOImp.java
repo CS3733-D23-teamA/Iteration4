@@ -226,25 +226,11 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   }
 
   @Override
-  public void edit(Flower o, Flower n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
-  @Override
   public Flower get(int id) {
     return flowerMap.get(id);
   }
 
+  @Override
   public ArrayList<Flower> getAssigned(String username) {
     ArrayList<Flower> flowers = new ArrayList<>();
 
@@ -270,6 +256,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     return flowers;
   }
 
+  @Override
   public int getNextID() {
     Flower largestID = null;
     try {

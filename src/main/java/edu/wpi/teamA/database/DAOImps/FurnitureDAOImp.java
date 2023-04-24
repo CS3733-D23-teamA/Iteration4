@@ -239,21 +239,6 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   }
 
   @Override
-  public void edit(FurnitureRequest o, FurnitureRequest n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
-  @Override
   public ArrayList<FurnitureRequest> getAssigned(String username) {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
 
@@ -283,6 +268,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     return furnitureMap.get(id);
   }
 
+  @Override
   public int getNextID() {
     FurnitureRequest largestID = null;
     try {
