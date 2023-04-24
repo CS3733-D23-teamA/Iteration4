@@ -102,7 +102,7 @@ public class ConferenceRequestController extends PageController implements IServ
               commentField.getText(),
               "not assigned",
               "new",
-              AccountSingleton.INSTANCE1.getValue().getUserName());
+              AccountSingleton.INSTANCE.getValue().getUserName());
 
       databaseRepo.addCRRR(crrr);
       clear();

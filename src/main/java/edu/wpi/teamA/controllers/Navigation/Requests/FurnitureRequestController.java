@@ -161,7 +161,7 @@ public class FurnitureRequestController extends PageController implements IServi
             commentField.getText(),
             "not assigned",
             "new",
-            AccountSingleton.INSTANCE1.getValue().getUserName());
+            AccountSingleton.INSTANCE.getValue().getUserName());
     databaseRepo.addFurniture(furniture);
     clear();
     back();
