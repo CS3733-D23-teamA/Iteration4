@@ -408,7 +408,6 @@ public class ServiceRequestController extends PageController {
 
   public void updateTable() {
     int request = requestCombo.getSelectedIndex();
-    System.out.println(request);
     if (request <= 0) {
       displayFlowerRequests();
       flowerTable.toFront();
@@ -422,6 +421,5 @@ public class ServiceRequestController extends PageController {
       displayFurnitureRequests();
       furnitureTable.toFront();
     }
-    System.out.println("done");
   }
 }

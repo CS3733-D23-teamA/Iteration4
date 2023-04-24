@@ -23,7 +23,7 @@ public enum Screen {
   MEAL_EDIT("views/MealEdit.fxml"),
   FURNITURE_EDIT("views/FurnitureEdit.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
-  CALENDAR("views/RoomCalendar");
+  CALENDAR("views/CRCalendar.fxml");
 
   private final String filename;
 
