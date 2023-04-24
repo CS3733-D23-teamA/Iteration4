@@ -46,6 +46,12 @@
                                     <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
+                                    <MFXFilterComboBox fx:id="screenAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
                                     <MFXButton fx:id="addButton" onAction="#addSignage" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Add" />
@@ -65,8 +71,8 @@
                            <children>
                               <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXFilterComboBox fx:id="locNameRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
+                                    <MFXFilterComboBox fx:id="SignageIDRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -102,6 +108,12 @@
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
                                     <DatePicker fx:id="modifyDateInput" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
+                                    <MFXFilterComboBox fx:id="screenModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">

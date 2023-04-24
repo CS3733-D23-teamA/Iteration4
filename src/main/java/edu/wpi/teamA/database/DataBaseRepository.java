@@ -394,8 +394,8 @@ public class DataBaseRepository {
     return signageDAOImp.loadSignagesFromDatabaseInMap();
   }
 
-  public SignageComponent getSignage(String locationName) {
-    return signageDAOImp.getSignage(locationName);
+  public SignageComponent getSignage(String signageID) {
+    return signageDAOImp.getSignage(signageID);
   }
 
   public void modifySignage(SignageComponent signage) {

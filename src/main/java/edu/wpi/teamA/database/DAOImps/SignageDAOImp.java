@@ -23,11 +23,12 @@ public class SignageDAOImp implements ISignageDAO {
   }
 
   @Override
-  public SignageComponent getSignage(String locationName) {
-    return signageMap.get(locationName);
+  public SignageComponent getSignage(String signageID) {
+    return signageMap.get(signageID);
   }
 
   public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+    int screen = 0;
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -37,9 +38,11 @@ public class SignageDAOImp implements ISignageDAO {
         String locationName = rs.getString("locationName");
         String direction = rs.getString("direction");
         Date date = rs.getDate("date");
+        String signageID = locationName + date.toString();
 
-        SignageComponent signage = new SignageComponent(locationName, direction, date);
-        signageMap.put(locationName, signage);
+        SignageComponent signage =
+            new SignageComponent(locationName, direction, date, screen, signageID);
+        signageMap.put(signageID, signage);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -54,7 +57,8 @@ public class SignageDAOImp implements ISignageDAO {
       String locationName = signage.getLocationName();
       String direction = signage.getDirection();
       Date date = signage.getDate();
-      Time time = signage.getTime();
+      int screen = signage.getScreen();
+      String signageID = locationName + date.toString();
 
       PreparedStatement ps =
           signageProvider
@@ -66,8 +70,8 @@ public class SignageDAOImp implements ISignageDAO {
       ps.setString(3, locationName);
 
       signageMap.put(
-          signage.getLocationName(),
-          new SignageComponent(signage.getLocationName(), direction, date));
+          signageID,
+          new SignageComponent(signage.getLocationName(), direction, date, screen, signageID));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -80,7 +84,8 @@ public class SignageDAOImp implements ISignageDAO {
       String locationName = signage.getLocationName();
       String direction = signage.getDirection();
       Date date = signage.getDate();
-      Time time = signage.getTime();
+      int screen = signage.getScreen();
+      String signageID = locationName + date.toString();
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
@@ -91,7 +96,8 @@ public class SignageDAOImp implements ISignageDAO {
       ps.setDate(3, date);
       ps.executeUpdate();
 
-      signageMap.put(locationName, new SignageComponent(locationName, direction, date));
+      signageMap.put(
+          signageID, new SignageComponent(locationName, direction, date, screen, signageID));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -108,7 +114,8 @@ public class SignageDAOImp implements ISignageDAO {
       ps.setString(1, signage.getLocationName());
       ps.executeUpdate();
 
-      signageMap.remove(signage.getLocationName());
+      // String signageID = signage.getLocationName() + signage.getDate().toString();
+      signageMap.remove(signage.getSignageID());
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

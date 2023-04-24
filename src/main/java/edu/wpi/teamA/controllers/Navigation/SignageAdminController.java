@@ -23,11 +23,13 @@ public class SignageAdminController {
   private DataBaseRepository db = DataBaseRepository.getInstance();
 
   @FXML private MFXTextField locNameAddInput;
-  @FXML private MFXFilterComboBox directionAddInputCombo;
+  @FXML private MFXFilterComboBox<String> directionAddInputCombo;
+  @FXML private MFXFilterComboBox<Integer> screenAddInputCombo;
   @FXML private DatePicker dateAddInput;
   @FXML private MFXComboBox<String> locNameRemoveCombo;
   @FXML private MFXComboBox<String> locNameModifyCombo;
   @FXML private MFXComboBox<String> directionModifyCombo;
+  @FXML private MFXComboBox<Integer> screenModifyCombo;
   @FXML private DatePicker modifyDateInput;
   @FXML private MFXButton addButton;
   @FXML private MFXButton removeButton;
@@ -48,14 +50,17 @@ public class SignageAdminController {
     locNameRemoveCombo.getItems().addAll(allSignageLocationNames);
     locNameModifyCombo.getItems().addAll(allSignageLocationNames);
     directionAddInputCombo.getItems().addAll("up", "down", "right", "left", "stop right here");
+    directionModifyCombo.getItems().addAll("up", "down", "right", "left", "stop right here");
+    screenAddInputCombo.getItems().addAll(1, 2);
+    screenModifyCombo.getItems().addAll(1, 2);
 
     displaySignages();
     addButton.setDisable(true);
     removeButton.setDisable(true);
     modifyButton.setDisable(true);
-    validateAdd();
-    validateModify();
-    validateRemove();
+    // validateAdd();
+    // validateModify();
+    // validateRemove();
   }
 
   public void displaySignages() {
@@ -68,21 +73,22 @@ public class SignageAdminController {
   }
 
   public void addSignage() {
-    // Date date = dateAddInput.getValue();
-
+    String signageID = locNameAddInput.getText() + Date.valueOf(dateAddInput.getValue()).toString();
     SignageComponent signage =
         new SignageComponent(
             locNameAddInput.getText(),
             directionAddInputCombo.getText(),
-            Date.valueOf(dateAddInput.getValue()));
+            Date.valueOf(dateAddInput.getValue()),
+            screenAddInputCombo.getValue(),
+            signageID);
     db.addSignage(signage);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void removeSignage() {
     SignageComponent signage = db.getSignage(locNameRemoveCombo.getSelectedItem());
     db.removeSignage(signage);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void modifySignage() {
@@ -91,7 +97,7 @@ public class SignageAdminController {
     signage.setDirection(directionModifyCombo.getText());
     // signage.setDirection(modifyDirectionInput.getText()); for date
     db.modifySignage(signage);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void validateAdd() {
