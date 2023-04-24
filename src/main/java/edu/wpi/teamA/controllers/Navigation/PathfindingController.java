@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.MapEntity;
@@ -56,7 +55,6 @@ public class PathfindingController extends PageController {
   private final MapEntity map = new MapEntity();
 
   private String floor = "L1";
-  private final DataBaseRepository databaseRepo = new DataBaseRepository();
   private Search searchEntity;
 
   public void initialize() {
@@ -115,10 +113,6 @@ public class PathfindingController extends PageController {
     }
 
     searchAlgorithmSelection.setText(PathfindingSingleton.getAlgo().toString());
-
-    if (searchAlgorithmSelection.getValue() != null) {
-      setAlgorithm(searchAlgorithmSelection.getValue());
-    }
   }
 
   /** @param algorithm */
@@ -184,17 +178,15 @@ public class PathfindingController extends PageController {
    * @param startID int value of ending node ID
    */
   private void createSearch(int startID, int endID) {
-    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
-      if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
-        searchEntity = new BFS(startID, endID);
-        searchAlgorithmTextDirections.setText("Using Breadth-First Search");
-      } else if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.DFS) {
-        searchEntity = new DFS(startID, endID);
-        searchAlgorithmTextDirections.setText("Using Depth-First Search");
-      } else {
-        searchEntity = new AStar(startID, endID);
-        searchAlgorithmTextDirections.setText("Using A* Search");
-      }
+    if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
+      searchEntity = new BFS(startID, endID);
+      searchAlgorithmTextDirections.setText("Using Breadth-First Search");
+    } else if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.DFS) {
+      searchEntity = new DFS(startID, endID);
+      searchAlgorithmTextDirections.setText("Using Depth-First Search");
+    } else {
+      searchEntity = new AStar(startID, endID);
+      searchAlgorithmTextDirections.setText("Using A* Search");
     }
   }
 
@@ -222,7 +214,7 @@ public class PathfindingController extends PageController {
     directions.setFill(Color.web("#151515"));
 
     // indicate floor buttons
-    ArrayList<Integer> test = searchEntity.getPath();
+    // ArrayList<Integer> test = searchEntity.getPath();
 
     drawPath();
   }
@@ -242,6 +234,13 @@ public class PathfindingController extends PageController {
         submit();
       }
     }
+  }
+
+  // Called when algorithm combobox changes
+  @FXML
+  public void changeAlgorithm() {
+    setAlgorithm(searchAlgorithmSelection.getValue());
+    checkSelections();
   }
 
   /** Helper method for submit, draws graphical path and includes the starting and ending node */
