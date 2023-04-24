@@ -26,8 +26,9 @@ public class SignageAdminController {
   @FXML private MFXFilterComboBox<String> directionAddInputCombo;
   @FXML private MFXFilterComboBox<Integer> screenAddInputCombo;
   @FXML private DatePicker dateAddInput;
-  @FXML private MFXComboBox<String> locNameRemoveCombo;
-  @FXML private MFXComboBox<String> locNameModifyCombo;
+  @FXML private MFXComboBox<String> SignageIDRemoveCombo;
+  @FXML private MFXComboBox<String> signageIDModifyCombo;
+  @FXML private MFXTextField locNameModifyText;
   @FXML private MFXComboBox<String> directionModifyCombo;
   @FXML private MFXComboBox<Integer> screenModifyCombo;
   @FXML private DatePicker modifyDateInput;
@@ -41,14 +42,16 @@ public class SignageAdminController {
   @FXML private TableColumn<SignageComponent, String> dateCol;
 
   public void initialize() {
-    ArrayList<String> allSignageLocationNames = new ArrayList<>();
+    // ArrayList<String> allSignageLocationNames = new ArrayList<>();
+    ArrayList<String> allSignageIDs = new ArrayList<>();
     for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
-      allSignageLocationNames.add(signage.getLocationName());
+      // allSignageLocationNames.add(signage.getLocationName());
+      allSignageIDs.add(signage.getSignageID());
     }
 
-    locNameRemoveCombo.getItems().addAll(allSignageLocationNames);
-    locNameModifyCombo.getItems().addAll(allSignageLocationNames);
+    SignageIDRemoveCombo.getItems().addAll(allSignageIDs);
+    signageIDModifyCombo.getItems().addAll(allSignageIDs);
     directionAddInputCombo.getItems().addAll("up", "down", "right", "left", "stop right here");
     directionModifyCombo.getItems().addAll("up", "down", "right", "left", "stop right here");
     screenAddInputCombo.getItems().addAll(1, 2);
@@ -86,15 +89,23 @@ public class SignageAdminController {
   }
 
   public void removeSignage() {
-    SignageComponent signage = db.getSignage(locNameRemoveCombo.getSelectedItem());
+    SignageComponent signage = db.getSignage(SignageIDRemoveCombo.getSelectedItem());
     db.removeSignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void modifySignage() {
-    SignageComponent signage = db.getSignage(locNameModifyCombo.getSelectedItem());
-    signage.setLocationName(locNameModifyCombo.getText());
-    signage.setDirection(directionModifyCombo.getText());
+    SignageComponent signage = db.getSignage(signageIDModifyCombo.getSelectedItem());
+    if (!locNameModifyText.getText().isEmpty()) {
+      signage.setLocationName(locNameModifyText.getText());
+    }
+    if (directionModifyCombo.getSelectedIndex() != -1) {
+      signage.setDirection(directionModifyCombo.getText());
+    }
+    if (modifyDateInput.getValue() != null) {
+      signage.setDate(Date.valueOf(modifyDateInput.getValue()));
+    }
+    signage.setSignageID(signage.getLocationName() + signage.getDate().toString());
     // signage.setDirection(modifyDirectionInput.getText()); for date
     db.modifySignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
@@ -111,7 +122,7 @@ public class SignageAdminController {
   }
 
   public void validateRemove() {
-    if (locNameRemoveCombo.getSelectedIndex() == -1) {
+    if (SignageIDRemoveCombo.getSelectedIndex() == -1) {
       removeButton.setDisable(true);
     } else {
       removeButton.setDisable(false);
@@ -119,9 +130,10 @@ public class SignageAdminController {
   }
 
   public void validateModify() {
-    if (locNameModifyCombo.getText().isEmpty()
-        || directionModifyCombo.getText().isEmpty()
-        || modifyDateInput.getValue() == null) {
+    if (signageIDModifyCombo.getSelectedIndex() == -1
+        || (locNameModifyText.getText().isEmpty()
+            && directionModifyCombo.getSelectedIndex() == -1
+            && modifyDateInput.getValue() == null)) {
       modifyButton.setDisable(true);
     } else {
       modifyButton.setDisable(false);

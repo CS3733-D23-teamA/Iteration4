@@ -105,7 +105,7 @@ public class NavigationBarController {
   }
 
   public void openSignage() {
-    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (AccountSingleton.isAdmin()) {
       Navigation.navigate(Screen.SIGNAGE_ADMIN);
     } else {
       Navigation.navigate(Screen.SIGNAGE);
