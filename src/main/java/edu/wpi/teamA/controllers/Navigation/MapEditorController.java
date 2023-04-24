@@ -546,31 +546,32 @@ public class MapEditorController {
     impExpDialog.setDisable(false);
   }
 
-
   /*@FXML private HBox alignmentHBox;
   @FXML private MFXButton hAlignmentButton;
   @FXML private MFXButton vAlignmentButton;*/
 
   @FXML
-  public void clickAlignNodesButton(){
-    if(AlignNodesButton.getText().equals("Align Nodes")){
+  public void clickAlignNodesButton() {
+    if (AlignNodesButton.getText().equals("Align Nodes")) {
+      editMapDirections.setText("Select the nodes you want to align. Then, click how you would like the nodes to be aligned (H/V)");
+      AlignNodesButton.setText("Stop Alignment");
       alignmentHBox.setVisible(true);
-    }
-    else{
+    } else {
+      editMapDirections.setText("");
       alignmentHBox.setVisible(false);
+      AlignNodesButton.setText("Align Nodes");
     }
   }
 
   @FXML
-  public void horizontalNodeAlignment(){
-
+  public void horizontalNodeAlignment() {
+    editMapDirections.setText("");
   }
 
   @FXML
-  public void verticalNodeAlignment(){
-
+  public void verticalNodeAlignment() {
+    editMapDirections.setText("");
   }
-
 
   /**
    * once export button is clicked, sets export boolean to true and pops up options of what the user
