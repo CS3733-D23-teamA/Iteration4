@@ -37,6 +37,10 @@ public class MapEntity {
   @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
   @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
 
+  // List of all nodes
+  private ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
+  private HashMap<String, Integer> nameMap;
+
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
@@ -286,5 +290,40 @@ public class MapEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     return LocalDate.parse(dateString, formatter);
+  }
+
+  public ArrayList<Node> loadAllNodes() {
+    return databaseRepo.loadNodesFromDatabaseInArray();
+  }
+
+  public String getLongName(int id) {
+    return databaseRepo.getMove(id).getLongName();
+  }
+
+  // sets up the hashmap linking long names to nodeIDs
+  public void initializeNameIDHashMap() {
+    nameMap = new HashMap<String, Integer>();
+    for (Node node : nodeList) {
+      // set node ID
+      int id = node.getNodeID();
+
+      // puts name and ID into name map
+      nameMap.put(getLongName(id), id);
+    }
+  }
+
+  public ArrayList<String> makeListOfLongNames() {
+    ArrayList<String> nameOptions = new ArrayList<String>();
+    for (Node node : nodeList) {
+      // set node ID
+      int id = node.getNodeID();
+      // Add
+      nameOptions.add(getLongName(id));
+    }
+    return nameOptions;
+  }
+
+  public int getIDFromLongName(String longName) {
+    return nameMap.get(longName);
   }
 }

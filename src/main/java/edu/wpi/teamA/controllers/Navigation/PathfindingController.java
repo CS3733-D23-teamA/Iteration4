@@ -1,17 +1,14 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
-import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -55,9 +52,6 @@ public class PathfindingController extends PageController {
   private ArrayList<String> locationOptions = new ArrayList<>();
   private ArrayList<String> searchOptions = new ArrayList<>();
 
-  // holds all names and node IDs and maps them to each other
-  private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
-
   // Map helper entity
   private final MapEntity map = new MapEntity();
 
@@ -83,19 +77,9 @@ public class PathfindingController extends PageController {
           gesturePane.zoomTo(0.5, new Point2D(2265, 950));
         });
 
-    // Getting Nodes from Database
-    ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
-    for (Node node : nodeList) {
-      // set node ID
-      int id = node.getNodeID();
-
-      // get node name and add to node options
-      String name = new MoveDAOImp().getMove(id).getLongName();
-      locationOptions.add(name);
-
-      // puts name and ID into name map
-      nameMap.put(name, id);
-    }
+    // Getting LongNames from Database
+    locationOptions = map.makeListOfLongNames();
+    map.initializeNameIDHashMap();
 
     // Adding search options
     searchOptions.add("A*");
@@ -226,8 +210,8 @@ public class PathfindingController extends PageController {
     String endName = endSelection.getValue();
 
     // TODO whatttt
-    int startID = nameMap.get(startName);
-    int endID = nameMap.get(endName);
+    int startID = map.getIDFromLongName(startName);
+    int endID = map.getIDFromLongName(endName);
 
     // sends to create search
     setAlgorithm(searchAlgorithmSelection.getValue());
