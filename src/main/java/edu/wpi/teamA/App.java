@@ -67,8 +67,7 @@ public class App extends Application {
     App.rootPane = root;
 
     // move to init?
-    UserDAOImp un = new UserDAOImp();
-    un.createUserTable();
+    databaseRepo.createUserTable();
 
     // set up map entity arrays for edges and nodes
     mapEntity.loadFloorEdges();
