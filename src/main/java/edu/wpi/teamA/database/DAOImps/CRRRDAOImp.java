@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import edu.wpi.teamA.database.ORMclasses.Flower;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -259,7 +257,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
 
     for (Map.Entry<Integer, ConferenceRoomResRequest> entry : crrrMap.entrySet()) {
-      if(entry.getValue().getEmployee().equals(username)) {
+      if (entry.getValue().getEmployee().equals(username)) {
         rooms.add(entry.getValue());
       }
     }
@@ -272,7 +270,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
 
     for (Map.Entry<Integer, ConferenceRoomResRequest> entry : crrrMap.entrySet()) {
-      if(entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username)) {
         rooms.add(entry.getValue());
       }
     }

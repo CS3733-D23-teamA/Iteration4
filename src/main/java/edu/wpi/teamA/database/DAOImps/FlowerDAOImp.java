@@ -2,7 +2,6 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
-import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Flower;
 import java.io.*;
 import java.sql.*;
@@ -246,6 +245,31 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     return flowerMap.get(id);
   }
 
+  public ArrayList<Flower> getAssigned(String username) {
+    ArrayList<Flower> flowers = new ArrayList<>();
+
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)) {
+        flowers.add(entry.getValue());
+      }
+    }
+
+    return flowers;
+  }
+
+  @Override
+  public ArrayList<Flower> getCreated(String username) {
+    ArrayList<Flower> flowers = new ArrayList<>();
+
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)) {
+        flowers.add(entry.getValue());
+      }
+    }
+
+    return flowers;
+  }
+
   public int getNextID() {
     Flower largestID = null;
     try {
@@ -275,30 +299,5 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
     assert largestID != null;
     return largestID.getId() + 1;
-  }
-
-  public ArrayList<Flower> getAssigned(String username) {
-    ArrayList<Flower> flowers = new ArrayList<>();
-
-    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if(entry.getValue().getEmployee().equals(username)) {
-        flowers.add(entry.getValue());
-      }
-    }
-
-    return flowers;
-  }
-
-  @Override
-  public ArrayList<Flower> getCreated(String username) {
-    ArrayList<Flower> flowers = new ArrayList<>();
-
-    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if(entry.getValue().getCreator().equals(username)) {
-        flowers.add(entry.getValue());
-      }
-    }
-
-    return flowers;
   }
 }

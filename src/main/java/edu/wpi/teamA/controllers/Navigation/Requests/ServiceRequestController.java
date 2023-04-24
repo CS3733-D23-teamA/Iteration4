@@ -82,7 +82,7 @@ public class ServiceRequestController extends PageController {
 
   @FXML
   public void initialize() {
-    requestCombo.setPromptText("Select Request");
+    // requestCombo.setPromptText("Select Request");
     requestCombo
         .getItems()
         .addAll(
@@ -90,6 +90,7 @@ public class ServiceRequestController extends PageController {
             "Conference Room Request",
             "Meal Delivery Request",
             "Furniture Delivery Request");
+    requestCombo.getSelectionModel().selectItem("Flower Request");
     displayFlowerRequests();
     flowerTable.toFront();
 
@@ -318,7 +319,7 @@ public class ServiceRequestController extends PageController {
     flowerCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
     flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
-    roomTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    flowerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayCRRRRequests() {
@@ -363,8 +364,12 @@ public class ServiceRequestController extends PageController {
     mealEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     mealStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+    // if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
     mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
     mealTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    // } else {
+    // }
+
   }
 
   public void updateTable() {

@@ -83,7 +83,7 @@ public class FurnitureEditController extends PageController {
             FurnitureSingleton.INSTANCE.getValue().getEmployee(),
             FurnitureSingleton.INSTANCE.getValue().getStatus(),
             FurnitureSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.editFurniture(FurnitureSingleton.INSTANCE.getValue(), fr);
+    databaseRepo.updateFurniture(fr);
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 

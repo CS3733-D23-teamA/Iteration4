@@ -2,7 +2,6 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
-import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.database.ORMclasses.Meal;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -253,7 +252,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
 
     for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
-      if(entry.getValue().getEmployee().equals(username)) {
+      if (entry.getValue().getEmployee().equals(username)) {
         meals.add(entry.getValue());
       }
     }
@@ -266,7 +265,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
 
     for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
-      if(entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username)) {
         meals.add(entry.getValue());
       }
     }

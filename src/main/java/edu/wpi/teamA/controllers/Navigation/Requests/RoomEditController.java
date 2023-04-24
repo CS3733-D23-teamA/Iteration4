@@ -87,7 +87,7 @@ public class RoomEditController extends PageController {
             CRRRSingleton.INSTANCE.getValue().getEmployee(),
             CRRRSingleton.INSTANCE.getValue().getStatus(),
             CRRRSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.editCRRR(CRRRSingleton.INSTANCE.getValue(), crrr);
+    databaseRepo.updateCRRR(crrr);
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 
