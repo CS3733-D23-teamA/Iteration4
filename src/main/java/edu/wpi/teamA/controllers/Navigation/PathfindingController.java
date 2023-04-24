@@ -2,7 +2,6 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Node;
@@ -52,14 +51,16 @@ public class PathfindingController extends PageController {
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
 
-  // Node implementation
-  private ArrayList<String> nodeOptions = new ArrayList<>();
+  // Search and location options
+  private ArrayList<String> locationOptions = new ArrayList<>();
   private ArrayList<String> searchOptions = new ArrayList<>();
-  private ArrayList<Node> nodeList;
-  private final NodeDAOImp nodeDAO = new NodeDAOImp();
-  private final MoveDAOImp moveDAO = new MoveDAOImp();
+
+  // holds all names and node IDs and maps them to each other
   private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
+
+  // Map helper entity
   private final MapEntity map = new MapEntity();
+
   private String floor = "L1";
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
   private Search search;
@@ -83,32 +84,39 @@ public class PathfindingController extends PageController {
         });
 
     // Getting Nodes from Database
-    nodeList = databaseRepo.loadNodesFromDatabaseInArray();
+    ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
     for (Node node : nodeList) {
+      // set node ID
       int id = node.getNodeID();
-      String name = moveDAO.getMove(id).getLongName();
-      nodeOptions.add(name);
+
+      // get node name and add to node options
+      String name = new MoveDAOImp().getMove(id).getLongName();
+      locationOptions.add(name);
+
+      // puts name and ID into name map
       nameMap.put(name, id);
     }
 
+    // Adding search options
     searchOptions.add("A*");
     searchOptions.add("Breadth-First Search");
     searchOptions.add("Depth-First Search");
 
     // Setting ComboBox Selection Options (for start + end locations)
-    startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
-    endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
+    startSelection.setItems(FXCollections.observableArrayList(locationOptions));
+    endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
     initiateAlgorithm();
 
     // Buttons to set floor level of map
-    levelL1Button.setOnAction(event -> changLevel(levelL1Button));
-    levelL2Button.setOnAction(event -> changLevel(levelL2Button));
-    level1Button.setOnAction(event -> changLevel(level1Button));
-    level2Button.setOnAction(event -> changLevel(level2Button));
-    level3Button.setOnAction(event -> changLevel(level3Button));
+    levelL1Button.setOnAction(event -> changeLevel(levelL1Button));
+    levelL2Button.setOnAction(event -> changeLevel(levelL2Button));
+    level1Button.setOnAction(event -> changeLevel(level1Button));
+    level2Button.setOnAction(event -> changeLevel(level2Button));
+    level3Button.setOnAction(event -> changeLevel(level3Button));
   }
 
+  /** */
   private void initiateAlgorithm() {
     switch (PathfindingSingleton.getAlgo()) {
       case DFS:
@@ -122,11 +130,14 @@ public class PathfindingController extends PageController {
         break;
     }
 
-    if (searchAlgorithmSelection != null) {
+    searchAlgorithmSelection.setText(PathfindingSingleton.getAlgo().toString());
+
+    if (searchAlgorithmSelection.getValue() != null) {
       setAlgorithm(searchAlgorithmSelection.getValue());
     }
   }
 
+  /** @param algorithm */
   private void setAlgorithm(String algorithm) {
     switch (algorithm) {
       case "Depth-First Search":
@@ -135,13 +146,19 @@ public class PathfindingController extends PageController {
       case "Breadth-First Search":
         PathfindingSingleton.setAlgo(PathfindingAlgorithm.BFS);
         break;
-      case "A*":
+      case "ASTAR":
         PathfindingSingleton.setAlgo(PathfindingAlgorithm.ASTAR);
         break;
     }
   }
 
-  private void changLevel(MFXButton button) {
+  /**
+   * Sets corresponding map level image and global floor variale, sends check path to check each
+   * floor for a path
+   *
+   * @param button takes the user selected level button to access button text
+   */
+  private void changeLevel(MFXButton button) {
 
     // get pre-loaded map image from App
     switch (button.getText()) {
@@ -176,8 +193,14 @@ public class PathfindingController extends PageController {
     this.mapView.setImage(Objects.requireNonNull(mapImage));
   }
 
+  /**
+   * Creates a search object based off user inputed start and end, and global algorithm object
+   *
+   * @param endID int value of starting node ID
+   * @param startID int value of ending node ID
+   */
   private void createSearch(int startID, int endID) {
-    if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
         search = new BFS(startID, endID);
         searchAlgorithmTextDirections.setText("Using Breadth-First Search");
@@ -196,24 +219,26 @@ public class PathfindingController extends PageController {
    * selection, sends directions to the user and draws graphical path.
    */
   public void submit() {
-    try {
-      clearPath();
-      String startName = startSelection.getSelectedItem();
-      String endName = endSelection.getSelectedItem();
+    clearPath();
 
-      int startID = nameMap.get(startName);
-      int endID = nameMap.get(endName);
+    // get user input for start and end
+    String startName = startSelection.getSelectedItem();
+    String endName = endSelection.getSelectedItem();
 
-      createSearch(startID, endID);
+    // TODO whatttt
+    int startID = nameMap.get(startName);
+    int endID = nameMap.get(endName);
 
-      directions.setText(generatePathString(search.getPath()));
-      directions.setFill(Color.web("#151515"));
+    createSearch(startID, endID);
 
-      drawPath();
+    // set text directions
+    directions.setText(generatePathString(search.getPath()));
+    directions.setFill(Color.web("#151515"));
 
-    } catch (NullPointerException e) {
-      System.out.println("Null Value " + e.getMessage());
-    }
+    // indicate floor buttons
+    ArrayList<Integer> test = search.getPath();
+
+    drawPath();
   }
 
   /**
@@ -233,31 +258,28 @@ public class PathfindingController extends PageController {
     }
   }
 
-  /**
-   * Helper method for submit, draws graphical path
-   *
-   * @param
-   */
+  /** Helper method for submit, draws graphical path and includes the starting and ending node */
   public void drawPath() {
 
     // get list of node IDs and set graph node to gnode from search
-    ArrayList<Integer> nodePathIDs = search.getPath();
-    GraphNode gNode = search.getGraphNode(nodePathIDs.get(0));
+    ArrayList<Integer> pathIDs = search.getPath();
+    GraphNode gNode = search.getGraphNode(pathIDs.get(0));
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
 
-    // set starting floor and x and y coords
+    // set starting floor and x and y coords //TODO @ vincent what
     String startFloor = gNode.getFloor();
     int startX = lastX;
     int startY = lastY;
 
-    // make a line
+    // create a line
     Line line;
 
-    for (int i = 1; i < nodePathIDs.size(); i++) {
-      gNode = search.getGraphNode(nodePathIDs.get(i));
+    // draw the path
+    for (int i = 1; i < pathIDs.size(); i++) {
+      gNode = search.getGraphNode(pathIDs.get(i));
       if (gNode.getFloor().equals(floor)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
@@ -268,16 +290,24 @@ public class PathfindingController extends PageController {
       lastY = gNode.getYcoord();
     }
 
+    // sets end node is current floor is displaying the end of the path
     if (gNode.getFloor().equals(floor)) {
       Rectangle end = new Rectangle(lastX - 8, lastY - 8, 16, 16);
-      end.setFill(Color.web("0xEEBD28"));
+      end.setFill(Color.web("#F0C747"));
       topPane.getChildren().add(end);
     }
+
+    // sets the start node if current floor is displaying the start of the path
     if (startFloor.equals(floor)) {
-      topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("0xEEBD28")));
+      topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
   }
 
+  /**
+   * Helper method for submit, returns a string of graphical directions
+   *
+   * @param path takes an array list of Node IDs to represent the path
+   */
   public String generatePathString(ArrayList<Integer> path) {
     String stringPath = "Wow! You're already there! Good Job!";
     if (path.size() > 1) {
@@ -295,6 +325,7 @@ public class PathfindingController extends PageController {
     return stringPath;
   }
 
+  /** Helper method to clear path */
   public void clearPath() {
     topPane.getChildren().clear();
   }
