@@ -28,10 +28,7 @@ public class App extends Application {
   @Setter @Getter private static BorderPane rootPane;
 
   // map entities + images
-  @Getter private static LevelEntity levelEntity = new LevelEntity();
-  @Getter private static MapEntity mapEntity = new MapEntity();
-  @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
-  @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+
   @Getter private static Image mapL1 = new Image("edu/wpi/teamA/images/map-page/Level L1.png");
   @Getter private static Image mapL2 = new Image("edu/wpi/teamA/images/map-page/Level L2.png");
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
@@ -48,6 +45,12 @@ public class App extends Application {
   @Getter private static Color YELLOWBWH = Color.web("F0C747");
   @Getter private static Color BLUEBWH = Color.web("012D5A");
   @Getter private static Color LIGHTBLUEBWH = Color.web("98AABC");
+
+  // entities + repository initiated - CALL LAST
+  @Getter private static LevelEntity levelEntity = new LevelEntity();
+  @Getter private static MapEntity mapEntity = new MapEntity();
+  @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
+  @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @Override
   public void init() {

@@ -1,13 +1,14 @@
 package edu.wpi.teamA.entities;
 
+import edu.wpi.teamA.App;
 import javafx.scene.image.Image;
 
 public enum Level {
-  LOWERLEVELL1("L1", new Image("edu/wpi/teamA/images/map-page/Level L1.png")),
-  LOWERLEVELL2("L2", new Image("edu/wpi/teamA/images/map-page/Level L2.png")),
-  LEVEL1("1", new Image("edu/wpi/teamA/images/map-page/Level 1.png")),
-  LEVEL2("2", new Image("edu/wpi/teamA/images/map-page/Level 2.png")),
-  LEVEL3("3", new Image("edu/wpi/teamA/images/map-page/Level 3.png"));
+  LOWERLEVELL1("L1", App.getMapL1()),
+  LOWERLEVELL2("L2", App.getMapL2()),
+  LEVEL1("1", App.getMap1()),
+  LEVEL2("2", App.getMap2()),
+  LEVEL3("3", App.getMap3());
 
   private final String levelName;
   private final Image mapImage;
