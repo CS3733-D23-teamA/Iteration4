@@ -2,6 +2,7 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
+import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.database.ORMclasses.Meal;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -249,64 +251,26 @@ public class MealDAOImp implements IServiceDAO<Meal> {
   @Override
   public ArrayList<Meal> getAssigned(String username) {
     ArrayList<Meal> meals = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Meal temp = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
-        meals.add(temp);
+    for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
+      if(entry.getValue().getEmployee().equals(username)) {
+        meals.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return meals;
   }
 
   @Override
   public ArrayList<Meal> getCreated(String username) {
     ArrayList<Meal> meals = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Meal\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Meal temp = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
-        meals.add(temp);
+    for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
+      if(entry.getValue().getCreator().equals(username)) {
+        meals.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return meals;
   }
 

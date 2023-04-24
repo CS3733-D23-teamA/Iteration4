@@ -2,11 +2,13 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.Flower;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -277,67 +279,26 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
   public ArrayList<Flower> getAssigned(String username) {
     ArrayList<Flower> flowers = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Prototype2_schema\".\"Flower\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Flower temp =
-            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
-        flowers.add(temp);
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if(entry.getValue().getEmployee().equals(username)) {
+        flowers.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return flowers;
   }
 
   @Override
   public ArrayList<Flower> getCreated(String username) {
     ArrayList<Flower> flowers = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Prototype2_schema\".\"Flower\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        Flower temp =
-            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
-        flowers.add(temp);
+    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
+      if(entry.getValue().getCreator().equals(username)) {
+        flowers.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
+
     return flowers;
   }
 }
