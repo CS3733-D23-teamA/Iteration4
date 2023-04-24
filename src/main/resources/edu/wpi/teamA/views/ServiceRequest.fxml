@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -8,10 +9,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -103,37 +102,73 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <GridPane alignment="TOP_CENTER">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints maxHeight="200.0" minHeight="0.0" prefHeight="93.59405517578125" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="843.0" minHeight="0.0" prefHeight="281.1253662109375" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="134.45831298828125" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="328.93927001953125" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="724.06494140625" minHeight="10.0" prefHeight="272.06072998046875" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <TableView fx:id="flowerTable" minHeight="100.0" GridPane.rowIndex="1">
-                                 <columns>
-                                    <TableColumn fx:id="flowerIDCol" prefWidth="64.02249145507812" text="ID" />
-                                    <TableColumn fx:id="flowerNameCol" prefWidth="131.48492431640625" text="Name" />
-                                    <TableColumn fx:id="flowerRoomCol" prefWidth="68.01507568359375" text="Room" />
-                                    <TableColumn fx:id="flowerDateCol" prefWidth="71.46612548828125" text="Date" />
-                                    <TableColumn fx:id="flowerTimeCol" prefWidth="54.81158447265625" text="Time" />
-                                    <TableColumn fx:id="flowerTypeCol" prefWidth="120.31829833984375" text="Flower Type" />
-                                    <TableColumn fx:id="flowerCommentCol" minWidth="0.0" prefWidth="276.3992919921875" text="Comment" />
-                                    <TableColumn fx:id="flowerEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
-                                    <TableColumn fx:id="flowerCreatorCol" prefWidth="117.1685791015625" text="Creator" />
-                                    <TableColumn fx:id="flowerStatusCol" prefWidth="108.0830078125" text="Status" />
-                                 </columns>
-                              </TableView>
-                              <Label style="-fx-font-size: 24;" text="Flower Request" />
-                           </children>
-                        </GridPane>
                      </children>
                   </VBox>
+                  <MFXComboBox fx:id="requestCombo" alignment="CENTER" onAction="#updateTable" prefHeight="55.0" prefWidth="486.0">
+                     <VBox.margin>
+                        <Insets right="100.0" />
+                     </VBox.margin>
+                  </MFXComboBox>
+                  <StackPane fx:id="requestStack" prefHeight="260.0" prefWidth="1146.0">
+                     <children>
+                        <TableView fx:id="flowerTable" minHeight="100.0">
+                           <columns>
+                              <TableColumn fx:id="flowerIDCol" prefWidth="64.02249145507812" text="ID" />
+                              <TableColumn fx:id="flowerNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="flowerRoomCol" prefWidth="68.01507568359375" text="Room" />
+                              <TableColumn fx:id="flowerDateCol" prefWidth="71.46612548828125" text="Date" />
+                              <TableColumn fx:id="flowerTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="flowerTypeCol" prefWidth="126.99951171875" text="Flower Type" />
+                              <TableColumn fx:id="flowerCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="flowerEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
+                              <TableColumn fx:id="flowerCreatorCol" prefWidth="117.1685791015625" text="Creator" />
+                              <TableColumn fx:id="flowerStatusCol" prefWidth="108.0830078125" text="Status" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="roomTable" minHeight="100.0" prefHeight="234.0" prefWidth="1146.0">
+                           <columns>
+                              <TableColumn fx:id="roomIDCol" prefWidth="64.02249145507812" text="ID" />
+                              <TableColumn fx:id="roomNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="roomRoomCol" prefWidth="68.01507568359375" text="Room" />
+                              <TableColumn fx:id="roomDateCol" prefWidth="71.46612548828125" text="Date" />
+                              <TableColumn fx:id="roomStartCol" prefWidth="110.50048828125" text="Start Time" />
+                              <TableColumn fx:id="roomEndCol" prefWidth="126.99951171875" text="End Time" />
+                              <TableColumn fx:id="roomCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="roomEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
+                              <TableColumn fx:id="roomCreatorCol" prefWidth="117.1685791015625" text="Creator" />
+                              <TableColumn fx:id="roomStatusCol" prefWidth="108.0830078125" text="Status" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="mealTable" minHeight="100.0">
+                           <columns>
+                              <TableColumn fx:id="mealIDCol" prefWidth="64.02249145507812" text="ID" />
+                              <TableColumn fx:id="mealNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="mealRoomCol" prefWidth="68.01507568359375" text="Room" />
+                              <TableColumn fx:id="mealDateCol" prefWidth="71.46612548828125" text="Date" />
+                              <TableColumn fx:id="mealTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="mealTypeCol" prefWidth="126.99951171875" text="Meal Items" />
+                              <TableColumn fx:id="mealCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="mealEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
+                              <TableColumn fx:id="flowerCreatorCol1" prefWidth="117.1685791015625" text="Creator" />
+                              <TableColumn fx:id="mealStatusCol" prefWidth="108.0830078125" text="Status" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="furnitureTable" minHeight="100.0">
+                           <columns>
+                              <TableColumn fx:id="furnitureIDCol" prefWidth="64.02249145507812" text="ID" />
+                              <TableColumn fx:id="furnitureNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="furnitureRoomCol" prefWidth="68.01507568359375" text="Room" />
+                              <TableColumn fx:id="furnitureDateCol" prefWidth="71.46612548828125" text="Date" />
+                              <TableColumn fx:id="furnitureTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="furnitureTypeCol" prefWidth="126.99951171875" text="Furniture Type" />
+                              <TableColumn fx:id="furnitureCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="furnitureEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
+                              <TableColumn fx:id="furnitureCreatorCol" prefWidth="117.1685791015625" text="Creator" />
+                              <TableColumn fx:id="furnitureStatusCol" prefWidth="108.0830078125" text="Status" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </StackPane>
                     </children>
                     <padding>
                         <Insets left="50.0" right="50.0" top="50.0" />
