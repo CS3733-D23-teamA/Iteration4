@@ -100,7 +100,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="selectedAlgorithm" onAction="#checkPath" prefHeight="44.0" prefWidth="300.0" />
+                              <MFXFilterComboBox fx:id="searchAlgorithmSelection" onAction="#checkPath" prefHeight="44.0" prefWidth="300.0" />
                            </children>
                         </VBox>
                      </children>
@@ -115,8 +115,18 @@
                               <Insets bottom="5.0" />
                            </padding>
                         </Label>
-                        <Text fx:id="directions" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter starting and ending destination" wrappingWidth="300.0" />
-                        <Text fx:id="searchAlgorithmTextDirections" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="and select the desired search algorithm" wrappingWidth="300.0" />
+                        <VBox style="-fx-background-color: bwhite; -fx-background-radius: 10;">
+                           <children>
+                              <Text fx:id="directions" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter starting and ending destination" wrappingWidth="300.0" />
+                              <Text fx:id="searchAlgorithmTextDirections" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="and select the desired search algorithm" wrappingWidth="300.0">
+                                 <VBox.margin>
+                                    <Insets top="5.0" />
+                                 </VBox.margin></Text>
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
                   </VBox>
                </children>
