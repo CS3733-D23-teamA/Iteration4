@@ -316,10 +316,17 @@ public class MapEntity {
   public ArrayList<String> makeListOfLongNames() {
     ArrayList<String> nameOptions = new ArrayList<String>();
     for (Node node : nodeList) {
+
       // set node ID
       int id = node.getNodeID();
-      // Add
-      nameOptions.add(getLongName(id));
+
+      // get the locationname object with nodetype
+      LocationName loc = getLocationName(id);
+
+      if (!loc.getNodeType().equals("HALL")) {
+        // Add
+        nameOptions.add(getLongName(id));
+      }
     }
     return nameOptions;
   }
