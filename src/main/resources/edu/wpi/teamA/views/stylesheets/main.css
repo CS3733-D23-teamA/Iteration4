@@ -11,6 +11,8 @@
     bhighlight: #3788C8;
 }
 
+/* for MFX CSS selectors: https://github.com/palexdev/MaterialFX/wiki*/
+
 .borderpane{
     -fx-pref-height: 900;
     -fx-pref-width: 1600;
@@ -77,6 +79,15 @@
     -fx-font-family: "Open Sans";
     -fx-text-fill: #012D5A;
     -fx-text-alignment: center;
+}
+
+.mfx-combo-box .combo-popup .virtual-flow .data-label  {
+    -fx-font-size: 12;
+}
+
+.mfx-combo-box {
+    /*-fx-text-alignment: center;*/
+    -fx-text-origin: center;
 }
 
 #title {
