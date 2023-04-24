@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.UserDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
@@ -20,26 +20,17 @@ public class LoginController {
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
   @FXML private AnchorPane imagePane;
-
-  UserDAOImp checker = new UserDAOImp();
+  DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
 
   @FXML
-  public void initialize() {
-    // Enter Key functionality
-    //    loginButton.setOnKeyPressed(
-    //        event -> {
-    //          if (event.getCode().equals(KeyCode.ENTER)) {
-    //            loginButton.onActionProperty();
-    //          }
-    //        });
-  }
+  public void initialize() {}
 
   public void login() {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
 
-    // Checking username and password inpput fields
+    // Checking username and password input fields
     if (username.isBlank() == true && password.isBlank() == true) {
       loginMessageLabel.setText(
           "Please enter username and password"); // request username and password if neither are
@@ -53,12 +44,13 @@ public class LoginController {
 
     // Setting up User
     User user =
-        checker.checkUser(username, password); // Make a user object to send to Home Page controller
+        dataBaseRepository.checkUser(
+            username, password); // Make a user object to send to Home Page controller
     User wrongPassword = new User(2, "N", "N", "N", "N"); // creates no existing user object
     if (user != null) { // checks if a user was returned by check user (the username exists)
       if (user.equals(wrongPassword)) { // checks if returned user is the wrong password user
         loginMessageLabel.setText("Your password is incorrect.");
-      } else if (user.getAdminYes() // else because it returned a user the password was correct
+      } else if (user.getAccessLevel() // else because it returned a user the password was correct
           == 1) { // checks if user is an admin, if so, do following commands
 
         AccountSingleton.INSTANCE.setValue(user);

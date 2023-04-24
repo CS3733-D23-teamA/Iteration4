@@ -55,7 +55,7 @@ public class NavigationBarController {
     }
 
     // diables moves and map editor for non-admin
-    if (!AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       movesButton.setVisible(false);
       movesButton.setManaged(false);
       mapEditorButton.setVisible(false);

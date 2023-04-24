@@ -134,7 +134,7 @@ public class ServiceRequestController extends PageController {
               }
             });
 
-    if (AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
+    if (AccountSingleton.isAdmin()) {
       title.setText("Open Service Requests");
       ArrayList<String> allServiceRequests = new ArrayList<>();
       // load flowers

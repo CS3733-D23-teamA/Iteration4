@@ -11,7 +11,7 @@ public class ServiceRequestMenuBarController {
 
   @FXML
   public void initialize() {
-    if (!AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       serviceRequestsButton.setText("My Service Requests");
       // handle service request admin functionality in SR controller
     }

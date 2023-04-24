@@ -16,7 +16,7 @@ public class SettingsMenuBarController {
 
   @FXML
   public void initialize() {
-    if (!AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
     }
