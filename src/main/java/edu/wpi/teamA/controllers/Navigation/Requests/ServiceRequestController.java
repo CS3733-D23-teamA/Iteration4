@@ -311,7 +311,7 @@ public class ServiceRequestController extends PageController {
     flowerRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     flowerDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     flowerTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    flowerTypeCol.setCellValueFactory(new PropertyValueFactory<>("flowerType"));
+    flowerTypeCol.setCellValueFactory(new PropertyValueFactory<>("items"));
     flowerCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     flowerEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     flowerStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));

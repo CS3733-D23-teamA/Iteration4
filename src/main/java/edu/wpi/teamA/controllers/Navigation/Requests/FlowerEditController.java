@@ -52,7 +52,7 @@ public class FlowerEditController extends PageController {
     nameField.setText(FlowerSingleton.INSTANCE.getValue().getName());
     commentField.setText(FlowerSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FlowerSingleton.INSTANCE.getValue().getRoom());
-    flowerCombo.setText(FlowerSingleton.INSTANCE.getValue().getFlowerType());
+    flowerCombo.setText(FlowerSingleton.INSTANCE.getValue().getItems());
     datePicker.setValue(FlowerSingleton.INSTANCE.getValue().getDate().toLocalDate());
     timeCombo.setText(convertInt(FlowerSingleton.INSTANCE.getValue().getTime()));
   }

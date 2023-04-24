@@ -10,7 +10,7 @@ public class Flower {
   @Getter @Setter private String room;
   @Getter @Setter private Date date;
   @Getter @Setter private int time;
-  @Getter @Setter private String flowerType;
+  @Getter @Setter private String items;
   @Getter @Setter private String comment;
   @Getter @Setter private String employee;
   @Getter @Setter private String status;
@@ -22,7 +22,7 @@ public class Flower {
       String room,
       Date date,
       int time,
-      String flowerType,
+      String items,
       String comment,
       String employee,
       String status,
@@ -32,7 +32,7 @@ public class Flower {
     this.room = room;
     this.date = date;
     this.time = time;
-    this.flowerType = flowerType;
+    this.items = items;
     this.comment = comment;
     this.employee = employee;
     this.status = status;
@@ -45,7 +45,7 @@ public class Flower {
     this.room = null;
     this.date = null;
     this.time = 0;
-    this.flowerType = null;
+    this.items = null;
     this.comment = null;
     this.status = null;
     this.creator = null;
