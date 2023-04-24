@@ -27,11 +27,7 @@ public class DataBaseRepository {
     flowerDAOImp = new FlowerDAOImp();
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
-<<<<<<< HEAD
     mealDAOImp = new MealDAOImp();
-
-=======
->>>>>>> 54b688b8de0b83a21959e31664fd88816a0a2e0a
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
   }

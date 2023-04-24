@@ -1,9 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-<<<<<<< HEAD
-=======
-import edu.wpi.teamA.database.AccountSingleton;
->>>>>>> 54b688b8de0b83a21959e31664fd88816a0a2e0a
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
@@ -24,12 +20,8 @@ public class LoginController {
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
   @FXML private AnchorPane imagePane;
-<<<<<<< HEAD
-  DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
-=======
 
-  DataBaseRepository checker = new DataBaseRepository();
->>>>>>> 54b688b8de0b83a21959e31664fd88816a0a2e0a
+  DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
 
   @FXML
   public void initialize() {}
@@ -39,7 +31,7 @@ public class LoginController {
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
     // Checking username and password inpput fields
-<<<<<<< HEAD
+
     if (username.isBlank() == true) {
       if (password.isBlank() == true) {
         loginMessageLabel.setText(
@@ -52,8 +44,7 @@ public class LoginController {
         return;
       }
     }
-=======
->>>>>>> 54b688b8de0b83a21959e31664fd88816a0a2e0a
+
     if (username.isBlank() == true) {
       if (password.isBlank() == true) {
         loginMessageLabel.setText(
