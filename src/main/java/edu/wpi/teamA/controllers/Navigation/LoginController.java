@@ -1,7 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.AccountSingleton;
-import edu.wpi.teamA.database.DAOImps.UserDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -21,26 +21,15 @@ public class LoginController {
   @FXML private PasswordField passwordTextField;
   @FXML private AnchorPane imagePane;
 
-  UserDAOImp checker = new UserDAOImp();
+  DataBaseRepository checker = new DataBaseRepository();
 
   @FXML
-  public void initialize() {
-    // Enter Key functionality
-    //    loginButton.setOnKeyPressed(
-    //        event -> {
-    //          if (event.getCode().equals(KeyCode.ENTER)) {
-    //            loginButton.onActionProperty();
-    //          }
-    //        });
-  }
+  public void initialize() {}
 
   public void login() {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
-    System.out.println(username + " " + password);
-    System.out.println(username.isBlank());
-    System.out.println(password.isBlank());
     // Checking username and password inpput fields
     if (username.isBlank() == true) {
       if (password.isBlank() == true) {
