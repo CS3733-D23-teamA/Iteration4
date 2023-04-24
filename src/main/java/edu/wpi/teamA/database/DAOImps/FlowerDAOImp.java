@@ -34,14 +34,14 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String flowerType = rs.getString("flowertype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
         Flower flower =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status, creator);
+            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
         flowerMap.put(id, flower);
       }
     } catch (SQLException e) {
@@ -64,7 +64,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String room = data[2];
         Date date = java.sql.Date.valueOf(data[3]);
         int time = Integer.parseInt(data[4]);
-        String flowerType = data[5];
+        String items = data[5];
         String comment = data[6];
         String employee = data[7];
         String status = data[8];
@@ -79,7 +79,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         ps.setString(3, room);
         ps.setDate(4, date);
         ps.setInt(5, time);
-        ps.setString(6, flowerType);
+        ps.setString(6, items);
         ps.setString(7, comment);
         ps.setString(8, employee);
         ps.setString(9, status);
@@ -87,7 +87,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         ps.executeUpdate();
 
         Flower flower =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status, creator);
+            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
         flowerMap.put(id, flower);
       }
       csvReader.close();
@@ -107,7 +107,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("id,name,room,date,time,flowertype,comment,employee,status,creator\n");
+      csvWriter.append("id,name,room,date,time,items,comment,employee,status,creator\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("id")) + (","));
@@ -115,7 +115,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         csvWriter.append((rs.getString("room")) + (","));
         csvWriter.append(rs.getString("date")).append(",");
         csvWriter.append((rs.getInt("time")) + (","));
-        csvWriter.append(rs.getString("flowertype")).append(",");
+        csvWriter.append(rs.getString("items")).append(",");
         csvWriter.append(rs.getString("comment")).append(",");
         csvWriter.append(rs.getString("employee")).append(",");
         csvWriter.append(rs.getString("status")).append(",");
@@ -140,7 +140,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       String room = flower.getRoom();
       Date date = flower.getDate();
       int time = flower.getTime();
-      String type = flower.getFlowerType();
+      String items = flower.getItems();
       String comment = flower.getComment();
       String employee = flower.getEmployee();
       String status = flower.getStatus();
@@ -155,7 +155,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       ps.setString(3, room);
       ps.setDate(4, date);
       ps.setInt(5, time);
-      ps.setString(6, type);
+      ps.setString(6, items);
       ps.setString(7, comment);
       ps.setString(8, employee);
       ps.setString(9, status);
@@ -164,7 +164,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       ps.executeUpdate();
 
       flowerMap.put(
-          id, new Flower(id, name, room, date, time, type, comment, employee, status, creator));
+          id, new Flower(id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -194,7 +194,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       String room = flower.getRoom();
       Date date = flower.getDate();
       int time = flower.getTime();
-      String type = flower.getFlowerType();
+      String items = flower.getItems();
       String comment = flower.getComment();
       String employee = flower.getEmployee();
       String status = flower.getStatus();
@@ -203,12 +203,12 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, flowertype = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, time);
-      ps.setString(5, type);
+      ps.setString(5, items);
       ps.setString(6, comment);
       ps.setString(7, employee);
       ps.setString(8, status);
@@ -218,7 +218,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       ps.executeUpdate();
 
       flowerMap.put(
-          id, new Flower(id, name, room, date, time, type, comment, employee, status, creator));
+          id, new Flower(id, name, room, date, time, items, comment, employee, status, creator));
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -258,14 +258,14 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String flowerType = rs.getString("flowertype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
         largestID =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status, creator);
+            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -291,14 +291,14 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String flowerType = rs.getString("flowerType");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
         Flower temp =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status, creator);
+            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
         flowers.add(temp);
       }
 
@@ -324,14 +324,14 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String flowerType = rs.getString("flowerType");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
         String creator = rs.getString("creator");
 
         Flower temp =
-            new Flower(id, name, room, date, time, flowerType, comment, employee, status, creator);
+            new Flower(id, name, room, date, time, items, comment, employee, status, creator);
         flowers.add(temp);
       }
 
