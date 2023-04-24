@@ -342,7 +342,7 @@ public class ServiceRequestController extends PageController {
     furnitureRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     furnitureDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     furnitureTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    furnitureTypeCol.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
+    furnitureTypeCol.setCellValueFactory(new PropertyValueFactory<>("items"));
     furnitureCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     furnitureEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     furnitureStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
