@@ -191,7 +191,7 @@ public class MealRequestController extends PageController implements IServiceCon
             commentField.getText(),
             "not assigned",
             "new",
-            AccountSingleton.INSTANCE1.getValue().getUserName());
+            AccountSingleton.INSTANCE.getValue().getUserName());
     databaseRepo.addMeal(meal);
     clear();
     back();

@@ -25,8 +25,8 @@ public class NavigationBarController {
   @FXML
   public void initialize() {
     // get first and last initial for user and set label over profile avatar
-    char a = AccountSingleton.INSTANCE1.getValue().getFirstName().charAt(0);
-    char b = AccountSingleton.INSTANCE1.getValue().getLastName().charAt(0);
+    char a = AccountSingleton.INSTANCE.getValue().getFirstName().charAt(0);
+    char b = AccountSingleton.INSTANCE.getValue().getLastName().charAt(0);
     profileButton.setText(new StringBuilder().append(a).append(b).toString());
     // sets isAdmin to true if admin value is set to 1 in singleton
 
@@ -55,7 +55,7 @@ public class NavigationBarController {
     }
 
     // diables moves and map editor for non-admin
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       movesButton.setVisible(false);
       movesButton.setManaged(false);
       mapEditorButton.setVisible(false);
@@ -116,7 +116,7 @@ public class NavigationBarController {
 
   public void logout() {
     User loggedOut = new User(2, "N", "N", "N", "N");
-    AccountSingleton.INSTANCE1.setValue(loggedOut);
+    AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }
 

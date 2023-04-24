@@ -232,12 +232,16 @@ public class DataBaseRepository {
     return flowerDAOImp.get(id);
   }
 
-  public int getNextFlowerID() {
-    return flowerDAOImp.getNextID();
+  public ArrayList<Flower> getAssignedFlower(String username) {
+    return flowerDAOImp.getAssigned(username);
   }
 
-  public void editFlower(Flower o, Flower n) {
-    flowerDAOImp.edit(o, n);
+  public ArrayList<Flower> getCreatedFlower(String username) {
+    return flowerDAOImp.getCreated(username);
+  }
+
+  public int getNextFlowerID() {
+    return flowerDAOImp.getNextID();
   }
 
   // Conference room service request related methods
@@ -265,12 +269,16 @@ public class DataBaseRepository {
     return crrrDAOImp.get(id);
   }
 
-  public int getNextCRRRID() {
-    return crrrDAOImp.getNextID();
+  public ArrayList<ConferenceRoomResRequest> getAssignedCRRR(String username) {
+    return crrrDAOImp.getAssigned(username);
   }
 
-  public void editCRRR(ConferenceRoomResRequest o, ConferenceRoomResRequest n) {
-    crrrDAOImp.edit(o, n);
+  public ArrayList<ConferenceRoomResRequest> getCreatedCRR(String username) {
+    return crrrDAOImp.getCreated(username);
+  }
+
+  public int getNextCRRRID() {
+    return crrrDAOImp.getNextID();
   }
 
   // Furniture related methods
@@ -298,12 +306,16 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurniture(id);
   }
 
-  public int getNextFurnitureID() {
-    return furnitureDAOImp.getNextID();
+  public ArrayList<FurnitureRequest> getAssignedFurniture(String username) {
+    return furnitureDAOImp.getAssigned(username);
   }
 
-  public void editFurniture(FurnitureRequest o, FurnitureRequest n) {
-    furnitureDAOImp.edit(o, n);
+  public ArrayList<FurnitureRequest> getCreatedFurniture(String username) {
+    return furnitureDAOImp.getCreated(username);
+  }
+
+  public int getNextFurnitureID() {
+    return furnitureDAOImp.getNextID();
   }
 
   // Meal related methods
@@ -331,12 +343,16 @@ public class DataBaseRepository {
     return mealDAOImp.getMeal(id);
   }
 
-  public int getNextMealID() {
-    return mealDAOImp.getNextID();
+  public ArrayList<Meal> getAssignedMeal(String username) {
+    return mealDAOImp.getAssigned(username);
   }
 
-  public void editMeal(Meal o, Meal n) {
-    mealDAOImp.edit(o, n);
+  public ArrayList<Meal> getCreatedMeal(String username) {
+    return mealDAOImp.getCreated(username);
+  }
+
+  public int getNextMealID() {
+    return mealDAOImp.getNextID();
   }
 
   // user dao functions
