@@ -144,7 +144,7 @@ public class MapEntity {
     node.setYcoord((int) circle.getCenterY());
     mapGesturePane.setGestureEnabled(true);
     // update database and big hashmap
-    Move move = databaseRepo.getMove(node.getNodeID());
+    Move move = databaseRepo.getMoveForNode(node.getNodeID());
     determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
     // update level hashmap
     // determineNodeMap(node.getFloor()).remove(node.getNodeID());
@@ -183,7 +183,7 @@ public class MapEntity {
   }
 
   public LocationName getLocationName(int nodeID) {
-    Move move = databaseRepo.getMove(nodeID);
+    Move move = databaseRepo.getMoveForNode(nodeID);
     return databaseRepo.getLocName(move.getLongName());
   }
 
@@ -205,15 +205,15 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMove(nodeID).getLongName()));
-    databaseRepo.deleteMove(databaseRepo.getMove(nodeID));
+    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMoveForNode(nodeID).getLongName()));
+    databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
     determineNodeMap(level).remove(nodeID);
   }
 
   public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
     databaseRepo.updateNode(node);
     databaseRepo.updateLocName(locName);
-    databaseRepo.updateMove(move);
+    databaseRepo.addMove(move);
     determineNodeMap(level).put(node.getNodeID(), node);
   }
 

@@ -87,7 +87,7 @@ public class PathfindingController extends PageController {
     nodeList = databaseRepo.loadNodesFromDatabaseInArray();
     for (Node node : nodeList) {
       int id = node.getNodeID();
-      String name = moveDAO.getMove(id).getLongName();
+      String name = moveDAO.getMoveForNode(id).getLongName();
       nodeOptions.add(name);
       nameMap.put(name, id);
     }

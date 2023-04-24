@@ -32,7 +32,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     try {
       String sqlCreateEdge =
           "Create Table if not exists \"Teama_schema\".\"Move\""
-              + "(nodeID   int PRIMARY KEY,"
+              + "(nodeID   int,"
               + "longName  Varchar(600),"
               + "localDate     date,"
               + "CONSTRAINT fk_longname "
@@ -62,9 +62,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         String longName = rs.getString("longName");
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
-        LinkedList<Move> moves = new LinkedList<Move> Move(nodeID, longName, localDate);
-        //TODO add hashCode from local date - check if key exists
-        MoveMap.put(0, LinkedList<Move>);
+        if(!MoveMap.containsKey(localDate.hashCode())) {
+          //create new linkedlist
+          MoveMap.put(localDate.hashCode(), new LinkedList<>());
+        }
+        MoveMap.get(localDate.hashCode()).add(new Move(nodeID, longName, localDate));
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -73,7 +75,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     return MoveMap;
   }
 
-  public HashMap<Integer, Move> Import(String filePath) {
+  public HashMap<Integer, LinkedList<Move>> Import(String filePath) {
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -95,8 +97,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         ps.setDate(3, java.sql.Date.valueOf(localDate));
         ps.executeUpdate();
 
-        Move move = new Move(nodeID, longName, localDate);
-        MoveMap.put(nodeID, move);
+        if(!MoveMap.containsKey(localDate.hashCode())) {
+          //create new linkedlist
+          MoveMap.put(localDate.hashCode(), new LinkedList<>());
+        }
+        MoveMap.get(localDate.hashCode()).add(new Move(nodeID, longName, localDate));
       }
       csvReader.close();
     } catch (SQLException | IOException e) {
@@ -146,7 +151,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       ps.setDate(3, java.sql.Date.valueOf(localDate));
       ps.executeUpdate();
       move = new Move(nodeID, longName, localDate);
-      MoveMap.put(nodeID, move);
+      if(!MoveMap.containsKey(localDate.hashCode())) {
+        //create new linkedlist
+        MoveMap.put(localDate.hashCode(), new LinkedList<>());
+      }
+      MoveMap.get(localDate.hashCode()).add(move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -156,40 +165,73 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public void Delete(Move move) {
     Integer nodeID = move.getNodeID();
+    String longName = move.getLongName();
+    LocalDate localDate = move.getDate();
     try {
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ? AND longname = ? AND localdate = ?");
       ps.setInt(1, nodeID);
+      ps.setString(2, longName);
+      ps.setDate(3, java.sql.Date.valueOf(localDate));
       ps.executeUpdate();
 
-      MoveMap.remove(nodeID);
+      //MoveMap.remove(nodeID);
+      //TODO check to see if works
+      MoveMap.get(localDate.hashCode()).remove(move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void Update(Move move) {
+  public void Update(Move oldMove, Move newMove) {
+    LocalDate localDate = newMove.getDate();
     try {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ? WHERE nodeid = ?");
-      ps.setString(1, move.getLongName());
-      ps.setDate(2, java.sql.Date.valueOf(move.getDate()));
-      ps.setInt(3, move.getNodeID());
+                  "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ?, nodeid = ?");
+      ps.setString(1, newMove.getLongName());
+      ps.setDate(2, java.sql.Date.valueOf(newMove.getDate()));
+      ps.setInt(3, newMove.getNodeID());
       ps.executeUpdate();
 
-      MoveMap.put(move.getNodeID(), move);
+
+      //TODO check to see if works
+      MoveMap.get(localDate.hashCode()).remove(oldMove);
+      //MoveMap.put(move.getNodeID(), move);
+      if(!MoveMap.containsKey(localDate.hashCode())) {
+        //create new linkedlist
+        MoveMap.put(localDate.hashCode(), new LinkedList<>());
+      }
+      MoveMap.get(localDate.hashCode()).add(newMove);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public Move getMove(int nodeID) {
-    return MoveMap.get(nodeID);
+  public Move getMoveForNode(int nodeID) {
+    Move move = null;
+    boolean found = false;
+    while(!found) {
+      //TODO Get most recent date
+      int dateHashcode = 0;
+
+      //Check if nodeID is in that date
+      LinkedList<Move> dateList = MoveMap.get(dateHashcode);
+      for(Move tempMove : dateList) {
+        if(tempMove.getNodeID() == nodeID) {
+          move = tempMove;
+        }
+      }
+
+      //TODO If not, loop to next most recent date
+    }
+
+
+    return move;
   }
 }

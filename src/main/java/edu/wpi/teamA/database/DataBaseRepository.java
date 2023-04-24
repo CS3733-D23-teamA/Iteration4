@@ -171,12 +171,12 @@ public class DataBaseRepository {
     moveDAOImp.Delete(move);
   }
 
-  public void updateMove(Move move) {
-    moveDAOImp.Update(move);
+  public void updateMove(Move oldMove, Move newMove) {
+    moveDAOImp.Update(oldMove, newMove);
   }
 
-  public Move getMove(int nodeID) {
-    return moveDAOImp.getMove(nodeID);
+  public Move getMoveForNode(int nodeID) {
+    return moveDAOImp.getMoveForNode(nodeID);
   }
 
   // Import and Export methods
@@ -188,7 +188,7 @@ public class DataBaseRepository {
       HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      HashMap<Integer, Move> importedMoves = moveDAOImp.Import(filepath);
+      HashMap<Integer, LinkedList<Move>> importedMoves = moveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
       HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
