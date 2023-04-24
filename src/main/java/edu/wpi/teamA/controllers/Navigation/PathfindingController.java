@@ -86,6 +86,7 @@ public class PathfindingController extends PageController {
     endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
     searchAlgorithmSelection.setText(SearchSingleton.getSearchAlgorithm().toString());
+    searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     // Buttons to set floor level of map
     levelL1Button.setOnAction(event -> changeLevel(levelL1Button));
