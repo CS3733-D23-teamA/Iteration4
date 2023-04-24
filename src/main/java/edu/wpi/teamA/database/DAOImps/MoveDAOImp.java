@@ -11,15 +11,16 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
 public class MoveDAOImp implements IDatabaseDAO<Move> {
 
-  @Getter @Setter private HashMap<Integer, Move> MoveMap = new HashMap<>();
+  @Getter @Setter private HashMap<Integer, LinkedList<Move>> MoveMap = new HashMap<>();
 
-  public MoveDAOImp(HashMap<Integer, Move> MoveMap) {
+  public MoveDAOImp(HashMap<Integer, LinkedList<Move>> MoveMap) {
     this.MoveMap = MoveMap;
   }
 
@@ -50,7 +51,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
   }
 
-  public HashMap<Integer, Move> loadDataFromDatabaseInMap() {
+  public HashMap<Integer, LinkedList<Move>> loadDataFromDatabaseInMap() {
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -61,8 +62,9 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         String longName = rs.getString("longName");
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
-        Move move = new Move(nodeID, longName, localDate);
-        MoveMap.put(move.getNodeID(), move);
+        LinkedList<Move> moves = new LinkedList<Move> Move(nodeID, longName, localDate);
+        //TODO add hashCode from local date - check if key exists
+        MoveMap.put(0, LinkedList<Move>);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

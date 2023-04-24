@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class DataBaseRepository {
 
@@ -150,7 +151,7 @@ public class DataBaseRepository {
   }
 
   // Move related methods
-  public HashMap<Integer, Move> getMoveMap() {
+  public HashMap<Integer, LinkedList<Move>> getMoveMap() {
     return moveDAOImp.getMoveMap();
   }
 
@@ -158,7 +159,7 @@ public class DataBaseRepository {
     moveDAOImp.createTable();
   }
 
-  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+  public HashMap<Integer, LinkedList<Move>> loadMovesFromDatabaseInMap() {
     return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
