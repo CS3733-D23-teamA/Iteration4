@@ -60,7 +60,6 @@ public class PathfindingController extends PageController {
     if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
-      searchAlgorithmTextDirections.setVisible(false);
     }
     // Set up Map in Gesture pane using a StackPane
     gesturePane.setContent(stackPane);
@@ -161,6 +160,8 @@ public class PathfindingController extends PageController {
 
     // set text directions
     directions.setText(SearchSingleton.pathString());
+    searchAlgorithmTextDirections.setText(
+        "Path found using " + SearchSingleton.getSearchAlgorithm());
     directions.setFill(Color.web("#151515"));
 
     // indicate floor buttons
@@ -210,7 +211,7 @@ public class PathfindingController extends PageController {
 
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
-      gNode = SearchSingleton.getGraphNode(i);
+      gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
       if (gNode.getFloor().equals(currentLevel)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
