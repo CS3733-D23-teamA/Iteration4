@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.UserDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
@@ -29,9 +29,6 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
-    System.out.println(username + " " + password);
-    System.out.println(username.isBlank());
-    System.out.println(password.isBlank());
     // Checking username and password inpput fields
     if (username.isBlank() == true) {
       if (password.isBlank() == true) {
