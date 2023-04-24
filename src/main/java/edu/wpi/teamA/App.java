@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
+import edu.wpi.teamA.entities.LevelEntity;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
@@ -27,6 +28,7 @@ public class App extends Application {
   @Setter @Getter private static BorderPane rootPane;
 
   // map entities + images
+  @Getter private static LevelEntity levelEntity = new LevelEntity();
   @Getter private static MapEntity mapEntity = new MapEntity();
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
   @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();

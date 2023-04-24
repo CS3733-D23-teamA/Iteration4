@@ -40,6 +40,7 @@ public class MapEntity {
   // List of all nodes
   private ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
   private HashMap<String, Integer> nameMap;
+  private LevelEntity levels = App.getLevelEntity();
 
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
@@ -361,5 +362,31 @@ public class MapEntity {
       }
     }
     return floors;
+  }
+
+  /**
+   * gets the next level from set level, returns given level if it's the last level
+   *
+   * @param currentLevel takes a level to traverse from
+   */
+  public Level getNextLevel(Level currentLevel) {
+    if (levels.getIndex(currentLevel) + 1 < levels.getTotalLevels()) { // check if at last level
+      return levels.getOrderedLevel(levels.getIndex(currentLevel) + 1); // sets to next level
+    } else {
+      return currentLevel;
+    }
+  }
+
+  /**
+   * gets the previous level from set level, returns given level if it's the first level
+   *
+   * @param currentLevel takes a level to traverse from
+   */
+  public Level getPrevLevel(Level currentLevel) {
+    if (levels.getIndex(currentLevel) > 0) { // check if at last level
+      return levels.getOrderedLevel(levels.getIndex(currentLevel) - 1);
+    } else {
+      return currentLevel;
+    }
   }
 }

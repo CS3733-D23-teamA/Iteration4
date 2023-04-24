@@ -68,24 +68,18 @@ public class NavigationBarController {
           switch (App.getPrimaryStage().getTitle()) {
             case "SERVICE_REQUEST":
               serviceRequestsButton.setBackground(Background.fill(Color.web("F0C747")));
-              System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "PATHFINDING":
               pathfindingButton.setBackground(Background.fill(Color.web("F0C747")));
-              System.out.println(App.getPrimaryStage().getTitle());
-
               break;
             case "SIGNAGE":
               signageButton.setBackground(Background.fill(Color.web("F0C747")));
-              System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "MAP_EDITOR":
               mapEditorButton.setBackground(Background.fill(Color.web("F0C747")));
-              System.out.println(App.getPrimaryStage().getTitle());
               break;
             case "MOVES":
               movesButton.setBackground(Background.fill(Color.web("F0C747")));
-              System.out.println(App.getPrimaryStage().getTitle());
               break;
           }
         });

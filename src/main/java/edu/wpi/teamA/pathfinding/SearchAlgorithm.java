@@ -1,21 +1,17 @@
 package edu.wpi.teamA.pathfinding;
 
 public enum SearchAlgorithm {
-  ASTAR,
-  BFS,
-  DFS;
+  ASTAR("A*"),
+  BFS("Breadth-First Search"),
+  DFS("Depth-First Search");
+
+  String algorithmName;
+
+  SearchAlgorithm(String algoName) {
+    this.algorithmName = algoName;
+  }
 
   public String toString() {
-
-    switch (this) {
-      case ASTAR:
-        return "A*";
-      case BFS:
-        return "Breadth-First Search";
-      case DFS:
-        return "Depth-First Search";
-    }
-
-    return null;
+    return algorithmName;
   }
 }
