@@ -38,19 +38,26 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
-
+    System.out.println(username + " " + password);
+    System.out.println(username.isBlank());
+    System.out.println(password.isBlank());
     // Checking username and password inpput fields
-    if (username.isBlank() == true && password.isBlank() == true) {
-      loginMessageLabel.setText(
-          "Please enter username and password"); // request username and password if neither are
-      // entered
-    }
     if (username.isBlank() == true) {
-      loginMessageLabel.setText("Please enter username"); // requests username if one is not entered
-    } else if (password.isBlank() == true) {
-      loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
+      if (password.isBlank() == true) {
+        loginMessageLabel.setText(
+            "Please enter username and password"); // request username and password if neither are
+        // entered
+        return;
+      } else {
+        loginMessageLabel.setText(
+            "Please enter username"); // requests username if one is not entered
+        return;
+      }
     }
-
+    if (password.isBlank() == true) {
+      loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
+      return;
+    }
     // Setting up User
     User user =
         checker.checkUser(username, password); // Make a user object to send to Home Page controller
