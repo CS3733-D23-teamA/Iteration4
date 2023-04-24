@@ -160,8 +160,8 @@
                               <TableColumn fx:id="furnitureRoomCol" prefWidth="68.01507568359375" text="Room" />
                               <TableColumn fx:id="furnitureDateCol" prefWidth="71.46612548828125" text="Date" />
                               <TableColumn fx:id="furnitureTimeCol" prefWidth="110.50048828125" text="Time" />
-                              <TableColumn fx:id="furnitureTypeCol" prefWidth="126.99951171875" text="Furniture Type" />
-                              <TableColumn fx:id="furnitureCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="furnitureTypeCol" prefWidth="204.66668701171875" text="Furniture Items" />
+                              <TableColumn fx:id="furnitureCommentCol" minWidth="0.0" prefWidth="138.0" text="Comment" />
                               <TableColumn fx:id="furnitureEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
                               <TableColumn fx:id="furnitureCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="furnitureStatusCol" prefWidth="108.0830078125" text="Status" />
