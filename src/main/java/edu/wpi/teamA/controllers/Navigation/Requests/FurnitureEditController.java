@@ -52,7 +52,7 @@ public class FurnitureEditController extends PageController {
     nameField.setText(FurnitureSingleton.INSTANCE.getValue().getName());
     commentField.setText(FurnitureSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FurnitureSingleton.INSTANCE.getValue().getRoom());
-    furnitureCombo.setText(FurnitureSingleton.INSTANCE.getValue().getFurnitureType());
+    furnitureCombo.setText(FurnitureSingleton.INSTANCE.getValue().getItems());
     datePicker.setValue(FurnitureSingleton.INSTANCE.getValue().getDate().toLocalDate());
     timeCombo.setText(convertInt(FurnitureSingleton.INSTANCE.getValue().getTime()));
   }

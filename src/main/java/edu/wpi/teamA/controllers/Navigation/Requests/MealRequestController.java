@@ -116,6 +116,11 @@ public class MealRequestController extends PageController implements IServiceCon
     }
   }
 
+  // TODO change to validate submit
+  public void validateButton() {
+    submitButton.setDisable(itemsTable.getItems().isEmpty());
+  }
+
   @FXML
   public void clear() {
     submitButton.setDisable(true);
@@ -151,16 +156,7 @@ public class MealRequestController extends PageController implements IServiceCon
   public void addDrink() {
     String drink = drinkCombo.getSelectedItem();
     int quantity = drinkQuantity.getSelectedItem();
-
-    ServiceRequestItem item = entity.tableContainsItem(itemsTable, drink);
-    if (item == null) {
-      itemsTable.getItems().add(new ServiceRequestItem(drink, quantity));
-    } else {
-      int prevQuantity = item.getQuantity();
-      item.setQuantity(prevQuantity + quantity);
-      itemsTable.getItems().remove(item);
-      itemsTable.getItems().add(item);
-    }
+    entity.addItemsToTable(itemsTable, drink, quantity);
     validateButton();
   }
 
@@ -181,18 +177,9 @@ public class MealRequestController extends PageController implements IServiceCon
     validateButton();
   }
 
-  // TODO change to validate submit
-  public void validateButton() {
-    submitButton.setDisable(itemsTable.getItems().isEmpty());
-  }
-
   @FXML
   public void submit() {
-    StringBuilder items = new StringBuilder();
-    for (ServiceRequestItem item : itemsTable.getItems()) {
-      items.append(item.getItem()).append(" ").append(item.getQuantity()).append(", ");
-    }
-
+    String items = entity.appendItemsIntoString(itemsTable);
     Meal meal =
         new Meal(
             databaseRepo.getNextMealID(),
@@ -200,7 +187,7 @@ public class MealRequestController extends PageController implements IServiceCon
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             entity.convertTime(timeCombo.getText()),
-            items.toString(),
+            items,
             commentField.getText(),
             "not assigned",
             "new",
