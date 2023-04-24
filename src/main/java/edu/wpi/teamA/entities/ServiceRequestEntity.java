@@ -1,5 +1,7 @@
 package edu.wpi.teamA.entities;
 
+import javafx.scene.control.TableView;
+
 public class ServiceRequestEntity {
   public int convertTime(String time) {
     int num;
@@ -14,5 +16,14 @@ public class ServiceRequestEntity {
     }
     num = Integer.parseInt(newString);
     return num;
+  }
+
+  public ServiceRequestItem tableContainsItem(TableView<ServiceRequestItem> items, String item) {
+    for (ServiceRequestItem currentItem : items.getItems()) {
+      if (currentItem.getItem().equals(item)) {
+        return currentItem;
+      }
+    }
+    return null;
   }
 }
