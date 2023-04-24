@@ -63,7 +63,7 @@ public class PathfindingController extends PageController {
 
   private String floor = "L1";
   private final DataBaseRepository databaseRepo = new DataBaseRepository();
-  private Search search;
+  private Search searchEntity;
 
   public void initialize() {
 
@@ -146,7 +146,7 @@ public class PathfindingController extends PageController {
       case "Breadth-First Search":
         PathfindingSingleton.setAlgo(PathfindingAlgorithm.BFS);
         break;
-      case "ASTAR":
+      case "A*":
         PathfindingSingleton.setAlgo(PathfindingAlgorithm.ASTAR);
         break;
     }
@@ -165,27 +165,27 @@ public class PathfindingController extends PageController {
       case "L1":
         mapImage = App.getMapL1();
         floor = "L1";
-        checkPath();
+        checkSelections();
         break;
       case "L2":
         mapImage = App.getMapL2();
         floor = "L2";
-        checkPath();
+        checkSelections();
         break;
       case "1":
         mapImage = App.getMap1();
         floor = "1";
-        checkPath();
+        checkSelections();
         break;
       case "2":
         mapImage = App.getMap2();
         floor = "2";
-        checkPath();
+        checkSelections();
         break;
       case "3":
         mapImage = App.getMap3();
         floor = "3";
-        checkPath();
+        checkSelections();
         break;
     }
 
@@ -202,13 +202,13 @@ public class PathfindingController extends PageController {
   private void createSearch(int startID, int endID) {
     if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.BFS) {
-        search = new BFS(startID, endID);
+        searchEntity = new BFS(startID, endID);
         searchAlgorithmTextDirections.setText("Using Breadth-First Search");
       } else if (PathfindingSingleton.getAlgo() == PathfindingAlgorithm.DFS) {
-        search = new DFS(startID, endID);
+        searchEntity = new DFS(startID, endID);
         searchAlgorithmTextDirections.setText("Using Depth-First Search");
       } else {
-        search = new AStar(startID, endID);
+        searchEntity = new AStar(startID, endID);
         searchAlgorithmTextDirections.setText("Using A* Search");
       }
     }
@@ -222,21 +222,23 @@ public class PathfindingController extends PageController {
     clearPath();
 
     // get user input for start and end
-    String startName = startSelection.getSelectedItem();
-    String endName = endSelection.getSelectedItem();
+    String startName = startSelection.getValue();
+    String endName = endSelection.getValue();
 
     // TODO whatttt
     int startID = nameMap.get(startName);
     int endID = nameMap.get(endName);
 
+    // sends to create search
+    setAlgorithm(searchAlgorithmSelection.getValue());
     createSearch(startID, endID);
 
     // set text directions
-    directions.setText(generatePathString(search.getPath()));
+    directions.setText(generatePathString(searchEntity.getPath()));
     directions.setFill(Color.web("#151515"));
 
     // indicate floor buttons
-    ArrayList<Integer> test = search.getPath();
+    ArrayList<Integer> test = searchEntity.getPath();
 
     drawPath();
   }
@@ -245,7 +247,7 @@ public class PathfindingController extends PageController {
    * wrapper for submit called upon user input, runs submit when user sets something for all inputs
    */
   @FXML
-  public void checkPath() {
+  public void checkSelections() {
     System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
       if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
@@ -262,8 +264,8 @@ public class PathfindingController extends PageController {
   public void drawPath() {
 
     // get list of node IDs and set graph node to gnode from search
-    ArrayList<Integer> pathIDs = search.getPath();
-    GraphNode gNode = search.getGraphNode(pathIDs.get(0));
+    ArrayList<Integer> pathIDs = searchEntity.getPath();
+    GraphNode gNode = searchEntity.getGraphNode(pathIDs.get(0));
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
@@ -279,7 +281,7 @@ public class PathfindingController extends PageController {
 
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
-      gNode = search.getGraphNode(pathIDs.get(i));
+      gNode = searchEntity.getGraphNode(pathIDs.get(i));
       if (gNode.getFloor().equals(floor)) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
