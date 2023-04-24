@@ -318,7 +318,13 @@ public class ServiceRequestController extends PageController {
     flowerStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
     flowerCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
-    flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
+    } else {
+      flowerTable.setItems(
+          FXCollections.observableArrayList(
+              databaseRepo.getCreatedFlower(AccountSingleton.INSTANCE.getValue().getUserName())));
+    }
     flowerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
@@ -333,8 +339,14 @@ public class ServiceRequestController extends PageController {
     roomEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     roomStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
-    roomTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
+    } else {
+      roomTable.setItems(
+              FXCollections.observableArrayList(
+                      databaseRepo.getCreatedCRR(AccountSingleton.INSTANCE.getValue().getUserName())));
+    }
+    roomTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayFurnitureRequests() {
@@ -348,8 +360,13 @@ public class ServiceRequestController extends PageController {
     furnitureEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     furnitureStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    furnitureTable.setItems(
-        FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      furnitureTable.setItems(FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
+    } else {
+      furnitureTable.setItems(
+              FXCollections.observableArrayList(
+                      databaseRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName())));
+    }
     furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
@@ -364,12 +381,14 @@ public class ServiceRequestController extends PageController {
     mealEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     mealStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-    // if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
-    mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
+    } else {
+      mealTable.setItems(
+          FXCollections.observableArrayList(
+              databaseRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName())));
+    }
     mealTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-    // } else {
-    // }
-
   }
 
   public void updateTable() {

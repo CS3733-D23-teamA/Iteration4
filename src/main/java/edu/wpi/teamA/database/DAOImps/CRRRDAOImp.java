@@ -237,7 +237,6 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     }
   }
 
-
   @Override
   public ArrayList<ConferenceRoomResRequest> getAssigned(String username) {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
