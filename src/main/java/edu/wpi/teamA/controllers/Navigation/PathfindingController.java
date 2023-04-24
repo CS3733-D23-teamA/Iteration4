@@ -69,7 +69,7 @@ public class PathfindingController extends PageController {
   public void initialize() {
 
     // setting search algorithim selection visibility based on access level
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (!AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
     }
@@ -160,7 +160,7 @@ public class PathfindingController extends PageController {
       int endID = nameMap.get(endName);
 
       Search search;
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+      if (AccountSingleton.INSTANCE.getValue().getAdminYes() == 1) {
         if (searchAlgorithm.equals("Breadth-First Search")) {
           search = new BFS(startID, endID);
           searchAlgorithmTextDirections.setText("Using Breadth-First Search");
@@ -188,9 +188,9 @@ public class PathfindingController extends PageController {
 
   @FXML
   public void checkPath() {
-    System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
+    System.out.println(AccountSingleton.INSTANCE.getValue().getAdminYes());
     if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
+      if (AccountSingleton.INSTANCE.getValue().getAdminYes() == 1) {
         if (searchAlgorithmSelection.getSelectedItem() != null) {
           submit();
         }

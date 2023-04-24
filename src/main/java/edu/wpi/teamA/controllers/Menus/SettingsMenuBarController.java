@@ -16,7 +16,7 @@ public class SettingsMenuBarController {
 
   @FXML
   public void initialize() {
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (!AccountSingleton.INSTANCE.getValue().getIsAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
     }
@@ -32,7 +32,7 @@ public class SettingsMenuBarController {
 
   public void logout() {
     User loggedOut = new User(2, "N", "N", "N", "N");
-    AccountSingleton.INSTANCE1.setValue(loggedOut);
+    AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }
 
