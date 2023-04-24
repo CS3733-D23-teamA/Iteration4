@@ -25,8 +25,4 @@ public enum Level {
   public Image getMapImage() {
     return this.mapImage;
   }
-
-  public String getName() {
-    return this.levelName;
-  }
 }

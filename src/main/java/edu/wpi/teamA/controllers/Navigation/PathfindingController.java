@@ -16,9 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
@@ -29,7 +27,7 @@ public class PathfindingController extends PageController {
   private final MapEntity mapEntity = App.getMapEntity();
 
   // level toggle buttons
-  //private ToggleGroup levelToggles = new ToggleGroup();
+  private ToggleGroup levelToggles = new ToggleGroup();
   @FXML private MFXRectangleToggleNode levelL1Toggle;
   @FXML private MFXRectangleToggleNode levelL2Toggle;
   @FXML private MFXRectangleToggleNode level1Toggle;
@@ -90,11 +88,11 @@ public class PathfindingController extends PageController {
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     // setting all levels in levelButtons
-//    levelL1Toggle.setToggleGroup(levelToggles);
-//    levelL2Toggle.setToggleGroup(levelToggles);
-//    level1Toggle.setToggleGroup(levelToggles);
-//    level2Toggle.setToggleGroup(levelToggles);
-//    level3Toggle.setToggleGroup(levelToggles);
+    levelL1Toggle.setToggleGroup(levelToggles);
+    levelL2Toggle.setToggleGroup(levelToggles);
+    level1Toggle.setToggleGroup(levelToggles);
+    level2Toggle.setToggleGroup(levelToggles);
+    level3Toggle.setToggleGroup(levelToggles);
 
     // Buttons to set floor level of map
     levelL1Toggle.setOnAction(event -> changeLevel(levelL1Toggle.getText()));
@@ -121,10 +119,18 @@ public class PathfindingController extends PageController {
   }
 
   private String getNextLevel() {
+    if (checkSelections()) {
+      // TODO if selections are present, set next to next FROM PATH
+      return mapEntity.getNextLevel(currentLevel).toString();
+    }
     return mapEntity.getNextLevel(currentLevel).toString();
   }
 
   private String getPrevLevel() {
+    if (checkSelections()) {
+      // TODO if selections are present, set prev to prev FROM PATH
+      return mapEntity.getPrevLevel(currentLevel).toString();
+    }
     return mapEntity.getPrevLevel(currentLevel).toString();
   }
 
@@ -136,7 +142,7 @@ public class PathfindingController extends PageController {
   private void setCurrentLevel(Level level) {
     currentLevel = level;
     mapImage = currentLevel.getMapImage(); // set image
-    currentLevelLabel.setText("Level " + currentLevel.getName()); // set current level
+    currentLevelLabel.setText("Level " + currentLevel); // set current level
     checkSelections();
   }
 
@@ -152,23 +158,24 @@ public class PathfindingController extends PageController {
     switch (level) {
       case "L1":
         setCurrentLevel(Level.LOWERLEVELL1);
-        levelL1Toggle.setSelected(true);
+        levelToggles.selectToggle(levelL1Toggle);
         break;
       case "L2":
         setCurrentLevel(Level.LOWERLEVELL2);
-        levelL2Toggle.setSelected(true);
+        levelToggles.selectToggle(levelL2Toggle);
         break;
       case "1":
         setCurrentLevel(Level.LEVEL1);
-        level1Toggle.setSelected(true);
+        levelToggles.selectToggle(level1Toggle);
         break;
       case "2":
         setCurrentLevel(Level.LEVEL2);
-        level2Toggle.setSelected(true);
+        levelToggles.selectToggle(level2Toggle);
+        // levelL1Toggle.setEffect(new ColorAdjust(0, 0, 0.5, 0));
         break;
       case "3":
         setCurrentLevel(Level.LEVEL3);
-        level3Toggle.setSelected(true);
+        levelToggles.selectToggle(level3Toggle);
         break;
     }
 
@@ -187,7 +194,6 @@ public class PathfindingController extends PageController {
     String startName = startSelection.getValue();
     String endName = endSelection.getValue();
 
-    // TODO whatttt
     int startID = mapEntity.getIDFromLongName(startName);
     int endID = mapEntity.getIDFromLongName(endName);
 
@@ -200,8 +206,7 @@ public class PathfindingController extends PageController {
 
     // set text directions
     directions.setText(SearchSingleton.pathString());
-    searchAlgorithmTextDisplay.setText(
-        "Path found using " + SearchSingleton.getSearchAlgorithm());
+    searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
     directions.setFill(Color.web("#151515"));
 
     // indicate floor buttons
@@ -212,28 +217,41 @@ public class PathfindingController extends PageController {
 
   /**
    * wrapper for submit called upon user input, runs submit when user sets something for all inputs
+   * returns true if starting and ending locations are set by user, false otherwise
    */
   @FXML
-  public void checkSelections() {
+  public Boolean checkSelections() {
     if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
           submit();
+          return true;
         }
       }
     } else {
       if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
         submit();
+        return true;
       }
     }
+
+    return false;
   }
 
   /** Helper method for submit, draws graphical path and includes the starting and ending node */
   public void drawPath() {
 
+    // TODO path level indicator
+    // starter code - highlights L1 upon every call of drawPath()
+    BorderStroke highlight =
+        new BorderStroke(
+            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+    levelL1Toggle.setBorder(new Border(highlight));
+
+    // TODO save path somehow - maybe in SearchSingleton
+
     // get list of node IDs and set graph node to gnode from search
-    System.out.println("drawing path");
     ArrayList<Integer> pathIDs = SearchSingleton.getPath();
     GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
 
@@ -241,7 +259,7 @@ public class PathfindingController extends PageController {
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
 
-    // set starting floor and x and y coords //TODO @ vincent what
+    // set starting floor and x and y coords
     String startFloor = gNode.getFloor();
     int startX = lastX;
     int startY = lastY;
@@ -252,7 +270,7 @@ public class PathfindingController extends PageController {
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
       gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
-      if (isCurrentLevel(gNode.getFloor())) {
+      if (currentLevel.toString().equals(gNode.getFloor())) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
         line.setStrokeWidth(7);
@@ -263,14 +281,14 @@ public class PathfindingController extends PageController {
     }
 
     // sets end node is current floor is displaying the end of the path
-    if (isCurrentLevel(gNode.getFloor())) {
+    if (currentLevel.toString().equals(gNode.getFloor())) {
       Rectangle end = new Rectangle(lastX - 8, lastY - 8, 16, 16);
       end.setFill(Color.web("#F0C747"));
       topPane.getChildren().add(end);
     }
 
     // sets the start node if current floor is displaying the start of the path
-    if (isCurrentLevel(startFloor)) {
+    if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
   }
@@ -278,16 +296,5 @@ public class PathfindingController extends PageController {
   /** Helper method to clear path */
   public void clearPath() {
     topPane.getChildren().clear();
-  }
-
-  /** Helper method to check current level */
-  public Boolean isCurrentLevel(String level) {
-    return level.equals(
-        currentLevelLabel.getText().substring(6, currentLevelLabel.getText().length()));
-  }
-
-  /** Helper method to get current level */
-  public String getCurrentLevel() {
-    return currentLevelLabel.getText().substring(6, currentLevelLabel.getText().length());
   }
 }
