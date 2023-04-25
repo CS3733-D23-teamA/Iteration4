@@ -42,14 +42,26 @@ public class SignageController extends PageController {
     }
   }
 
-  public void screen1Display() {
-    screen1 = true;
+  public boolean screen1(){
+    return true;
+  }
+  public boolean  screen2(){
+    return true;
+  }
+  public void screenDisplay() {
     ScreenVBox.setVisible(true);
     screenHBox.setVisible(false);
+    ArrayList<SignageComponent> signageToDisplay = new ArrayList<>();
+    if(screen1()){
+      signageToDisplay = allSignageScreen1;
+    }
+    else if(screen2()){
+      signageToDisplay = allSignageScreen1;
+    }
     ArrayList<String> allSignageLocNames = new ArrayList<>();
     ArrayList<String> allSignageDates = new ArrayList<>();
 
-    for (SignageComponent signage : allSignageScreen1) {
+    for (SignageComponent signage : signageToDisplay) {
       allSignageLocNames.add(signage.getLocationName());
       allSignageDates.add(signage.getDate().toString());
     }
