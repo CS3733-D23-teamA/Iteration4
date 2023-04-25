@@ -2,6 +2,7 @@ package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -295,6 +296,10 @@ public class DataBaseRepository {
 
   public int getNextCRRRID() {
     return crrrDAOImp.getNextID();
+  }
+
+  public ArrayList<ConferenceRoomResRequest> filterDateCRRR(Date d) {
+    return crrrDAOImp.filterDate(d);
   }
 
   // Furniture related methods
