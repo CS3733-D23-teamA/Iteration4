@@ -8,6 +8,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -29,8 +30,14 @@ public class MovesController extends PageController {
 
   @FXML
   public void initialize() {
-    Collection<Move> moveColl = dataBaseRepository.getMoveMap().values();
-    displayFutureMoves(new ArrayList<Move>(moveColl));
+    Collection<LinkedList<Move>> moveLinkedLists = dataBaseRepository.getMoveMap().values();
+
+    ArrayList<Move> moves = new ArrayList<>();
+    for (LinkedList<Move> linkedList : moveLinkedLists) {
+      moves.addAll(linkedList);
+    }
+
+    displayFutureMoves(moves);
   }
 
   private File importHelper() {
@@ -49,10 +56,12 @@ public class MovesController extends PageController {
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
 
     ArrayList<Move> updatedArray = new ArrayList<Move>();
-    for (Map.Entry<Integer, Move> entry : dataBaseRepository.getMoveMap().entrySet()) {
-      Move move = entry.getValue();
-      if (move.getDate().isAfter(LocalDate.now())) {
-        updatedArray.add(move);
+    for (Map.Entry<Integer, LinkedList<Move>> entry : dataBaseRepository.getMoveMap().entrySet()) {
+      LinkedList<Move> linkedList = entry.getValue();
+      for (Move move : linkedList) {
+        if (move.getDate().isAfter(LocalDate.now())) {
+          updatedArray.add(move);
+        }
       }
     }
 

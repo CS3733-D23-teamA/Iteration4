@@ -222,24 +222,23 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
     try {
       Statement st =
-              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      ResultSet rs =
-              st.executeQuery(
-                      "SELECT *\n"
-                              + "FROM \"Teama_schema\".\"Move\"\n"
-                              + "WHERE\n"
-                              + "        localdate < "
-                              + currentDate
-                              + " AND nodeID = "
-                              + nodeID
-                              + "\n"
-                              + "ORDER BY localdate DESC LIMIT 1");
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      PreparedStatement ps =
+          Objects.requireNonNull(DBConnectionProvider.createConnection())
+              .prepareStatement(
+                  "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate < ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
+      ps.setString(1, currentDate.toString());
+      ps.setInt(2, nodeID);
+      // ps.executeUpdate();
+      ps.execute();
+      ps.getResultSet().next();
 
       move =
-              new Move(
-                      rs.getInt("nodeID"),
-                      rs.getString("longname"),
-                      LocalDate.parse(rs.getString("localdate"), DateTimeFormatter.ISO_DATE));
+          new Move(
+              ps.getResultSet().getInt("nodeid"),
+              ps.getResultSet().getString("longname"),
+              LocalDate.parse(
+                  ps.getResultSet().getString("localdate"), DateTimeFormatter.ISO_DATE));
 
     } catch (SQLException e) {
       throw new RuntimeException("SQLException in MoveDAOImp.getMoveForNode()");
