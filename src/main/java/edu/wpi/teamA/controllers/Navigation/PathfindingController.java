@@ -34,6 +34,9 @@ public class PathfindingController extends PageController {
   @FXML private MFXRectangleToggleNode level2Toggle;
   @FXML private MFXRectangleToggleNode level3Toggle;
 
+  // Boolean for admin settings
+  private Boolean isAdmin = AccountSingleton.isAdmin();
+
   // Current Level Object
   private Level currentLevel = Level.LOWERLEVELL1;
 
@@ -62,6 +65,14 @@ public class PathfindingController extends PageController {
 
   // vbox containing all search algo UI for !admin disable
   @FXML private VBox searchAlgorithmVbox;
+
+  // vbox for admin messaging
+  @FXML private HBox adminMessageInput;
+  @FXML private Label adminMessage;
+  @FXML private MFXButton adminMessageSubmit;
+  @FXML private MFXTextField adminMessageTextField;
+  @FXML private VBox levelControls;
+  @FXML private HBox messageVbox;
 
   public void initialize() {
 
@@ -333,6 +344,14 @@ public class PathfindingController extends PageController {
     if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
+
+    if (isAdmin) {
+      // display admin message input
+      adminMessage.setText("");
+      messageVbox.setVisible(false);
+      adminMessageInput.setVisible(true);
+      levelControls.setVisible(true);
+    }
   }
 
   public void centerMap(int x, int y, double zoom) {
@@ -346,5 +365,12 @@ public class PathfindingController extends PageController {
   /** Helper method to clear path */
   public void clearPath() {
     topPane.getChildren().clear();
+  }
+
+  public void displayAdminMessage() {
+    adminMessage.setText(adminMessageTextField.getText());
+    messageVbox.setVisible(true);
+    adminMessageInput.setVisible(false);
+    levelControls.setVisible(false);
   }
 }
