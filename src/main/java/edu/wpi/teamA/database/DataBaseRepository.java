@@ -154,12 +154,20 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveMap();
   }
 
+  public HashMap<Integer, Move> getCurrentMoveMap() {
+    return moveDAOImp.getCurrentMoveMap();
+  }
+
   public void createMoveTable() {
     moveDAOImp.createTable();
   }
 
   public HashMap<Integer, LinkedList<Move>> loadMovesFromDatabaseInMap() {
     return moveDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public HashMap<Integer, Move> loadCurrentMovesMap() {
+    return moveDAOImp.loadCurrentMoveMap();
   }
 
   public void addMove(Move move) {
@@ -172,6 +180,10 @@ public class DataBaseRepository {
 
   public void updateMove(Move oldMove, Move newMove) {
     moveDAOImp.Update(oldMove, newMove);
+  }
+
+  public Move getMoveForNodeSlow(int nodeID) {
+    return moveDAOImp.getMoveForNodeSlow(nodeID);
   }
 
   public Move getMoveForNode(int nodeID) {

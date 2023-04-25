@@ -18,8 +18,11 @@ import lombok.Setter;
 
 public class MoveDAOImp implements IDatabaseDAO<Move> {
 
+  // Used to store all moves
   @Getter @Setter private HashMap<Integer, LinkedList<Move>> MoveMap = new HashMap<>();
-  @Getter @Setter private LocalDate currentDate = LocalDate.now();
+  // Used to store current moves that are being used
+  @Getter @Setter private HashMap<Integer, Move> currentMoveMap = new HashMap<>();
+  @Getter private final LocalDate currentDate = LocalDate.now();
 
   public MoveDAOImp(HashMap<Integer, LinkedList<Move>> MoveMap) {
     this.MoveMap = MoveMap;
@@ -27,6 +30,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public MoveDAOImp() {
     this.MoveMap = loadDataFromDatabaseInMap();
+    this.currentMoveMap = loadCurrentMoveMap();
   }
 
   public void createTable() {
@@ -74,6 +78,26 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
 
     return MoveMap;
+  }
+
+  public HashMap<Integer, Move> loadCurrentMoveMap() {
+    try {
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
+
+      while (rs.next()) {
+        int nodeID = rs.getInt("nodeID");
+        String longName = rs.getString("longName");
+        LocalDate localDate = rs.getDate("localDate").toLocalDate();
+
+        updateCurrentMove(nodeID, longName, localDate);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return currentMoveMap;
   }
 
   public HashMap<Integer, LinkedList<Move>> Import(String filePath) {
@@ -158,6 +182,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       }
       MoveMap.get(localDate.hashCode()).add(move);
 
+      updateCurrentMove(nodeID, longName, localDate);
+
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -217,7 +243,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
   }
 
-  public Move getMoveForNode(int nodeID) {
+  public Move getMoveForNodeSlow(int nodeID) {
     Move move = null;
 
     try {
@@ -245,5 +271,20 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
 
     return move;
+  }
+
+  public Move getMoveForNode(int nodeID) {
+    return currentMoveMap.get(nodeID);
+  }
+
+  private void updateCurrentMove(int nodeID, String longName, LocalDate localDate) {
+    if (currentMoveMap.containsKey(nodeID)) {
+      // compare the value and the possible new one to see which should be there
+      if (currentMoveMap.get(nodeID).getDate().isBefore(localDate)) {
+        currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+      }
+    } else {
+      currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+    }
   }
 }
