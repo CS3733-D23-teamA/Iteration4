@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ScrollPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.RoomEditController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.ConferenceCalendarController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
@@ -22,7 +23,7 @@
             <children>
                 <VBox>
                     <children>
-                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Request" wrappingWidth="448.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Request" wrappingWidth="461.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font name="Open Sans Bold" size="48.0" />
                             </font>
@@ -123,12 +124,7 @@
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </MFXButton>
-                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Delete" textFill="#eebd28">
-                                            <font>
-                                                <Font name="System Bold" size="20.0" />
-                                            </font>
-                                        </MFXButton>
-                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Update" textFill="#eebd28">
+                                        <MFXButton fx:id="submitButton" defaultButton="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
@@ -151,6 +147,22 @@
                         <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
                     </StackPane.margin>
                 </VBox>
+            <MFXGenericDialog fx:id="confirmationDialog">
+               <center>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="24.0" />
+                     </font>
+                  </Text>
+               </center>
+               <bottom>
+                  <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Close" textFill="#eebd28" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </MFXButton>
+               </bottom>
+            </MFXGenericDialog>
             </children>
         </StackPane>
     </center>

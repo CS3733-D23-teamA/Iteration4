@@ -2,7 +2,10 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
+import edu.wpi.teamA.database.Singletons.CalendarSingleton;
 import edu.wpi.teamA.database.Singletons.DateSingleton;
+import edu.wpi.teamA.navigation.Navigation;
+import edu.wpi.teamA.navigation.Screen;
 import java.awt.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -11,6 +14,7 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -194,6 +198,8 @@ public class CalendarController {
       r7c63,
       r7c64;
 
+  ArrayList<Rectangle> blocks;
+
   @FXML
   public void initialize() {
     LocalDate ld = LocalDate.now();
@@ -204,7 +210,7 @@ public class CalendarController {
   }
 
   public void setColors() {
-    ArrayList<Rectangle> blocks = allBlocks();
+    blocks = allBlocks();
     for (int count = 0; count < 168; count++) {
       blocks.get(count).setDisable(false);
       blocks.get(count).setFill(Paint.valueOf("#FFFFFF"));
@@ -276,7 +282,67 @@ public class CalendarController {
     return temp;
   }
 
-  public void selectSquare() {
-    System.out.println("good");
+  public void selectSquare(MouseEvent event) {
+    Rectangle r = (Rectangle) event.getSource();
+    ArrayList<Rectangle> test = CalendarSingleton.INSTANCE.getValue();
+    if (test.contains(r)) {
+      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dl.getText()));
+      Navigation.navigate(Screen.CONFERENCE_CALENDAR);
+    } else if (checkConnected(r, test)) {
+      r.setFill(Paint.valueOf("00ff00"));
+      CalendarSingleton.INSTANCE.addValue(r);
+    } else {
+      r.setFill(Paint.valueOf("00ff00"));
+      for (Rectangle or : CalendarSingleton.INSTANCE.getValue()) {
+        or.setFill(Paint.valueOf("#FFFFFF"));
+      }
+      CalendarSingleton.INSTANCE.setNull();
+      CalendarSingleton.INSTANCE.addValue(r);
+    }
+  }
+
+  public boolean checkConnected(Rectangle r, ArrayList<Rectangle> rs) {
+    if (rs.size() == 0) {
+      return false;
+    }
+    Rectangle first = rs.get(0);
+    Rectangle last = rs.get((rs.size() - 1));
+    if (r.getId().charAt(1) != first.getId().charAt(1)) {
+      return false;
+    }
+    if (r.getId().charAt(3) == first.getId().charAt(3)) {
+      int rlast = (int) r.getId().charAt(4);
+      int flast = (int) first.getId().charAt(4);
+      if ((rlast + 1) == flast) {
+        return true;
+      }
+    }
+    if (r.getId().charAt(3) == last.getId().charAt(3)) {
+      int rlast = (int) r.getId().charAt(4);
+      int llast = (int) last.getId().charAt(4);
+      if ((rlast - 1) == llast) {
+        return true;
+      }
+    }
+    if (r.getId().charAt(3) != first.getId().charAt(3)) {
+      int rmid = (int) r.getId().charAt(3); // 1
+      int fmid = (int) first.getId().charAt(3); // 2
+      int rlast = (int) r.getId().charAt(4); // 4
+      int flast = (int) first.getId().charAt(4); // 1
+      if ((rlast == 52) && (flast == 49) && ((rmid + 1) == fmid)) {
+        return true;
+      }
+    }
+    if (r.getId().charAt(3) != last.getId().charAt(3)) {
+      int rmid = (int) r.getId().charAt(3);
+      int lmid = (int) last.getId().charAt(3);
+      int rlast = (int) r.getId().charAt(4);
+      int llast = (int) last.getId().charAt(4);
+
+      if ((rlast == 49) && (llast == 52) && ((rmid - 1) == lmid)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

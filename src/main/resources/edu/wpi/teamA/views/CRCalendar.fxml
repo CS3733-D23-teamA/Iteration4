@@ -69,6 +69,15 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Abrams Conference Room" wrappingWidth="99.7998046875" GridPane.halignment="CENTER" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anesthesia Conf Floor L1" wrappingWidth="99.1669921875" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Carrie M. Hall Conference Center Floor 2" wrappingWidth="104.94970703125" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Medical Records Conference Room Floor L1" wrappingWidth="103.3642578125" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Shapiro Board Room MapNode 20 Floor 1" wrappingWidth="101.1259765625" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BTM Conference Center" wrappingWidth="97.513671875" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Duncan Reid Conference Room" wrappingWidth="103.72021484375" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+                           </children>
                         </GridPane>
                         <GridPane prefHeight="288.0" prefWidth="190.0">
                            <columnConstraints>
