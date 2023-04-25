@@ -190,6 +190,10 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveForNode(nodeID);
   }
 
+  public Move getMoveForLocName(String longname) {
+    return moveDAOImp.getMoveForLocName(longname);
+  }
+
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {

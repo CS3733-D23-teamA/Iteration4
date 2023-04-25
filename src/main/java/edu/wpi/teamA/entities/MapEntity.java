@@ -7,7 +7,6 @@ import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -301,23 +300,6 @@ public class MapEntity {
         databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       }
     }
-  }
-
-  public LocalDate determineLocalDate() {
-    //    String month = Integer.toString(LocalDate.now().getMonthValue());
-    //    String day = Integer.toString(LocalDate.now().getDayOfMonth());
-    //    if (month.length() == 1) {
-    //      month = "0" + month;
-    //    }
-    //    if (day.length() == 1) {
-    //      day = "0" + day;
-    //    }
-    //
-    //    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    //    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    //    return LocalDate.parse(dateString, formatter);
-    // System.out.println(LocalDate.now());
-    return LocalDate.now();
   }
 
   public ArrayList<Node> loadAllNodes() {

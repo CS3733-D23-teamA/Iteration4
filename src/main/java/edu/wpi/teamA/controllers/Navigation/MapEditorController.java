@@ -11,6 +11,7 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -515,7 +516,7 @@ public class MapEditorController {
     LocationName locName =
         new LocationName(
             longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), entity.determineLocalDate());
+    Move move = new Move(currentNodeID, longNameField.getText(), LocalDate.now());
     if (modifyNodeClicked) {
       entity.determineModifyAction(level, node, locName, move);
       currentCircle.setVisible(false);

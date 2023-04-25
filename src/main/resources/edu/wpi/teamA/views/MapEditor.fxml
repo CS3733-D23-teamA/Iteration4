@@ -119,7 +119,7 @@
                   </MFXButton>
                </children>
             </HBox>
-            <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" visible="false" StackPane.alignment="CENTER_LEFT">
+            <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" StackPane.alignment="CENTER_LEFT">
                <center>
                   <GridPane prefHeight="502.0" prefWidth="450.0" BorderPane.alignment="CENTER">
                      <columnConstraints>
@@ -170,9 +170,9 @@
                         <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <MFXComboBox fx:id="nodeTypeField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <MFXComboBox fx:id="floorField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <MFXButton fx:id="submitButton" onAction="#submit" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <MFXButton fx:id="submitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
-                              <Font name="Open Sans Regular" size="25.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </MFXButton>
                      </children>

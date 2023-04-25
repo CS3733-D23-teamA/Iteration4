@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -275,6 +276,15 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public Move getMoveForNode(int nodeID) {
     return currentMoveMap.get(nodeID);
+  }
+
+  public Move getMoveForLocName(String longname) {
+    for (Map.Entry<Integer, Move> entry : currentMoveMap.entrySet()) {
+      if (entry.getValue().getLongName().equals(longname)) {
+        return entry.getValue();
+      }
+    }
+    return null;
   }
 
   private void updateCurrentMove(int nodeID, String longName, LocalDate localDate) {
