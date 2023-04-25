@@ -432,4 +432,26 @@ public class MapEntity {
   public void setOrder(ArrayList<Integer> path) {
     levels.setOrder(floorsTravelledToWithRepeats(path));
   }
+
+  public HashMap<Integer, Node> getNodeMap(Level level) {
+    HashMap<Integer, Node> nodeMap;
+    switch (level.toString()) {
+      case "L1":
+        nodeMap = levelL1NodeMap;
+        break;
+      case "L2":
+        nodeMap = levelL2NodeMap;
+        break;
+      case "1":
+        nodeMap = level1NodeMap;
+        break;
+      case "2":
+        nodeMap = level2NodeMap;
+        break;
+      default:
+        nodeMap = level3NodeMap;
+        break;
+    }
+    return nodeMap;
+  }
 }
