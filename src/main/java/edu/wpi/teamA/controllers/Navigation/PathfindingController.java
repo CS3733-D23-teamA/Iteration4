@@ -119,19 +119,19 @@ public class PathfindingController extends PageController {
   }
 
   private String getNextLevel() {
-    if (checkSelections()) {
+    if (checkSelectionsForDraw()) {
       // TODO if selections are present, set next to next FROM PATH
-      return mapEntity.getNextLevel(currentLevel).toString();
+      return mapEntity.getNextLevel().toString();
     }
-    return mapEntity.getNextLevel(currentLevel).toString();
+    return mapEntity.getNextLevel().toString();
   }
 
   private String getPrevLevel() {
-    if (checkSelections()) {
+    if (checkSelectionsForDraw()) {
       // TODO if selections are present, set prev to prev FROM PATH
-      return mapEntity.getPrevLevel(currentLevel).toString();
+      return mapEntity.getPrevLevel().toString();
     }
-    return mapEntity.getPrevLevel(currentLevel).toString();
+    return mapEntity.getPrevLevel().toString();
   }
 
   /**
@@ -143,7 +143,7 @@ public class PathfindingController extends PageController {
     currentLevel = level;
     mapImage = currentLevel.getMapImage(); // set image
     currentLevelLabel.setText("Level " + currentLevel); // set current level
-    checkSelections();
+    checkSelectionsForDraw();
   }
 
   /**
@@ -188,7 +188,6 @@ public class PathfindingController extends PageController {
    * selection, sends directions to the user and draws graphical path.
    */
   public void submit() {
-    clearPath();
 
     // get user input for start and end
     String startName = startSelection.getValue();
@@ -204,6 +203,9 @@ public class PathfindingController extends PageController {
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
+    // Sets the paginator
+    mapEntity.setOrder(SearchSingleton.getPath());
+
     // set text directions
     directions.setText(SearchSingleton.pathString());
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
@@ -212,7 +214,9 @@ public class PathfindingController extends PageController {
     // indicate floor buttons
     // ArrayList<Integer> test = searchEntity.getPath();
 
-    drawPath();
+    // Sets the paginator
+    mapEntity.setOrder(SearchSingleton.getPath());
+    changeLevel(mapEntity.getFirstLevel().toString());
   }
 
   /**
@@ -239,9 +243,30 @@ public class PathfindingController extends PageController {
     return false;
   }
 
+  @FXML
+  public Boolean checkSelectionsForDraw() {
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      if (searchAlgorithmSelection.getValue() != null) {
+        SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+          drawPath();
+          return true;
+        }
+      }
+    } else {
+      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+        drawPath();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /** Helper method for submit, draws graphical path and includes the starting and ending node */
   public void drawPath() {
 
+    clearPath();
     // TODO path level indicator
     // starter code - highlights L1 upon every call of drawPath()
     BorderStroke highlight =

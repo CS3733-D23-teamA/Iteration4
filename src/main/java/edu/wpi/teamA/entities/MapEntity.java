@@ -364,29 +364,52 @@ public class MapEntity {
     return floors;
   }
 
+  // Gives floorstravelledto with repeats
+  public ArrayList<String> floorsTravelledToWithRepeats(ArrayList<Integer> path) {
+    ArrayList<String> floors = new ArrayList<String>();
+    String lastFloor = databaseRepo.getNode(path.get(0)).getFloor();
+    floors.add(lastFloor);
+
+    // Goes through the path checking for floors
+    for (int i = 0; i < path.size(); i++) {
+      int nodeID = path.get(i);
+      Node node = databaseRepo.getNode(nodeID);
+
+      // gets the floor
+      String nodeFloor = node.getFloor();
+
+      // checks if it was seen before
+      if (!lastFloor.equals(nodeFloor)) {
+        floors.add(nodeFloor);
+        lastFloor = nodeFloor;
+      }
+    }
+    return floors;
+  }
+
   /**
    * gets the next level from set level, returns given level if it's the last level
    *
-   * @param currentLevel takes a level to traverse from
+   *
    */
-  public Level getNextLevel(Level currentLevel) {
-    if (levels.getIndex(currentLevel) + 1 < levels.getTotalLevels()) { // check if at last level
-      return levels.getOrderedLevel(levels.getIndex(currentLevel) + 1); // sets to next level
-    } else {
-      return currentLevel;
-    }
+  public Level getNextLevel() {
+    return levels.nextIndex();
   }
 
   /**
    * gets the previous level from set level, returns given level if it's the first level
    *
-   * @param currentLevel takes a level to traverse from
+   *
    */
-  public Level getPrevLevel(Level currentLevel) {
-    if (levels.getIndex(currentLevel) > 0) { // check if at last level
-      return levels.getOrderedLevel(levels.getIndex(currentLevel) - 1);
-    } else {
-      return currentLevel;
-    }
+  public Level getPrevLevel() {
+    return levels.lastIndex();
+  }
+
+  public Level getFirstLevel() {
+    return levels.getOrderedLevel(0);
+  }
+
+  public void setOrder(ArrayList<Integer> path) {
+    levels.setOrder(floorsTravelledToWithRepeats(path));
   }
 }
