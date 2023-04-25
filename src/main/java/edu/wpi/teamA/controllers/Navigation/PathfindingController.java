@@ -77,7 +77,7 @@ public class PathfindingController extends PageController {
   public void initialize() {
 
     // setting search algortihm selection visibility based on access level
-    if (!AccountSingleton.INSTANCE.getValue().isAdmin()) {
+    if (!isAdmin) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
     }
@@ -234,7 +234,7 @@ public class PathfindingController extends PageController {
    */
   @FXML
   public Boolean checkSelections() {
-    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+    if (isAdmin) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
@@ -254,7 +254,7 @@ public class PathfindingController extends PageController {
 
   @FXML
   public Boolean checkSelectionsForDraw() {
-    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+    if (isAdmin) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
