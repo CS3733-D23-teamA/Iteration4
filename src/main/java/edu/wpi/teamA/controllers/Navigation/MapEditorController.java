@@ -235,7 +235,11 @@ public class MapEditorController {
 
         circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
         circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
-        circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+        circle.setOnMousePressed(
+            event -> {
+              mapGesturePane.setGestureEnabled(false);
+              dotClicked(circle, node.getNodeID());
+            });
         topPane.getChildren().add(circle);
 
         // g.getChildren().add(circle);
@@ -269,8 +273,8 @@ public class MapEditorController {
   public void changeLocationNameDisplay() {
     System.out.println("Change location name");
     topPane.getChildren().clear();
-    displayEdgeData(entity.determineEdgeMap(level));
-    displayNodeData(entity.determineNodeMap(level));
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
   /**
    * Defines behavior for when you hover over a dot on the map
@@ -316,6 +320,7 @@ public class MapEditorController {
   public void dotClicked(Circle circle, int nodeID) {
     currentNodeID = nodeID;
     currentCircle = circle;
+    System.out.println("AHHHHHHHHH");
 
     if (removeNodeClicked) {
       entity.determineRemoveAction(nodeID, level);
@@ -371,7 +376,7 @@ public class MapEditorController {
       System.out.println("Added node to arraylist");
       nodesToAlign.add(entity.getNodeInfo(nodeID));
     }
-    System.out.println(alignNodesClicked);
+    System.out.println("AHHHHHHHHH");
     System.out.println(stopAlignment);
   }
 
@@ -592,9 +597,16 @@ public class MapEditorController {
       editMapDirections.setText("");
       AlignNodesButton.setText("Align Nodes");
       if (horizontal) {
-        entity.determineHorizontalNodeAlignment(nodesToAlign);
+        Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
+        //clear();
+        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+        displayNodeData(entity.determineNodeMap(node.getFloor()));
+
       } else if (vertical) {
-        entity.determineVerticalNodeAlignment(nodesToAlign);
+        Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
+        //clear();
+        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+        displayNodeData(entity.determineNodeMap(node.getFloor()));
       }
     }
   }
