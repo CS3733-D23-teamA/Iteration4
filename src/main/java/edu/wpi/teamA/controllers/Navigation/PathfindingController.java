@@ -129,6 +129,17 @@ public class PathfindingController extends PageController {
 
     // center and zoom onto map content
     centerMap(2265, 950, 0.5);
+
+    locationToggle.setOnAction(event -> toggleLocationNames());
+  }
+
+  //TODO location names!!! this is all the funcationality for the toggle button I was just testing it lol
+  private void toggleLocationNames() {
+    if (locationToggle.isSelected()) {
+      currentLevelLabel.setText("BRUH");
+    } else {
+      currentLevelLabel.setText(currentLevel.toString());
+    }
   }
 
   /**
@@ -164,7 +175,9 @@ public class PathfindingController extends PageController {
     currentLevel = level;
     mapImage = currentLevel.getMapImage(); // set image
     currentLevelLabel.setText("Level " + currentLevel); // set current level
-    checkSelectionsForDraw();
+    if (isSubmitted) {
+      drawPath();
+    }
   }
 
   /**
@@ -224,11 +237,8 @@ public class PathfindingController extends PageController {
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    //    // Sets the paginator
-    //    mapEntity.setOrder(SearchSingleton.getPath());
-
+    drawPath();
     setTextDirections();
-
     setPaginator(startID);
   }
 
@@ -272,31 +282,6 @@ public class PathfindingController extends PageController {
     }
 
     isSubmitted = false;
-  }
-
-  /**
-   * Helper method to wrap drawPath Runs drawpath only if a start and location are given, also
-   * allows admin to set search algorithm without setting a path
-   *
-   * @return true if user input is given for start and locations, false otherwise
-   */
-  @FXML
-  public Boolean checkSelectionsForDraw() {
-    if (isAdmin) {
-      if (searchAlgorithmSelection.getValue() != null) {
-        SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-          drawPath();
-          return true;
-        }
-      }
-    } else {
-      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-        drawPath();
-        return true;
-      }
-    }
-    return false;
   }
 
   /**
