@@ -1,8 +1,9 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
-import edu.wpi.teamA.database.AccountSingleton;
+import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.*;
+import edu.wpi.teamA.database.Singletons.*;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -15,12 +16,15 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class ServiceRequestController extends PageController {
 
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  @FXML private StackPane requestStack;
+  @FXML private MFXComboBox<String> requestCombo;
   @FXML private Text title;
   @FXML private MFXComboBox<String> chooseServiceRequestEmployee;
   @FXML private MFXComboBox<String> chooseServiceRequestStatus;
@@ -41,17 +45,19 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<Flower, String> flowerCommentCol;
   @FXML private TableColumn<Flower, String> flowerEmployeeCol;
   @FXML private TableColumn<Flower, String> flowerStatusCol;
+  @FXML private TableColumn<Flower, String> flowerCreatorCol;
 
   @FXML private TableView<ConferenceRoomResRequest> roomTable;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrIDCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrNameCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrRoomCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrDateCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrStartCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrEndCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrCommentCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrEmployeeCol;
-  @FXML private TableColumn<ConferenceRoomResRequest, String> crrrStatusCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomIDCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomNameCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomRoomCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomDateCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomStartCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomEndCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomCommentCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomEmployeeCol;
+  @FXML private TableColumn<ConferenceRoomResRequest, String> roomStatusCol;
+  @FXML private TableColumn<Flower, String> roomCreatorCol;
 
   @FXML private TableView<FurnitureRequest> furnitureTable;
   @FXML private TableColumn<FurnitureRequest, Integer> furnitureIDCol;
@@ -63,6 +69,7 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<FurnitureRequest, String> furnitureCommentCol;
   @FXML private TableColumn<FurnitureRequest, String> furnitureEmployeeCol;
   @FXML private TableColumn<FurnitureRequest, String> furnitureStatusCol;
+  @FXML private TableColumn<Flower, String> furnitureCreatorCol;
 
   @FXML private TableView<Meal> mealTable;
   @FXML private TableColumn<Meal, Integer> mealIDCol;
@@ -74,13 +81,21 @@ public class ServiceRequestController extends PageController {
   @FXML private TableColumn<Meal, String> mealCommentCol;
   @FXML private TableColumn<Meal, String> mealEmployeeCol;
   @FXML private TableColumn<Meal, String> mealStatusCol;
+  @FXML private TableColumn<Flower, String> mealCreatorCol;
 
   @FXML
   public void initialize() {
+    // requestCombo.setPromptText("Select Request");
+    requestCombo
+        .getItems()
+        .addAll(
+            "Flower Request",
+            "Conference Room Request",
+            "Meal Delivery Request",
+            "Furniture Delivery Request");
+    requestCombo.getSelectionModel().selectItem("Flower Request");
     displayFlowerRequests();
-    displayCRRRRequests();
-    displayFurnitureRequests();
-    displayMealRequests();
+    flowerTable.toFront();
 
     flowerTable
         .getSelectionModel()
@@ -88,9 +103,8 @@ public class ServiceRequestController extends PageController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                roomTable.getSelectionModel().clearSelection();
-                Navigation.navigate(Screen.FLOWER_REQUEST);
-                Flower f = newSelection;
+                FlowerSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.FLOWER_EDIT);
               }
             });
     roomTable
@@ -99,11 +113,32 @@ public class ServiceRequestController extends PageController {
         .addListener(
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
-                flowerTable.getSelectionModel().clearSelection();
+                CRRRSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.ROOM_EDIT);
+              }
+            });
+    mealTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                MealSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.MEAL_EDIT);
+              }
+            });
+    furnitureTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                FurnitureSingleton.INSTANCE.setValue(newSelection);
+                Navigation.navigate(Screen.FURNITURE_EDIT);
               }
             });
 
-    if (AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (AccountSingleton.isAdmin()) {
       title.setText("Open Service Requests");
       ArrayList<String> allServiceRequests = new ArrayList<>();
       // load flowers
@@ -280,28 +315,46 @@ public class ServiceRequestController extends PageController {
     flowerRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     flowerDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     flowerTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    flowerTypeCol.setCellValueFactory(new PropertyValueFactory<>("flowerType"));
+    flowerTypeCol.setCellValueFactory(new PropertyValueFactory<>("items"));
     flowerCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     flowerEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     flowerStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    flowerCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
-    flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
-    flowerTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
+    } else {
+      ArrayList<Flower> items =
+          databaseRepo.getCreatedFlower(AccountSingleton.INSTANCE.getValue().getUserName());
+      if (!items.isEmpty()) {
+        flowerTable.setItems(FXCollections.observableArrayList(items));
+      }
+    }
+    flowerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayCRRRRequests() {
-    crrrIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-    crrrNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-    crrrRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
-    crrrDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
-    crrrStartCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
-    crrrEndCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-    crrrCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
-    crrrEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
-    crrrStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    roomIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+    roomNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    roomRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
+    roomDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    roomStartCol.setCellValueFactory(new PropertyValueFactory<>("startTime"));
+    roomEndCol.setCellValueFactory(new PropertyValueFactory<>("endTime"));
+    roomCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
+    roomEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
+    roomStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    roomCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
-    roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
-    roomTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
+    } else {
+      ArrayList<ConferenceRoomResRequest> items =
+          databaseRepo.getCreatedCRR(AccountSingleton.INSTANCE.getValue().getUserName());
+      if (!items.isEmpty()) {
+        roomTable.setItems(FXCollections.observableArrayList(items));
+      }
+    }
+    roomTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayFurnitureRequests() {
@@ -310,14 +363,23 @@ public class ServiceRequestController extends PageController {
     furnitureRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     furnitureDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     furnitureTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    furnitureTypeCol.setCellValueFactory(new PropertyValueFactory<>("furnitureType"));
+    furnitureTypeCol.setCellValueFactory(new PropertyValueFactory<>("items"));
     furnitureCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     furnitureEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     furnitureStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    furnitureCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
-    furnitureTable.setItems(
-        FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
-    furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      furnitureTable.setItems(
+          FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
+    } else {
+      ArrayList<FurnitureRequest> items =
+          databaseRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
+      if (!items.isEmpty()) {
+        furnitureTable.setItems(FXCollections.observableArrayList(items));
+      }
+    }
+    furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
   public void displayMealRequests() {
@@ -326,12 +388,40 @@ public class ServiceRequestController extends PageController {
     mealRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
     mealDateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
     mealTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
-    mealTypeCol.setCellValueFactory(new PropertyValueFactory<>("mealType"));
+    mealTypeCol.setCellValueFactory(new PropertyValueFactory<>("items"));
     mealCommentCol.setCellValueFactory(new PropertyValueFactory<>("comment"));
     mealEmployeeCol.setCellValueFactory(new PropertyValueFactory<>("employee"));
     mealStatusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+    mealCreatorCol.setCellValueFactory(new PropertyValueFactory<>("creator"));
 
-    mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
-    mealTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
+    } else {
+      ArrayList<Meal> items =
+          databaseRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
+      if (!items.isEmpty()) {
+        mealTable.setItems(FXCollections.observableArrayList(items));
+      }
+    }
+    mealTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+  }
+
+  public void updateTable() {
+    int request = requestCombo.getSelectedIndex();
+    System.out.println(request);
+    if (request <= 0) {
+      displayFlowerRequests();
+      flowerTable.toFront();
+    } else if (request == 1) {
+      displayCRRRRequests();
+      roomTable.toFront();
+    } else if (request == 2) {
+      displayMealRequests();
+      mealTable.toFront();
+    } else if (request == 3) {
+      displayFurnitureRequests();
+      furnitureTable.toFront();
+    }
+    System.out.println("done");
   }
 }

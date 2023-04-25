@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class DataBaseRepository {
 
@@ -28,7 +29,6 @@ public class DataBaseRepository {
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
     mealDAOImp = new MealDAOImp();
-
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
   }
@@ -150,16 +150,24 @@ public class DataBaseRepository {
   }
 
   // Move related methods
-  public HashMap<Integer, Move> getMoveMap() {
+  public HashMap<Integer, LinkedList<Move>> getMoveMap() {
     return moveDAOImp.getMoveMap();
+  }
+
+  public HashMap<Integer, Move> getCurrentMoveMap() {
+    return moveDAOImp.getCurrentMoveMap();
   }
 
   public void createMoveTable() {
     moveDAOImp.createTable();
   }
 
-  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+  public HashMap<Integer, LinkedList<Move>> loadMovesFromDatabaseInMap() {
     return moveDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public HashMap<Integer, Move> loadCurrentMovesMap() {
+    return moveDAOImp.loadCurrentMoveMap();
   }
 
   public void addMove(Move move) {
@@ -170,12 +178,20 @@ public class DataBaseRepository {
     moveDAOImp.Delete(move);
   }
 
-  public void updateMove(Move move) {
-    moveDAOImp.Update(move);
+  public void updateMove(Move oldMove, Move newMove) {
+    moveDAOImp.Update(oldMove, newMove);
   }
 
-  public Move getMove(int nodeID) {
-    return moveDAOImp.getMove(nodeID);
+  public Move getMoveForNodeSlow(int nodeID) {
+    return moveDAOImp.getMoveForNodeSlow(nodeID);
+  }
+
+  public Move getMoveForNode(int nodeID) {
+    return moveDAOImp.getMoveForNode(nodeID);
+  }
+
+  public Move getMoveForLocName(String longname) {
+    return moveDAOImp.getMoveForLocName(longname);
   }
 
   // Import and Export methods
@@ -187,7 +203,7 @@ public class DataBaseRepository {
       HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      HashMap<Integer, Move> importedMoves = moveDAOImp.Import(filepath);
+      HashMap<Integer, LinkedList<Move>> importedMoves = moveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
       HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
@@ -229,7 +245,15 @@ public class DataBaseRepository {
   }
 
   public Flower getFlower(int id) {
-    return flowerDAOImp.getFlower(id);
+    return flowerDAOImp.get(id);
+  }
+
+  public ArrayList<Flower> getAssignedFlower(String username) {
+    return flowerDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<Flower> getCreatedFlower(String username) {
+    return flowerDAOImp.getCreated(username);
   }
 
   public int getNextFlowerID() {
@@ -258,7 +282,15 @@ public class DataBaseRepository {
   }
 
   public ConferenceRoomResRequest getCRRR(int id) {
-    return crrrDAOImp.getCRRR(id);
+    return crrrDAOImp.get(id);
+  }
+
+  public ArrayList<ConferenceRoomResRequest> getAssignedCRRR(String username) {
+    return crrrDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<ConferenceRoomResRequest> getCreatedCRR(String username) {
+    return crrrDAOImp.getCreated(username);
   }
 
   public int getNextCRRRID() {
@@ -290,6 +322,14 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurniture(id);
   }
 
+  public ArrayList<FurnitureRequest> getAssignedFurniture(String username) {
+    return furnitureDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<FurnitureRequest> getCreatedFurniture(String username) {
+    return furnitureDAOImp.getCreated(username);
+  }
+
   public int getNextFurnitureID() {
     return furnitureDAOImp.getNextID();
   }
@@ -319,6 +359,14 @@ public class DataBaseRepository {
     return mealDAOImp.getMeal(id);
   }
 
+  public ArrayList<Meal> getAssignedMeal(String username) {
+    return mealDAOImp.getAssigned(username);
+  }
+
+  public ArrayList<Meal> getCreatedMeal(String username) {
+    return mealDAOImp.getCreated(username);
+  }
+
   public int getNextMealID() {
     return mealDAOImp.getNextID();
   }
@@ -329,12 +377,21 @@ public class DataBaseRepository {
   }
 
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName)
-      throws IncorrectLengthException {
+      int adminYes, String userName, String password, String firstName, String lastName) {
+    if (userName.length() < 3) {
+      System.out.println("username is too short");
+    } else if (password.length() < 5) {
+      System.out.println("password is too short, " + "must be more than 5 characters");
+    } else if (firstName.length() < 1) {
+      System.out.println("Please enter a first name");
+    } else if (lastName.length() < 1) {
+      System.out.println("please enter a last name");
+    }
     userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
   }
 
   public User checkUser(String userName, String password) {
+
     return userDAOImp.checkUser(userName, password);
   }
 

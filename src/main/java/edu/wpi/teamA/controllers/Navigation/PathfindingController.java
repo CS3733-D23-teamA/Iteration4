@@ -1,147 +1,181 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
-import edu.wpi.teamA.database.AccountSingleton;
-import edu.wpi.teamA.database.DAOImps.MoveDAOImp;
-import edu.wpi.teamA.database.DAOImps.NodeDAOImp;
-import edu.wpi.teamA.database.DataBaseRepository;
-import edu.wpi.teamA.database.ORMclasses.LocationName;
-import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
+import edu.wpi.teamA.entities.Level;
+import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
+import io.github.palexdev.materialfx.controls.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class PathfindingController extends PageController {
-  // map panes setup
+  // Map helper entity
+  private final MapEntity mapEntity = App.getMapEntity();
+
+  // level toggle buttons
+  private ToggleGroup levelToggles = new ToggleGroup();
+  @FXML private MFXRectangleToggleNode levelL1Toggle;
+  @FXML private MFXRectangleToggleNode levelL2Toggle;
+  @FXML private MFXRectangleToggleNode level1Toggle;
+  @FXML private MFXRectangleToggleNode level2Toggle;
+  @FXML private MFXRectangleToggleNode level3Toggle;
+
+  // Current Level Object
+  private Level currentLevel = Level.LOWERLEVELL1;
+
+  // level pagination
+  @FXML private Label currentLevelLabel;
+  @FXML private SVGPath nextLevel;
+  @FXML private SVGPath prevLevel;
+
+  // Search and location options
+  private ArrayList<String> locationOptions = new ArrayList<>();
+  private ArrayList<String> searchOptions = new ArrayList<>();
+
+  // Gesture pane setup
   @FXML private GesturePane gesturePane;
   @FXML private Pane topPane = new Pane();
-  @FXML private Image mapImage = App.getMapL1();
-  @FXML private ImageView mapView = new ImageView(Objects.requireNonNull(App.getMapL1()));
+  @FXML private Image mapImage;
+  @FXML private ImageView mapView = new ImageView(mapImage);
   @FXML private StackPane stackPane = new StackPane(mapView, topPane);
 
-  // comboboxes, on screen text directions, and submit button
+  // comboboxes, on screen text directions + Search Algorithm
   @FXML private MFXFilterComboBox<String> startSelection;
   @FXML private MFXFilterComboBox<String> endSelection;
   @FXML private MFXFilterComboBox<String> searchAlgorithmSelection;
-  @FXML private Text searchAlgorithmText;
   @FXML private Text directions;
-  @FXML private Text searchAlgorithmTextDirections;
+  @FXML private Text searchAlgorithmTextDisplay;
+
+  // vbox containing all search algo UI for !admin disable
   @FXML private VBox searchAlgorithmVbox;
-
-  // level buttons
-  @FXML private MFXButton levelL1Button;
-  @FXML private MFXButton levelL2Button;
-  @FXML private MFXButton level1Button;
-  @FXML private MFXButton level2Button;
-  @FXML private MFXButton level3Button;
-
-  // Node implementation
-
-  private ArrayList<String> nodeOptions = new ArrayList<>();
-  private ArrayList<String> searchOptions = new ArrayList<>();
-  private ArrayList<Node> nodeList;
-  private final NodeDAOImp nodeDAO = new NodeDAOImp();
-  private final MoveDAOImp moveDAO = new MoveDAOImp();
-  private HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
-  private final MapEditorEntity map = new MapEditorEntity();
-  private String floor = "L1";
-  // private final NodeDAOImp nodeDAO = new NodeDAOImp();
-
-  private final DataBaseRepository databaseRepo = new DataBaseRepository();
 
   public void initialize() {
 
-    // setting search algorithim selection visibility based on access level
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    // setting search algortihm selection visibility based on access level
+    if (!AccountSingleton.INSTANCE.getValue().isAdmin()) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
     }
-    // Set up Map in Gesture pane using a StackPane
-    gesturePane.setContent(stackPane);
 
-    // center and zoom onto map content
-    Platform.runLater(
-        () -> {
-          gesturePane.centreOn(new Point2D(2265, 950));
-          gesturePane.zoomTo(0.5, new Point2D(2265, 950));
-        });
+    // Getting LongNames from Database
+    locationOptions = mapEntity.makeListOfLongNames();
+    mapEntity.initializeNameIDHashMap();
 
-    // Getting Nodes from Database
-    nodeList = databaseRepo.loadNodesFromDatabaseInArray();
-    for (Node node : nodeList) {
-      int id = node.getNodeID();
-      String name = moveDAO.getMove(id).getLongName();
-      nodeOptions.add(name);
-      nameMap.put(name, id);
-    }
-
+    // Adding search options
     searchOptions.add("A*");
     searchOptions.add("Breadth-First Search");
     searchOptions.add("Depth-First Search");
 
     // Setting ComboBox Selection Options (for start + end locations)
-
-    startSelection.setItems(FXCollections.observableArrayList(nodeOptions));
-    endSelection.setItems(FXCollections.observableArrayList(nodeOptions));
+    startSelection.setItems(FXCollections.observableArrayList(locationOptions));
+    endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
+    searchAlgorithmSelection.setText(SearchSingleton.getSearchAlgorithm().toString());
+    searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
+
+    // setting all levels in levelButtons
+    levelL1Toggle.setToggleGroup(levelToggles);
+    levelL2Toggle.setToggleGroup(levelToggles);
+    level1Toggle.setToggleGroup(levelToggles);
+    level2Toggle.setToggleGroup(levelToggles);
+    level3Toggle.setToggleGroup(levelToggles);
 
     // Buttons to set floor level of map
-    levelL1Button.setOnAction(event -> changLevel(levelL1Button));
-    levelL2Button.setOnAction(event -> changLevel(levelL2Button));
-    level1Button.setOnAction(event -> changLevel(level1Button));
-    level2Button.setOnAction(event -> changLevel(level2Button));
-    level3Button.setOnAction(event -> changLevel(level3Button));
+    levelL1Toggle.setOnAction(event -> changeLevel(levelL1Toggle.getText()));
+    levelL2Toggle.setOnAction(event -> changeLevel(levelL2Toggle.getText()));
+    level1Toggle.setOnAction(event -> changeLevel(level1Toggle.getText()));
+    level2Toggle.setOnAction(event -> changeLevel(level2Toggle.getText()));
+    level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
+
+    // Pagination buttons setup
+    nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
+    prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
+
+    // Set up Map in Gesture pane using a StackPane
+    changeLevel(String.valueOf(currentLevel));
+    gesturePane.setContent(stackPane);
+    gesturePane.setGestureEnabled(true);
+
+    // center and zoom onto map content
+    centerMap(2265, 950, 0.5);
   }
 
-  private void changLevel(MFXButton button) {
+  private String getNextLevel() {
+    if (checkSelectionsForDraw()) {
+      // TODO if selections are present, set next to next FROM PATH
+      return mapEntity.getNextLevel().toString();
+    }
+    return mapEntity.getNextLevel().toString();
+  }
 
-    // get pre-loaded map image from App
-    switch (button.getText()) {
+  private String getPrevLevel() {
+    if (checkSelectionsForDraw()) {
+      // TODO if selections are present, set prev to prev FROM PATH
+      return mapEntity.getPrevLevel().toString();
+    }
+    return mapEntity.getPrevLevel().toString();
+  }
+
+  /**
+   * Helper for change level - updates map image and current level text
+   *
+   * @param level takes the current user selected level
+   */
+  private void setCurrentLevel(Level level) {
+    currentLevel = level;
+    mapImage = currentLevel.getMapImage(); // set image
+    currentLevelLabel.setText("Level " + currentLevel); // set current level
+    checkSelectionsForDraw();
+  }
+
+  /**
+   * Sets corresponding map level image and global floor variable, sends check path to check each
+   * floor for a path
+   *
+   * @param level takes the current user selected level
+   */
+  private void changeLevel(String level) {
+
+    // toggle button functionality
+    switch (level) {
       case "L1":
-        mapImage = App.getMapL1();
-        floor = "L1";
-        checkPath();
+        setCurrentLevel(Level.LOWERLEVELL1);
+        levelToggles.selectToggle(levelL1Toggle);
         break;
       case "L2":
-        mapImage = App.getMapL2();
-        floor = "L2";
-        checkPath();
+        setCurrentLevel(Level.LOWERLEVELL2);
+        levelToggles.selectToggle(levelL2Toggle);
         break;
       case "1":
-        mapImage = App.getMap1();
-        floor = "1";
-        checkPath();
+        setCurrentLevel(Level.LEVEL1);
+        levelToggles.selectToggle(level1Toggle);
         break;
       case "2":
-        mapImage = App.getMap2();
-        floor = "2";
-        checkPath();
+        setCurrentLevel(Level.LEVEL2);
+        levelToggles.selectToggle(level2Toggle);
+        // levelL1Toggle.setEffect(new ColorAdjust(0, 0, 0.5, 0));
         break;
       case "3":
-        mapImage = App.getMap3();
-        floor = "3";
-        checkPath();
+        setCurrentLevel(Level.LEVEL3);
+        levelToggles.selectToggle(level3Toggle);
         break;
     }
 
-    // set map image
+    // set map image in image view
     this.mapView.setImage(Objects.requireNonNull(mapImage));
   }
 
@@ -150,118 +184,149 @@ public class PathfindingController extends PageController {
    * selection, sends directions to the user and draws graphical path.
    */
   public void submit() {
-    try {
-      clearPath();
-      String startName = startSelection.getSelectedItem();
-      String endName = endSelection.getSelectedItem();
-      String searchAlgorithm = searchAlgorithmSelection.getSelectedItem();
 
-      int startID = nameMap.get(startName);
-      int endID = nameMap.get(endName);
+    // get user input for start and end
+    String startName = startSelection.getValue();
+    String endName = endSelection.getValue();
 
-      Search search;
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
-        if (searchAlgorithm.equals("Breadth-First Search")) {
-          search = new BFS(startID, endID);
-          searchAlgorithmTextDirections.setText("Using Breadth-First Search");
-        } else if (searchAlgorithm.equals("Depth-First Search")) {
-          search = new DFS(startID, endID);
-          searchAlgorithmTextDirections.setText("Using Depth-First Search");
-        } else {
-          search = new AStar(startID, endID);
-          searchAlgorithmTextDirections.setText("Using A* Search");
-        }
-      } else {
-        search = new AStar(startID, endID);
-      }
-      directions.setText(generatePathString(search.getPath()));
-      directions.setFill(Color.web("#f1f1f1"));
+    int startID = mapEntity.getIDFromLongName(startName);
+    int endID = mapEntity.getIDFromLongName(endName);
 
-      System.out.println("Nodes submitted");
+    // sends user input starting and ending IDs and set search algorithm to singleton
+    SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+    SearchSingleton.createSearch(startID, endID);
 
-      drawPath(search);
+    // set algorithm text
+    searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    } catch (NullPointerException e) {
-      System.out.println("Null Value " + e.getMessage());
-    }
-  }
+    // Sets the paginator
+    mapEntity.setOrder(SearchSingleton.getPath());
 
-  @FXML
-  public void checkPath() {
-    System.out.println(AccountSingleton.INSTANCE1.getValue().getAdminYes());
-    if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
-      if (AccountSingleton.INSTANCE1.getValue().getAdminYes() == 1) {
-        if (searchAlgorithmSelection.getSelectedItem() != null) {
-          submit();
-        }
-      } else {
-        submit();
-      }
-    }
+    // set text directions
+    directions.setText(SearchSingleton.pathString());
+    searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
+    directions.setFill(Color.web("#151515"));
+
+    // indicate floor buttons
+    // ArrayList<Integer> test = searchEntity.getPath();
+
+    // Sets the paginator
+    mapEntity.setOrder(SearchSingleton.getPath());
+    changeLevel(mapEntity.getFirstLevel().toString());
+    centerMap(
+        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
   }
 
   /**
-   * Helper method for submit, draws graphical path
-   *
-   * @param search Astar object implementation to determine path
+   * wrapper for submit called upon user input, runs submit when user sets something for all inputs
+   * returns true if starting and ending locations are set by user, false otherwise
    */
-  public void drawPath(Search search) {
+  @FXML
+  public Boolean checkSelections() {
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      if (searchAlgorithmSelection.getValue() != null) {
+        SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+          submit();
+          return true;
+        }
+      }
+    } else {
+      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+        submit();
+        return true;
+      }
+    }
 
-    ArrayList<Integer> nodePathIDs = search.getPath();
-    GraphNode gNode = search.getGraphNode(nodePathIDs.get(0));
+    return false;
+  }
 
+  @FXML
+  public Boolean checkSelectionsForDraw() {
+    if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
+      if (searchAlgorithmSelection.getValue() != null) {
+        SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
+        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+          drawPath();
+          return true;
+        }
+      }
+    } else {
+      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+        drawPath();
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /** Helper method for submit, draws graphical path and includes the starting and ending node */
+  public void drawPath() {
+    clearPath();
+    // TODO path level indicator
+    // starter code - highlights L1 upon every call of drawPath()
+    BorderStroke highlight =
+        new BorderStroke(
+            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+    levelL1Toggle.setBorder(new Border(highlight));
+
+    // TODO save path somehow - maybe in SearchSingleton
+
+    // get list of node IDs and set graph node to gnode from search
+    ArrayList<Integer> pathIDs = SearchSingleton.getPath();
+    GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
+
+    // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
 
+    // set starting floor and x and y coords
     String startFloor = gNode.getFloor();
     int startX = lastX;
     int startY = lastY;
 
+    // create a line
     Line line;
 
-    for (int i = 1; i < nodePathIDs.size(); i++) {
-      gNode = search.getGraphNode(nodePathIDs.get(i));
-      if (gNode.getFloor().equals(floor)) {
-        line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
-        line.setFill(Color.web("0x012D5A"));
-        line.setStrokeWidth(7);
+    //
+    Boolean isCenter = false;
 
-        topPane
-            .getChildren()
-            .addAll(
-                line, new Circle(gNode.getXcoord(), gNode.getYcoord(), 6, Color.web("0x012D5A")));
+    // draw the path
+    for (int i = 1; i < pathIDs.size(); i++) {
+      gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
+      if (currentLevel.toString().equals(gNode.getFloor())) {
+        line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
+        line.setFill(Color.web("#012D5A"));
+        line.setStrokeWidth(7);
+        topPane.getChildren().add(line);
       }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
     }
 
-    if (gNode.getFloor().equals(floor)) {
+    // sets end node is current floor is displaying the end of the path
+    if (currentLevel.toString().equals(gNode.getFloor())) {
       Rectangle end = new Rectangle(lastX - 8, lastY - 8, 16, 16);
-      end.setFill(Color.web("0xEEBD28"));
+      end.setFill(Color.web("#F0C747"));
       topPane.getChildren().add(end);
     }
-    if (startFloor.equals(floor)) {
-      topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("0xEEBD28")));
+
+    // sets the start node if current floor is displaying the start of the path
+    if (currentLevel.toString().equals(startFloor)) {
+      topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
   }
 
-  public String generatePathString(ArrayList<Integer> path) {
-    String stringPath = "Wow! You're already there! Good Job!";
-    if (path.size() > 1) {
-      MapEditorEntity mapEd = new MapEditorEntity();
-      LocationName locName = mapEd.getLocationName(path.get(0));
-      stringPath = "Start at " + locName.getLongName();
-
-      for (int i = 1; i < path.size(); i++) {
-        locName = mapEd.getLocationName(path.get(i));
-        stringPath += ", then go to " + locName.getLongName();
-      }
-      stringPath += ". You have reached your destination.";
-    }
-
-    return stringPath;
+  public void centerMap(int x, int y, double zoom) {
+    Platform.runLater(
+        () -> {
+          gesturePane.centreOn(new Point2D(x, y));
+          gesturePane.zoomTo(zoom, new Point2D(x, y));
+        });
   }
 
+  /** Helper method to clear path */
   public void clearPath() {
     topPane.getChildren().clear();
   }

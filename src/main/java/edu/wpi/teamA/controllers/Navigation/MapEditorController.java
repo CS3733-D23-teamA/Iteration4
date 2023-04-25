@@ -1,15 +1,18 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Map.MapEditorEntity;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
+import edu.wpi.teamA.entities.MapEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +31,7 @@ import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEditorController {
-  private final MapEditorEntity entity = App.getMapEditorEntity();
+  private final MapEntity entity = App.getMapEntity();
 
   // larger panes
   @FXML private ImageView mapImageView = new ImageView();
@@ -52,6 +55,7 @@ public class MapEditorController {
   private String level = "L1";
 
   @FXML private MFXButton modifyEdgeButton;
+  @FXML private MFXToggleButton locationNameToggle;
 
   // text displays
   @FXML private Text locationDisplay;
@@ -65,6 +69,18 @@ public class MapEditorController {
   @FXML private MFXComboBox<String> buildingField;
   @FXML private MFXComboBox<String> nodeTypeField;
   @FXML private MFXButton submitButton;
+
+  // alignment variables
+  @FXML private MFXButton AlignNodesButton;
+  @FXML private HBox alignmentHBox;
+  @FXML private MFXButton hAlignmentButton;
+  @FXML private MFXButton vAlignmentButton;
+  private boolean alignNodesClicked;
+  private boolean stopAlignment;
+  private boolean horizontal;
+  private boolean vertical;
+
+  private ArrayList<Node> nodesToAlign = new ArrayList<>();
 
   // booleans for add, remove, modify
   private boolean removeNodeClicked;
@@ -92,6 +108,7 @@ public class MapEditorController {
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
+    mapGesturePane.setGestureEnabled(true);
     // set up level buttons
     levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
     levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
@@ -105,9 +122,13 @@ public class MapEditorController {
     removeNodeClicked = false;
     addNodeClicked = false;
     modifyNodeClicked = false;
+    alignNodesClicked = false;
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
+    stopAlignment = false;
+    nodesToAlign = new ArrayList<>();
+    alignmentHBox.setVisible(false);
 
     // center and zoom onto map content
     Platform.runLater(
@@ -153,7 +174,6 @@ public class MapEditorController {
    * @param button button chosen
    */
   private void changeLevelText(MFXButton button) {
-
     // get pre-loaded map image from App
     switch (button.getText()) {
       case "L1":
@@ -186,10 +206,12 @@ public class MapEditorController {
 
     // button
     level = button.getText();
+    changeLocationNameDisplay();
 
     // display new dots and edges
-    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
-    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
+    //
+    //    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    //    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
 
   /**
@@ -198,14 +220,37 @@ public class MapEditorController {
    * @param nodeMapForFloor the array with the data for that floor
    */
   private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
+
     for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
+      // Group g = new Group();
       Node node = entry.getValue();
       if (node != null) {
-        Circle circle = entity.addCircle(node.getXcoord(), node.getYcoord());
+        Circle circle = entity.addCircle(mapGesturePane, node);
+
+        circle.setOnMouseReleased(
+            mouseEvent -> {
+              entity.dragReleased(circle, node, mapGesturePane);
+              topPane.getChildren().clear();
+              displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+              displayNodeData(entity.determineNodeMap(node.getFloor()));
+              mapGesturePane.setGestureEnabled(true);
+            });
+
         circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
         circle.setOnMouseExited(event -> dotUnhover(circle, node.getNodeID()));
-        circle.setOnMouseClicked(event -> dotClicked(circle, node.getNodeID()));
+        circle.setOnMousePressed(
+            event -> {
+              mapGesturePane.setGestureEnabled(false);
+              dotClicked(circle, node.getNodeID());
+            });
+
         topPane.getChildren().add(circle);
+
+        if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
+            && locationNameToggle.isSelected()) {
+          Text text = entity.addText(node);
+          topPane.getChildren().add(text);
+        }
       }
     }
     App.getPrimaryStage().show();
@@ -214,12 +259,23 @@ public class MapEditorController {
   private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
     for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
       Edge edge = entry.getValue();
-      Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
-      topPane.getChildren().add(line);
+      if (entity
+          .getNodeInfo(edge.getStartNode())
+          .getFloor()
+          .equals(entity.getNodeInfo(edge.getEndNode()).getFloor())) {
+        Line line = entity.addLine(edge.getStartNode(), edge.getEndNode());
+        topPane.getChildren().add(line);
+      }
     }
     App.getPrimaryStage().show();
   }
 
+  @FXML
+  public void changeLocationNameDisplay() {
+    topPane.getChildren().clear();
+    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
+    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
+  }
   /**
    * Defines behavior for when you hover over a dot on the map
    *
@@ -234,6 +290,13 @@ public class MapEditorController {
     } else {
       locationDisplay.setText(entity.getLocationName(nodeID).getShortName());
     }
+
+    /*javafx.scene.Node circleText = circle.getParent().getChildrenUnmodifiable().get(1);
+    // String text = circleText.toString();
+    Text text = (Text) circleText;
+    Font font = new Font("Open Sans", 20);
+    text.setFont(font);
+    text.setStrokeWidth(2);*/
   }
 
   /**
@@ -306,6 +369,11 @@ public class MapEditorController {
       displayEdgeData(entity.determineEdgeMap(level));
       displayNodeData(entity.determineNodeMap(level));
     }
+
+    if (alignNodesClicked == true && stopAlignment == false) {
+      // if stop alignment is not clicked then continue to add the nodes to the arraylist
+      nodesToAlign.add(entity.getNodeInfo(nodeID));
+    }
   }
 
   /** Sets up screen for the user to remove a node */
@@ -315,6 +383,7 @@ public class MapEditorController {
     modifyNodeClicked = false;
     addNodeClicked = false;
     modifyEdgeClicked = false;
+    alignNodesClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -325,6 +394,7 @@ public class MapEditorController {
     modifyNodeClicked = true;
     addNodeClicked = false;
     modifyEdgeClicked = false;
+    alignNodesClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
   }
 
@@ -335,6 +405,7 @@ public class MapEditorController {
       removeNodeClicked = false;
       modifyNodeClicked = false;
       addNodeClicked = false;
+      alignNodesClicked = false;
 
       editMapDirections.setText("Click a node to modify its edges.");
     } else {
@@ -386,6 +457,7 @@ public class MapEditorController {
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
+    alignNodesClicked = false;
     modifyEdgeClicked = false;
     floorField.selectItem(level);
     floorField.setDisable(true);
@@ -444,7 +516,7 @@ public class MapEditorController {
     LocationName locName =
         new LocationName(
             longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), entity.determineLocalDate());
+    Move move = new Move(currentNodeID, longNameField.getText(), LocalDate.now());
     if (modifyNodeClicked) {
       entity.determineModifyAction(level, node, locName, move);
       currentCircle.setVisible(false);
@@ -479,8 +551,7 @@ public class MapEditorController {
             XYCoords[1] = (int) (Y);
             // new red circle indicating new location
 
-            Circle circle = entity.addCircle(X, Y);
-            circle.setFill(Color.web("0xf74c4c"));
+            Circle circle = entity.addTempCircle(X, Y);
             topPane.getChildren().add(circle);
             currentPositionClicked = circle;
             validateButton();
@@ -497,6 +568,63 @@ public class MapEditorController {
     imported = true;
     impExpDialog.setVisible(true);
     impExpDialog.setDisable(false);
+  }
+
+  /*@FXML private HBox alignmentHBox;
+  @FXML private MFXButton hAlignmentButton;
+  @FXML private MFXButton vAlignmentButton;*/
+
+  @FXML
+  public void clickAlignNodesButton() {
+    if (AlignNodesButton.getText().equals("Align Nodes")) {
+      stopAlignment = false;
+      alignNodesClicked = true;
+      nodesToAlign =
+          new ArrayList<>(); // initializes the array before an alignment is done/before the
+      // selection
+
+      editMapDirections.setText(
+          "Select the nodes you want to align. Then, click how you would like the nodes to be aligned (H/V)");
+      AlignNodesButton.setText("Stop Alignment");
+      alignmentHBox.setVisible(true);
+    } else {
+      alignNodesClicked = false;
+      stopAlignment = true;
+      editMapDirections.setText("");
+      AlignNodesButton.setText("Align Nodes");
+      if (horizontal) {
+        Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
+        topPane.getChildren().clear();
+        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+        displayNodeData(entity.determineNodeMap(node.getFloor()));
+
+      } else if (vertical) {
+        Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
+        topPane.getChildren().clear();
+        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+        displayNodeData(entity.determineNodeMap(node.getFloor()));
+      }
+    }
+  }
+
+  @FXML
+  public void horizontalNodeAlignment() {
+    editMapDirections.setText("");
+    horizontal = true;
+    vertical = false;
+    alignNodesClicked = true;
+    stopAlignment = false;
+    alignmentHBox.setVisible(false);
+  }
+
+  @FXML
+  public void verticalNodeAlignment() {
+    editMapDirections.setText("");
+    alignNodesClicked = true;
+    stopAlignment = false;
+    vertical = true;
+    horizontal = false;
+    alignmentHBox.setVisible(false);
   }
 
   /**

@@ -8,7 +8,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,12 +38,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
+        String creator = rs.getString("creator");
 
-        Meal meal = new Meal(id, name, room, date, time, mealType, comment, employee, status);
+        Meal meal = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
     } catch (SQLException e) {
@@ -65,27 +68,29 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = data[2];
         Date date = java.sql.Date.valueOf(data[3]);
         int time = Integer.parseInt(data[4]);
-        String mealType = data[5];
+        String items = data[5];
         String comment = data[6];
         String employee = data[7];
         String status = data[8];
+        String creator = data[9];
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.createConnection())
                 .prepareStatement(
-                    "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
         ps.setString(2, name);
         ps.setString(3, room);
         ps.setDate(4, date);
         ps.setInt(5, time);
-        ps.setString(6, mealType);
+        ps.setString(6, items);
         ps.setString(7, comment);
         ps.setString(8, employee);
         ps.setString(9, status);
+        ps.setString(10, creator);
         ps.executeUpdate();
 
-        Meal meal = new Meal(id, name, room, date, time, mealType, comment, employee, status);
+        Meal meal = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
         mealMap.put(id, meal);
       }
       csvReader.close();
@@ -105,7 +110,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("id,name,room,date,time,mealtype,comment,employee,status\n");
+      csvWriter.append("id,name,room,date,time,items,comment,employee,status,creator\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("id")) + (","));
@@ -113,10 +118,11 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         csvWriter.append((rs.getString("room")) + (","));
         csvWriter.append(rs.getString("date")).append(",");
         csvWriter.append((rs.getInt("time")) + (","));
-        csvWriter.append(rs.getString("mealtype")).append(",");
+        csvWriter.append(rs.getString("items")).append(",");
         csvWriter.append(rs.getString("comment")).append(",");
         csvWriter.append(rs.getString("employee")).append(",");
-        csvWriter.append(rs.getString("status")).append("\n");
+        csvWriter.append(rs.getString("status")).append(",");
+        csvWriter.append(rs.getString("creator")).append("\n");
       }
 
       csvWriter.flush();
@@ -137,31 +143,39 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getMealType();
+      String items = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
+      String creator = meal.getCreator();
 
       PreparedStatement ps =
           DBConnectionProvider.createConnection()
               .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
       ps.setString(2, name);
       ps.setString(3, room);
       ps.setDate(4, date);
       ps.setInt(5, time);
-      ps.setString(6, type);
+      ps.setString(6, items);
       ps.setString(7, comment);
       ps.setString(8, employee);
       ps.setString(9, status);
+      ps.setString(10, creator);
       ps.executeUpdate();
 
-      mealMap.put(id, new Meal(id, name, room, date, time, type, comment, employee, status));
+      mealMap.put(
+          id, new Meal(id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public Meal get(int ID) {
+    return null;
   }
 
   public void delete(Meal meal) {
@@ -187,37 +201,68 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String room = meal.getRoom();
       Date date = meal.getDate();
       int time = meal.getTime();
-      String type = meal.getMealType();
+      String items = meal.getItems();
       String comment = meal.getComment();
       String employee = meal.getEmployee();
       String status = meal.getStatus();
+      String creator = meal.getCreator();
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Meal\" SET name = ?, room = ?, date = ?, time = ?, mealtype = ?, comment = ?, employee = ?, status = ? WHERE id = ?");
+                  "UPDATE \"Teama_schema\".\"Meal\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
       ps.setString(2, room);
       ps.setDate(3, date);
       ps.setInt(4, time);
-      ps.setString(5, type);
+      ps.setString(5, items);
       ps.setString(6, comment);
       ps.setString(7, employee);
       ps.setString(8, status);
-      ps.setInt(9, id);
+      ps.setString(9, creator);
+      ps.setInt(10, id);
+
       ps.executeUpdate();
 
-      mealMap.put(id, new Meal(id, name, room, date, time, type, comment, employee, status));
+      mealMap.put(
+          id, new Meal(id, name, room, date, time, items, comment, employee, status, creator));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
+  @Override
+  public ArrayList<Meal> getAssigned(String username) {
+    ArrayList<Meal> meals = new ArrayList<>();
+
+    for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)) {
+        meals.add(entry.getValue());
+      }
+    }
+
+    return meals;
+  }
+
+  @Override
+  public ArrayList<Meal> getCreated(String username) {
+    ArrayList<Meal> meals = new ArrayList<>();
+
+    for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)) {
+        meals.add(entry.getValue());
+      }
+    }
+
+    return meals;
+  }
+
   public Meal getMeal(int id) {
     return mealMap.get(id);
   }
 
+  @Override
   public int getNextID() {
     Meal largestID = null;
     try {
@@ -232,12 +277,13 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String room = rs.getString("room");
         Date date = rs.getDate("date");
         int time = rs.getInt("time");
-        String mealType = rs.getString("mealtype");
+        String items = rs.getString("items");
         String comment = rs.getString("comment");
         String employee = rs.getString("employee");
         String status = rs.getString("status");
+        String creator = rs.getString("creator");
 
-        largestID = new Meal(id, name, room, date, time, mealType, comment, employee, status);
+        largestID = new Meal(id, name, room, date, time, items, comment, employee, status, creator);
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);

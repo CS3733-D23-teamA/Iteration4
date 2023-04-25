@@ -1,8 +1,8 @@
 package edu.wpi.teamA.controllers.Menus;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.AccountSingleton;
 import edu.wpi.teamA.database.ORMclasses.User;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import javafx.fxml.FXML;
@@ -16,7 +16,7 @@ public class SettingsMenuBarController {
 
   @FXML
   public void initialize() {
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
     }
@@ -32,7 +32,7 @@ public class SettingsMenuBarController {
 
   public void logout() {
     User loggedOut = new User(2, "N", "N", "N", "N");
-    AccountSingleton.INSTANCE1.setValue(loggedOut);
+    AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }
 

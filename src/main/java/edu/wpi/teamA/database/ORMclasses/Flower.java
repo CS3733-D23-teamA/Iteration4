@@ -5,15 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Flower {
-  @Getter @Setter int id;
-  @Getter @Setter String name;
-  @Getter @Setter String room;
-  @Getter @Setter Date date;
-  @Getter @Setter int time;
-  @Getter @Setter String flowerType;
-  @Getter @Setter String comment;
-  @Getter @Setter String employee;
-  @Getter @Setter String status;
+  @Getter @Setter private int id;
+  @Getter @Setter private String name;
+  @Getter @Setter private String room;
+  @Getter @Setter private Date date;
+  @Getter @Setter private int time;
+  @Getter @Setter private String items;
+  @Getter @Setter private String comment;
+  @Getter @Setter private String employee;
+  @Getter @Setter private String status;
+  @Getter @Setter private String creator;
 
   public Flower(
       int id,
@@ -21,19 +22,21 @@ public class Flower {
       String room,
       Date date,
       int time,
-      String flowerType,
+      String items,
       String comment,
       String employee,
-      String status) {
+      String status,
+      String creator) {
     this.id = id;
     this.name = name;
     this.room = room;
     this.date = date;
     this.time = time;
-    this.flowerType = flowerType;
+    this.items = items;
     this.comment = comment;
     this.employee = employee;
     this.status = status;
+    this.creator = creator;
   }
 
   public Flower() {
@@ -42,8 +45,9 @@ public class Flower {
     this.room = null;
     this.date = null;
     this.time = 0;
-    this.flowerType = null;
+    this.items = null;
     this.comment = null;
     this.status = null;
+    this.creator = null;
   }
 }

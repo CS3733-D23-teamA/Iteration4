@@ -3,12 +3,14 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -103,7 +105,21 @@
                   </VBox>
                </center>
             </MFXGenericDialog>
-            <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" visible="false" StackPane.alignment="CENTER_LEFT">
+            <HBox fx:id="alignmentHBox" prefHeight="100.0" prefWidth="200.0" translateY="430.0">
+               <children>
+                  <MFXButton fx:id="hAlignmentButton" onAction="#horizontalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Horizontal Alignment" textFill="#012d5a">
+                     <font>
+                        <Font name="Open Sans ExtraBold" size="15.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="vAlignmentButton" onAction="#verticalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Vertical Alignment" textFill="#012d5a">
+                     <font>
+                        <Font name="Open Sans ExtraBold" size="15.0" />
+                     </font>
+                  </MFXButton>
+               </children>
+            </HBox>
+            <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" StackPane.alignment="CENTER_LEFT">
                <center>
                   <GridPane prefHeight="502.0" prefWidth="450.0" BorderPane.alignment="CENTER">
                      <columnConstraints>
@@ -154,9 +170,9 @@
                         <MFXComboBox fx:id="buildingField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <MFXComboBox fx:id="nodeTypeField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                         <MFXComboBox fx:id="floorField" onHiding="#validateButton" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <MFXButton fx:id="submitButton" onAction="#submit" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Submit" textFill="#012d5a" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <MFXButton fx:id="submitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
-                              <Font name="Open Sans Regular" size="25.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </MFXButton>
                      </children>
@@ -232,6 +248,11 @@
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>
                               </MFXButton>
+                              <MFXButton fx:id="AlignNodesButton" onAction="#clickAlignNodesButton" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Align Nodes" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                              </MFXButton>
                               <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Import" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
@@ -265,6 +286,7 @@
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
+                              <MFXToggleButton fx:id="locationNameToggle" contentDisplay="GRAPHIC_ONLY" contentDisposition="CENTER" ellipsisString="" graphicTextGap="0.0" onMouseClicked="#changeLocationNameDisplay" style="-fx-background-color: #f1f1f1;" textAlignment="CENTER" textOverrun="CLIP" />
                               <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
                                  <font>
                                     <Font name="Open Sans Regular" size="20.0" />

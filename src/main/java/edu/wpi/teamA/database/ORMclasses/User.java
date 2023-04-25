@@ -5,28 +5,30 @@ import lombok.Setter;
 
 public class User {
 
-  @Getter @Setter int adminYes;
-  @Getter Boolean isAdmin;
+  @Getter @Setter private int accessLevel;
 
-  @Getter @Setter String userName;
+  @Getter @Setter private String userName;
 
-  @Getter @Setter String password;
+  @Getter @Setter private String password;
 
-  @Getter @Setter String firstName;
+  @Getter @Setter private String firstName;
 
-  @Getter @Setter String lastName;
+  @Getter @Setter private String lastName;
 
   public User(int adminYes, String userName, String password, String firstName, String lastName) {
-    this.adminYes = adminYes;
-    this.isAdmin = adminYes == 1; // 0 = not admin /  1 = admin
+    this.accessLevel = adminYes;
     this.userName = userName;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
   }
 
+  public Boolean isAdmin() {
+    return accessLevel == 1;
+  }
+
   public boolean equals(User user2) { // .equals override to compare two users
-    if (this.adminYes == user2.adminYes) {
+    if (this.accessLevel == user2.accessLevel) {
       if (this.userName == user2.userName) {
         if (this.password == user2.password) {
           if (this.firstName == user2.firstName) {

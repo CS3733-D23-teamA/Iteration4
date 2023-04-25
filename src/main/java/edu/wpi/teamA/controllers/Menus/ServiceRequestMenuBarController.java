@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Menus;
 
-import edu.wpi.teamA.database.AccountSingleton;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -11,7 +11,7 @@ public class ServiceRequestMenuBarController {
 
   @FXML
   public void initialize() {
-    if (!AccountSingleton.INSTANCE1.getValue().getIsAdmin()) {
+    if (!AccountSingleton.isAdmin()) {
       serviceRequestsButton.setText("My Service Requests");
       // handle service request admin functionality in SR controller
     }
