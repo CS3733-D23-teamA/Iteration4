@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -104,6 +105,20 @@
                   </VBox>
                </center>
             </MFXGenericDialog>
+            <HBox fx:id="alignmentHBox" prefHeight="100.0" prefWidth="200.0" translateY="430.0">
+               <children>
+                  <MFXButton fx:id="hAlignmentButton" onAction="#horizontalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Horizontal Alignment" textFill="#012d5a">
+                     <font>
+                        <Font name="Open Sans ExtraBold" size="15.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="vAlignmentButton" onAction="#verticalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Vertical Alignment" textFill="#012d5a">
+                     <font>
+                        <Font name="Open Sans ExtraBold" size="15.0" />
+                     </font>
+                  </MFXButton>
+               </children>
+            </HBox>
             <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" visible="false" StackPane.alignment="CENTER_LEFT">
                <center>
                   <GridPane prefHeight="502.0" prefWidth="450.0" BorderPane.alignment="CENTER">
@@ -229,6 +244,11 @@
                                  </VBox.margin>
                               </MFXButton>
                               <MFXButton fx:id="modifyEdgeButton" onAction="#modifyEdge" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Edge" textFill="#012d5a">
+                                 <font>
+                                    <Font name="Open Sans ExtraBold" size="28.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="AlignNodesButton" onAction="#clickAlignNodesButton" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Align Nodes" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>

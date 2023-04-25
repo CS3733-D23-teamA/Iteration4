@@ -242,6 +242,34 @@ public class MapEntity {
     return true;
   }
 
+  public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign) {
+    Node firstNode = nodesToAlign.get(0);
+    for (Node node : nodesToAlign) {
+      node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
+
+      determineModifyAction(
+          node.getFloor(),
+          node,
+          getLocationName(node.getNodeID()),
+          databaseRepo.getMove(node.getNodeID()));
+    }
+    return firstNode;
+  }
+
+  public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign) {
+    Node firstNode = nodesToAlign.get(0);
+    for (Node node : nodesToAlign) {
+      node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
+
+      determineModifyAction(
+          node.getFloor(),
+          node,
+          getLocationName(node.getNodeID()),
+          databaseRepo.getMove(node.getNodeID()));
+    }
+    return firstNode;
+  }
+
   public void importExport(boolean imported, String DAOimp) {
     if (imported) {
       FileChooser fileChooser = new FileChooser();
