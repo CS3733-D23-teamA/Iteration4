@@ -219,46 +219,30 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public Move getMoveForNode(int nodeID) {
     Move move = null;
-    boolean found = false;
 
     try {
       Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+              Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
       ResultSet rs =
-          st.executeQuery(
-              "SELECT *\n"
-                  + "FROM \"Teama_schema\".\"Move\"\n"
-                  + "WHERE\n"
-                  + "        localdate < "
-                  + currentDate
-                  + " AND nodeID = "
-                  + nodeID
-                  + "\n"
-                  + "ORDER BY localdate DESC");
+              st.executeQuery(
+                      "SELECT *\n"
+                              + "FROM \"Teama_schema\".\"Move\"\n"
+                              + "WHERE\n"
+                              + "        localdate < "
+                              + currentDate
+                              + " AND nodeID = "
+                              + nodeID
+                              + "\n"
+                              + "ORDER BY localdate DESC LIMIT 1");
 
       move =
-          new Move(
-              rs.getInt("nodeID"),
-              rs.getString("longname"),
-              LocalDate.parse(rs.getString("localdate"), DateTimeFormatter.ISO_DATE));
+              new Move(
+                      rs.getInt("nodeID"),
+                      rs.getString("longname"),
+                      LocalDate.parse(rs.getString("localdate"), DateTimeFormatter.ISO_DATE));
 
     } catch (SQLException e) {
       throw new RuntimeException("SQLException in MoveDAOImp.getMoveForNode()");
-    }
-
-    while (!found) {
-      // TODO Get most recent date
-      int dateHashcode = 0;
-
-      // Check if nodeID is in that date
-      LinkedList<Move> dateList = MoveMap.get(dateHashcode);
-      for (Move tempMove : dateList) {
-        if (tempMove.getNodeID() == nodeID) {
-          move = tempMove;
-        }
-      }
-
-      // TODO If not, loop to next most recent date
     }
 
     return move;
