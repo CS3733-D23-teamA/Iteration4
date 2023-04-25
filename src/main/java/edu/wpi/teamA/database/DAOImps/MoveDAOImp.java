@@ -35,7 +35,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
           "Create Table if not exists \"Teama_schema\".\"Move\""
               + "(nodeID   int,"
               + "longName  Varchar(600),"
-              + "localDate     date,"
+              + "localDate     Varchar(600),"
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
@@ -95,7 +95,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
         ps.setInt(1, nodeID);
         ps.setString(2, longName);
-        ps.setDate(3, java.sql.Date.valueOf(localDate));
+        ps.setString(3, java.sql.Date.valueOf(localDate).toString());
         ps.executeUpdate();
 
         if (!MoveMap.containsKey(localDate.hashCode())) {
@@ -149,7 +149,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
-      ps.setDate(3, java.sql.Date.valueOf(localDate));
+      ps.setString(3, java.sql.Date.valueOf(localDate).toString());
       ps.executeUpdate();
       move = new Move(nodeID, longName, localDate);
       if (!MoveMap.containsKey(localDate.hashCode())) {
@@ -176,7 +176,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
                   "DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ? AND longname = ? AND localdate = ?");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
-      ps.setDate(3, java.sql.Date.valueOf(localDate));
+      ps.setString(3, java.sql.Date.valueOf(localDate).toString());
       ps.executeUpdate();
 
       // MoveMap.remove(nodeID);
@@ -199,7 +199,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ?, nodeid = ?");
       ps.setString(1, newMove.getLongName());
-      ps.setDate(2, java.sql.Date.valueOf(newMove.getDate()));
+      ps.setString(2, java.sql.Date.valueOf(newMove.getDate()).toString());
       ps.setInt(3, newMove.getNodeID());
       ps.executeUpdate();
 
@@ -226,7 +226,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate < ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
+                  "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate <= ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
       ps.setString(1, currentDate.toString());
       ps.setInt(2, nodeID);
       // ps.executeUpdate();
