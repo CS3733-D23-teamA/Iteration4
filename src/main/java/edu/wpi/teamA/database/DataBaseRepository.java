@@ -2,8 +2,10 @@ package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class DataBaseRepository {
 
@@ -151,16 +153,24 @@ public class DataBaseRepository {
   }
 
   // Move related methods
-  public HashMap<Integer, Move> getMoveMap() {
+  public HashMap<Integer, LinkedList<Move>> getMoveMap() {
     return moveDAOImp.getMoveMap();
+  }
+
+  public HashMap<Integer, Move> getCurrentMoveMap() {
+    return moveDAOImp.getCurrentMoveMap();
   }
 
   public void createMoveTable() {
     moveDAOImp.createTable();
   }
 
-  public HashMap<Integer, Move> loadMovesFromDatabaseInMap() {
+  public HashMap<Integer, LinkedList<Move>> loadMovesFromDatabaseInMap() {
     return moveDAOImp.loadDataFromDatabaseInMap();
+  }
+
+  public HashMap<Integer, Move> loadCurrentMovesMap() {
+    return moveDAOImp.loadCurrentMoveMap();
   }
 
   public void addMove(Move move) {
@@ -171,12 +181,20 @@ public class DataBaseRepository {
     moveDAOImp.Delete(move);
   }
 
-  public void updateMove(Move move) {
-    moveDAOImp.Update(move);
+  public void updateMove(Move oldMove, Move newMove) {
+    moveDAOImp.Update(oldMove, newMove);
   }
 
-  public Move getMove(int nodeID) {
-    return moveDAOImp.getMove(nodeID);
+  public Move getMoveForNodeSlow(int nodeID) {
+    return moveDAOImp.getMoveForNodeSlow(nodeID);
+  }
+
+  public Move getMoveForNode(int nodeID) {
+    return moveDAOImp.getMoveForNode(nodeID);
+  }
+
+  public Move getMoveForLocName(String longname) {
+    return moveDAOImp.getMoveForLocName(longname);
   }
 
   // Import and Export methods
@@ -188,7 +206,7 @@ public class DataBaseRepository {
       HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
       locNameDAOImp = new LocNameDAOImp(importedLocationNames);
     } else if (type.equals("Move")) {
-      HashMap<Integer, Move> importedMoves = moveDAOImp.Import(filepath);
+      HashMap<Integer, LinkedList<Move>> importedMoves = moveDAOImp.Import(filepath);
       moveDAOImp = new MoveDAOImp(importedMoves);
     } else if (type.equals("Edge")) {
       HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
@@ -280,6 +298,10 @@ public class DataBaseRepository {
 
   public int getNextCRRRID() {
     return crrrDAOImp.getNextID();
+  }
+
+  public ArrayList<ConferenceRoomResRequest> filterDateCRRR(Date d) {
+    return crrrDAOImp.filterDate(d);
   }
 
   // Furniture related methods

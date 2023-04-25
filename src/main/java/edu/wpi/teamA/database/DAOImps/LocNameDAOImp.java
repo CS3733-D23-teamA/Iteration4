@@ -171,9 +171,9 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"LocationName\" SET shortname = ?, nodetype = ? WHERE longname = ?");
-      ps.setString(1, longName);
-      ps.setString(2, shortName);
-      ps.setString(3, nodeType);
+      ps.setString(1, shortName);
+      ps.setString(2, nodeType);
+      ps.setString(3, longName);
       ps.executeUpdate();
 
       LocNameMap.put(longName, new LocationName(longName, shortName, nodeType));

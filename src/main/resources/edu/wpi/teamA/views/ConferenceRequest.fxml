@@ -20,11 +20,16 @@
          <children>
             <VBox>
                <children>
-                  <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Booking" wrappingWidth="457.10888671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
-                     <font>
-                        <Font name="Open Sans Bold" size="48.0" />
-                     </font>
-                  </Text>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Booking" wrappingWidth="766.5635986328125" x="290.0" y="100.0">
+                           <font>
+                              <Font name="Open Sans Bold" size="48.0" />
+                           </font>
+                        </Text>
+                        <MFXButton onAction="#cal" prefHeight="41.0" prefWidth="94.0" text="Calendar" />
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets left="50.0" top="50.0" />

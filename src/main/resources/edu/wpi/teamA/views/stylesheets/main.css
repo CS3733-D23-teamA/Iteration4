@@ -11,6 +11,8 @@
     bhighlight: #3788C8;
 }
 
+/* for MFX CSS selectors: https://github.com/palexdev/MaterialFX/wiki*/
+
 .borderpane{
     -fx-pref-height: 900;
     -fx-pref-width: 1600;
@@ -29,7 +31,17 @@
     -fx-background-color: #f1f1f1;
 }
 
-.blue-styled-button {
+.mfx-button {
+    -fx-text-fill: #f1f1f1;
+    -fx-font-weight: bold;
+    -fx-background-color: #012D5A;
+}
+
+.mfx-button:hover {
+    -fx-background-color: #F0C747;
+}
+
+.blue-styled-mfx-button {
     -fx-pref-width: 100;
     -fx-pref-height: 50;
 
@@ -41,7 +53,7 @@
     -fx-border-radius: 19;
 }
 
-.blue-styled-button:hover {
+.blue-styled-mfx-button:hover {
     -fx-font-size: 20;
     -fx-border-width: 3;
     /*-fx-border-color: #3788C8;*/
@@ -77,6 +89,33 @@
     -fx-font-family: "Open Sans";
     -fx-text-fill: #012D5A;
     -fx-text-alignment: center;
+}
+
+.mfx-combo-box .combo-popup .virtual-flow .data-label  {
+    -fx-font-size: 12;
+}
+
+.mfx-combo-box {
+    -fx-text-origin: center;
+    -fx-font-size: 18;
+}
+
+.mfx-toggle-node {
+    -fx-background-color: #012D5A;
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+    -fx-text-fill: #f1f1f1;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+
+.mfx-toggle-node:selected {
+    -fx-background-color: #F0C747;
+    -fx-text-fill: #012D5A;
+    -fx-font-size: 18;
 }
 
 #title {
