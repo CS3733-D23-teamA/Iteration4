@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -28,13 +30,16 @@
                   <HBox alignment="CENTER" fillHeight="false" spacing="10.0" style="-fx-background-color: bgrey; -fx-background-radius: 20; -fx-border-color: bwhite; -fx-border-width: 3;">
                      <children>
                         <SVGPath fx:id="prevLevel" content="M -4.32 -4.32 L -4.32 -36 L -33.12 -20.16 z" fill="#012d5a" />
-                        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="120.0" style="-fx-background-color: bblue; -fx-background-radius: 12; -fx-border-color: bwhite; -fx-border-radius: 10; -fx-border-width: 3;">
+                        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="120.0" style="-fx-background-color: bblue; -fx-background-radius: 12; -fx-border-color: bwhite; -fx-border-radius: 10; -fx-border-width: 3;">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
                            <children>
                               <Label fx:id="currentLevelLabel" style="-fx-text-fill: bwhite;" text="Level L1" />
                            </children>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
                         </VBox>
                         <SVGPath fx:id="nextLevel" content="M 4.32 4.32 L 4.32 36 L 33.12 20.16 z" fill="#012d5a" />
                      </children>
@@ -56,6 +61,16 @@
                   <Insets right="10.0" top="10.0" />
                </padding>
             </VBox>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="55.0" spacing="10.0">
+               <children>
+                  <Label text="Set Message:" />
+                  <MFXTextField maxHeight="-Infinity" minHeight="-Infinity" prefHeight="30.0" prefWidth="600.0" />
+                  <MFXButton style="-fx-background-color: bblue; -fx-text-fill: bwhite;" text="Submit" />
+               </children>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </HBox>
          </children>
          <BorderPane.margin>
             <Insets />
