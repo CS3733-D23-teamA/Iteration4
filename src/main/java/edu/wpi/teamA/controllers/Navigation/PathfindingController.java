@@ -1,12 +1,15 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.Level;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.pathfinding.*;
 import io.github.palexdev.materialfx.controls.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -130,16 +133,7 @@ public class PathfindingController extends PageController {
     // center and zoom onto map content
     centerMap(2265, 950, 0.5);
 
-    locationToggle.setOnAction(event -> toggleLocationNames());
-  }
-
-  //TODO location names!!! this is all the funcationality for the toggle button I was just testing it lol
-  private void toggleLocationNames() {
-    if (locationToggle.isSelected()) {
-      currentLevelLabel.setText("BRUH");
-    } else {
-      currentLevelLabel.setText(currentLevel.toString());
-    }
+    locationToggle.setOnAction(event -> toggleNodeNames());
   }
 
   /**
@@ -187,7 +181,7 @@ public class PathfindingController extends PageController {
    * @param level takes the current user selected level as a level object
    */
   private void changeLevel(String level) {
-
+    clearPath();
     // toggle button functionality
     switch (level) {
       case "L1":
@@ -212,6 +206,7 @@ public class PathfindingController extends PageController {
         levelToggles.selectToggle(level3Toggle);
         break;
     }
+    toggleNodeNames();
 
     // set map image in image view
     this.mapView.setImage(Objects.requireNonNull(mapImage));
@@ -237,9 +232,9 @@ public class PathfindingController extends PageController {
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    drawPath();
     setTextDirections();
     setPaginator(startID);
+    drawPath();
   }
 
   /** Helper method for submit sends text directions to the user */
@@ -280,8 +275,6 @@ public class PathfindingController extends PageController {
         isSubmitted = true;
       }
     }
-
-    isSubmitted = false;
   }
 
   /**
@@ -289,8 +282,6 @@ public class PathfindingController extends PageController {
    * ending node
    */
   public void drawPath() {
-
-    clearPath();
 
     if (isAdmin) {
       resetAdminMessageInput();
@@ -336,6 +327,23 @@ public class PathfindingController extends PageController {
     // sets the start node if current floor is displaying the start of the path
     if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
+    }
+  }
+
+  @FXML
+  private void toggleNodeNames() {
+    clearPath();
+    HashMap<Integer, Node> nodeMap = mapEntity.getNodeMap(currentLevel);
+    for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
+      Node node = entry.getValue();
+      if (!mapEntity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
+          && locationToggle.isSelected()) {
+        Text text = mapEntity.addText(node);
+        topPane.getChildren().add(text);
+      }
+    }
+    if (isSubmitted) {
+      drawPath();
     }
   }
 
