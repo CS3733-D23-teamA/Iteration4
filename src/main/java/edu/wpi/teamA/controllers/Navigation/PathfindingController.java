@@ -111,11 +111,7 @@ public class PathfindingController extends PageController {
     gesturePane.setGestureEnabled(true);
 
     // center and zoom onto map content
-    Platform.runLater(
-        () -> {
-          gesturePane.centreOn(new Point2D(2265, 950));
-          gesturePane.zoomTo(0.5, new Point2D(2265, 950));
-        });
+    centerMap(2265, 950, 0.5);
   }
 
   private String getNextLevel() {
@@ -217,6 +213,8 @@ public class PathfindingController extends PageController {
     // Sets the paginator
     mapEntity.setOrder(SearchSingleton.getPath());
     changeLevel(mapEntity.getFirstLevel().toString());
+    centerMap(
+        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
   }
 
   /**
@@ -320,11 +318,11 @@ public class PathfindingController extends PageController {
     }
   }
 
-  public void centerMap(int x, int y) {
+  public void centerMap(int x, int y, double zoom) {
     Platform.runLater(
         () -> {
           gesturePane.centreOn(new Point2D(x, y));
-          gesturePane.zoomTo(0.5, new Point2D(x, y));
+          gesturePane.zoomTo(zoom, new Point2D(x, y));
         });
   }
 
