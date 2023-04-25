@@ -21,6 +21,7 @@ public class LoginController {
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
   @FXML private AnchorPane imagePane;
+
   DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
 
   @FXML
@@ -30,19 +31,37 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
+    // Checking username and password inpput fields
 
-    // Checking username and password input fields
-    if (username.isBlank() == true && password.isBlank() == true) {
-      loginMessageLabel.setText(
-          "Please enter username and password"); // request username and password if neither are
-      // entered
-    }
     if (username.isBlank() == true) {
-      loginMessageLabel.setText("Please enter username"); // requests username if one is not entered
-    } else if (password.isBlank() == true) {
-      loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
+      if (password.isBlank() == true) {
+        loginMessageLabel.setText(
+            "Please enter username and password"); // request username and password if neither are
+        // entered
+        return;
+      } else {
+        loginMessageLabel.setText(
+            "Please enter username"); // requests username if one is not entered
+        return;
+      }
     }
 
+    if (username.isBlank() == true) {
+      if (password.isBlank() == true) {
+        loginMessageLabel.setText(
+            "Please enter username and password"); // request username and password if neither are
+        // entered
+        return;
+      } else {
+        loginMessageLabel.setText(
+            "Please enter username"); // requests username if one is not entered
+        return;
+      }
+    }
+    if (password.isBlank() == true) {
+      loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
+      return;
+    }
     // Setting up User
     User user =
         dataBaseRepository.checkUser(

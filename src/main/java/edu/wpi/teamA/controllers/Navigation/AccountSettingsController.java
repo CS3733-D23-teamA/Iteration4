@@ -1,6 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import edu.wpi.teamA.database.DAOImps.UserDAOImp;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -15,7 +15,7 @@ public class AccountSettingsController {
   @FXML private MFXPasswordField password2;
   @FXML private MFXPasswordField newPassword1;
   @FXML private MFXPasswordField newPassword2;
-  UserDAOImp checker = new UserDAOImp();
+  DataBaseRepository checker = new DataBaseRepository();
 
   @FXML
   public void initialize() {

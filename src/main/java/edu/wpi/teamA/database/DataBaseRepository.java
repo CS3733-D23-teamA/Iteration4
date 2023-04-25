@@ -29,7 +29,6 @@ public class DataBaseRepository {
     crrrDAOImp = new CRRRDAOImp();
     furnitureDAOImp = new FurnitureDAOImp();
     mealDAOImp = new MealDAOImp();
-
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
     signageDAOImp = new SignageDAOImp();
@@ -363,12 +362,21 @@ public class DataBaseRepository {
   }
 
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName)
-      throws IncorrectLengthException {
+      int adminYes, String userName, String password, String firstName, String lastName) {
+    if (userName.length() < 3) {
+      System.out.println("username is too short");
+    } else if (password.length() < 5) {
+      System.out.println("password is too short, " + "must be more than 5 characters");
+    } else if (firstName.length() < 1) {
+      System.out.println("Please enter a first name");
+    } else if (lastName.length() < 1) {
+      System.out.println("please enter a last name");
+    }
     userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
   }
 
   public User checkUser(String userName, String password) {
+
     return userDAOImp.checkUser(userName, password);
   }
 
