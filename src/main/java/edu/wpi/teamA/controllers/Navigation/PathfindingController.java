@@ -37,6 +37,9 @@ public class PathfindingController extends PageController {
   // Boolean for admin settings
   private Boolean isAdmin = AccountSingleton.isAdmin();
 
+  // Boolean for user submit
+  private Boolean isSubmitted = false;
+
   // Current Level Object
   private Level currentLevel = Level.LOWERLEVELL1;
 
@@ -73,6 +76,9 @@ public class PathfindingController extends PageController {
   @FXML private MFXTextField adminMessageTextField;
   @FXML private VBox levelControls;
   @FXML private HBox messageVbox;
+
+  // location toggle
+  @FXML private MFXToggleButton locationToggle;
 
   public void initialize() {
 
@@ -125,24 +131,32 @@ public class PathfindingController extends PageController {
     centerMap(2265, 950, 0.5);
   }
 
+  /**
+   * if selections are present, returns next level in a path
+   *
+   * @return String of next level using shortened level name
+   */
   private String getNextLevel() {
-    if (checkSelectionsForDraw()) {
-      // TODO if selections are present, set next to next FROM PATH
+    if (isSubmitted) {
       return mapEntity.getNextLevel().toString();
     }
     return mapEntity.getNextLevel().toString();
   }
 
+  /**
+   * if selections are present, returns previous level in a path
+   *
+   * @return String of next prev using shortened level name
+   */
   private String getPrevLevel() {
-    if (checkSelectionsForDraw()) {
-      // TODO if selections are present, set prev to prev FROM PATH
+    if (isSubmitted) {
       return mapEntity.getPrevLevel().toString();
     }
     return mapEntity.getPrevLevel().toString();
   }
 
   /**
-   * Helper for change level - updates map image and current level text
+   * Helper for change level Updates map image, current level, and label
    *
    * @param level takes the current user selected level
    */
@@ -157,7 +171,7 @@ public class PathfindingController extends PageController {
    * Sets corresponding map level image and global floor variable, sends check path to check each
    * floor for a path
    *
-   * @param level takes the current user selected level
+   * @param level takes the current user selected level as a level object
    */
   private void changeLevel(String level) {
 
@@ -191,8 +205,8 @@ public class PathfindingController extends PageController {
   }
 
   /**
-   * Called upon user submit, clears the pane of drawings and implements Astar on start and end
-   * selection, sends directions to the user and draws graphical path.
+   * Called upon user submit clears the pane of drawings and implements admin selected search (A* by
+   * default) on start and end selection, sends directions to the user and draws graphical path.
    */
   public void submit() {
 
@@ -210,17 +224,23 @@ public class PathfindingController extends PageController {
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    // Sets the paginator
-    mapEntity.setOrder(SearchSingleton.getPath());
+    //    // Sets the paginator
+    //    mapEntity.setOrder(SearchSingleton.getPath());
 
-    // set text directions
+    setTextDirections();
+
+    setPaginator(startID);
+  }
+
+  /** Helper method for submit sends text directions to the user */
+  private void setTextDirections() {
     directions.setText(SearchSingleton.pathString());
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
     directions.setFill(Color.web("#151515"));
+  }
 
-    // indicate floor buttons
-    // ArrayList<Integer> test = searchEntity.getPath();
-
+  /** Helper method for submit sets up paginator */
+  private void setPaginator(int startID) {
     // Sets the paginator
     mapEntity.setOrder(SearchSingleton.getPath());
     changeLevel(mapEntity.getFirstLevel().toString());
@@ -229,29 +249,37 @@ public class PathfindingController extends PageController {
   }
 
   /**
-   * wrapper for submit called upon user input, runs submit when user sets something for all inputs
-   * returns true if starting and ending locations are set by user, false otherwise
+   * Helper method to wrap for submit called upon user input, runs submit when user sets something
+   * for all inputs
+   *
+   * @return true if starting and ending locations are set by user, false otherwise
    */
   @FXML
-  public Boolean checkSelections() {
+  public void checkSelections() {
     if (isAdmin) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
           submit();
-          return true;
+          isSubmitted = true;
         }
       }
     } else {
       if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
         submit();
-        return true;
+        isSubmitted = true;
       }
     }
 
-    return false;
+    isSubmitted = false;
   }
 
+  /**
+   * Helper method to wrap drawPath Runs drawpath only if a start and location are given, also
+   * allows admin to set search algorithm without setting a path
+   *
+   * @return true if user input is given for start and locations, false otherwise
+   */
   @FXML
   public Boolean checkSelectionsForDraw() {
     if (isAdmin) {
@@ -268,42 +296,25 @@ public class PathfindingController extends PageController {
         return true;
       }
     }
-
     return false;
   }
 
-  /** Helper method for submit, draws graphical path and includes the starting and ending node */
+  /**
+   * Helper method for submit Resets the pane, draws graphical path and includes the starting and
+   * ending node
+   */
   public void drawPath() {
+
     clearPath();
-    // TODO path level indicator
-    // starter code - highlights L1 upon every call of drawPath()
-    BorderStroke highlight =
-        new BorderStroke(
-            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
-    levelL1Toggle.setBorder(new Border(highlight));
 
-    // TODO save path somehow - maybe in SearchSingleton
+    if (isAdmin) {
+      resetAdminMessageInput();
+    }
 
-    // get list of node IDs and set graph node to gnode from search
+    // get list of node IDs and set graph node to gnode from search and indicate levels
     ArrayList<Integer> pathIDs = SearchSingleton.getPath();
     GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
-
-    ArrayList<String> stringList = mapEntity.floorsTravelledTo(pathIDs);
-    if (stringList.contains("L1")) {
-      levelL1Toggle.setBorder(new Border(highlight));
-    }
-    if (stringList.contains("L2")) {
-      levelL2Toggle.setBorder(new Border(highlight));
-    }
-    if (stringList.contains("1")) {
-      level1Toggle.setBorder(new Border(highlight));
-    }
-    if (stringList.contains("2")) {
-      level2Toggle.setBorder(new Border(highlight));
-    }
-    if (stringList.contains("3")) {
-      level3Toggle.setBorder(new Border(highlight));
-    }
+    levelButtonIndicator(pathIDs);
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
@@ -316,9 +327,6 @@ public class PathfindingController extends PageController {
 
     // create a line
     Line line;
-
-    //
-    Boolean isCenter = false;
 
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
@@ -344,16 +352,44 @@ public class PathfindingController extends PageController {
     if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
+  }
 
-    if (isAdmin) {
-      // display admin message input
-      adminMessage.setText("");
-      messageVbox.setVisible(false);
-      adminMessageInput.setVisible(true);
-      levelControls.setVisible(true);
+  /**
+   * Helper method Indicates level buttons
+   *
+   * @param nodeIDS takes a list of node IDs that map a path
+   */
+  private void levelButtonIndicator(ArrayList<Integer> nodeIDS) {
+    // set up a highlight object
+    BorderStroke highlight =
+        new BorderStroke(
+            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+
+    ArrayList<String> stringList = mapEntity.floorsTravelledTo(nodeIDS);
+    if (stringList.contains("L1")) {
+      levelL1Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("L2")) {
+      levelL2Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("1")) {
+      level1Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("2")) {
+      level2Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("3")) {
+      level3Toggle.setBorder(new Border(highlight));
     }
   }
 
+  /**
+   * Helper method centers map in the gesture pane given X and Y input
+   *
+   * @param x takes x coordinate as int to center about
+   * @param y takes Y coordinate as int to center about
+   * @param zoom double to scale zoom
+   */
   public void centerMap(int x, int y, double zoom) {
     Platform.runLater(
         () -> {
@@ -362,15 +398,25 @@ public class PathfindingController extends PageController {
         });
   }
 
-  /** Helper method to clear path */
+  /** Helper method clears path */
   public void clearPath() {
     topPane.getChildren().clear();
   }
 
+  /** Helper method displays admin message fields upon drawing path */
   public void displayAdminMessage() {
     adminMessage.setText(adminMessageTextField.getText());
     messageVbox.setVisible(true);
     adminMessageInput.setVisible(false);
     levelControls.setVisible(false);
+  }
+
+  /** Helper method resets admin message fields after drawing path */
+  private void resetAdminMessageInput() {
+    // display admin message input
+    adminMessage.setText("");
+    messageVbox.setVisible(false);
+    adminMessageInput.setVisible(true);
+    levelControls.setVisible(true);
   }
 }

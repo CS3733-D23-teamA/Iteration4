@@ -4,6 +4,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -105,24 +106,25 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="searchAlgorithmSelection" editable="false" graphicTextGap="-10.0" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" selectable="true" style="-fx-font-weight: bold; -fx-background-color: bgrey; -fx-text-fill: bblack;">
+                              <MFXFilterComboBox fx:id="searchAlgorithmSelection" editable="false" floatMode="ABOVE" graphicTextGap="-10.0" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" selectable="true" style="-fx-font-weight: bold; -fx-background-color: bgrey; -fx-text-fill: bblack;">
                                  <font>
                                     <Font size="18.0" />
                                  </font></MFXFilterComboBox>
                            </children>
                         </VBox>
-                        <VBox spacing="5.0">
+                        <VBox spacing="10.0">
                            <children>
-                              <MFXFilterComboBox fx:id="startSelection" editable="false" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Starting Location">
+                              <MFXFilterComboBox fx:id="startSelection" editable="false" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Starting Location">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
                               </MFXFilterComboBox>
-                              <MFXFilterComboBox fx:id="endSelection" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
+                              <MFXFilterComboBox fx:id="endSelection" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+                  <MFXToggleButton contentDisposition="RIGHT" text="Location Names" textFill="#012d5a" />
                   <VBox maxWidth="300.0">
                      <children>
                         <Label id="title" fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Directions:">
