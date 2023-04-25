@@ -11,6 +11,7 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -225,12 +226,14 @@ public class MapEditorController {
       Node node = entry.getValue();
       if (node != null) {
         Circle circle = entity.addCircle(mapGesturePane, node);
+
         circle.setOnMouseReleased(
             mouseEvent -> {
               entity.dragReleased(circle, node, mapGesturePane);
               topPane.getChildren().clear();
               displayEdgeData(entity.determineEdgeMap(node.getFloor()));
               displayNodeData(entity.determineNodeMap(node.getFloor()));
+              mapGesturePane.setGestureEnabled(true);
             });
 
         circle.setOnMouseEntered(event -> dotHover(circle, node.getNodeID()));
@@ -240,15 +243,13 @@ public class MapEditorController {
               mapGesturePane.setGestureEnabled(false);
               dotClicked(circle, node.getNodeID());
             });
-        topPane.getChildren().add(circle);
 
-        // g.getChildren().add(circle);
+        topPane.getChildren().add(circle);
 
         if (!entity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
             && locationNameToggle.isSelected()) {
           Text text = entity.addText(node);
           topPane.getChildren().add(text);
-          // g.getChildren().add(text);
         }
       }
     }
@@ -271,7 +272,6 @@ public class MapEditorController {
 
   @FXML
   public void changeLocationNameDisplay() {
-    System.out.println("Change location name");
     topPane.getChildren().clear();
     displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
     displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
@@ -320,7 +320,6 @@ public class MapEditorController {
   public void dotClicked(Circle circle, int nodeID) {
     currentNodeID = nodeID;
     currentCircle = circle;
-    System.out.println("AHHHHHHHHH");
 
     if (removeNodeClicked) {
       entity.determineRemoveAction(nodeID, level);
@@ -373,11 +372,8 @@ public class MapEditorController {
 
     if (alignNodesClicked == true && stopAlignment == false) {
       // if stop alignment is not clicked then continue to add the nodes to the arraylist
-      System.out.println("Added node to arraylist");
       nodesToAlign.add(entity.getNodeInfo(nodeID));
     }
-    System.out.println("AHHHHHHHHH");
-    System.out.println(stopAlignment);
   }
 
   /** Sets up screen for the user to remove a node */
@@ -520,7 +516,7 @@ public class MapEditorController {
     LocationName locName =
         new LocationName(
             longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), entity.determineLocalDate());
+    Move move = new Move(currentNodeID, longNameField.getText(), LocalDate.now());
     if (modifyNodeClicked) {
       entity.determineModifyAction(level, node, locName, move);
       currentCircle.setVisible(false);

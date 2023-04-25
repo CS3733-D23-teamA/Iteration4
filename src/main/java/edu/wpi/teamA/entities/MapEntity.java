@@ -7,8 +7,6 @@ import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -128,13 +126,6 @@ public class MapEntity {
     circle.setRadius(10);
     circle.setVisible(true);
 
-    //    DraggableMaker draggableMaker = new DraggableMaker();
-    //    draggableMaker.makeDraggable(circle);
-
-    circle.setOnMousePressed(
-        mouseEvent -> {
-          mapGesturePane.setGestureEnabled(false);
-        });
     circle.setOnMouseDragged(
         mouseEvent -> {
           circle.setCenterX(mouseEvent.getX());
@@ -145,15 +136,19 @@ public class MapEntity {
   }
 
   public void dragReleased(Circle circle, Node node, GesturePane mapGesturePane) {
-    node.setXcoord((int) circle.getCenterX());
-    node.setYcoord((int) circle.getCenterY());
-    mapGesturePane.setGestureEnabled(true);
-    // update database and big hashmap
-    Move move = databaseRepo.getMove(node.getNodeID());
-    determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
-    // update level hashmap
-    // determineNodeMap(node.getFloor()).remove(node.getNodeID());
-    determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
+    if ((node.getXcoord() != (int) circle.getCenterX())
+        && (node.getYcoord() != (int) circle.getCenterY())) {
+      node.setXcoord((int) circle.getCenterX());
+      node.setYcoord((int) circle.getCenterY());
+      mapGesturePane.setGestureEnabled(true);
+      // update database and big hashmap
+      Move move = databaseRepo.getMoveForNode(node.getNodeID());
+      determineModifyAction(
+          node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
+      // update level hashmap
+      // determineNodeMap(node.getFloor()).remove(node.getNodeID());
+      determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
+    }
   }
 
   public Text addText(Node node) {
@@ -188,7 +183,7 @@ public class MapEntity {
   }
 
   public LocationName getLocationName(int nodeID) {
-    Move move = databaseRepo.getMove(nodeID);
+    Move move = databaseRepo.getMoveForNode(nodeID);
     return databaseRepo.getLocName(move.getLongName());
   }
 
@@ -210,15 +205,16 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    databaseRepo.deleteLocName(databaseRepo.getLocName(databaseRepo.getMove(nodeID).getLongName()));
-    databaseRepo.deleteMove(databaseRepo.getMove(nodeID));
+    databaseRepo.deleteLocName(
+        databaseRepo.getLocName(databaseRepo.getMoveForNode(nodeID).getLongName()));
+    databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
     determineNodeMap(level).remove(nodeID);
   }
 
   public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
     databaseRepo.updateNode(node);
     databaseRepo.updateLocName(locName);
-    databaseRepo.updateMove(move);
+    databaseRepo.addMove(move);
     determineNodeMap(level).put(node.getNodeID(), node);
   }
 
@@ -256,7 +252,7 @@ public class MapEntity {
           node.getFloor(),
           node,
           getLocationName(node.getNodeID()),
-          databaseRepo.getMove(node.getNodeID()));
+          databaseRepo.getMoveForNode(node.getNodeID()));
     }
     return firstNode;
   }
@@ -270,7 +266,7 @@ public class MapEntity {
           node.getFloor(),
           node,
           getLocationName(node.getNodeID()),
-          databaseRepo.getMove(node.getNodeID()));
+          databaseRepo.getMoveForNode(node.getNodeID()));
     }
     return firstNode;
   }
@@ -306,27 +302,12 @@ public class MapEntity {
     }
   }
 
-  public LocalDate determineLocalDate() {
-    String month = Integer.toString(LocalDate.now().getMonthValue());
-    String day = Integer.toString(LocalDate.now().getDayOfMonth());
-    if (month.length() == 1) {
-      month = "0" + month;
-    }
-    if (day.length() == 1) {
-      day = "0" + day;
-    }
-
-    String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-    return LocalDate.parse(dateString, formatter);
-  }
-
   public ArrayList<Node> loadAllNodes() {
     return databaseRepo.loadNodesFromDatabaseInArray();
   }
 
   public String getLongName(int id) {
-    return databaseRepo.getMove(id).getLongName();
+    return databaseRepo.getMoveForNode(id).getLongName();
   }
 
   // sets up the hashmap linking long names to nodeIDs
