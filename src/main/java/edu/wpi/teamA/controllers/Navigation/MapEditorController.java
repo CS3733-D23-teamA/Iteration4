@@ -6,10 +6,7 @@ import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.entities.MapEntity;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.MFXToggleButton;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +17,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
+import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -40,6 +38,7 @@ public class MapEditorController {
   @FXML private VBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
   @FXML private MFXGenericDialog impExpDialog;
+  @FXML private MFXGenericDialog movesInputDialog;
 
   @FXML private StackPane mapStackPane = new StackPane(mapImageView, topPane);
 
@@ -49,11 +48,10 @@ public class MapEditorController {
   @FXML private MFXButton level1Button;
   @FXML private MFXButton level2Button;
   @FXML private MFXButton level3Button;
-
   @FXML private Image mapImage = App.getMapL1();
-
   private String level = "L1";
 
+  // buttosn and toggles
   @FXML private MFXButton modifyEdgeButton;
   @FXML private MFXToggleButton locationNameToggle;
 
@@ -75,11 +73,19 @@ public class MapEditorController {
   @FXML private HBox alignmentHBox;
   @FXML private MFXButton hAlignmentButton;
   @FXML private MFXButton vAlignmentButton;
+
+  // moves input dialog
+  @FXML private MFXTextField movesLongnameField;
+  @FXML private MFXTextField movesShortnameField;
+  @FXML private MFXFilterComboBox<String> movesNodeTypeCombo;
+  @FXML private DatePicker movesDateForMove;
+  @FXML private MFXButton movesSubmitButton;
+
+  // alignment variables
   private boolean alignNodesClicked;
   private boolean stopAlignment;
   private boolean horizontal;
   private boolean vertical;
-
   private ArrayList<Node> nodesToAlign = new ArrayList<>();
 
   // booleans for add, remove, modify
@@ -88,23 +94,17 @@ public class MapEditorController {
   private boolean modifyNodeClicked;
   private boolean modifyEdgeClicked;
   private boolean secondNodeClicked;
+  private boolean addMoveClicked;
 
   // booleans to determine importing or exporting
   private boolean imported = false;
 
+  // variables for storing important data
   private int currentNodeID;
   private int[] XYCoords = new int[2];
-
-  private String oldLongName;
-  private String oldShortName;
-
   private Circle currentCircle;
-
   private Circle currentPositionClicked;
-
   private Node firstNode;
-
-  // private final double scalar = 0.144;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
@@ -123,6 +123,7 @@ public class MapEditorController {
     addNodeClicked = false;
     modifyNodeClicked = false;
     alignNodesClicked = false;
+    addMoveClicked = false;
     this.mapImageView.setImage(mapImage);
     modifyEdgeClicked = false;
     secondNodeClicked = false;
@@ -138,31 +139,34 @@ public class MapEditorController {
         });
 
     // set up dialog box visiblity
-    mapEditorControls.setVisible(true);
-    mapEditorControls.setDisable(false);
-    inputDialog.setVisible(false);
-    inputDialog.setDisable(true);
-    submitButton.setDisable(true);
-    impExpDialog.setVisible(false);
-    impExpDialog.setDisable(true);
+    clearDialogBoxes();
 
     changeLevelText(levelL1Button);
 
     inputDialog.setOnClose(
         event -> {
-          clear();
+          clearDialogBoxes();
         });
     impExpDialog.setOnClose(
         event -> {
-          impExpDialog.setVisible(false);
-          impExpDialog.setDisable(true);
+          clearDialogBoxes();
           imported = false;
+        });
+    movesInputDialog.setOnClose(
+        event -> {
+          clearDialogBoxes();
         });
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
     buildingField.getItems().addAll("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
     nodeTypeField
+        .getItems()
+        .addAll(
+            "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
+
+    // set up moves input dialog
+    movesNodeTypeCombo
         .getItems()
         .addAll(
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
@@ -342,7 +346,7 @@ public class MapEditorController {
 
       // Preload information
       preLoadDialogInfo(node, locName);
-      validateButton();
+      validateInputSubmit();
 
       // new location clicked
       mouseClickForNewLocation();
@@ -370,9 +374,18 @@ public class MapEditorController {
       displayNodeData(entity.determineNodeMap(level));
     }
 
-    if (alignNodesClicked == true && stopAlignment == false) {
+    if (alignNodesClicked && !stopAlignment) {
       // if stop alignment is not clicked then continue to add the nodes to the arraylist
       nodesToAlign.add(entity.getNodeInfo(nodeID));
+    }
+
+    if (addMoveClicked) {
+      circle.setOnMouseEntered(null);
+      circle.setOnMouseExited(null);
+      circle.setFill(Color.web("0xf74c4c"));
+      XYCoords[0] = (int) circle.getCenterX();
+      XYCoords[1] = (int) circle.getCenterY();
+      validateMovesInputSubmit();
     }
   }
 
@@ -384,6 +397,7 @@ public class MapEditorController {
     addNodeClicked = false;
     modifyEdgeClicked = false;
     alignNodesClicked = false;
+    addMoveClicked = false;
     editMapDirections.setText("Click a dot on the map to remove");
   }
 
@@ -395,6 +409,7 @@ public class MapEditorController {
     addNodeClicked = false;
     modifyEdgeClicked = false;
     alignNodesClicked = false;
+    addMoveClicked = false;
     editMapDirections.setText("Click a dot on the map to modify");
   }
 
@@ -406,6 +421,7 @@ public class MapEditorController {
       modifyNodeClicked = false;
       addNodeClicked = false;
       alignNodesClicked = false;
+      addMoveClicked = false;
 
       editMapDirections.setText("Click a node to modify its edges.");
     } else {
@@ -423,24 +439,28 @@ public class MapEditorController {
   }
 
   /** Hides the input dialog page and brings back map editor controls */
-  private void shutDownInputDialogBox() {
+  private void shutDownAllDialogBoxes() {
     if (currentPositionClicked != null) {
       topPane.getChildren().remove(currentPositionClicked);
     }
     inputDialog.setDisable(true);
     inputDialog.setVisible(false);
-    mapEditorControls.setVisible(true);
-    mapEditorControls.setDisable(false);
+    movesInputDialog.setDisable(true);
+    movesInputDialog.setVisible(false);
+    impExpDialog.setDisable(true);
+    impExpDialog.setVisible(false);
+
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = false;
+    addMoveClicked = false;
     topPane.setOnMouseClicked(null);
   }
 
   /** Preload information in dialog box for the user to modify a node */
   private void preLoadDialogInfo(Node node, LocationName locName) {
-    oldLongName = locName.getLongName();
-    oldShortName = locName.getShortName();
+    String oldLongName = locName.getLongName();
+    String oldShortName = locName.getShortName();
     longNameField.setText(oldLongName);
     longNameField.setDisable(true);
     shortNameField.setText(oldShortName);
@@ -459,6 +479,7 @@ public class MapEditorController {
     addNodeClicked = true;
     alignNodesClicked = false;
     modifyEdgeClicked = false;
+    addMoveClicked = false;
     floorField.selectItem(level);
     floorField.setDisable(true);
     // pop up dialog box
@@ -474,7 +495,7 @@ public class MapEditorController {
 
   /** Enables the submit button once user has put in sufficient information in the dialog box */
   @FXML
-  public void validateButton() {
+  public void validateInputSubmit() {
     if (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable()) {
       longNameField.setBorder(Border.stroke(Color.web("0xf74c4c")));
     } else {
@@ -485,17 +506,19 @@ public class MapEditorController {
         || shortNameField.getText().isEmpty()
         || floorField.getSelectedIndex() == -1
         || buildingField.getSelectedIndex() == -1
-        || nodeTypeField.getSelectedIndex() == -1) {
+        || nodeTypeField.getSelectedIndex() == -1
+        || XYCoords[0] < 0
+        || XYCoords[1] < 0) {
       submitButton.setDisable(true);
     } else {
-      submitButton.setDisable(addNodeClicked && (XYCoords[0] < 0 || XYCoords[1] < 0));
+      submitButton.setDisable(false);
     }
   }
 
   /**
    * Clears the dialog box selection after submit button is clicked and shuts down the dialog box
    */
-  private void clear() {
+  private void clearDialogBoxes() {
     submitButton.setDisable(true);
     longNameField.clear();
     longNameField.setDisable(false);
@@ -504,7 +527,13 @@ public class MapEditorController {
     floorField.setDisable(false);
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
-    shutDownInputDialogBox();
+
+    movesLongnameField.clear();
+    movesShortnameField.clear();
+    movesNodeTypeCombo.getSelectionModel().clearSelection();
+    movesDateForMove.setValue(null);
+    movesSubmitButton.setDisable(true);
+    shutDownAllDialogBoxes();
   }
 
   @FXML
@@ -525,7 +554,7 @@ public class MapEditorController {
       entity.determineAddAction(level, node, locName, move);
     }
 
-    clear();
+    clearDialogBoxes();
     topPane.getChildren().clear();
     topPane.setOnMouseClicked(null);
     displayEdgeData(entity.determineEdgeMap(level));
@@ -554,7 +583,7 @@ public class MapEditorController {
             Circle circle = entity.addTempCircle(X, Y);
             topPane.getChildren().add(circle);
             currentPositionClicked = circle;
-            validateButton();
+            validateInputSubmit();
           }
         });
   }
@@ -634,39 +663,79 @@ public class MapEditorController {
   @FXML
   public void exportFile() {
     imported = false;
-    impExpDialog.setVisible(true);
-    impExpDialog.setDisable(false);
+    clearDialogBoxes();
   }
 
   @FXML
   public void MoveImpExp() {
     entity.importExport(imported, "Move");
 
-    impExpDialog.setVisible(false);
-    impExpDialog.setDisable(true);
+    clearDialogBoxes();
   }
 
   @FXML
   public void NodeImpExp() {
     entity.importExport(imported, "Node");
 
-    impExpDialog.setVisible(false);
-    impExpDialog.setDisable(true);
+    clearDialogBoxes();
   }
 
   @FXML
   public void LocationImpExp() {
     entity.importExport(imported, "LocationName");
 
-    impExpDialog.setVisible(false);
-    impExpDialog.setDisable(true);
+    clearDialogBoxes();
   }
 
   @FXML
   public void EdgeImpExp() {
     entity.importExport(imported, "Edge");
 
-    impExpDialog.setVisible(false);
-    impExpDialog.setDisable(true);
+    clearDialogBoxes();
+  }
+
+  @FXML
+  public void clickAddMove() {
+    movesInputDialog.setVisible(true);
+    movesInputDialog.setDisable(false);
+
+    modifyEdgeClicked = false;
+    removeNodeClicked = false;
+    modifyNodeClicked = false;
+    addNodeClicked = false;
+    alignNodesClicked = false;
+    addMoveClicked = true;
+  }
+
+  @FXML
+  public void validateMovesInputSubmit() {
+    if (movesLongnameField.getText().isEmpty()
+        || movesShortnameField.getText().isEmpty()
+        || movesNodeTypeCombo.getSelectedIndex() == -1
+        || movesDateForMove.getValue() == null
+        || XYCoords[0] < 0
+        || XYCoords[1] < 0) {
+      movesSubmitButton.setDisable(true);
+    } else {
+      movesSubmitButton.setDisable(false);
+    }
+  }
+
+  @FXML
+  public void movesSubmit() {
+    String longName = movesLongnameField.getText();
+    String shortName = movesShortnameField.getText();
+    String nodeType = movesNodeTypeCombo.getValue();
+    LocalDate localDate = movesDateForMove.getValue();
+
+    Move move = new Move(currentNodeID, longName, localDate);
+    LocationName locationName = new LocationName(longName, shortName, nodeType);
+
+    entity.submitNewMoves(move, locationName);
+    clearDialogBoxes();
+    XYCoords[0] = -1;
+    XYCoords[1] = -1;
+    displayEdgeData(entity.determineEdgeMap(level));
+    displayNodeData(entity.determineNodeMap(level));
   }
 }
