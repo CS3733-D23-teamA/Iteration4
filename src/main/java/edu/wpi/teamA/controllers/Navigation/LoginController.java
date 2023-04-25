@@ -5,6 +5,7 @@ import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -64,7 +65,7 @@ public class LoginController {
     }
   }
 
-  public void exit() {
+  public void exit() throws IOException {
     Stage stage = (Stage) exitButton.getScene().getWindow();
     stage.close();
   }
