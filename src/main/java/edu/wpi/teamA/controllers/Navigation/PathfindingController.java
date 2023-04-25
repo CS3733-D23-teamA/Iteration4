@@ -265,7 +265,6 @@ public class PathfindingController extends PageController {
 
   /** Helper method for submit, draws graphical path and includes the starting and ending node */
   public void drawPath() {
-
     clearPath();
     // TODO path level indicator
     // starter code - highlights L1 upon every call of drawPath()
@@ -292,6 +291,9 @@ public class PathfindingController extends PageController {
     // create a line
     Line line;
 
+    //
+    Boolean isCenter = false;
+
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
       gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
@@ -316,6 +318,14 @@ public class PathfindingController extends PageController {
     if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
+  }
+
+  public void centerMap(int x, int y) {
+    Platform.runLater(
+            () -> {
+              gesturePane.centreOn(new Point2D(x, y));
+              gesturePane.zoomTo(0.5, new Point2D(x, y));
+            });
   }
 
   /** Helper method to clear path */

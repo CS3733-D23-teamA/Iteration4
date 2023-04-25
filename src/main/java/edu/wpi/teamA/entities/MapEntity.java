@@ -387,20 +387,12 @@ public class MapEntity {
     return floors;
   }
 
-  /**
-   * gets the next level from set level, returns given level if it's the last level
-   *
-   *
-   */
+  /** gets the next level from set level, returns given level if it's the last level */
   public Level getNextLevel() {
     return levels.nextIndex();
   }
 
-  /**
-   * gets the previous level from set level, returns given level if it's the first level
-   *
-   *
-   */
+  /** gets the previous level from set level, returns given level if it's the first level */
   public Level getPrevLevel() {
     return levels.lastIndex();
   }
