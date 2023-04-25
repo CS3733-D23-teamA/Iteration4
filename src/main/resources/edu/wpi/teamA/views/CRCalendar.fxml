@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -515,6 +520,62 @@
                   </HBox>
                </children>
             </VBox>
+            <MFXGenericDialog fx:id="confirmationDialog">
+               <top>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submission" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Open Sans Bold" size="24.0" />
+                     </font>
+                  </Text>
+               </top>
+               <center>
+                  <VBox prefHeight="200.0" prefWidth="253.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="139.24508666992188">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="nameField" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="31.0" prefWidth="302.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comment" wrappingWidth="102.908935546875">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextArea fx:id="commentField" prefHeight="83.0" prefWidth="333.0" />
+                     </children>
+                  </VBox>
+               </center>
+               <bottom>
+                  <HBox prefHeight="79.0" prefWidth="378.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <MFXButton onAction="#cancel" prefHeight="60.0" prefWidth="120.0" text="Cancel">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </MFXButton>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="125.82098388671875" />
+                        <MFXButton fx:id="submitButton" onAction="#submit" prefHeight="60.0" prefWidth="120.0" text="Submit">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+               </bottom>
+            </MFXGenericDialog>
          </children>
         </StackPane>
     </center>

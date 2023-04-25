@@ -2,11 +2,13 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.Singletons.CalendarSingleton;
 import edu.wpi.teamA.database.Singletons.DateSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import java.awt.*;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
@@ -22,6 +26,8 @@ public class CalendarController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML DatePicker dp;
   @FXML Label dl;
+  @FXML TextField nameField;
+  @FXML TextArea commentField;
   @FXML
   Rectangle r1c11,
       r1c12,
@@ -199,13 +205,21 @@ public class CalendarController {
       r7c64;
 
   ArrayList<Rectangle> blocks;
+  @FXML private MFXGenericDialog confirmationDialog;
+  @FXML private MFXButton submitButton;
 
   @FXML
   public void initialize() {
     LocalDate ld = LocalDate.now();
     Date d = Date.valueOf(ld);
     DateSingleton.INSTANCE.setValue(d);
-
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
     setColors();
   }
 
@@ -287,7 +301,9 @@ public class CalendarController {
     ArrayList<Rectangle> test = CalendarSingleton.INSTANCE.getValue();
     if (test.contains(r)) {
       CalendarSingleton.INSTANCE.setDate(Date.valueOf(dl.getText()));
-      Navigation.navigate(Screen.CONFERENCE_CALENDAR);
+      confirmationDialog.setVisible(true);
+      confirmationDialog.setDisable(false);
+      submitButton.setDisable(true);
     } else if (checkConnected(r, test)) {
       r.setFill(Paint.valueOf("00ff00"));
       CalendarSingleton.INSTANCE.addValue(r);
@@ -344,5 +360,79 @@ public class CalendarController {
       }
     }
     return false;
+  }
+
+  public void validateButton() {
+    if (nameField.getText().equals("")) {
+      submitButton.setDisable(true);
+    } else {
+      submitButton.setDisable(false);
+    }
+  }
+
+  public void submit() {
+    ArrayList<Rectangle> list = CalendarSingleton.INSTANCE.getValue();
+    try {
+      ConferenceRoomResRequest crrr =
+          new ConferenceRoomResRequest(
+              databaseRepo.getNextCRRRID(),
+              nameField.getText(),
+              rowConvert(list.get(0).getId().charAt(1)),
+              CalendarSingleton.INSTANCE.getDate(),
+              extractTime(list.get(0).getId()),
+              extractTime((list.get(list.size() - 1).getId())) + 100,
+              commentField.getText(),
+              "not assigned",
+              "new",
+              AccountSingleton.INSTANCE.getValue().getUserName());
+      databaseRepo.addCRRR(crrr);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    setColors();
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
+    Navigation.navigate(Screen.SERVICE_REQUEST);
+  }
+
+  public void cancel() {
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
+  }
+
+  public String rowConvert(char x) {
+    String name = null;
+    if (x == '1') {
+      name = "Abrams Conference Room";
+    } else if (x == '2') {
+      name = "Anesthesia Conf Floor L1";
+    } else if (x == '3') {
+      name = "Carrie M. Hall Conference Center Floor 2";
+    } else if (x == '4') {
+      name = "Medical Records Conference Room Floor L1";
+    } else if (x == '5') {
+      name = "Shapiro Board Room MapNode 20 Floor 1";
+    } else if (x == '6') {
+      name = "BTM Conference Center";
+    } else if (x == '7') {
+      name = "Duncan Reid Conference Room";
+    }
+    return name;
+  }
+
+  public int extractTime(String x) {
+    int num1 = (int) x.charAt(3);
+    int num2 = (int) x.charAt(4);
+    return ((((num1 - 49) * 4) + (num2 - 49)) * 100);
   }
 }
