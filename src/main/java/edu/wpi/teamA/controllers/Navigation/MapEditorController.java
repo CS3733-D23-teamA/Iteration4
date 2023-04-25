@@ -598,13 +598,13 @@ public class MapEditorController {
       AlignNodesButton.setText("Align Nodes");
       if (horizontal) {
         Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
-        //clear();
+        topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
 
       } else if (vertical) {
         Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
-        //clear();
+        topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
       }
