@@ -322,10 +322,10 @@ public class PathfindingController extends PageController {
 
   public void centerMap(int x, int y) {
     Platform.runLater(
-            () -> {
-              gesturePane.centreOn(new Point2D(x, y));
-              gesturePane.zoomTo(0.5, new Point2D(x, y));
-            });
+        () -> {
+          gesturePane.centreOn(new Point2D(x, y));
+          gesturePane.zoomTo(0.5, new Point2D(x, y));
+        });
   }
 
   /** Helper method to clear path */
