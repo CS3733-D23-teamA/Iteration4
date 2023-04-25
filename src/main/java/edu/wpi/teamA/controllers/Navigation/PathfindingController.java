@@ -277,6 +277,23 @@ public class PathfindingController extends PageController {
     ArrayList<Integer> pathIDs = SearchSingleton.getPath();
     GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
 
+    ArrayList<String> stringList = mapEntity.floorsTravelledTo(pathIDs);
+    if (stringList.contains("L1")) {
+      levelL1Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("L2")) {
+      levelL2Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("1")) {
+      level1Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("2")) {
+      level2Toggle.setBorder(new Border(highlight));
+    }
+    if (stringList.contains("3")) {
+      level3Toggle.setBorder(new Border(highlight));
+    }
+
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
     int lastY = gNode.getYcoord();
