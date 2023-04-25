@@ -37,6 +37,11 @@ public class MapEntity {
   @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
   @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
 
+  // List of all nodes
+  private ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
+  private HashMap<String, Integer> nameMap;
+  private LevelEntity levels = App.getLevelEntity();
+
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
@@ -314,5 +319,117 @@ public class MapEntity {
     String dateString = month + "/" + day + "/" + LocalDate.now().getYear();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
     return LocalDate.parse(dateString, formatter);
+  }
+
+  public ArrayList<Node> loadAllNodes() {
+    return databaseRepo.loadNodesFromDatabaseInArray();
+  }
+
+  public String getLongName(int id) {
+    return databaseRepo.getMove(id).getLongName();
+  }
+
+  // sets up the hashmap linking long names to nodeIDs
+  public void initializeNameIDHashMap() {
+    nameMap = new HashMap<String, Integer>();
+    for (Node node : nodeList) {
+      // set node ID
+      int id = node.getNodeID();
+
+      // puts name and ID into name map
+      nameMap.put(getLongName(id), id);
+    }
+  }
+
+  // Creates a list of the long names that correspond to the nodes
+  public ArrayList<String> makeListOfLongNames() {
+    ArrayList<String> nameOptions = new ArrayList<String>();
+    for (Node node : nodeList) {
+
+      // set node ID
+      int id = node.getNodeID();
+
+      // get the locationname object with nodetype
+      LocationName loc = getLocationName(id);
+
+      if (!loc.getNodeType().equals("HALL")) {
+        // Add
+        nameOptions.add(getLongName(id));
+      }
+    }
+    return nameOptions;
+  }
+
+  // takes a long name and returns the corresponding id
+  public int getIDFromLongName(String longName) {
+    return nameMap.get(longName);
+  }
+
+  // takes a path of node ids and returns a list of levels travelled to
+  public ArrayList<String> floorsTravelledTo(ArrayList<Integer> path) {
+    ArrayList<String> floors = new ArrayList<String>();
+
+    // Goes through the path checking for floors
+    for (int nodeID : path) {
+      Node node = databaseRepo.getNode(nodeID);
+
+      // gets the floor
+      String nodeFloor = node.getFloor();
+
+      // checks if it was seen before
+      boolean checked = false;
+      for (String pastFloor : floors) {
+        if (pastFloor.equals(nodeFloor)) {
+          checked = true;
+        }
+      }
+
+      // if it wasnt seen before, adds it to the list
+      if (!checked) {
+        floors.add(nodeFloor);
+      }
+    }
+    return floors;
+  }
+
+  // Gives floorstravelledto with repeats
+  public ArrayList<String> floorsTravelledToWithRepeats(ArrayList<Integer> path) {
+    ArrayList<String> floors = new ArrayList<String>();
+    String lastFloor = databaseRepo.getNode(path.get(0)).getFloor();
+    floors.add(lastFloor);
+
+    // Goes through the path checking for floors
+    for (int i = 0; i < path.size(); i++) {
+      int nodeID = path.get(i);
+      Node node = databaseRepo.getNode(nodeID);
+
+      // gets the floor
+      String nodeFloor = node.getFloor();
+
+      // checks if it was seen before
+      if (!lastFloor.equals(nodeFloor)) {
+        floors.add(nodeFloor);
+        lastFloor = nodeFloor;
+      }
+    }
+    return floors;
+  }
+
+  /** gets the next level from set level, returns given level if it's the last level */
+  public Level getNextLevel() {
+    return levels.nextIndex();
+  }
+
+  /** gets the previous level from set level, returns given level if it's the first level */
+  public Level getPrevLevel() {
+    return levels.lastIndex();
+  }
+
+  public Level getFirstLevel() {
+    return levels.getOrderedLevel(0);
+  }
+
+  public void setOrder(ArrayList<Integer> path) {
+    levels.setOrder(floorsTravelledToWithRepeats(path));
   }
 }
