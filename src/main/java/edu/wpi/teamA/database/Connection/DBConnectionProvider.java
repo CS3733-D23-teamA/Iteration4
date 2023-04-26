@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import lombok.SneakyThrows;
 
 public class DBConnectionProvider {
   private static DBConnectionProvider instance = null;
@@ -17,8 +18,9 @@ public class DBConnectionProvider {
     return instance;
   }
 
+  @SneakyThrows
   public static Connection createConnection() {
-    if (connection == null) {
+    if (connection == null || connection.isClosed()) {
 
       String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
       String user = "teama";

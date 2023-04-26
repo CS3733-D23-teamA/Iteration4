@@ -3,10 +3,7 @@ package edu.wpi.teamA.database.DAOImps;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IServiceDAO;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -382,5 +379,9 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       throw new RuntimeException(e);
     }
     return rooms;
+  }
+
+  public BufferedReader getBufferedReader(String filePath) throws FileNotFoundException {
+    return new BufferedReader(new FileReader(filePath));
   }
 }
