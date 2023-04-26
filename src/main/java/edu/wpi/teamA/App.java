@@ -41,7 +41,7 @@ public class App extends Application {
   private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");
 
   @Getter
-  private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-Yello.png");
+  private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
 
   // BWH Colors
   @Getter private static Color YELLOWBWH = Color.web("F0C747");
