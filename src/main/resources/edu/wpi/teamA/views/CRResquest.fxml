@@ -45,7 +45,7 @@
                               <Insets left="-20.0" />
                            </VBox.margin>
                         </Label>
-                        <HBox alignment="BOTTOM_LEFT" fillHeight="false">
+                        <HBox alignment="BOTTOM_RIGHT" fillHeight="false">
                            <children>
                               <GridPane minWidth="150.0" style="-fx-grid-lines-visible: true;">
                                  <columnConstraints>
@@ -119,12 +119,12 @@
                                     </Text>
                                  </children>
                                  <HBox.margin>
-                                    <Insets top="10.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </GridPane>
-                              <VBox fillWidth="false">
+                              <VBox alignment="BOTTOM_RIGHT" fillWidth="false">
                                  <children>
-                                    <HBox alignment="CENTER" fillHeight="false" spacing="25.0">
+                                    <HBox alignment="BOTTOM_RIGHT" fillHeight="false" spacing="26.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2:00" />
@@ -141,7 +141,7 @@
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="24:00" />
                                        </children>
                                     </HBox>
-                                    <HBox fillHeight="false">
+                                    <HBox alignment="BOTTOM_RIGHT" fillHeight="false">
                                        <children>
                                           <GridPane prefWidth="120.0">
                                              <columnConstraints>
