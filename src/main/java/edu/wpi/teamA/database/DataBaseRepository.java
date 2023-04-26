@@ -197,17 +197,27 @@ public class DataBaseRepository {
   // Import and Export methods
   public void importData(String filepath, String type) {
     if (type.equals("Node")) {
-      HashMap<Integer, Node> importedNodes = nodeDAOImp.Import(filepath);
-      nodeDAOImp = new NodeDAOImp(importedNodes);
+      nodeDAOImp.Import(filepath);
     } else if (type.equals("LocName")) {
-      HashMap<String, LocationName> importedLocationNames = locNameDAOImp.Import(filepath);
-      locNameDAOImp = new LocNameDAOImp(importedLocationNames);
+      locNameDAOImp.Import(filepath);
     } else if (type.equals("Move")) {
-      HashMap<Integer, LinkedList<Move>> importedMoves = moveDAOImp.Import(filepath);
-      moveDAOImp = new MoveDAOImp(importedMoves);
+      moveDAOImp.Import(filepath);
     } else if (type.equals("Edge")) {
-      HashMap<String, Edge> importedEdges = edgeDAOImp.Import(filepath);
-      edgeDAOImp = new EdgeDAOImp(importedEdges);
+      edgeDAOImp.Import(filepath);
+    } else if(type.equals("Flower")) {
+      flowerDAOImp.Import(filepath);
+    } else if(type.equals("CRRR")) {
+      crrrDAOImp.Import(filepath);
+    } else if(type.equals("Furniture")) {
+      furnitureDAOImp.Import(filepath);
+    } else if(type.equals("Meal")) {
+      mealDAOImp.Import(filepath);
+    } else if(type.equals("Employee")) {
+      employeeDAOImp.Import(filepath);
+    } else if(type.equals("User")) {
+      userDAOImp.Import(filepath);
+    } else if(type.equals("Signage")) {
+
     }
   }
 

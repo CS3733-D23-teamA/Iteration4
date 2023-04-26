@@ -1,11 +1,15 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.App;
+import edu.wpi.teamA.database.DataBaseRepository;
 import javafx.fxml.FXML;
 
 public class ImportExportController {
+    private final DataBaseRepository databaseRepo = App.getDatabaseRepo();
 
     @FXML
     public void importNodes() {
+        databaseRepo.importData();
 
     }
 
