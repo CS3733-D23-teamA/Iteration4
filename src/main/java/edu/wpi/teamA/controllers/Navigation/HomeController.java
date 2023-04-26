@@ -1,5 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,9 +14,27 @@ import javafx.scene.text.Font;
 public class HomeController {
 
   @FXML private VBox alertsContainer;
+  @FXML private MFXGenericDialog aboutDialog;
+  @FXML private MFXGenericDialog creditDialog;
 
   @FXML
   public void initialize() {
+    aboutDialog.setVisible(false);
+    aboutDialog.setDisable(true);
+    creditDialog.setVisible(false);
+
+    aboutDialog.setOnClose(
+        event -> {
+          aboutDialog.setDisable(true);
+          aboutDialog.setVisible(false);
+        });
+
+    creditDialog.setOnClose(
+        event -> {
+          creditDialog.setDisable(true);
+          creditDialog.setVisible(false);
+        });
+
     List<String> alerts = getAlerts(); // Get your alerts here
 
     // Reverse the list to display in reverse chronological order
@@ -28,6 +47,16 @@ public class HomeController {
 
       alertsContainer.getChildren().add(alertLabel);
     }
+  }
+
+  public void openAbout() {
+    aboutDialog.setDisable(false);
+    aboutDialog.setVisible(true);
+  }
+
+  public void openCredits() {
+    creditDialog.setDisable(false);
+    creditDialog.setVisible(true);
   }
 
   private List<String> getAlerts() {
