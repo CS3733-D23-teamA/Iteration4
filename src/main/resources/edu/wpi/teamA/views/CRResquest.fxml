@@ -19,14 +19,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane styleClass="borderpane" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.CalendarController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.CalendarController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
     <center>
-        <StackPane BorderPane.alignment="TOP_CENTER">
+        <StackPane BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="-Infinity" spacing="10.0" StackPane.alignment="TOP_CENTER">
+            <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="-Infinity" spacing="10.0">
                <children>
                   <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Conference Room Booking" textAlignment="CENTER" wrappingWidth="1279.62939453125">
                      <font>
@@ -48,18 +48,18 @@
                         <HBox alignment="BOTTOM_LEFT" fillHeight="false">
                            <children>
                               <GridPane minWidth="150.0" style="-fx-grid-lines-visible: true;">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Abrams" GridPane.halignment="LEFT">
                                        <GridPane.margin>
@@ -644,22 +644,19 @@
                   </HBox>
                </bottom>
             </MFXGenericDialog>
-            <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0" StackPane.alignment="TOP_CENTER">
+            <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0">
                <children>
                   <DatePicker fx:id="dp" onAction="#changeDate" />
                </children>
-               <StackPane.margin>
-                  <Insets right="50.0" top="50.0" />
-               </StackPane.margin>
             </HBox>
          </children>
         </StackPane>
     </center>
-   <left>
-      <ScrollPane fitToHeight="true" BorderPane.alignment="TOP_LEFT">
-         <content>
-            <fx:include source="ServiceRequestMenuBar.fxml" />
-         </content>
-      </ScrollPane>
-   </left>
+    <left>
+        <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <fx:include source="ServiceRequestMenuBar.fxml" />
+            </content>
+        </ScrollPane>
+    </left>
 </BorderPane>

@@ -104,7 +104,7 @@ public class ServiceRequestController extends PageController {
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
                 FlowerSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.FLOWER_EDIT);
+                Navigation.navigate(Screen.FLOWER_REQUEST_EDIT);
               }
             });
     roomTable
@@ -114,7 +114,7 @@ public class ServiceRequestController extends PageController {
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
                 CRRRSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.ROOM_EDIT);
+                Navigation.navigate(Screen.CR_REQUEST);
               }
             });
     mealTable
@@ -124,7 +124,7 @@ public class ServiceRequestController extends PageController {
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
                 MealSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.MEAL_EDIT);
+                Navigation.navigate(Screen.MEAL_REQUEST_EDIT);
               }
             });
     furnitureTable
@@ -134,7 +134,7 @@ public class ServiceRequestController extends PageController {
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
                 FurnitureSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.FURNITURE_EDIT);
+                Navigation.navigate(Screen.FURNITURE_REQUEST_EDIT);
               }
             });
 

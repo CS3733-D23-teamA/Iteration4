@@ -160,6 +160,6 @@ public class ConferenceRequestController extends PageController implements IServ
   }
 
   public void cal() {
-    Navigation.navigate(Screen.CALENDAR);
+    Navigation.navigate(Screen.CR_REQUEST);
   }
 }

@@ -22,7 +22,7 @@ public class ServiceRequestMenuBarController {
   }
 
   public void openRoom() {
-    Navigation.navigate(Screen.CONFERENCE_REQUEST);
+    Navigation.navigate(Screen.CR_REQUEST);
   }
 
   public void openFurniture() {

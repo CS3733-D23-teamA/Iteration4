@@ -27,7 +27,7 @@ public class SettingsMenuBarController {
   }
 
   public void openAccountSettings() {
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
   public void logout() {

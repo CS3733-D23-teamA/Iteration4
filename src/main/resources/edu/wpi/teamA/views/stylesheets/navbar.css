@@ -1,7 +1,7 @@
 @import "main.css";
 
 .navpane{
-    -fx-pref-height: 150;
+    -fx-pref-height: 100;
     -fx-pref-width: 1600;
     -fx-background-color: #012D5A;
     -fx-scale-shape: true;
@@ -11,12 +11,26 @@
     -fx-text-alignment: center;
     -fx-background-color: #98AABC;
     -fx-text-fill: #012D5A;
-    -fx-font-size: 15;
+    -fx-font-size: 20;
     -fx-font-weight: bold;
     -fx-pref-width: 500;
-    -fx-pref-height: 80;
+    -fx-pref-height: 60;
     -fx-border-radius: 10;
     -fx-padding: 0, 0, 0, 0;
+}
+
+.menu-button{
+    -fx-background-color: #f1f1f1;
+    -fx-text-fill: #012D5A;
+    -fx-background-radius: 60;
+    -fx-pref-width: 60;
+    -fx-max-width: 60;
+    -fx-min-width: 60;
+    -fx-max-height: 60;
+    -fx-min-height: 60;
+    -fx-border-radius: 60;
+    -fx-font-size: 1;
+    -fx-font-weight: bold;
 }
 
 .button:hover {
@@ -35,12 +49,6 @@
 
 #home:hover {
     -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
-}
-
-.text{
-    -fx-background-color: #98AABC;
-    -fx-text-fill: #012D5A;
-    -fx-font-size: 20;
 }
 
 /* this part is from  default stiles fxrt.jar!/com/sun/javafx/scene/control/skin/caspian/caspian.css */
