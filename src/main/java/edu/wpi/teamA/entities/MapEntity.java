@@ -314,11 +314,11 @@ public class MapEntity {
     }
   }
 
-  public void submitNewMoves(Move move, LocationName locationName) {
+  public void submitNewMoves(Move move) {
     databaseRepo.addMove(move);
-    if (!databaseRepo.getLocNameMap().containsKey(locationName.getLongName())) {
-      databaseRepo.addLocName(locationName);
-    }
+    //    if (!databaseRepo.getLocNameMap().containsKey(locationName.getLongName())) {
+    //      databaseRepo.addLocName(locationName);
+    //    }
   }
 
   public ArrayList<Node> loadAllNodes() {

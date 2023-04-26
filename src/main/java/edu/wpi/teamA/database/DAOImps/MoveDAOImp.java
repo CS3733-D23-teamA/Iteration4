@@ -310,6 +310,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
                 || entry.getValue().getDate().isEqual(currentDate))) {
           Delete(locationNamesMap.get(longname));
           locationNamesMap.put(longname, entry.getValue());
+        } else {
+          Delete(entry.getValue());
         }
       } else {
         locationNamesMap.put(entry.getValue().getLongName(), entry.getValue());

@@ -2,7 +2,6 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
@@ -209,43 +208,54 @@
                               <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name" wrappingWidth="150.0">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node to Move To" wrappingWidth="150.0">
                                  <font>
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name" wrappingWidth="150.0" GridPane.rowIndex="1">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Moving" wrappingWidth="150.0" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type" GridPane.rowIndex="2">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date for Move" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date for Move" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Node on Map to Add Move" wrappingWidth="150.0" GridPane.rowIndex="4">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Node on Map to Add Move" wrappingWidth="150.0" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="Open Sans Regular" size="16.0" />
                                  </font>
                               </Text>
-                              <MFXTextField fx:id="movesLongnameField" onKeyReleased="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                              <MFXFilterComboBox fx:id="movesNodeTypeCombo" onHiding="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <MFXTextField fx:id="movesShortnameField" onKeyReleased="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <MFXButton fx:id="movesSubmitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#movesSubmit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                              <MFXButton fx:id="movesSubmitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#movesSubmit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
                               </MFXButton>
-                              <DatePicker fx:id="movesDateForMove" onAction="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="movesDateForMove" onAction="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <VBox GridPane.columnIndex="1">
+                                 <children>
+                                    <MFXButton fx:id="chooseMoveToNode" defaultButton="true" mnemonicParsing="false" onAction="#chooseMoveToNode" prefHeight="58.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Choose Node" textFill="#eebd28">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <Text fx:id="moveToText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
+                              <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <children>
+                                    <MFXButton fx:id="chooseNodeMoving" defaultButton="true" mnemonicParsing="false" onAction="#chooseNodeMoving" prefHeight="58.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Choose Node" textFill="#eebd28">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <Text fx:id="nodeMovingText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                 </children>
+                              </VBox>
                            </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
