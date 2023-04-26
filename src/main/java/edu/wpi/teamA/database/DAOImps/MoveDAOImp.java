@@ -81,6 +81,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   }
 
   public HashMap<Integer, Move> loadCurrentMoveMap() {
+    currentMoveMap = new HashMap<>();
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -288,15 +289,18 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   }
 
   private void updateCurrentMove(int nodeID, String longName, LocalDate localDate) {
-    if (currentMoveMap.containsKey(nodeID)) {
-      // compare the value and the possible new one to see which should be there
-      if (currentMoveMap.get(nodeID).getDate().isBefore(localDate)
-          && (localDate.isBefore(App.getCurrentDate())
-              || localDate.isEqual(App.getCurrentDate()))) {
+    // check if in future
+    if (localDate.isBefore(App.getCurrentDate()) || localDate.isEqual(App.getCurrentDate())) {
+      if (currentMoveMap.containsKey(nodeID)) {
+        // compare the value and the possible new one to see which should be there
+        if (currentMoveMap.get(nodeID).getDate().isBefore(localDate)) {
+          currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+        }
+      } else {
         currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
       }
     } else {
-      currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+      // currentMoveMap.remove(nodeID);
     }
   }
 
@@ -310,10 +314,10 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         if (entry.getValue().getDate().isAfter(locationNamesMap.get(longname).getDate())
             && (entry.getValue().getDate().isBefore(App.getCurrentDate())
                 || entry.getValue().getDate().isEqual(App.getCurrentDate()))) {
-          Delete(locationNamesMap.get(longname));
+          currentMoveMap.remove(locationNamesMap.get(longname).getNodeID());
           locationNamesMap.put(longname, entry.getValue());
         } else {
-          Delete(entry.getValue());
+          currentMoveMap.remove(entry.getValue().getNodeID());
         }
       } else {
         locationNamesMap.put(entry.getValue().getLongName(), entry.getValue());
