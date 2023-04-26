@@ -20,6 +20,7 @@ public class DataBaseRepository {
   private MealDAOImp mealDAOImp;
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
+  private SignageDAOImp signageDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
@@ -32,6 +33,7 @@ public class DataBaseRepository {
     mealDAOImp = new MealDAOImp();
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
+    signageDAOImp = new SignageDAOImp();
   }
 
   public static DataBaseRepository getInstance() {
@@ -429,5 +431,29 @@ public class DataBaseRepository {
 
   public void removeEmployee(Employee employee) {
     employeeDAOImp.removeEmployee(employee);
+  }
+
+  public HashMap<String, SignageComponent> getSignageMap() {
+    return signageDAOImp.getSignageMap();
+  }
+
+  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+    return signageDAOImp.loadSignagesFromDatabaseInMap();
+  }
+
+  public SignageComponent getSignage(String signageID) {
+    return signageDAOImp.getSignage(signageID);
+  }
+
+  public void modifySignage(SignageComponent signage) {
+    signageDAOImp.modifySignage(signage);
+  }
+
+  public void addSignage(SignageComponent signage) {
+    signageDAOImp.addSignage(signage);
+  }
+
+  public void removeSignage(SignageComponent signage) {
+    signageDAOImp.removeSignage(signage);
   }
 }
