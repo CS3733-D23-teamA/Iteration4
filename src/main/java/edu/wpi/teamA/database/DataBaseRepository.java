@@ -151,6 +151,7 @@ public class DataBaseRepository {
   }
 
   // Move related methods
+
   public HashMap<Integer, LinkedList<Move>> getMoveMap() {
     return moveDAOImp.getMoveMap();
   }

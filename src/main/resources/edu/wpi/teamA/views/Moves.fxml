@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
@@ -25,92 +22,25 @@
                <children>
                   <VBox spacing="12.0">
                      <children>
-                        <Text fx:id="title1111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Add New Move" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
-                           <font>
-                              <Font name="Open Sans Bold" size="32.0" />
-                           </font>
-                        </Text>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                        <VBox>
                            <children>
-                              <VBox spacing="10.0">
+                              <Text fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Future Moves" wrappingWidth="289.3018798828125" x="290.0" y="100.0">
+                                 <font>
+                                    <Font name="Open Sans Bold" size="32.0" />
+                                 </font>
+                              </Text>
+                              <HBox alignment="CENTER_RIGHT" spacing="8.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Previous Longname">
+                                    <Text fx:id="title111111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Pick Current Date" wrappingWidth="225.302001953125" x="290.0" y="100.0">
                                        <font>
-                                          <Font size="25.0" />
+                                          <Font name="Open Sans Bold" size="24.0" />
                                        </font>
                                     </Text>
-                                    <MFXFilterComboBox fx:id="prevLongnameCombo" onAction="#validateSubmit" onHiding="#validateSubmit" prefHeight="50.0" prefWidth="400.0" />
+                                    <DatePicker fx:id="currentDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#submitCurrentDate" prefHeight="50.0" prefWidth="200.0" />
                                  </children>
-                              </VBox>
-                              <VBox spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="New Longname">
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Text>
-                                    <MFXTextField fx:id="longnameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateSubmit" onKeyReleased="#validateSubmit" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
-                                 </children>
-                              </VBox>
-                              <VBox spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="New Shortname">
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Text>
-                                    <MFXTextField fx:id="shortnameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateSubmit" onKeyReleased="#validateSubmit" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
-                                 </children>
-                              </VBox>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-                           <children>
-                              <VBox spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="New Nodetype">
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Text>
-                                    <MFXFilterComboBox fx:id="nodetypeCombo" onAction="#validateSubmit" onHiding="#validateSubmit" prefHeight="50.0" prefWidth="400.0" />
-                                 </children>
-                              </VBox>
-                              <VBox spacing="10.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Date for Move">
-                                       <font>
-                                          <Font size="25.0" />
-                                       </font>
-                                    </Text>
-                                    <DatePicker fx:id="dateForMove" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateSubmit" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="BOTTOM_RIGHT" spacing="15.0">
-                                 <children>
-                                    <MFXButton fx:id="clearButton" defaultButton="true" mnemonicParsing="false" onAction="#clear" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Clear" textFill="#eebd28">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="submitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </MFXButton>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <VBox spacing="12.0">
-                     <children>
-                        <Text fx:id="title11111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Future Moves" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
-                           <font>
-                              <Font name="Open Sans Bold" size="32.0" />
-                           </font>
-                        </Text>
+                        </VBox>
                         <TableView fx:id="moveTable">
                            <columns>
                               <TableColumn fx:id="nodeCol" prefWidth="129.1107406616211" text="NodeID" />
