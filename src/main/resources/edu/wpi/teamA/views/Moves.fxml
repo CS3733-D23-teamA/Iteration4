@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -20,11 +22,25 @@
                <children>
                   <VBox spacing="12.0">
                      <children>
-                        <Text fx:id="title11111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Future Moves" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
-                           <font>
-                              <Font name="Open Sans Bold" size="32.0" />
-                           </font>
-                        </Text>
+                        <VBox>
+                           <children>
+                              <Text fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Future Moves" wrappingWidth="289.3018798828125" x="290.0" y="100.0">
+                                 <font>
+                                    <Font name="Open Sans Bold" size="32.0" />
+                                 </font>
+                              </Text>
+                              <HBox alignment="CENTER_RIGHT" spacing="8.0">
+                                 <children>
+                                    <Text fx:id="title111111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Pick Current Date" wrappingWidth="225.302001953125" x="290.0" y="100.0">
+                                       <font>
+                                          <Font name="Open Sans Bold" size="24.0" />
+                                       </font>
+                                    </Text>
+                                    <DatePicker fx:id="currentDatePicker" minHeight="-Infinity" minWidth="-Infinity" onAction="#submitCurrentDate" prefHeight="50.0" prefWidth="200.0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                         <TableView fx:id="moveTable">
                            <columns>
                               <TableColumn fx:id="nodeCol" prefWidth="129.1107406616211" text="NodeID" />

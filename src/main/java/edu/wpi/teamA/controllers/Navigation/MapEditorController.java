@@ -560,7 +560,7 @@ public class MapEditorController {
     LocationName locName =
         new LocationName(
             longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), LocalDate.now());
+    Move move = new Move(currentNodeID, longNameField.getText(), App.getCurrentDate());
     if (modifyNodeClicked) {
       entity.determineModifyAction(level, node, locName, move);
       currentCircle.setVisible(false);

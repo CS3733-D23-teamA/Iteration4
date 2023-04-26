@@ -1,5 +1,6 @@
 package edu.wpi.teamA.database.DAOImps;
 
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
 import edu.wpi.teamA.database.ORMclasses.Move;
@@ -20,7 +21,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   @Getter @Setter private HashMap<Integer, LinkedList<Move>> MoveMap = new HashMap<>();
   // Used to store current moves that are being used
   @Getter @Setter private HashMap<Integer, Move> currentMoveMap = new HashMap<>();
-  @Getter @Setter private LocalDate currentDate = LocalDate.now();
+  // @Getter @Setter private LocalDate currentDate = LocalDate.now();
 
   public MoveDAOImp(HashMap<Integer, LinkedList<Move>> MoveMap) {
     this.MoveMap = MoveMap;
@@ -253,7 +254,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
                   "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate <= ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
-      ps.setString(1, currentDate.toString());
+      ps.setString(1, App.getCurrentDate().toString());
       ps.setInt(2, nodeID);
       // ps.executeUpdate();
       ps.execute();
@@ -290,7 +291,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     if (currentMoveMap.containsKey(nodeID)) {
       // compare the value and the possible new one to see which should be there
       if (currentMoveMap.get(nodeID).getDate().isBefore(localDate)
-          && (localDate.isBefore(currentDate) || localDate.isEqual(currentDate))) {
+          && (localDate.isBefore(App.getCurrentDate())
+              || localDate.isEqual(App.getCurrentDate()))) {
         currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
       }
     } else {
@@ -306,8 +308,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       if (locationNamesMap.containsKey(longname)) {
         // if current entry is a later date and not in the future, replace location name
         if (entry.getValue().getDate().isAfter(locationNamesMap.get(longname).getDate())
-            && (entry.getValue().getDate().isBefore(currentDate)
-                || entry.getValue().getDate().isEqual(currentDate))) {
+            && (entry.getValue().getDate().isBefore(App.getCurrentDate())
+                || entry.getValue().getDate().isEqual(App.getCurrentDate()))) {
           Delete(locationNamesMap.get(longname));
           locationNamesMap.put(longname, entry.getValue());
         } else {
