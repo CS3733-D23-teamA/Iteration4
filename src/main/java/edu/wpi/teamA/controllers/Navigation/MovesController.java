@@ -44,7 +44,7 @@ public class MovesController extends PageController {
     for (Map.Entry<Integer, LinkedList<Move>> entry : databaseRepo.getMoveMap().entrySet()) {
       LinkedList<Move> linkedList = entry.getValue();
       for (Move move : linkedList) {
-        if (move.getDate().isAfter(LocalDate.now())) {
+        if (move.getDate().isAfter(App.getCurrentDate())) {
           updatedArray.add(move);
         }
       }
@@ -58,6 +58,8 @@ public class MovesController extends PageController {
   public void submitCurrentDate() {
     if (currentDatePicker.getValue() != null) {
       App.setCurrentDate(currentDatePicker.getValue());
+      displayFutureMoves();
+      databaseRepo.loadCurrentMovesMap();
     }
   }
 }
