@@ -11,18 +11,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
+<BorderPane maxHeight="-Infinity" minHeight="-Infinity" styleClass="navpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.NavigationBarController">
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" maxHeight="200.0" minHeight="-Infinity" prefHeight="100.0">
+            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity">
                <children>
                   <HBox alignment="CENTER" maxWidth="100.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                      <children>
-                        <ImageView fx:id="home" fitHeight="77.0" fitWidth="76.0" onMouseClicked="#goHome" HBox.hgrow="ALWAYS">
+                        <ImageView fx:id="home" fitHeight="68.0" fitWidth="67.0" onMouseClicked="#goHome" HBox.hgrow="ALWAYS">
                            <image>
                               <Image url="@../images/icons/bwh-logo-white.png" />
                            </image>
@@ -34,19 +34,19 @@
                   </HBox>
                   <HBox alignment="CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="serviceRequestsButton" alignment="CENTER" mnemonicParsing="false" onAction="#openServiceRequests" text="Service Requests" />
-                        <Button fx:id="pathfindingButton" alignment="CENTER" mnemonicParsing="false" onAction="#openPathfinding" text="Pathfinding" />
-                        <Button fx:id="signageButton" alignment="CENTER" mnemonicParsing="false" onAction="#openSignage" text="Signage" />
-                        <Button fx:id="mapEditorButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMapEditor" text="Map Editor" />
-                        <Button fx:id="movesButton" alignment="CENTER" mnemonicParsing="false" onAction="#openMoves" text="Moves" />
+                        <Button fx:id="serviceRequestsButton" alignment="CENTER" mnemonicParsing="false" onAction="#openServiceRequests" style="-fx-font-weight: bold;" text="Service Requests" />
+                        <Button fx:id="pathfindingButton" alignment="CENTER" mnemonicParsing="false" onAction="#openPathfinding" style="-fx-font-weight: bold;" text="Pathfinding" />
+                        <Button fx:id="signageButton" alignment="CENTER" mnemonicParsing="false" onAction="#openSignage" style="-fx-font-weight: bold;" text="Signage" />
+                        <Button fx:id="mapEditorButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#openMapEditor" style="-fx-font-weight: bold;" text="Map Editor" />
+                        <Button fx:id="movesButton" alignment="CENTER" mnemonicParsing="false" onAction="#openMoves" style="-fx-font-weight: bold;" text="Moves" />
                      </children>
                      <padding>
-                        <Insets bottom="20.0" top="20.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="150.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <MenuButton fx:id="profileButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="80.0" minWidth="80.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50;" text="MA" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                        <MenuButton fx:id="profileButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="31.0" minWidth="71.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#openAccount" text="Settings" />
                               <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
@@ -56,7 +56,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                            <padding>
-                              <Insets right="-7.0" />
+                              <Insets right="-2.0" />
                            </padding>
                         </MenuButton>
                      </children>
@@ -68,8 +68,14 @@
                      </padding>
                   </HBox>
                </children>
+               <StackPane.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </StackPane.margin>
             </HBox>
          </children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
       </StackPane>
    </center>
    <stylesheets>

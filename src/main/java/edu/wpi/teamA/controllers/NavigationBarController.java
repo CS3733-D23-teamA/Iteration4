@@ -5,12 +5,9 @@ import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.layout.Background;
-import javafx.scene.paint.Color;
 
 public class NavigationBarController {
 
@@ -19,7 +16,7 @@ public class NavigationBarController {
   @FXML private Button signageButton;
   @FXML private Button mapEditorButton;
   @FXML private Button movesButton;
-  @FXML private Button homeButton;
+
   @FXML private MenuButton profileButton;
 
   @FXML
@@ -33,24 +30,21 @@ public class NavigationBarController {
     switch (App.getPrimaryStage().getTitle()) {
       case "SERVICE_REQUEST":
         serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
-        System.out.println(App.getPrimaryStage().getTitle()); // set style mouse entered
         break;
       case "PATHFINDING":
         pathfindingButton.setStyle("-fx-background-color: #F0C747");
-        System.out.println(App.getPrimaryStage().getTitle());
-
         break;
       case "SIGNAGE":
         signageButton.setStyle("-fx-background-color: #F0C747");
-        System.out.println(App.getPrimaryStage().getTitle());
         break;
       case "MAP_EDITOR":
         mapEditorButton.setStyle("-fx-background-color: #F0C747");
-        System.out.println(App.getPrimaryStage().getTitle());
         break;
       case "MOVES":
         movesButton.setStyle("-fx-background-color: #F0C747");
-        System.out.println(App.getPrimaryStage().getTitle());
+        break;
+      default:
+        setPageIndicator();
         break;
     }
 
@@ -61,31 +55,16 @@ public class NavigationBarController {
       mapEditorButton.setVisible(false);
       mapEditorButton.setManaged(false);
     }
-
-    // trying to figure out how to get screen value for yellow buttons
-    Platform.runLater(
-        () -> {
-          switch (App.getPrimaryStage().getTitle()) {
-            case "SERVICE_REQUEST":
-              serviceRequestsButton.setBackground(Background.fill(Color.web("F0C747")));
-              break;
-            case "PATHFINDING":
-              pathfindingButton.setBackground(Background.fill(Color.web("F0C747")));
-              break;
-            case "SIGNAGE":
-              signageButton.setBackground(Background.fill(Color.web("F0C747")));
-              break;
-            case "MAP_EDITOR":
-              mapEditorButton.setBackground(Background.fill(Color.web("F0C747")));
-              break;
-            case "MOVES":
-              movesButton.setBackground(Background.fill(Color.web("F0C747")));
-              break;
-          }
-        });
   }
 
-  // Are we running everything through initialize or onAction methods?
+  private void setPageIndicator() {
+    if (App.getPrimaryStage().getTitle().contains("REQUEST")) {
+      serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
+    } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
+      profileButton.setStyle("-fx-border-width: 3; -fx-border-color: #F0C747");
+    }
+  }
+
   public void openServiceRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
@@ -99,11 +78,7 @@ public class NavigationBarController {
   }
 
   public void openSignage() {
-    if (AccountSingleton.isAdmin()) {
-      Navigation.navigate(Screen.SIGNAGE_ADMIN);
-    } else {
-      Navigation.navigate(Screen.SIGNAGE);
-    }
+    Navigation.navigate(Screen.SIGNAGE);
   }
 
   public void openMoves() {
@@ -125,6 +100,6 @@ public class NavigationBarController {
   }
 
   public void openAccount() {
-    Navigation.navigate(Screen.ACCOUNTSETTINGS);
+    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 }

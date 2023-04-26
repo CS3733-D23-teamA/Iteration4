@@ -113,12 +113,12 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                  <children>
-                                    <MFXButton fx:id="clearButton" defaultButton="true" mnemonicParsing="false" onAction="#clear" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Clear" textFill="#eebd28">
+                                    <MFXButton fx:id="clearButton" defaultButton="true" mnemonicParsing="false" onAction="#clear" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Clear" textFill="#0d0a00">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </MFXButton>
-                                    <MFXButton fx:id="nextButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#next" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Next" textFill="#eebd28">
+                                    <MFXButton fx:id="nextButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#next" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Next" textFill="#eebd28">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
@@ -243,7 +243,7 @@
                   </VBox>
                </children>
             </StackPane>
-            <MFXGenericDialog fx:id="confirmationDialog">
+            <MFXGenericDialog fx:id="confirmationDialog" visible="false">
                <center>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
                      <font>

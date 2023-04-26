@@ -182,7 +182,7 @@
                                     <MFXFilterComboBox fx:id="drinkQuantity" onAction="#validateAddDrink" prefWidth="100.0" style="-fx-font-size: 18;-fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
-                              <MFXButton fx:id="addDrink" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addDrink" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Add" textFill="#eebd28">
+                              <MFXButton fx:id="addDrink" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addDrink" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Add" textFill="#eebd28">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -217,7 +217,7 @@
                                     <MFXFilterComboBox fx:id="foodQuantity" onAction="#validateAddFood" prefWidth="100.0" style="-fx-font-size: 18;-fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
-                              <MFXButton fx:id="addFood" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addFood" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Add" textFill="#eebd28">
+                              <MFXButton fx:id="addFood" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addFood" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Add" textFill="#eebd28">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -249,12 +249,12 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                  <children>
-                                    <MFXButton fx:id="backButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Back" textFill="#eebd28">
+                                    <MFXButton fx:id="backButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Back" textFill="#eebd28">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </MFXButton>
-                                    <MFXButton fx:id="submitButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#submit" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28">
+                                    <MFXButton fx:id="submitButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#submit" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Submit" textFill="#eebd28">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>

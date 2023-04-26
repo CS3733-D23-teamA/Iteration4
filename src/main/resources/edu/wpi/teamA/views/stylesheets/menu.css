@@ -36,7 +36,6 @@
 
 .mfx-button:hover {
     /*-fx-background-color: #F0C747;*/
-    -fx-border-color: #F0C747;
     -fx-border-width: 3;
     -fx-font-size: 20;
 }

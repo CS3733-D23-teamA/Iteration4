@@ -43,7 +43,7 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                        <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="300.0" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="55.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0">
@@ -53,7 +53,7 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="furnitureCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="furnitureCombo" maxHeight="-Infinity" minHeight="-Infinity" minWidth="300.0" onAction="#validateButton" prefHeight="55.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                             </children>
@@ -73,7 +73,7 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="roomCombo" onAction="#validateButton" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -83,7 +83,7 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="timeCombo" onAction="#validateButton" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -93,7 +93,7 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                        <DatePicker fx:id="datePicker" onAction="#validateButton" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                             </children>
@@ -113,22 +113,22 @@
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" />
+                                        <MFXTextField fx:id="commentField" minWidth="650.0" onKeyReleased="#validateButton" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" />
                                     </children>
                                 </VBox>
                                 <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                     <children>
-                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Cancel" textFill="#eebd28">
+                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Cancel" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </MFXButton>
-                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Delete" textFill="#eebd28">
+                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Delete" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </MFXButton>
-                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Update" textFill="#eebd28">
+                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Update" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>

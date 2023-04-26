@@ -1,7 +1,5 @@
 @import "main.css";
 
-.root{}
-
 .background{
     -fx-background-image: url("stylesheet-images/bwh-background.jpg");
     -fx-background-insets: 400;
