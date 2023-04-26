@@ -31,7 +31,6 @@
     -fx-border-radius: 60;
     -fx-font-size: 1;
     -fx-font-weight: bold;
-    -fx-border-style: outside;
 }
 
 .button:hover {

@@ -44,6 +44,10 @@ public class SettingsMenuBarController {
     Navigation.navigate(Screen.UPDATENAME);
   }
 
+  public void openImportExport() {
+    Navigation.navigate(Screen.IMPORT_EXPORT);
+  }
+
   public void logout() {
     User loggedOut = new User(2, "N", "N", "N", "N");
     AccountSingleton.INSTANCE.setValue(loggedOut);

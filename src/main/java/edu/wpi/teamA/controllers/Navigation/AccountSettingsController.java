@@ -43,7 +43,7 @@ public class AccountSettingsController {
     String newLastName = newLast.getText();
     checker.updateName(oldFirstName, oldLastName, newFirstName, newLastName);
     System.out.println("Name Updated");
-    Navigation.navigate(Screen.ACCOUNTSETTINGS);
+    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
   public void validateUpdate() {

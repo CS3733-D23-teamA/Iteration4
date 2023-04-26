@@ -19,7 +19,9 @@ public enum Screen {
   ACCOUNT_SETTINGS("views/AccountSettings.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
   CHANGEPASSWORD("views/ChangePassword.fxml"),
-  UPDATENAME("views/UpdateName.fxml");
+  UPDATENAME("views/UpdateName.fxml"),
+  SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
+  IMPORT_EXPORT("views/ImportExport.fxml");
 
   private final String filename;
 
