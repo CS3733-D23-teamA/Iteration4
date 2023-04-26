@@ -17,7 +17,9 @@ public enum Screen {
   MEAL_REQUEST("views/MealRequest.fxml"),
   MEAL_REQUEST_EDIT("views/MealEdit.fxml"),
   ACCOUNT_SETTINGS("views/AccountSettings.fxml"),
-  EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml");
+  EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
+  CHANGEPASSWORD("views/ChangePassword.fxml"),
+  UPDATENAME("views/UpdateName.fxml");
 
   private final String filename;
 
