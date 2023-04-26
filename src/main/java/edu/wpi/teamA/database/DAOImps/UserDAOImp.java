@@ -3,11 +3,16 @@ package edu.wpi.teamA.database.DAOImps;
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UserDAOImp {
   private ArrayList<User> UserArray;
@@ -32,6 +37,72 @@ public class UserDAOImp {
       stmtUser.execute(sqlCreateUser);
     } catch (SQLException e) {
       e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+
+  public ArrayList<User> Import(String filePath) {
+    try {
+      BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
+      csvReader.readLine();
+      String row;
+
+      while ((row = csvReader.readLine()) != null) {
+        String[] data = row.split(",");
+
+        int accessLevel = Integer.parseInt(data[0]);
+        String userName = data[1];
+        String password = data[2];
+        String firstName = data[3];
+        String lastName = data[4];
+
+        PreparedStatement ps =
+            Objects.requireNonNull(DBConnectionProvider.createConnection())
+                .prepareStatement("INSERT INTO \"Teama_schema\".\"Users\" VALUES (?, ?, ?, ?, ?)");
+        ps.setInt(1, accessLevel);
+        ps.setString(2, userName);
+        ps.setString(3, password);
+        ps.setString(4, firstName);
+        ps.setString(5, lastName);
+        ps.executeUpdate();
+
+        User user = new User(accessLevel, userName, password, firstName, lastName);
+
+        UserArray.add(user);
+      }
+      csvReader.close();
+    } catch (SQLException | IOException e) {
+
+      throw new RuntimeException(e);
+    }
+    return UserArray;
+  }
+
+  public void Export(String folderExportPath) {
+    try {
+      String newFile = folderExportPath + "/User.csv";
+      Statement st =
+          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Users\"");
+
+      FileWriter csvWriter = new FileWriter(newFile);
+
+      csvWriter.append("adminyes,username,password,firstname,lastname\n");
+
+      while (rs.next()) {
+        csvWriter.append((rs.getInt("adminyes")) + (","));
+        csvWriter.append((rs.getString("username")) + (","));
+        csvWriter.append((rs.getString("password")) + (","));
+        csvWriter.append(rs.getString("firstname")).append(",");
+        csvWriter.append(rs.getString("lastname")).append("\n");
+      }
+
+      csvWriter.flush();
+      csvWriter.close();
+
+      System.out.println("User table exported to User.csv");
+
+    } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
   }
