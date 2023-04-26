@@ -10,6 +10,7 @@ import edu.wpi.teamA.entities.ServiceRequestEntity;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import java.io.IOException;
+import java.time.LocalDate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ public class App extends Application {
 
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
+  @Setter @Getter private static LocalDate currentDate;
 
   // map entities + images
 
@@ -65,6 +67,8 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException, IncorrectLengthException {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
+
+    App.currentDate = LocalDate.now();
 
     final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/Root.fxml"));
     final BorderPane root = loader.load();

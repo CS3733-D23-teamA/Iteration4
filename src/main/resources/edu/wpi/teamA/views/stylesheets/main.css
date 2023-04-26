@@ -109,6 +109,7 @@
 .mfx-combo-box {
     -fx-text-origin: center;
     -fx-font-size: 18;
+    -fx-text-origin: above;
 }
 
 .mfx-toggle-node {
@@ -128,6 +129,14 @@
     -fx-text-fill: #012D5A;
     -fx-font-size: 18;
 }
+
+.mfx-toggle-button{
+    -fx-background-color: #f1f1f1;
+    -fx-prompt-text-fill: #012D5A;
+    -fx-background-radius: 10;
+}
+
+
 
 #title {
     -fx-font-size: 32;

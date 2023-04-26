@@ -2,7 +2,6 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Employee;
-import edu.wpi.teamA.database.ORMclasses.Flower;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -32,9 +31,9 @@ public class EmployeeSettingsController {
   @FXML private MFXButton modifyButton;
 
   @FXML private TableView<Employee> employeeTableView;
-  @FXML private TableColumn<Flower, String> nameCol;
-  @FXML private TableColumn<Flower, String> userCol;
-  @FXML private TableColumn<Flower, String> passCol;
+  @FXML private TableColumn<Employee, String> nameCol;
+  @FXML private TableColumn<Employee, String> userCol;
+  @FXML private TableColumn<Employee, String> passCol;
 
   public void initialize() {
     ArrayList<String> allEmployeeUsernames = new ArrayList<>();
