@@ -9,17 +9,16 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class SignageController extends PageController {
-
   private DataBaseRepository db = DataBaseRepository.getInstance();
-  @FXML private MFXButton Screen1;
-  @FXML private MFXButton Screen2;
+
   @FXML private VBox ScreenVBox;
   @FXML private HBox screenHBox;
   @FXML private GridPane screenDialog;
-  private boolean screen1;
-  private boolean screen2;
 
   ArrayList<SignageComponent> allSignageScreen1 = new ArrayList<>();
   ArrayList<SignageComponent> allSignageScreen2 = new ArrayList<>();
@@ -27,55 +26,84 @@ public class SignageController extends PageController {
   public void initialize() {
     ScreenVBox.setVisible(false);
     screenHBox.setVisible(true);
-    screen1 = false;
-    screen2 = false;
-
+    /*ArrayList<String> allSignageIDs = new ArrayList<>();
+    for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
+      SignageComponent signage = entry.getValue();
+      // allSignageLocationNames.add(signage.getLocationName());
+      allSignageIDs.add(signage.getSignageID());
+    }*/
 
     for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
+      System.out.println("signage.getScreen(): " + signage.getScreen());
+
       if (signage.getScreen() == 1) {
         allSignageScreen1.add(signage);
+        System.out.println("screen1");
 
       } else if (signage.getScreen() == 2) {
-        allSignageScreen1.add(signage);
+        allSignageScreen2.add(signage);
+        System.out.println("screen2");
+      } else {
+        System.out.println("k");
       }
     }
   }
 
-  public boolean screen1(){
-    return true;
-  }
-  public boolean  screen2(){
-    return true;
-  }
-  public void screenDisplay() {
+  public void screen1() {
     ScreenVBox.setVisible(true);
     screenHBox.setVisible(false);
+    screenDisplay(true);
+  }
+
+  public void screen2() {
+    ScreenVBox.setVisible(true);
+    screenHBox.setVisible(false);
+    screenDisplay(false);
+  }
+
+  public void screenDisplay(boolean screen1) {
+    System.out.println("in screen display");
     ArrayList<SignageComponent> signageToDisplay = new ArrayList<>();
-    if(screen1()){
-      signageToDisplay = allSignageScreen1;
+    if (screen1) {
+      signageToDisplay.addAll(allSignageScreen1);
+    } else if (!screen1) {
+      signageToDisplay.addAll(allSignageScreen2);
     }
-    else if(screen2()){
-      signageToDisplay = allSignageScreen1;
-    }
-    ArrayList<String> allSignageLocNames = new ArrayList<>();
-    ArrayList<String> allSignageDates = new ArrayList<>();
+    // ArrayList<String> allSignageLocNames = new ArrayList<>();
+    // ArrayList<String> allSignageDates = new ArrayList<>();
 
+    int numRow = 1;
     for (SignageComponent signage : signageToDisplay) {
-      allSignageLocNames.add(signage.getLocationName());
-      allSignageDates.add(signage.getDate().toString());
-    }
-  }
-
-  public void screen2Display() {
-    ScreenVBox.setVisible(true);
-    screenHBox.setVisible(false);
-    ArrayList<String> allSignageLocNames = new ArrayList<>();
-    ArrayList<String> allSignageDates = new ArrayList<>();
-
-    for (SignageComponent signage : allSignageScreen2) {
-      allSignageLocNames.add(signage.getLocationName());
-      allSignageDates.add(signage.getDate().toString());
+      screenDialog.addRow(numRow);
+      Text locName = new Text(signage.getLocationName());
+      System.out.println(signage.getLocationName());
+      System.out.println(locName.getText());
+      Text date = new Text(signage.getDate().toString());
+      Text direction = new Text();
+      if (signage.getDirection().equals("right")) {
+        direction.setText("->");
+      } else if (signage.getDirection().equals("left")) {
+        direction.setText("<-");
+      } else if (signage.getDirection().equals("up")) {
+        direction.setText("^");
+      } else if (signage.getDirection().equals("down")) {
+        direction.setText("v");
+      } else {
+        direction.setText("Stop here for");
+      }
+      direction.setFont(Font.font("Open Sans", 20));
+      direction.setFill(Color.web("0x012d5a"));
+      locName.setFont(Font.font("Open Sans", 20));
+      locName.setFill(Color.web("0x012d5a"));
+      date.setFont(Font.font("Open Sans", 20));
+      date.setFill(Color.web("0x012d5a"));
+      screenDialog.add(direction, 0, numRow);
+      screenDialog.add(locName, 1, numRow);
+      screenDialog.add(date, 2, numRow);
+      numRow++;
+      // Navigation.navigate(Screen.SIGNAGE);
+      // App.getPrimaryStage().show();
     }
   }
 }

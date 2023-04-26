@@ -28,7 +28,6 @@ public class SignageDAOImp implements ISignageDAO {
   }
 
   public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
-    int screen = 0;
     try {
       Statement st =
           Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
@@ -39,6 +38,7 @@ public class SignageDAOImp implements ISignageDAO {
         String direction = rs.getString("direction");
         Date date = rs.getDate("date");
         String signageID = locationName + date.toString();
+        int screen = rs.getInt("screen");
 
         SignageComponent signage =
             new SignageComponent(locationName, direction, date, screen, signageID);
@@ -64,14 +64,16 @@ public class SignageDAOImp implements ISignageDAO {
           signageProvider
               .createConnection()
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ? WHERE locationName = ?");
+                  "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ?, screen = ?, locationname = ? WHERE signageid = ?");
       ps.setString(1, direction);
       ps.setDate(2, date);
-      ps.setString(3, locationName);
+      ps.setInt(3, screen);
+      ps.setString(4, locationName);
+      ps.setString(5, signageID);
 
       signageMap.put(
           signageID,
-          new SignageComponent(signage.getLocationName(), direction, date, screen, signageID));
+          new SignageComponent(locationName, direction, date, screen, signage.getSignageID()));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -85,16 +87,18 @@ public class SignageDAOImp implements ISignageDAO {
       String direction = signage.getDirection();
       Date date = signage.getDate();
       int screen = signage.getScreen();
-      String signageID = locationName + date.toString();
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?)");
       ps.setString(1, locationName);
       ps.setString(2, direction);
       ps.setDate(3, date);
+      ps.setInt(4, screen);
       ps.executeUpdate();
+
+      String signageID = locationName + date.toString();
 
       signageMap.put(
           signageID, new SignageComponent(locationName, direction, date, screen, signageID));
@@ -110,8 +114,8 @@ public class SignageDAOImp implements ISignageDAO {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.createConnection())
               .prepareStatement(
-                  "DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE locationName = ?");
-      ps.setString(1, signage.getLocationName());
+                  "DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE signageid = ?");
+      ps.setString(1, signage.getSignageID());
       ps.executeUpdate();
 
       // String signageID = signage.getLocationName() + signage.getDate().toString();
