@@ -26,7 +26,8 @@ public enum Screen {
   FURNITURE_EDIT("views/FurnitureEdit.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
-  CALENDAR("views/CRCalendar.fxml");
+  CALENDAR("views/CRCalendar.fxml"),
+  IMPORT_EXPORT("views/ImportExport.fxml");
 
   private final String filename;
 

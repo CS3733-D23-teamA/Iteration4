@@ -30,6 +30,10 @@ public class SettingsMenuBarController {
     Navigation.navigate(Screen.EMPLOYEE_SETTINGS);
   }
 
+  public void openImportExport() {
+    Navigation.navigate(Screen.IMPORT_EXPORT);
+  }
+
   public void openAccountSettings() {
     AccountSettingsDropdown.setVisible(!AccountSettingsDropdown.isVisible());
     AccountSettingsDropdown.setManaged(!AccountSettingsDropdown.isManaged());

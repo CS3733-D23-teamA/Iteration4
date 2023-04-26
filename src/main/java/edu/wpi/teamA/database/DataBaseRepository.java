@@ -208,20 +208,20 @@ public class DataBaseRepository {
       moveDAOImp.Import(filepath);
     } else if (type.equals("Edge")) {
       edgeDAOImp.Import(filepath);
-    } else if(type.equals("Flower")) {
+    } else if (type.equals("Flower")) {
       flowerDAOImp.Import(filepath);
-    } else if(type.equals("CRRR")) {
+    } else if (type.equals("CRRR")) {
       crrrDAOImp.Import(filepath);
-    } else if(type.equals("Furniture")) {
+    } else if (type.equals("Furniture")) {
       furnitureDAOImp.Import(filepath);
-    } else if(type.equals("Meal")) {
+    } else if (type.equals("Meal")) {
       mealDAOImp.Import(filepath);
-    } else if(type.equals("Employee")) {
+    } else if (type.equals("Employee")) {
       employeeDAOImp.Import(filepath);
-    } else if(type.equals("User")) {
+    } else if (type.equals("User")) {
       userDAOImp.Import(filepath);
-    } else if(type.equals("Signage")) {
-
+    } else if (type.equals("Signage")) {
+      signageDAOImp.Import(filepath);
     }
   }
 
@@ -234,6 +234,20 @@ public class DataBaseRepository {
       moveDAOImp.Export(folderExportPath);
     } else if (type.equals("Edge")) {
       edgeDAOImp.Export(folderExportPath);
+    } else if (type.equals("Flower")) {
+      flowerDAOImp.Export(folderExportPath);
+    } else if (type.equals("CRRR")) {
+      crrrDAOImp.Export(folderExportPath);
+    } else if (type.equals("Furniture")) {
+      furnitureDAOImp.Export(folderExportPath);
+    } else if (type.equals("Meal")) {
+      mealDAOImp.Export(folderExportPath);
+    } else if (type.equals("Employee")) {
+      employeeDAOImp.Export(folderExportPath);
+    } else if (type.equals("User")) {
+      userDAOImp.Export(folderExportPath);
+    } else if (type.equals("Signage")) {
+      signageDAOImp.Export(folderExportPath);
     }
   }
 
