@@ -7,12 +7,14 @@ import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
 
 public class SettingsMenuBarController {
   @FXML private Button exitApplicationButton;
   @FXML private Button logoutButton;
   @FXML private Button accountSettingsButton;
   @FXML private Button employeeSettingsButton;
+  @FXML private VBox AccountSettingsDropdown;
 
   @FXML
   public void initialize() {
@@ -20,6 +22,8 @@ public class SettingsMenuBarController {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
     }
+    AccountSettingsDropdown.setVisible(false);
+    AccountSettingsDropdown.setManaged(false);
   }
 
   public void openEmployeeSettings() {
@@ -27,7 +31,16 @@ public class SettingsMenuBarController {
   }
 
   public void openAccountSettings() {
-    Navigation.navigate(Screen.ACCOUNT);
+    AccountSettingsDropdown.setVisible(!AccountSettingsDropdown.isVisible());
+    AccountSettingsDropdown.setManaged(!AccountSettingsDropdown.isManaged());
+  }
+
+  public void openChangePassword() {
+    Navigation.navigate(Screen.CHANGEPASSWORD);
+  }
+
+  public void openUpdateName() {
+    Navigation.navigate(Screen.UPDATENAME);
   }
 
   public void logout() {
