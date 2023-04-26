@@ -41,7 +41,7 @@
             <MFXButton fx:id="employeeSettingsButton" onAction="#openEmployeeSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
             <MFXButton fx:id="importExportButton" onAction="#openImportExport" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Import/Export" />
             <MFXButton fx:id="logoutButton" onAction="#logout" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Sign Out" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Exit Application" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" style="-fx-background-color: bwhite; -fx-text-fill: #AA4A44; -fx-background-radius: 15; -fx-border-color: #AA4A44;" styleClass="mfx-button" text="Exit Application" VBox.vgrow="ALWAYS" />
          </children>
          <BorderPane.margin>
             <Insets />

@@ -48,9 +48,9 @@
                      <children>
                         <MenuButton fx:id="profileButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="31.0" minWidth="71.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
                            <items>
-                              <MenuItem mnemonicParsing="false" onAction="#openAccount" text="Settings" />
-                              <MenuItem mnemonicParsing="false" onAction="#logout" text="Sign Out" />
-                              <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" text="Exit" />
+                              <MenuItem mnemonicParsing="false" onAction="#openSettings" style="-fx-padding: 10;" text="Settings" />
+                              <MenuItem mnemonicParsing="false" onAction="#logout" style="-fx-padding: 10;" text="Sign Out" />
+                              <MenuItem fx:id="exitMenu" mnemonicParsing="false" onAction="#exitApp" style="-fx-padding: 10;" text="Exit" />
                            </items>
                            <HBox.margin>
                               <Insets left="20.0" />

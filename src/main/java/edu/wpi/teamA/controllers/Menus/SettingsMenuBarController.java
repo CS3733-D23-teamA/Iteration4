@@ -5,23 +5,27 @@ import edu.wpi.teamA.database.ORMclasses.User;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 public class SettingsMenuBarController {
-  @FXML private Button exitApplicationButton;
-  @FXML private Button logoutButton;
-  @FXML private Button accountSettingsButton;
-  @FXML private Button employeeSettingsButton;
-  @FXML private VBox AccountSettingsDropdown;
+  @FXML private MFXButton exitApplicationButton;
+  @FXML private MFXButton logoutButton;
+  @FXML private MFXButton accountSettingsButton;
+  @FXML private MFXButton employeeSettingsButton;
+  @FXML public VBox AccountSettingsDropdown;
+  @FXML private MFXButton importExportButton;
 
   @FXML
   public void initialize() {
     if (!AccountSingleton.isAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
+      importExportButton.setVisible(false);
+      importExportButton.setManaged(false);
     }
+
     AccountSettingsDropdown.setVisible(false);
     AccountSettingsDropdown.setManaged(false);
   }
@@ -31,21 +35,21 @@ public class SettingsMenuBarController {
   }
 
   public void openAccountSettings() {
-    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
+    // Navigation.navigate(Screen.ACCOUNT_SETTINGS);
     AccountSettingsDropdown.setVisible(!AccountSettingsDropdown.isVisible());
     AccountSettingsDropdown.setManaged(!AccountSettingsDropdown.isManaged());
   }
 
   public void openChangePassword() {
-    Navigation.navigate(Screen.CHANGEPASSWORD);
+    Navigation.navigate(Screen.CHANGE_PASSWORD_SETTINGS);
   }
 
   public void openUpdateName() {
-    Navigation.navigate(Screen.UPDATENAME);
+    Navigation.navigate(Screen.UPDATE_NAME_SETTINGS);
   }
 
   public void openImportExport() {
-    Navigation.navigate(Screen.IMPORT_EXPORT);
+    Navigation.navigate(Screen.IMPORT_EXPORT_SETTINGS);
   }
 
   public void logout() {

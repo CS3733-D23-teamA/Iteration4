@@ -19,6 +19,8 @@ public class NavigationBarController {
 
   @FXML private MenuButton profileButton;
 
+  @FXML private Boolean isAdmin = AccountSingleton.isAdmin();
+
   @FXML
   public void initialize() {
     // get first and last initial for user and set label over profile avatar
@@ -49,7 +51,7 @@ public class NavigationBarController {
     }
 
     // diables moves and map editor for non-admin
-    if (!AccountSingleton.isAdmin()) {
+    if (!isAdmin) {
       movesButton.setVisible(false);
       movesButton.setManaged(false);
       mapEditorButton.setVisible(false);
@@ -78,7 +80,11 @@ public class NavigationBarController {
   }
 
   public void openSignage() {
-    Navigation.navigate(Screen.SIGNAGE);
+    if (isAdmin) {
+      Navigation.navigate(Screen.SIGNAGE_ADMIN);
+    } else {
+      Navigation.navigate(Screen.SIGNAGE);
+    }
   }
 
   public void openMoves() {
@@ -99,7 +105,7 @@ public class NavigationBarController {
     Navigation.navigate(Screen.LOGIN);
   }
 
-  public void openAccount() {
+  public void openSettings() {
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 }

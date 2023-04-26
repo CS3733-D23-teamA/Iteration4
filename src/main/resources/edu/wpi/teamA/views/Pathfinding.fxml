@@ -68,11 +68,11 @@
                   </HBox>
                   <VBox spacing="3.0">
                      <children>
-                        <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="L1" textAlignment="RIGHT" />
-                        <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="L2" textAlignment="RIGHT" />
-                        <MFXRectangleToggleNode fx:id="level1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="1" textAlignment="RIGHT" />
-                        <MFXRectangleToggleNode fx:id="level2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="2" textAlignment="RIGHT" />
-                        <MFXRectangleToggleNode fx:id="level3Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="3" textAlignment="RIGHT" />
+                        <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
+                        <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
+                        <MFXRectangleToggleNode fx:id="level1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="1" textAlignment="RIGHT" />
+                        <MFXRectangleToggleNode fx:id="level2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="2" textAlignment="RIGHT" />
+                        <MFXRectangleToggleNode fx:id="level3Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="3" textAlignment="RIGHT" />
                      </children>
                   </VBox>
                </children>
