@@ -74,7 +74,7 @@
     -fx-pref-width: 100;
     -fx-pref-height: 50;
 
-    -fx-font-size: 18;
+    -fx-font-size: 20;
     -fx-text-fill: #012D5A;
     -fx-font-weight: bold;
     -fx-background-color: #f1f1f1;
@@ -85,8 +85,28 @@
 }
 
 .clear-mfx-button:hover {
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-border-color: #012D5A;
+    -fx-background-radius: 20;
+    -fx-border-radius: 19;
+}
+
+.delete-mfx-button {
+    -fx-pref-width: 100;
+    -fx-pref-height: 50;
+
+    -fx-font-size: 20;
+    -fx-text-fill: #AA4A44;
+    -fx-font-weight: bold;
+    -fx-background-color: #f1f1f1;
+    -fx-background-radius: 15;
+    -fx-border-radius: 13;
+    -fx-border-width: 2;
+    -fx-border-color: #AA4A44;
+}
+
+.delete-mfx-button:hover {
+    -fx-font-size: 18;
     -fx-background-radius: 20;
     -fx-border-radius: 19;
 }

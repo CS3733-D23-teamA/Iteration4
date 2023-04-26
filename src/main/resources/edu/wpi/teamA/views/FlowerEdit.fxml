@@ -20,16 +20,11 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-                <VBox minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
+                <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
                     <children>
-                  <HBox>
+                  <HBox alignment="CENTER">
                      <children>
-                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Cancel" textFill="#eebd28">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </MFXButton>
-                        <VBox spacing="10.0">
+                        <VBox alignment="CENTER" spacing="10.0">
                            <children>
                                     <HBox maxWidth="1000.0" spacing="20.0">
                                         <children>
@@ -109,7 +104,7 @@
                                             </VBox>
                                             <VBox alignment="BOTTOM_LEFT" spacing="15.0" HBox.hgrow="NEVER">
                                                 <children>
-                                                    <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Delete" textFill="#eebd28">
+                                                    <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" style="-fx-text-fill: #AA4A44;" styleClass="delete-mfx-button" text="Delete" textFill="#eebd28">
                                                         <font>
                                                             <Font name="System Bold" size="20.0" />
                                                         </font>
@@ -126,7 +121,7 @@
                                             </VBox>
                                         </children>
                                         <padding>
-                                            <Insets left="50.0" right="130.0" />
+                                            <Insets left="50.0" right="50.0" />
                                         </padding>
                                     </HBox>
                            </children>
@@ -141,23 +136,30 @@
                         <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
                     </StackPane.margin>
                 </VBox>
-                <VBox>
-                    <children>
-                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Flower Delivery" wrappingWidth="295.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
-                            <font>
-                                <Font name="Open Sans Bold" size="48.0" />
-                            </font>
-                        </Text>
-                    </children>
-                    <padding>
-                        <Insets left="50.0" top="50.0" />
-                    </padding>
-                </VBox>
+            <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" style="-fx-background-radius: 10;" styleClass="clear-mfx-button" text="Back" textFill="#eebd28" StackPane.alignment="TOP_LEFT">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets left="100.0" top="150.0" />
+               </StackPane.margin>
+            </MFXButton>
+                  <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Flower Delivery - Edit View" wrappingWidth="466.20074462890625" x="290.0" y="100.0" StackPane.alignment="TOP_LEFT">
+                      <font>
+                          <Font name="Open Sans Bold" size="48.0" />
+                      </font>
+               <StackPane.margin>
+                  <Insets left="50.0" top="50.0" />
+               </StackPane.margin>
+                  </Text>
             </children>
         </StackPane>
     </center>
     <left>
         <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <fx:include source="ServiceRequestMenuBar.fxml" />
+            </content>
         </ScrollPane>
     </left>
 </BorderPane>

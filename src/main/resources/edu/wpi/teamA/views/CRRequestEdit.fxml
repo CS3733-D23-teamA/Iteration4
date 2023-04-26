@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.MealEditController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.CRRequestEditController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
@@ -22,7 +22,7 @@
             <children>
                 <VBox>
                     <children>
-                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Delivery" wrappingWidth="295.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Conference Room Request" wrappingWidth="448.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
                             <font>
                                 <Font name="Open Sans Bold" size="48.0" />
                             </font>
@@ -48,12 +48,12 @@
                                 </VBox>
                                 <VBox spacing="10.0">
                                     <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Meal Type">
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Room">
                                             <font>
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="mealCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                             </children>
@@ -68,22 +68,22 @@
                             <children>
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
                                     <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Room">
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Start Time">
                                             <font>
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="startCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
                                     <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Time">
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="End Time">
                                             <font>
                                                 <Font size="25.0" />
                                             </font>
                                         </Text>
-                                        <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                        <MFXFilterComboBox fx:id="endCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateButton" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                     </children>
                                 </VBox>
                                 <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -118,17 +118,17 @@
                                 </VBox>
                                 <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                     <children>
-                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Cancel" textFill="#eebd28">
+                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Cancel" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </MFXButton>
-                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Delete" textFill="#eebd28">
+                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Delete" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
                                         </MFXButton>
-                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Update" textFill="#eebd28">
+                                        <MFXButton fx:id="updateButton" defaultButton="true" mnemonicParsing="false" onAction="#edit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Update" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
@@ -156,9 +156,6 @@
     </center>
     <left>
         <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
-            <content>
-                <fx:include source="ServiceRequestMenuBar.fxml" />
-            </content>
         </ScrollPane>
     </left>
 </BorderPane>

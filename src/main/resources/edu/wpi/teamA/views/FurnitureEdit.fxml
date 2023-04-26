@@ -156,6 +156,9 @@
     </center>
     <left>
         <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <fx:include source="ServiceRequestMenuBar.fxml" />
+            </content>
         </ScrollPane>
     </left>
 </BorderPane>
