@@ -18,10 +18,10 @@ public enum Screen {
   MEAL_REQUEST_EDIT("views/MealEdit.fxml"),
   ACCOUNT_SETTINGS("views/AccountSettings.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
-  CHANGEPASSWORD("views/ChangePassword.fxml"),
-  UPDATENAME("views/UpdateName.fxml"),
+  CHANGE_PASSWORD_SETTINGS("views/ChangePassword.fxml"),
+  UPDATE_NAME_SETTINGS("views/UpdateName.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
-  IMPORT_EXPORT("views/ImportExport.fxml");
+  IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml");
 
   private final String filename;
 

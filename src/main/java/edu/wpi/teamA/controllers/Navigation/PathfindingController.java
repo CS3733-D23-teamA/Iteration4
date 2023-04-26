@@ -182,7 +182,7 @@ public class PathfindingController extends PageController {
    */
   private void changeLevel(String level) {
     clearPath();
-    // toggle button functionality
+
     switch (level) {
       case "L1":
         setCurrentLevel(Level.LOWERLEVELL1);

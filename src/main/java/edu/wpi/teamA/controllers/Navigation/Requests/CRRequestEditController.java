@@ -15,7 +15,7 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-public class RoomEditController extends PageController {
+public class CRRequestEditController extends PageController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML private MFXButton updateButton;
   @FXML private MFXTextField nameField;

@@ -1,4 +1,4 @@
-package edu.wpi.teamA.controllers.Navigation;
+package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
@@ -22,7 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class CalendarController {
+public class CRRequestCalendarController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML DatePicker dp;
   @FXML Label dl;

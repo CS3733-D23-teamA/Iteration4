@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.CalendarController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.Requests.CRRequestCalendarController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
@@ -33,7 +33,7 @@
                         <Font size="60.0" />
                      </font>
                   </Text>
-                  <Label fx:id="dl" prefHeight="47.0" prefWidth="45.0" text="Date">
+                  <Label fx:id="dl" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="334.0" text="Date">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -47,18 +47,18 @@
                         </Label>
                         <HBox alignment="BOTTOM_RIGHT" fillHeight="false">
                            <children>
-                              <GridPane minWidth="150.0" style="-fx-grid-lines-visible: true;">
+                              <GridPane minHeight="280.0" minWidth="150.0" style="-fx-grid-lines-visible: true;">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Abrams" GridPane.halignment="LEFT">
@@ -122,9 +122,9 @@
                                     <Insets />
                                  </HBox.margin>
                               </GridPane>
-                              <VBox alignment="BOTTOM_RIGHT" fillWidth="false">
+                              <VBox alignment="BOTTOM_RIGHT" fillWidth="false" spacing="10.0">
                                  <children>
-                                    <HBox alignment="BOTTOM_RIGHT" fillHeight="false" spacing="26.0">
+                                    <HBox alignment="BOTTOM_RIGHT" fillHeight="false" spacing="36.0">
                                        <children>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="00:00" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2:00" />
@@ -143,434 +143,434 @@
                                     </HBox>
                                     <HBox alignment="BOTTOM_RIGHT" fillHeight="false">
                                        <children>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox>
                                                    <children>
-                                                      <Rectangle fx:id="r1c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </GridPane>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Rectangle fx:id="r1c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c21" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c22" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c23" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c24" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </GridPane>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Rectangle fx:id="r1c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c31" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c32" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c33" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c34" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </GridPane>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Rectangle fx:id="r1c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c41" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c42" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c43" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c44" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </GridPane>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Rectangle fx:id="r1c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c51" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c52" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c53" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c54" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>
                                           </GridPane>
-                                          <GridPane prefWidth="120.0">
+                                          <GridPane prefHeight="280.0" prefWidth="140.0">
                                              <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
                                              </columnConstraints>
                                              <rowConstraints>
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints fillHeight="false" vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
+                                                <RowConstraints vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
                                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                                    <children>
-                                                      <Rectangle fx:id="r1c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r1c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r1c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r1c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="1">
                                                    <children>
-                                                      <Rectangle fx:id="r2c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r2c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r2c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r2c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="2">
                                                    <children>
-                                                      <Rectangle fx:id="r3c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r3c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r3c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r3c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="3">
                                                    <children>
-                                                      <Rectangle fx:id="r4c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r4c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r4c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r4c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="4">
                                                    <children>
-                                                      <Rectangle fx:id="r5c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r5c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r5c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r5c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="5">
                                                    <children>
-                                                      <Rectangle fx:id="r6c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r6c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r6c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r6c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                                 <HBox prefHeight="24.0" prefWidth="190.0" GridPane.rowIndex="6">
                                                    <children>
-                                                      <Rectangle fx:id="r7c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
-                                                      <Rectangle fx:id="r7c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="30.0" />
+                                                      <Rectangle fx:id="r7c61" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c62" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c63" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
+                                                      <Rectangle fx:id="r7c64" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="40.0" onMouseClicked="#selectSquare" stroke="BLACK" strokeType="INSIDE" width="35.0" />
                                                    </children>
                                                 </HBox>
                                              </children>

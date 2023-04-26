@@ -23,7 +23,7 @@
     <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
-              <StackPane fx:id="infoDisplay" visible="false">
+              <StackPane fx:id="infoDisplay">
                   <children>
                       <VBox StackPane.alignment="TOP_LEFT">
                           <padding>
@@ -48,12 +48,12 @@
                                                       <Font size="25.0" />
                                                   </font>
                                               </Text>
-                                              <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateNext" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-background-radius: 15; -fx-border-radius: 15;" />
+                                              <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateNext" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" promptText="Name" style="-fx-background-radius: 15; -fx-border-radius: 15;" />
                                           </children>
                                       </VBox>
                                   </children>
                                   <VBox.margin>
-                                      <Insets />
+                                      <Insets top="-50.0" />
                                   </VBox.margin>
                                   <padding>
                                       <Insets left="50.0" />
@@ -68,7 +68,17 @@
                                                       <Font size="25.0" />
                                                   </font>
                                               </Text>
-                                              <MFXFilterComboBox fx:id="roomCombo" onAction="#validateNext" prefWidth="370.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                              <MFXFilterComboBox fx:id="roomCombo" onAction="#validateNext" prefWidth="260.0" promptText="Room" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                          </children>
+                                      </VBox>
+                                      <VBox spacing="10.0" HBox.hgrow="NEVER">
+                                          <children>
+                                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Time">
+                                                  <font>
+                                                      <Font size="25.0" />
+                                                  </font>
+                                              </Text>
+                                              <MFXFilterComboBox fx:id="timeCombo" onAction="#validateNext" prefWidth="260.0" promptText="HH:MM" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                           </children>
                                       </VBox>
       
@@ -79,17 +89,7 @@
                                                       <Font size="25.0" />
                                                   </font>
                                               </Text>
-                                              <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="250.0" style="-fx-background-radius: 15; -fx-border-radius: 15;" />
-                                          </children>
-                                      </VBox>
-                                      <VBox spacing="10.0" HBox.hgrow="NEVER">
-                                          <children>
-                                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Time">
-                                                  <font>
-                                                      <Font size="25.0" />
-                                                  </font>
-                                              </Text>
-                                              <MFXFilterComboBox fx:id="timeCombo" onAction="#validateNext" prefWidth="150.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                              <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="MM/DD/YYYY" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-font-size: 18;" />
                                           </children>
                                       </VBox>
                                   </children>
@@ -109,17 +109,17 @@
                                                       <Font size="25.0" />
                                                   </font>
                                               </Text>
-                                              <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-background-radius: 15; -fx-border-radius: 15;" />
+                                              <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-min-height: 100;" />
                                           </children>
                                       </VBox>
                                       <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                           <children>
-                                              <MFXButton fx:id="clearButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clear" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Clear" textFill="#eebd28">
+                                              <MFXButton fx:id="clearButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clear" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Clear" textFill="#eebd28">
                                                   <font>
                                                       <Font name="System Bold" size="20.0" />
                                                   </font>
                                               </MFXButton>
-                                              <MFXButton fx:id="nextButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#next" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Next" textFill="#eebd28">
+                                              <MFXButton fx:id="nextButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#next" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Next" textFill="#eebd28">
                                                   <font>
                                                       <Font name="System Bold" size="20.0" />
                                                   </font>
@@ -144,14 +144,14 @@
                       </VBox>
                   </children>
               </StackPane>
-            <StackPane fx:id="cartDisplay">
+            <StackPane fx:id="cartDisplay" visible="false">
                <children>
                   <VBox StackPane.alignment="TOP_LEFT">
                      <padding>
                         <Insets left="50.0" top="50.0" />
                      </padding>
                      <children>
-                        <Text fx:id="title111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Cart View" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
+                        <Text fx:id="subtitle" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Item Selection" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
                            <font>
                               <Font name="Open Sans Bold" size="32.0" />
                            </font>
@@ -279,7 +279,7 @@
                   </VBox>
                </children>
             </StackPane>
-            <MFXGenericDialog fx:id="confirmationDialog">
+            <MFXGenericDialog fx:id="confirmationDialog" visible="false">
                <center>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service request submitted!" textAlignment="CENTER" BorderPane.alignment="CENTER">
                      <font>

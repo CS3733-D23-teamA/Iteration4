@@ -22,9 +22,9 @@
             <children>
                 <VBox>
                     <children>
-                        <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Furniture Delivery" wrappingWidth="355.73114013671875" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
+                        <Text fx:id="subtitle" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Furniture Delivery - Edit View" wrappingWidth="730.2362670898438" x="290.0" y="100.0" VBox.vgrow="ALWAYS">
                             <font>
-                                <Font name="Open Sans Bold" size="48.0" />
+                                <Font name="Open Sans Bold" size="32.0" />
                             </font>
                         </Text>
                     </children>
@@ -118,12 +118,7 @@
                                 </VBox>
                                 <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                     <children>
-                                        <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Cancel" textFill="#eebd28">
-                                            <font>
-                                                <Font name="System Bold" size="20.0" />
-                                            </font>
-                                        </MFXButton>
-                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Delete" textFill="#eebd28">
+                                        <MFXButton fx:id="deleteButton" defaultButton="true" mnemonicParsing="false" onAction="#delete" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" style="-fx-text-fill: bred;" styleClass="delete-mfx-button" text="Delete" textFill="#eebd28">
                                             <font>
                                                 <Font name="System Bold" size="20.0" />
                                             </font>
@@ -151,11 +146,22 @@
                         <Insets bottom="50.0" left="50.0" right="50.0" top="100.0" />
                     </StackPane.margin>
                 </VBox>
+                      <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Back" textFill="#eebd28" StackPane.alignment="TOP_LEFT">
+                          <font>
+                              <Font name="System Bold" size="20.0" />
+                          </font>
+               <StackPane.margin>
+                  <Insets left="100.0" top="150.0" />
+               </StackPane.margin>
+                      </MFXButton>
             </children>
         </StackPane>
     </center>
     <left>
         <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <fx:include source="ServiceRequestMenuBar.fxml" />
+            </content>
         </ScrollPane>
     </left>
 </BorderPane>

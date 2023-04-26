@@ -19,6 +19,8 @@ public class NavigationBarController {
 
   @FXML private MenuButton profileButton;
 
+  @FXML private Boolean isAdmin = AccountSingleton.isAdmin();
+
   @FXML
   public void initialize() {
     // get first and last initial for user and set label over profile avatar
@@ -37,6 +39,9 @@ public class NavigationBarController {
       case "SIGNAGE":
         signageButton.setStyle("-fx-background-color: #F0C747");
         break;
+      case "SIGNAGE_ADMIN":
+        signageButton.setStyle("-fx-background-color: #F0C747");
+        break;
       case "MAP_EDITOR":
         mapEditorButton.setStyle("-fx-background-color: #F0C747");
         break;
@@ -49,7 +54,7 @@ public class NavigationBarController {
     }
 
     // diables moves and map editor for non-admin
-    if (!AccountSingleton.isAdmin()) {
+    if (!isAdmin) {
       movesButton.setVisible(false);
       movesButton.setManaged(false);
       mapEditorButton.setVisible(false);
@@ -61,7 +66,7 @@ public class NavigationBarController {
     if (App.getPrimaryStage().getTitle().contains("REQUEST")) {
       serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
     } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
-      profileButton.setStyle("-fx-border-width: 3; -fx-border-color: #F0C747");
+      profileButton.setStyle("-fx-border-width: 5; -fx-border-color: #F0C747");
     }
   }
 
@@ -78,7 +83,11 @@ public class NavigationBarController {
   }
 
   public void openSignage() {
-    Navigation.navigate(Screen.SIGNAGE);
+    if (isAdmin) {
+      Navigation.navigate(Screen.SIGNAGE_ADMIN);
+    } else {
+      Navigation.navigate(Screen.SIGNAGE);
+    }
   }
 
   public void openMoves() {
@@ -99,7 +108,7 @@ public class NavigationBarController {
     Navigation.navigate(Screen.LOGIN);
   }
 
-  public void openAccount() {
+  public void openSettings() {
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 }

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -12,53 +15,155 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane style="-fx-background-color: #012D5A;" styleClass="borderpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AlertController">
+<BorderPane minHeight="700.0" style="-fx-background-color: #012D5A;" styleClass="borderpane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.HomeController">
    <stylesheets>
       <URL value="@stylesheets/home.css" />
       <URL value="@stylesheets/main.css" />
    </stylesheets>
-   <center>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <children>
-            <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Pane opacity="0.69" prefHeight="200.0" prefWidth="200.0" styleClass="background" />
-                  <AnchorPane>
-                     <children>
-                        <StackPane layoutX="-171.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
-                           <children>
-                              <VBox alignment="TOP_CENTER" opacity="0.5" style="-fx-background-color: #151515;" />
-                              <VBox alignment="TOP_CENTER">
-                                 <children>
-                                    <Text fill="#f1f1f1" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Brigham and Women’s Hospital!" textAlignment="CENTER" wrappingWidth="951.2483215332031" x="290.0">
-                                       <font>
-                                          <Font name="Georgia Bold" size="32.0" />
-                                       </font>
-                                       <effect>
-                                          <DropShadow />
-                                       </effect>
-                                       <VBox.margin>
-                                          <Insets top="50.0" />
-                                       </VBox.margin>
-                                    </Text>
-                                 </children>
-                              </VBox>
-                           </children>
-                        </StackPane>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </StackPane>
-            <!-- Add the VBox for alerts here -->
-            <VBox fx:id="alertsContainer" layoutX="50.0" layoutY="250.0" spacing="10.0">
-               <children>
-                  <!-- Alerts will be added here programmatically -->
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-   </center>
    <top>
       <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
    </top>
+   <center>
+      <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <Pane opacity="0.69" prefHeight="200.0" prefWidth="200.0" styleClass="background" />
+            <AnchorPane>
+               <children>
+                  <StackPane layoutX="-171.0" layoutY="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" opacity="0.5" style="-fx-background-color: #151515;" />
+                        <VBox alignment="TOP_CENTER">
+                           <children>
+                              <Text fill="#f1f1f1" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Brigham and Women’s Hospital!" textAlignment="CENTER" wrappingWidth="951.2483215332031" x="290.0">
+                                 <font>
+                                    <Font name="Georgia Bold" size="32.0" />
+                                 </font>
+                                 <effect>
+                                    <DropShadow />
+                                 </effect>
+                                 <VBox.margin>
+                                    <Insets top="50.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openAbout" StackPane.alignment="BOTTOM_RIGHT">
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                           <children>
+                              <ImageView fx:id="aboutButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openAbout">
+                                 <image>
+                                    <Image url="@../images/icons/help.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_LEFT" fillWidth="false" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openCredits" StackPane.alignment="BOTTOM_LEFT">
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </StackPane.margin>
+                           <children>
+                              <ImageView fx:id="creditButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openCredits">
+                                 <image>
+                                    <Image url="@../images/icons/info.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </AnchorPane>
+            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: bblue; -fx-background-radius: 20;" StackPane.alignment="BOTTOM_LEFT">
+               <children>
+                  <Label style="-fx-text-fill: bwhite;" text="Current Alerts:" />
+                  <VBox fx:id="alertsContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
+               </children>
+               <StackPane.margin>
+                  <Insets bottom="120.0" left="120.0" />
+               </StackPane.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <MFXGenericDialog fx:id="aboutDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
+               <center>
+                  <VBox spacing="20.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="TOP_CENTER">
+                           <VBox.margin>
+                              <Insets bottom="-10.0" top="-20.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="551.0" text="About Our Team" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Team Coach: Nini Acquista">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seth Frank - Lead Software Engineer">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Xiao Xiao - Asst Lead Software Engineer">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vincent Boothroyd - Asst Lead Software Engineer">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ayden Duncan - Project Manager">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ryan Suarez - Product Owner">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maryna Ilyanok - Documentation Analyst">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ashleigh Perez - Scrum Master">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Samra - Fulltime Software Engineer">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pooja Kawatkar - Fulltime Software Engineer">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                        <VBox alignment="BOTTOM_CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-fill: bblue;" text="Special thanks to Andrew Shinn for their time and input!" textAlignment="CENTER" wrappingWidth="474.4456787109375" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WPI Computer Science Department, CS3733-D23 Software Engineering, Prof.Wilson Wong" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </center></MFXGenericDialog>
+            <MFXGenericDialog fx:id="creditDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+               <center>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Credits" />
+                     </children>
+                  </VBox>
+               </center></MFXGenericDialog>
+         </children>
+      </StackPane>
+   </center>
 </BorderPane>
