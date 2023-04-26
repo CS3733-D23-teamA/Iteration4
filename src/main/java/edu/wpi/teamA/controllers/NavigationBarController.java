@@ -85,7 +85,7 @@ public class NavigationBarController {
         });
   }
 
-  // Are we running everything through intitalaze or onAction methods?
+  // Are we running everything through initialize or onAction methods?
   public void openServiceRequests() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
@@ -99,7 +99,11 @@ public class NavigationBarController {
   }
 
   public void openSignage() {
-    Navigation.navigate(Screen.SIGNAGE);
+    if (AccountSingleton.isAdmin()) {
+      Navigation.navigate(Screen.SIGNAGE_ADMIN);
+    } else {
+      Navigation.navigate(Screen.SIGNAGE);
+    }
   }
 
   public void openMoves() {
@@ -121,6 +125,6 @@ public class NavigationBarController {
   }
 
   public void openAccount() {
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNTSETTINGS);
   }
 }

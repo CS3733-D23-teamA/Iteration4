@@ -17,13 +17,16 @@ public enum Screen {
 
   MEAL_REQUEST("views/MealRequest.fxml"),
   MOVES("views/Moves.fxml"),
-  ACCOUNT("views/AccountSettings.fxml"),
+  ACCOUNTSETTINGS("views/AccountSettings.fxml"),
+  CHANGEPASSWORD("views/ChangePassword.fxml"),
+  UPDATENAME("views/UpdateName.fxml"),
   FLOWER_EDIT("views/FlowerEdit.fxml"),
   ROOM_EDIT("views/RoomEdit.fxml"),
   MEAL_EDIT("views/MealEdit.fxml"),
   FURNITURE_EDIT("views/FurnitureEdit.fxml"),
   EMPLOYEE_SETTINGS("views/EmployeeSettings.fxml"),
-  CALENDAR("views/RoomCalendar");
+  SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
+  CALENDAR("views/CRCalendar.fxml");
 
   private final String filename;
 
