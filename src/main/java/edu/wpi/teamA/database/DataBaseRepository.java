@@ -407,6 +407,12 @@ public class DataBaseRepository {
       String password1, String password2, String newPassword1, String newPassword2) {
     userDAOImp.updatePassword(password1, password2, newPassword1, newPassword2);
   }
+
+  public void updateName(
+      String oldFirstName, String oldLastName, String newFirstName, String newLastName) {
+    userDAOImp.updateName(oldFirstName, oldLastName, newFirstName, newLastName);
+  }
+
   // Employee related methods
 
   public HashMap<String, Employee> getEmployeeMap() {

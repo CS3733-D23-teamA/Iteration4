@@ -113,6 +113,48 @@ public class UserDAOImp {
     }
   }
 
+  public void updateName(
+      String oldFirstName, String oldLastName, String newFirstName, String newLastName) {
+    try {
+      PreparedStatement ps =
+          UserLoginProvider.createConnection()
+              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
+      ps.setString(1, AccountSingleton.INSTANCE.getValue().getUserName());
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String storedFirstName = rs.getString("firstName");
+        String storedLastName = rs.getString("lastName");
+        if (oldFirstName.equals(storedFirstName) && oldLastName.equals(storedLastName)) {
+
+          // Update the password in the database
+          PreparedStatement updatePs =
+              UserLoginProvider.createConnection()
+                  .prepareStatement(
+                      "UPDATE \"Teama_schema\".\"Users\" SET firstName = ? WHERE userName = ?");
+          updatePs.setString(1, newFirstName);
+          updatePs.setString(2, AccountSingleton.INSTANCE.getValue().getUserName());
+          updatePs.executeUpdate();
+
+          // Update the user object in AccountSingleton
+          User returnUser =
+              new User(
+                  rs.getInt("adminYes"),
+                  rs.getString("userName"),
+                  rs.getString("password"),
+                  rs.getString("firstName"),
+                  rs.getString("lastName"));
+          AccountSingleton.INSTANCE.setValue(returnUser);
+
+        } else {
+          System.out.println("Incorrect Password");
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   // Add the new user into the database
   // Also store the user into the array
   public void addUser(

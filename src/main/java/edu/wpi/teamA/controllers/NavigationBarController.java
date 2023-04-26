@@ -125,6 +125,6 @@ public class NavigationBarController {
   }
 
   public void openAccount() {
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNTSETTINGS);
   }
 }

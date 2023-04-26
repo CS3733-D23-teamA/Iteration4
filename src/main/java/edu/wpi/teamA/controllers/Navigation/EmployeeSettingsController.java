@@ -64,13 +64,13 @@ public class EmployeeSettingsController {
     Employee employee =
         new Employee(nameAddInput.getText(), userAddInput.getText(), passwordAddInput.getText());
     db.addEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNTSETTINGS);
   }
 
   public void removeEmployee() {
     Employee employee = db.getEmployee(chooseEmployeeRemove.getSelectedItem());
     db.removeEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNTSETTINGS);
   }
 
   public void modifyEmployee() {
@@ -78,7 +78,7 @@ public class EmployeeSettingsController {
     employee.setName(modifyNameInput.getText());
     employee.setPassword(modifyPassInput.getText());
     db.modifyEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT);
+    Navigation.navigate(Screen.ACCOUNTSETTINGS);
   }
 
   public void validateAdd() {
