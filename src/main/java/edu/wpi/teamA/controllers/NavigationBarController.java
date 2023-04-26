@@ -39,6 +39,9 @@ public class NavigationBarController {
       case "SIGNAGE":
         signageButton.setStyle("-fx-background-color: #F0C747");
         break;
+      case "SIGNAGE_ADMIN":
+        signageButton.setStyle("-fx-background-color: #F0C747");
+        break;
       case "MAP_EDITOR":
         mapEditorButton.setStyle("-fx-background-color: #F0C747");
         break;
@@ -63,7 +66,7 @@ public class NavigationBarController {
     if (App.getPrimaryStage().getTitle().contains("REQUEST")) {
       serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
     } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
-      profileButton.setStyle("-fx-border-width: 3; -fx-border-color: #F0C747");
+      profileButton.setStyle("-fx-border-width: 5; -fx-border-color: #F0C747");
     }
   }
 

@@ -32,14 +32,14 @@
                            <children>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
-                                    <MFXTextField fx:id="nameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                                    <MFXTextField fx:id="userAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                                    <MFXTextField fx:id="userAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                                    <MFXTextField fx:id="nameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
@@ -50,7 +50,7 @@
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="addButton" onAction="#addEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Add" />
+                                    <MFXButton fx:id="addButton" onAction="#addEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Add" />
                                  </children>
                               </HBox>
                            </children>
@@ -73,7 +73,7 @@
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="removeButton" onAction="#removeEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Remove" />
+                                    <MFXButton fx:id="removeButton" onAction="#removeEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-text-fill: bred; -fx-max-width: 100;" styleClass="delete-mfx-button" text="Remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -108,7 +108,7 @@
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="modifyButton" onAction="#modifyEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Modify" />
+                                    <MFXButton fx:id="modifyButton" onAction="#modifyEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Modify" />
                                  </children>
                               </HBox>
                            </children>
@@ -123,9 +123,9 @@
                         <Label text="Current Employees" />
                         <TableView fx:id="employeeTableView" prefHeight="400.0" prefWidth="1140.0">
                           <columns>
-                            <TableColumn fx:id="nameCol" minWidth="200.0" prefWidth="380.0" text="Name" />
-                            <TableColumn fx:id="userCol" minWidth="200.0" prefWidth="380.0" text="Username" />
-                              <TableColumn fx:id="passCol" minWidth="200.0" prefWidth="380.0" text="Password" />
+                            <TableColumn fx:id="userCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Username" />
+                            <TableColumn fx:id="nameCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Name" />
+                              <TableColumn fx:id="passCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Password" />
                           </columns>
                         </TableView>
                      </children>

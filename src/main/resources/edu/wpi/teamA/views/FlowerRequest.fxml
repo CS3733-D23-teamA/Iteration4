@@ -37,7 +37,7 @@
                         </Text>
                      </children>
                   </VBox>
-                  <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;">
+                  <VBox alignment="CENTER" minHeight="500.0" spacing="30.0" style="-fx-background-color: D9D9D9;" StackPane.alignment="TOP_CENTER">
                      <children>
                         <HBox maxWidth="1000.0" spacing="20.0">
                            <children>
@@ -53,7 +53,7 @@
                               </VBox>
                            </children>
                            <VBox.margin>
-                              <Insets />
+                              <Insets top="-50.0" />
                            </VBox.margin>
                            <padding>
                               <Insets left="50.0" />
@@ -78,7 +78,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="Time" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="HH:MM" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -88,7 +88,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="250.0" promptText="MM/DD/YYYY" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                    <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="MM/DD/YYYY" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                            </children>
@@ -108,7 +108,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" promptText="Additonal Comments" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15; -fx-min-height: 100;" />
+                                    <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15; -fx-min-height: 100;" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
