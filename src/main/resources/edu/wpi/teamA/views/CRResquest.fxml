@@ -28,7 +28,7 @@
          <children>
             <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="-Infinity" spacing="10.0">
                <children>
-                  <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Conference Room Booking" textAlignment="CENTER" wrappingWidth="1279.62939453125">
+                  <Text fx:id="title" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Conference Room Booking" textAlignment="CENTER">
                      <font>
                         <Font size="60.0" />
                      </font>
@@ -644,10 +644,13 @@
                   </HBox>
                </bottom>
             </MFXGenericDialog>
-            <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0">
+            <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <DatePicker fx:id="dp" onAction="#changeDate" />
                </children>
+               <StackPane.margin>
+                  <Insets right="50.0" top="50.0" />
+               </StackPane.margin>
             </HBox>
          </children>
         </StackPane>
