@@ -62,7 +62,12 @@ public class ConferenceRequestController extends PageController implements IServ
         || datePicker.getValue() == null
         || startCombo.getSelectedIndex() == -1
         || endCombo.getSelectedIndex() == -1
-        || roomCombo.getSelectedIndex() == -1) {
+        || roomCombo.getSelectedIndex() == -1
+        || checkAvailible(
+            Date.valueOf(datePicker.getValue()),
+            startCombo.getSelectionModel().getSelectedItem(),
+            endCombo.getSelectionModel().getSelectedItem(),
+            roomCombo.getSelectionModel().getSelectedItem())) {
       submitButton.setDisable(true);
     } else {
       try {
@@ -117,5 +122,44 @@ public class ConferenceRequestController extends PageController implements IServ
   public void closeConfirmation() {
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
+  }
+
+  public boolean checkAvailible(Date date, String st, String et, String room) {
+    boolean taken = false;
+    int startInt = convertTime(st);
+    int endInt = convertTime(et);
+    ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(date);
+    for (ConferenceRoomResRequest cr : rr) {
+      if (cr.getRoom().equals(room)) {
+        if ((startInt < cr.getStartTime() && endInt > cr.getStartTime())
+            || (startInt < cr.getEndTime() && endInt > cr.getEndTime())
+            || (startInt >= cr.getStartTime() && endInt <= cr.getEndTime())) {
+          taken = true;
+        }
+      }
+    }
+    if (startInt >= endInt) {
+      taken = true;
+    }
+    return taken;
+  }
+
+  public int convertTime(String time) {
+    int num;
+    String newString;
+    int length = time.length();
+    if (time.equals("00:00")) {
+      return 0;
+    } else if (length == 4) {
+      newString = time.charAt(0) + time.substring(2);
+    } else {
+      newString = time.substring(0, 2) + time.substring(3);
+    }
+    num = Integer.parseInt(newString);
+    return num;
+  }
+
+  public void cal() {
+    Navigation.navigate(Screen.CALENDAR);
   }
 }

@@ -4,7 +4,6 @@ import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
 import edu.wpi.teamA.database.Singletons.CRRRSingleton;
-import edu.wpi.teamA.database.Singletons.FlowerSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -20,10 +19,10 @@ public class RoomEditController extends PageController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML private MFXButton updateButton;
   @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox roomCombo;
+  @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox endCombo;
-  @FXML private MFXComboBox startCombo;
+  @FXML private MFXComboBox<String> endCombo;
+  @FXML private MFXComboBox<String> startCombo;
   @FXML private MFXTextField commentField;
 
   public void initialize() {
@@ -67,7 +66,13 @@ public class RoomEditController extends PageController {
 
   @FXML
   public void validateButton() {
-    if (nameField.getText().isEmpty() || datePicker.getValue() == null) {
+    if (nameField.getText().isEmpty()
+        || datePicker.getValue() == null
+        || checkAvailible(
+            Date.valueOf(datePicker.getValue()),
+            startCombo.getSelectionModel().getSelectedItem(),
+            endCombo.getSelectionModel().getSelectedItem(),
+            roomCombo.getSelectionModel().getSelectedItem())) {
       updateButton.setDisable(true);
     } else {
       updateButton.setDisable(false);
@@ -119,7 +124,27 @@ public class RoomEditController extends PageController {
   }
 
   public void delete() {
-    databaseRepo.deleteFlower(FlowerSingleton.INSTANCE.getValue());
+    databaseRepo.deleteCRRR(CRRRSingleton.INSTANCE.getValue());
     Navigation.navigate(Screen.SERVICE_REQUEST);
+  }
+
+  public boolean checkAvailible(Date date, String st, String et, String room) {
+    boolean taken = false;
+    int startInt = convertTime(st);
+    int endInt = convertTime(et);
+    ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(date);
+    for (ConferenceRoomResRequest cr : rr) {
+      if (cr.getRoom().equals(room)) {
+        if ((startInt < cr.getStartTime() && endInt > cr.getStartTime())
+            || (startInt < cr.getEndTime() && endInt > cr.getEndTime())
+            || (startInt >= cr.getStartTime() && endInt <= cr.getEndTime())) {
+          taken = true;
+        }
+      }
+    }
+    if (startInt >= endInt) {
+      taken = true;
+    }
+    return taken;
   }
 }
