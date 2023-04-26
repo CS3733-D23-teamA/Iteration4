@@ -30,7 +30,7 @@
                         <Insets left="50.0" top="50.0" />
                      </padding>
                      <children>
-                        <Text fx:id="title1111" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Flower Request - Info View" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
+                        <Text fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Flower Request - Delivery Information" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
                            <font>
                               <Font name="Open Sans Bold" size="32.0" />
                            </font>
@@ -48,7 +48,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateNext" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                    <MFXTextField fx:id="nameField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" onAction="#validateNext" onKeyReleased="#validateButton" prefHeight="55.0" prefWidth="400.0" promptText="Name" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                            </children>
@@ -68,7 +68,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    <MFXFilterComboBox fx:id="roomCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="Room" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -78,7 +78,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
+                                    <MFXFilterComboBox fx:id="timeCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="260.0" promptText="Time" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0" HBox.hgrow="NEVER">
@@ -88,7 +88,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="250.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
+                                    <DatePicker fx:id="datePicker" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateNext" prefHeight="55.0" prefWidth="250.0" promptText="MM/DD/YYYY" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
                            </children>
@@ -108,7 +108,7 @@
                                           <Font size="25.0" />
                                        </font>
                                     </Text>
-                                    <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15;" />
+                                    <MFXTextField fx:id="commentField" onKeyReleased="#validateButton" prefHeight="100.0" prefWidth="650.0" promptText="Additonal Comments" style="-fx-font-size: 18; -fx-background-radius: 15; -fx-background-radius: 15; -fx-min-height: 100;" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
@@ -181,7 +181,7 @@
                                     <MFXFilterComboBox fx:id="flowerQuantity" onAction="#validateAddFlower" prefWidth="100.0" style="-fx-font-size: 18;-fx-background-radius: 15; -fx-border-radius: 15;" styleClass="input-field" />
                                  </children>
                               </VBox>
-                              <MFXButton fx:id="addFlower" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addFlower" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Add" textFill="#eebd28">
+                              <MFXButton fx:id="addFlower" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addFlower" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Add" textFill="#eebd28">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
@@ -213,12 +213,12 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT" spacing="15.0" HBox.hgrow="NEVER">
                                  <children>
-                                    <MFXButton fx:id="backButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="hollow-styled-button" text="Back" textFill="#eebd28">
+                                    <MFXButton fx:id="backButton" defaultButton="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="100.0" rippleAnimateBackground="false" styleClass="clear-mfx-button" text="Back" textFill="#eebd28">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>
                                     </MFXButton>
-                                    <MFXButton fx:id="submitButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#submit" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28">
+                                    <MFXButton fx:id="submitButton" defaultButton="true" disable="true" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#submit" prefHeight="60.0" prefWidth="100.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="submit-mfx-button" text="Submit" textFill="#eebd28">
                                        <font>
                                           <Font name="System Bold" size="20.0" />
                                        </font>

@@ -33,6 +33,7 @@
 
 .mfx-text-field {
     -fx-background-radius: 15;
+    -fx-font-size: 18;
     -fx-border-radius: 15;
     -fx-pref-height: 55;
     -fx-background-color: #f1f1f1;
@@ -161,6 +162,13 @@
 #title {
     -fx-font-size: 32;
     -fx-font-family: "Georgia";
+    -fx-font-weight: bold;
+    -fx-text-fill: #012D5A;
+}
+
+#subtitle {
+    -fx-font-size: 32;
+    -fx-font-family: "Open Sans";
     -fx-font-weight: bold;
     -fx-text-fill: #012D5A;
 }
