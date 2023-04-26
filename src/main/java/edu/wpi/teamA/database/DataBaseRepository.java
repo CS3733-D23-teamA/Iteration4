@@ -2,6 +2,7 @@ package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,6 +20,7 @@ public class DataBaseRepository {
   private MealDAOImp mealDAOImp;
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
+  private SignageDAOImp signageDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
@@ -31,6 +33,7 @@ public class DataBaseRepository {
     mealDAOImp = new MealDAOImp();
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
+    signageDAOImp = new SignageDAOImp();
   }
 
   public static DataBaseRepository getInstance() {
@@ -150,6 +153,7 @@ public class DataBaseRepository {
   }
 
   // Move related methods
+
   public HashMap<Integer, LinkedList<Move>> getMoveMap() {
     return moveDAOImp.getMoveMap();
   }
@@ -307,6 +311,10 @@ public class DataBaseRepository {
     return crrrDAOImp.getNextID();
   }
 
+  public ArrayList<ConferenceRoomResRequest> filterDateCRRR(Date d) {
+    return crrrDAOImp.filterDate(d);
+  }
+
   // Furniture related methods
   public HashMap<Integer, FurnitureRequest> getFurnitureMap() {
     return furnitureDAOImp.getFurnitureMap();
@@ -409,6 +417,12 @@ public class DataBaseRepository {
       String password1, String password2, String newPassword1, String newPassword2) {
     userDAOImp.updatePassword(password1, password2, newPassword1, newPassword2);
   }
+
+  public void updateName(
+      String oldFirstName, String oldLastName, String newFirstName, String newLastName) {
+    userDAOImp.updateName(oldFirstName, oldLastName, newFirstName, newLastName);
+  }
+
   // Employee related methods
 
   public HashMap<String, Employee> getEmployeeMap() {
@@ -433,5 +447,29 @@ public class DataBaseRepository {
 
   public void removeEmployee(Employee employee) {
     employeeDAOImp.removeEmployee(employee);
+  }
+
+  public HashMap<String, SignageComponent> getSignageMap() {
+    return signageDAOImp.getSignageMap();
+  }
+
+  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+    return signageDAOImp.loadSignagesFromDatabaseInMap();
+  }
+
+  public SignageComponent getSignage(String signageID) {
+    return signageDAOImp.getSignage(signageID);
+  }
+
+  public void modifySignage(SignageComponent signage) {
+    signageDAOImp.modifySignage(signage);
+  }
+
+  public void addSignage(SignageComponent signage) {
+    signageDAOImp.addSignage(signage);
+  }
+
+  public void removeSignage(SignageComponent signage) {
+    signageDAOImp.removeSignage(signage);
   }
 }

@@ -40,7 +40,7 @@
                         </Label>
                         <StackPane prefHeight="150.0" prefWidth="200.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="280.0" stroke="#d9d9d9" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="20.0" width="400.0">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d9d9d9" height="310.0" stroke="#d9d9d9" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="20.0" width="400.0">
                                  <StackPane.margin>
                                     <Insets top="10.0" />
                                  </StackPane.margin></Rectangle>
@@ -53,12 +53,12 @@
                                                 <Font size="18.0" />
                                              </font>
                                              <VBox.margin>
-                                                <Insets top="-30.0" />
+                                                <Insets top="5.0" />
                                              </VBox.margin>
                                           </Label>
                                           <Label fx:id="loginMessageLabel" alignment="CENTER" style="-fx-text-fill: red;">
                                              <VBox.margin>
-                                                <Insets bottom="5.0" />
+                                                <Insets bottom="-10.0" top="-10.0" />
                                              </VBox.margin>
                                              <padding>
                                                 <Insets bottom="10.0" />
@@ -105,7 +105,7 @@
                                                 <Font name="Open Sans Bold" size="14.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" prefHeight="30.0" prefWidth="259.0" rippleColor="#bdbdbd" style="-fx-background-color: transparent; -fx-text-fill: #5A5A5A; -fx-font-weight: BOLD; -fx-font-size: 12;" text="Forgot Password?">
+                                          <MFXButton alignment="TOP_RIGHT" contentDisplay="TEXT_ONLY" prefHeight="30.0" prefWidth="259.0" rippleAnimateBackground="false" rippleAnimationSpeed="0.0" rippleBackgroundOpacity="0.0" rippleColor="BLACK" rippleRadius="0.0" rippleRadiusMultiplier="0.0" style="-fx-background-color: transparent; -fx-text-fill: #5A5A5A; -fx-font-weight: BOLD; -fx-font-size: 12;" text="Forgot Password?">
                                              <font>
                                                 <Font name="Open Sans Bold" size="14.0" />
                                              </font>
@@ -123,6 +123,9 @@
                            </children>
                         </StackPane>
                      </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </VBox>
                   <BorderPane HBox.hgrow="ALWAYS">
                      <center>

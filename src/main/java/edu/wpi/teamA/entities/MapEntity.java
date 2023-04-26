@@ -184,7 +184,11 @@ public class MapEntity {
 
   public LocationName getLocationName(int nodeID) {
     Move move = databaseRepo.getMoveForNode(nodeID);
-    return databaseRepo.getLocName(move.getLongName());
+    if (move != null) {
+      return databaseRepo.getLocName(move.getLongName());
+    } else {
+      return databaseRepo.getLocName("Empty Node");
+    }
   }
 
   public void determineAddAction(String level, Node node, LocationName locName, Move move) {
@@ -205,15 +209,23 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    databaseRepo.deleteLocName(
-        databaseRepo.getLocName(databaseRepo.getMoveForNode(nodeID).getLongName()));
-    databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
+    Move move = databaseRepo.getMoveForNode(nodeID);
+    if (move != null) {
+      databaseRepo.deleteLocName(databaseRepo.getLocName(move.getLongName()));
+      databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
+    }
     determineNodeMap(level).remove(nodeID);
   }
 
   public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
     databaseRepo.updateNode(node);
-    databaseRepo.updateLocName(locName);
+    String longname = locName.getLongName();
+    if (!longname.equals("Empty Node")) {
+      databaseRepo.updateLocName(locName);
+    } else {
+      databaseRepo.addLocName(locName);
+    }
+
     databaseRepo.addMove(move);
     determineNodeMap(level).put(node.getNodeID(), node);
   }
@@ -300,6 +312,13 @@ public class MapEntity {
         databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
       }
     }
+  }
+
+  public void submitNewMoves(Move move) {
+    databaseRepo.addMove(move);
+    //    if (!databaseRepo.getLocNameMap().containsKey(locationName.getLongName())) {
+    //      databaseRepo.addLocName(locationName);
+    //    }
   }
 
   public ArrayList<Node> loadAllNodes() {
@@ -412,5 +431,27 @@ public class MapEntity {
 
   public void setOrder(ArrayList<Integer> path) {
     levels.setOrder(floorsTravelledToWithRepeats(path));
+  }
+
+  public HashMap<Integer, Node> getNodeMap(Level level) {
+    HashMap<Integer, Node> nodeMap;
+    switch (level.toString()) {
+      case "L1":
+        nodeMap = levelL1NodeMap;
+        break;
+      case "L2":
+        nodeMap = levelL2NodeMap;
+        break;
+      case "1":
+        nodeMap = level1NodeMap;
+        break;
+      case "2":
+        nodeMap = level2NodeMap;
+        break;
+      default:
+        nodeMap = level3NodeMap;
+        break;
+    }
+    return nodeMap;
   }
 }
