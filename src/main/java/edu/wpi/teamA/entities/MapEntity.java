@@ -326,7 +326,12 @@ public class MapEntity {
   }
 
   public String getLongName(int id) {
-    return databaseRepo.getMoveForNode(id).getLongName();
+    Move move = databaseRepo.getMoveForNode(id);
+    if (move != null) {
+      return move.getLongName();
+    } else {
+      return "Empty Node";
+    }
   }
 
   // sets up the hashmap linking long names to nodeIDs
@@ -337,7 +342,9 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // puts name and ID into name map
-      nameMap.put(getLongName(id), id);
+      if (!getLongName(id).equals("Empty Node")) {
+        nameMap.put(getLongName(id), id);
+      }
     }
   }
 

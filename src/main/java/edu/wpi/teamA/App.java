@@ -27,7 +27,7 @@ public class App extends Application {
 
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
-  @Setter @Getter private static LocalDate currentDate;
+  @Setter @Getter private static LocalDate currentDate = LocalDate.now();
 
   // map entities + images
 
@@ -57,6 +57,7 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    // currentDate = LocalDate.now();
     databaseRepo.createNodeTable();
     databaseRepo.createEdgeTable();
     databaseRepo.createLocNameTable();
@@ -67,8 +68,6 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException, IncorrectLengthException {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
-
-    App.currentDate = LocalDate.now();
 
     final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/Root.fxml"));
     final BorderPane root = loader.load();
