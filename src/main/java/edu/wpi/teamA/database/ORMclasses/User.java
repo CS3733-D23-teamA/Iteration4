@@ -5,15 +5,15 @@ import lombok.Setter;
 
 public class User {
 
-  @Getter @Setter private int accessLevel;
+  @Getter @Setter int accessLevel;
 
-  @Getter @Setter private String userName;
+  @Getter @Setter String userName;
 
-  @Getter @Setter private String password;
+  @Getter @Setter String password;
 
-  @Getter @Setter private String firstName;
+  @Getter @Setter String firstName;
 
-  @Getter @Setter private String lastName;
+  @Getter @Setter String lastName;
 
   public User(int adminYes, String userName, String password, String firstName, String lastName) {
     this.accessLevel = adminYes;
