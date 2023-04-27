@@ -58,6 +58,9 @@ public class SettingsMenuBarController {
   public void openAddUser() {
     Navigation.navigate(Screen.ADD_USER);
   }
+  public void openSetLocation(){
+    Navigation.navigate(Screen.SET_LOCATION);
+  }
 
   public void logout() {
     User loggedOut = new User(2, "N", "N", "N", "N");

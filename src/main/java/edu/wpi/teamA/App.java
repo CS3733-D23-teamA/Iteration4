@@ -4,6 +4,7 @@ import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.entities.LevelEntity;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
@@ -24,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App extends Application {
-
+  @Setter @Getter private LocationName currLocation;
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
   @Setter @Getter private static LocalDate currentDate = LocalDate.now();
