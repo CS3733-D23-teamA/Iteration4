@@ -1,4 +1,3 @@
 package edu.wpi.teamA.database.ORMclasses;
 
-public class Alter {
-}
+public class Alert {}
