@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
@@ -66,46 +67,6 @@
                   </MFXButton>
                </children>
             </VBox>
-            <MFXGenericDialog fx:id="impExpDialog" translateX="320.0" visible="false">
-               <center>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="24.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <MFXButton fx:id="MoveButton" onAction="#MoveImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Move" textFill="#012d5a">
-                           <font>
-                              <Font name="Open Sans Regular" size="32.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </MFXButton>
-                        <MFXButton fx:id="NodeButton" layoutX="10.0" layoutY="10.0" onAction="#NodeImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Node" textFill="#012d5a">
-                           <font>
-                              <Font name="Open Sans Regular" size="32.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </MFXButton>
-                        <MFXButton fx:id="LocationButton" layoutX="10.0" layoutY="76.0" onAction="#LocationImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Location" textFill="#012d5a">
-                           <font>
-                              <Font name="Open Sans Regular" size="32.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </MFXButton>
-                        <MFXButton fx:id="EdgeButton" layoutX="10.0" layoutY="76.0" onAction="#EdgeImpExp" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #98AABC;" text="Edge" textFill="#012d5a">
-                           <font>
-                              <Font name="Open Sans Regular" size="32.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </MFXButton>
-                     </children>
-                  </VBox>
-               </center>
-            </MFXGenericDialog>
             <HBox fx:id="alignmentHBox" prefHeight="100.0" prefWidth="200.0" translateY="430.0">
                <children>
                   <MFXButton fx:id="hAlignmentButton" onAction="#horizontalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Horizontal Alignment" textFill="#012d5a">
@@ -215,7 +176,7 @@
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Moving" wrappingWidth="150.0" GridPane.rowIndex="1">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Moving" wrappingWidth="150.0" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -246,16 +207,7 @@
                                     <Text fx:id="moveToText" strokeType="OUTSIDE" strokeWidth="0.0" />
                                  </children>
                               </VBox>
-                              <VBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <children>
-                                    <MFXButton fx:id="chooseNodeMoving" defaultButton="true" mnemonicParsing="false" onAction="#chooseNodeMoving" prefHeight="58.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Choose Node" textFill="#eebd28">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <Text fx:id="nodeMovingText" strokeType="OUTSIDE" strokeWidth="0.0" />
-                                 </children>
-                              </VBox>
+                              <MFXFilterComboBox fx:id="locationMoving" onAction="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -334,16 +286,6 @@
                                  </font>
                               </MFXButton>
                               <MFXButton fx:id="addMove" onAction="#clickAddMove" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Add Move" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="ImportButton" onAction="#importFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Import" textFill="#012d5a">
-                                 <font>
-                                    <Font name="Open Sans ExtraBold" size="28.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="ExportButton" onAction="#exportFile" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Export" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>

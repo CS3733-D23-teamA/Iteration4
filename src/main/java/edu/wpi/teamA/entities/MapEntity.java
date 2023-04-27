@@ -248,6 +248,14 @@ public class MapEntity {
     return false;
   }
 
+  public ArrayList<String> getAllLongNames() {
+    ArrayList<String> locNames = new ArrayList<>();
+    for (Map.Entry<String, LocationName> entry : databaseRepo.getLocNameMap().entrySet()) {
+      locNames.add(entry.getKey());
+    }
+    return locNames;
+  }
+
   public boolean determineLongNameExists(String longName) {
     if (databaseRepo.getLocName(longName) == null) {
       return false;

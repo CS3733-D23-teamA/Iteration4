@@ -37,7 +37,7 @@ public class MapEditorController {
   @FXML private GesturePane mapGesturePane;
   @FXML private VBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
-  @FXML private MFXGenericDialog impExpDialog;
+
   @FXML private MFXGenericDialog movesInputDialog;
 
   @FXML private StackPane mapStackPane = new StackPane(mapImageView, topPane);
@@ -51,7 +51,7 @@ public class MapEditorController {
   @FXML private Image mapImage = App.getMapL1();
   private String level = "L1";
 
-  // buttosn and toggles
+  // buttons and toggles
   @FXML private MFXButton modifyEdgeButton;
   @FXML private MFXToggleButton locationNameToggle;
 
@@ -80,7 +80,7 @@ public class MapEditorController {
   @FXML private DatePicker movesDateForMove;
   @FXML private MFXButton movesSubmitButton;
   @FXML private Text moveToText;
-  @FXML private Text nodeMovingText;
+  @FXML private MFXFilterComboBox<String> locationMoving;
 
   // alignment variables
   private boolean alignNodesClicked;
@@ -97,10 +97,6 @@ public class MapEditorController {
   private boolean secondNodeClicked;
   // private boolean addMoveClicked;
   private boolean moveNodeMoveToBool;
-  private boolean moveNodeMovingBool;
-
-  // booleans to determine importing or exporting
-  private boolean imported = false;
 
   // variables for storing important data
   private int currentNodeID;
@@ -109,7 +105,6 @@ public class MapEditorController {
   private Circle currentPositionClicked;
   private Node firstNode;
   private Node moveNodeMoveTo;
-  private Node moveNodeMoving;
 
   /** Used to initialize the screen and inputs */
   public void initialize() {
@@ -151,11 +146,6 @@ public class MapEditorController {
         event -> {
           clearDialogBoxes();
         });
-    impExpDialog.setOnClose(
-        event -> {
-          clearDialogBoxes();
-          imported = false;
-        });
     movesInputDialog.setOnClose(
         event -> {
           clearDialogBoxes();
@@ -170,11 +160,7 @@ public class MapEditorController {
             "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV", "STAI");
 
     // set up moves input dialog
-    //    movesNodeTypeCombo
-    //        .getItems()
-    //        .addAll(
-    //            "CONF", "DEPT", "ELEV", "EXIT", "HALL", "INFO", "LABS", "REST", "RETL", "SERV",
-    // "STAI");
+    locationMoving.getItems().addAll(entity.getAllLongNames());
   }
 
   /**
@@ -395,18 +381,6 @@ public class MapEditorController {
       moveNodeMoveToBool = false;
       validateMovesInputSubmit();
     }
-
-    if (moveNodeMovingBool) {
-      moveNodeMoving = entity.getNodeInfo(nodeID);
-      circle.setOnMouseEntered(null);
-      circle.setOnMouseExited(null);
-      circle.setFill(Color.web("0xf74c4c"));
-      XYCoords[0] = (int) circle.getCenterX();
-      XYCoords[1] = (int) circle.getCenterY();
-      nodeMovingText.setText(nodeID.toString());
-      moveNodeMovingBool = false;
-      validateMovesInputSubmit();
-    }
   }
 
   /** Sets up screen for the user to remove a node */
@@ -464,8 +438,6 @@ public class MapEditorController {
     inputDialog.setVisible(false);
     movesInputDialog.setDisable(true);
     movesInputDialog.setVisible(false);
-    impExpDialog.setDisable(true);
-    impExpDialog.setVisible(false);
 
     removeNodeClicked = false;
     modifyNodeClicked = false;
@@ -543,9 +515,8 @@ public class MapEditorController {
     buildingField.getSelectionModel().clearSelection();
     nodeTypeField.getSelectionModel().clearSelection();
 
-    nodeMovingText.setText("");
     moveToText.setText("");
-    //    movesNodeTypeCombo.getSelectionModel().clearSelection();
+    locationMoving.getSelectionModel().clearSelection();
     movesDateForMove.setValue(null);
     movesSubmitButton.setDisable(true);
     shutDownAllDialogBoxes();
@@ -603,21 +574,6 @@ public class MapEditorController {
         });
   }
 
-  /**
-   * once import button is clicked, sets import boolean to true and pops up options of what the user
-   * wants to import to the database
-   */
-  @FXML
-  public void importFile() {
-    imported = true;
-    impExpDialog.setVisible(true);
-    impExpDialog.setDisable(false);
-  }
-
-  /*@FXML private HBox alignmentHBox;
-  @FXML private MFXButton hAlignmentButton;
-  @FXML private MFXButton vAlignmentButton;*/
-
   @FXML
   public void clickAlignNodesButton() {
     if (AlignNodesButton.getText().equals("Align Nodes")) {
@@ -671,44 +627,6 @@ public class MapEditorController {
     alignmentHBox.setVisible(false);
   }
 
-  /**
-   * once export button is clicked, sets export boolean to true and pops up options of what the user
-   * wants to export to their computer
-   */
-  @FXML
-  public void exportFile() {
-    imported = false;
-    clearDialogBoxes();
-  }
-
-  @FXML
-  public void MoveImpExp() {
-    entity.importExport(imported, "Move");
-
-    clearDialogBoxes();
-  }
-
-  @FXML
-  public void NodeImpExp() {
-    entity.importExport(imported, "Node");
-
-    clearDialogBoxes();
-  }
-
-  @FXML
-  public void LocationImpExp() {
-    entity.importExport(imported, "LocationName");
-
-    clearDialogBoxes();
-  }
-
-  @FXML
-  public void EdgeImpExp() {
-    entity.importExport(imported, "Edge");
-
-    clearDialogBoxes();
-  }
-
   @FXML
   public void clickAddMove() {
     movesInputDialog.setVisible(true);
@@ -721,13 +639,12 @@ public class MapEditorController {
     alignNodesClicked = false;
 
     moveToText.setText("");
-    nodeMovingText.setText("");
   }
 
   @FXML
   public void validateMovesInputSubmit() {
     if (moveToText.getText().isEmpty()
-        || nodeMovingText.getText().isEmpty()
+        || locationMoving.getSelectedItem().isEmpty()
         || movesDateForMove.getValue() == null) {
       movesSubmitButton.setDisable(true);
     } else {
@@ -738,7 +655,7 @@ public class MapEditorController {
   @FXML
   public void movesSubmit() {
     int nodeID = moveNodeMoveTo.getNodeID();
-    String longName = entity.getLongName(moveNodeMoving.getNodeID());
+    String longName = locationMoving.getSelectedItem();
     LocalDate localDate = movesDateForMove.getValue();
 
     Move move = new Move(nodeID, longName, localDate);
@@ -752,10 +669,5 @@ public class MapEditorController {
   @FXML
   public void chooseMoveToNode() {
     moveNodeMoveToBool = true;
-  }
-
-  @FXML
-  public void chooseNodeMoving() {
-    moveNodeMovingBool = true;
   }
 }
