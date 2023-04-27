@@ -237,7 +237,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
 
     for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
-      if (entry.getValue().getEmployee().equals(username)) {
+      if (entry.getValue().getEmployee().equals(username) && !entry.getValue().getStatus().equals("done")) {
         meals.add(entry.getValue());
       }
     }
@@ -250,7 +250,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     ArrayList<Meal> meals = new ArrayList<>();
 
     for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
-      if (entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username) && !entry.getValue().getStatus().equals("done")) {
         meals.add(entry.getValue());
       }
     }

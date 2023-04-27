@@ -235,7 +235,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getEmployee().equals(username)) {
+      if (entry.getValue().getEmployee().equals(username) && !entry.getValue().getStatus().equals("done")) {
         flowers.add(entry.getValue());
       }
     }
@@ -248,7 +248,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username) && !entry.getValue().getStatus().equals("done")) {
         flowers.add(entry.getValue());
       }
     }
