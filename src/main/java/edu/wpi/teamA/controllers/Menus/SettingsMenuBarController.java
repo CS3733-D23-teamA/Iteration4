@@ -16,6 +16,7 @@ public class SettingsMenuBarController {
   @FXML private MFXButton employeeSettingsButton;
   @FXML public VBox AccountSettingsDropdown;
   @FXML private MFXButton importExportButton;
+  @FXML private MFXButton addUserButton;
 
   @FXML
   public void initialize() {
@@ -24,6 +25,8 @@ public class SettingsMenuBarController {
       employeeSettingsButton.setManaged(false);
       importExportButton.setVisible(false);
       importExportButton.setManaged(false);
+      addUserButton.setVisible(false);
+      addUserButton.setManaged(false);
     }
 
     AccountSettingsDropdown.setVisible(false);
@@ -50,6 +53,10 @@ public class SettingsMenuBarController {
 
   public void openImportExport() {
     Navigation.navigate(Screen.IMPORT_EXPORT_SETTINGS);
+  }
+
+  public void openAddUser() {
+    Navigation.navigate(Screen.ADD_USER);
   }
 
   public void logout() {

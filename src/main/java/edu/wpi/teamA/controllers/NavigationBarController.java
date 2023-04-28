@@ -8,9 +8,11 @@ import edu.wpi.teamA.navigation.Screen;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.ImageView;
 
 public class NavigationBarController {
 
+  @FXML private ImageView homeIcon;
   @FXML private Button serviceRequestsButton;
   @FXML private Button pathfindingButton;
   @FXML private Button signageButton;
@@ -23,11 +25,21 @@ public class NavigationBarController {
 
   @FXML
   public void initialize() {
+    // diables moves and map editor for non-admin
+    if (!isAdmin) {
+      movesButton.setVisible(false);
+      movesButton.setManaged(false);
+      mapEditorButton.setVisible(false);
+      mapEditorButton.setManaged(false);
+    }
+
     // get first and last initial for user and set label over profile avatar
     char a = AccountSingleton.INSTANCE.getValue().getFirstName().charAt(0);
     char b = AccountSingleton.INSTANCE.getValue().getLastName().charAt(0);
     profileButton.setText(new StringBuilder().append(a).append(b).toString());
     // sets isAdmin to true if admin value is set to 1 in singleton
+
+    homeIcon.setImage(App.getHomeWhite());
 
     switch (App.getPrimaryStage().getTitle()) {
       case "SERVICE_REQUEST":
@@ -48,17 +60,12 @@ public class NavigationBarController {
       case "MOVES":
         movesButton.setStyle("-fx-background-color: #F0C747");
         break;
+      case "HOME":
+        homeIcon.setImage(App.getHomeYello());
+        break;
       default:
         setPageIndicator();
         break;
-    }
-
-    // diables moves and map editor for non-admin
-    if (!isAdmin) {
-      movesButton.setVisible(false);
-      movesButton.setManaged(false);
-      mapEditorButton.setVisible(false);
-      mapEditorButton.setManaged(false);
     }
   }
 
@@ -100,6 +107,18 @@ public class NavigationBarController {
 
   public void goHome() {
     Navigation.navigate(Screen.HOME);
+  }
+
+  public void homeHover() {
+    if (!App.getPrimaryStage().getTitle().equals("HOME")) {
+      homeIcon.setImage(App.getHomeYello());
+    }
+  }
+
+  public void homeUnhover() {
+    if (!App.getPrimaryStage().getTitle().equals("HOME")) {
+      homeIcon.setImage(App.getHomeWhite());
+    }
   }
 
   public void logout() {

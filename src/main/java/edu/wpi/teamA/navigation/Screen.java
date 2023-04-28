@@ -21,7 +21,8 @@ public enum Screen {
   CHANGE_PASSWORD_SETTINGS("views/ChangePassword.fxml"),
   UPDATE_NAME_SETTINGS("views/UpdateName.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
-  IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml");
+  IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
+  ADD_USER("views/AddUser.fxml");
 
   private final String filename;
 

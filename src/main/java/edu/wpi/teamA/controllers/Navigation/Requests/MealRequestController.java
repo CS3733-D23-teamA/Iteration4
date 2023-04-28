@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Meal;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
@@ -20,7 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 
-public class MealRequestController extends PageController implements IServiceController {
+public class MealRequestController implements IServiceController {
   @FXML private StackPane infoDisplay;
   @FXML private StackPane cartDisplay;
 

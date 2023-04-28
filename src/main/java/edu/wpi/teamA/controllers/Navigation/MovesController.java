@@ -15,7 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class MovesController extends PageController {
+public class MovesController {
 
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 

@@ -1,6 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation.Requests;
 
-import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.database.Singletons.FurnitureSingleton;
@@ -15,7 +14,7 @@ import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 
-public class FurnitureEditController extends PageController {
+public class FurnitureEditController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML private MFXButton updateButton;
   @FXML private MFXTextField nameField;
