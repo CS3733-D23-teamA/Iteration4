@@ -21,26 +21,24 @@ import net.kurobako.gesturefx.GesturePane;
 public class MapEntity {
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
-  @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level1NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level1NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<>();
 
-  @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level1EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level1EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<>();
 
   // List of all nodes
-  private ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
+  private final ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
   private HashMap<String, Integer> nameMap;
-  private LevelEntity levels = App.getLevelEntity();
+  private final LevelEntity levels = App.getLevelEntity();
 
-  /**
-   * Loads all the node maps for each floor
-   */
+  /** Loads all the node maps for each floor */
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
@@ -58,9 +56,7 @@ public class MapEntity {
     }
   }
 
-  /**
-   * Loads all the edge maps for each floor
-   */
+  /** Loads all the edge maps for each floor */
   public void loadFloorEdges() {
     for (Map.Entry<String, Edge> entry : databaseRepo.getEdgeMap().entrySet()) {
       Edge edge = entry.getValue();
@@ -82,6 +78,7 @@ public class MapEntity {
 
   /**
    * Determines which edge map to use
+   *
    * @param level floor level
    * @return the edge map we want to use
    */
@@ -103,6 +100,7 @@ public class MapEntity {
 
   /**
    * Determines which node map we want
+   *
    * @param level floor level
    * @return the node map for that floor
    */
@@ -124,6 +122,7 @@ public class MapEntity {
 
   /**
    * Adds a temporary circle to show where the user clicked
+   *
    * @param X center X for circle
    * @param Y center Y for cicle
    * @return the circle to display
@@ -140,6 +139,7 @@ public class MapEntity {
 
   /**
    * Makes a new circle to represent the node
+   *
    * @param mapGesturePane gesture pane to place the circle on
    * @param node node to make a circle for
    * @return the circle to display
@@ -170,6 +170,7 @@ public class MapEntity {
 
   /**
    * Determines the action for when you drag release a circle
+   *
    * @param circle the circle you're performing on
    * @param node the node the circle represents
    * @param mapGesturePane the gesture pane the circle is on
@@ -191,6 +192,7 @@ public class MapEntity {
 
   /**
    * Adds the text onto the map display
+   *
    * @param node node you're adding text too
    * @param second whether we are displaying the first or second name on the node
    * @return the text object to display
@@ -209,6 +211,7 @@ public class MapEntity {
 
   /**
    * Adds a line to represent an edge
+   *
    * @param startNodeID start node for edge
    * @param endNodeID end node for edge
    * @return the line object
@@ -230,6 +233,7 @@ public class MapEntity {
 
   /**
    * Node getter
+   *
    * @param nodeID node to get
    * @return the node
    */
@@ -239,6 +243,7 @@ public class MapEntity {
 
   /**
    * Location name getter for node
+   *
    * @param nodeID node to get
    * @param second whether to get first or second name associated to the node
    * @return the LocationName object
@@ -260,6 +265,7 @@ public class MapEntity {
 
   /**
    * Number of locations on a node
+   *
    * @param nodeID the node to check
    * @return number of locations on a node
    */
@@ -279,6 +285,7 @@ public class MapEntity {
 
   /**
    * Gets data needed to add a new node
+   *
    * @param level current level
    * @param node node to add
    * @param locName location name to add
@@ -296,6 +303,7 @@ public class MapEntity {
 
   /**
    * Gets data to remove a node
+   *
    * @param nodeID node ID to remove
    * @param level level it's on
    */
@@ -317,7 +325,7 @@ public class MapEntity {
 
   /**
    * Gets data to modify a node
-   * @param level level to modify
+   *
    * @param node node to modify
    * @param locName location name to modify
    */
@@ -329,11 +337,16 @@ public class MapEntity {
     } else {
       databaseRepo.addLocName(locName);
     }
-    determineNodeMap(level).put(node.getNodeID(), node);
+    determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
+
+    if (!node.getFloor().equals(level)) {
+      determineNodeMap(level).remove(node.getNodeID());
+    }
   }
 
   /**
    * Gets data to modify an edge
+   *
    * @param firstNode start node to add edge
    * @param secondNode end node to add edge
    * @param level level to add on
@@ -359,6 +372,7 @@ public class MapEntity {
 
   /**
    * Gets all the long names
+   *
    * @return arraylist of long names
    */
   public ArrayList<String> getAllLongNames() {
@@ -371,6 +385,7 @@ public class MapEntity {
 
   /**
    * Determines if the long name exists in the database
+   *
    * @param longName the longname to check
    * @return true if there, else false
    */
@@ -380,6 +395,7 @@ public class MapEntity {
 
   /**
    * Determines horizontal node alignment
+   *
    * @param nodesToAlign nodes you want to align
    * @return the first node
    */
@@ -389,16 +405,17 @@ public class MapEntity {
       node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
 
       determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
-      if(!getLocationName(node.getNodeID(), false).equals(getLocationName(node.getNodeID(), true))) {
+      if (!getLocationName(node.getNodeID(), false)
+          .equals(getLocationName(node.getNodeID(), true))) {
         determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
       }
-
     }
     return firstNode;
   }
 
   /**
    * Determines vertical node alignment
+   *
    * @param nodesToAlign nodes you want to align
    * @return the first node
    */
@@ -408,7 +425,8 @@ public class MapEntity {
       node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
 
       determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
-      if(!getLocationName(node.getNodeID(), false).equals(getLocationName(node.getNodeID(), true))) {
+      if (!getLocationName(node.getNodeID(), false)
+          .equals(getLocationName(node.getNodeID(), true))) {
         determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
       }
     }
@@ -417,6 +435,7 @@ public class MapEntity {
 
   /**
    * Adds a new move in the database
+   *
    * @param move move to add
    */
   public void submitNewMoves(Move move) {
@@ -425,6 +444,7 @@ public class MapEntity {
 
   /**
    * Checks if the add move is valid
+   *
    * @param nodeID nodeID to add
    * @param longName longname to add
    * @param localDate localDate to add

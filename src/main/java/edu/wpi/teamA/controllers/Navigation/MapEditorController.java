@@ -131,13 +131,11 @@ public class MapEditorController {
     // set up dialog box visiblity
     clearDialogBoxes();
 
-    inputDialog.setOnClose(
-        event -> clearDialogBoxes());
-    movesInputDialog.setOnClose(
-        event -> clearDialogBoxes());
+    inputDialog.setOnClose(event -> clearDialogBoxes());
+    movesInputDialog.setOnClose(event -> clearDialogBoxes());
 
     // set up input grid
-    floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
+    floorField.getItems().addAll("L1", "L2", "1", "2", "3");
     buildingField.getItems().addAll("15 Francis", "45 Francis", "BTM", "Shapiro", "Tower");
     nodeTypeField
         .getItems()
@@ -310,7 +308,7 @@ public class MapEditorController {
     currentNodeID = nodeID;
     currentCircle = circle;
 
-    //for if removing a node
+    // for if removing a node
     if (removeNodeClicked) {
       entity.determineRemoveAction(nodeID, level);
       circle.setDisable(true);
@@ -322,7 +320,7 @@ public class MapEditorController {
       displayNodeData(entity.determineNodeMap(level));
     }
 
-    //for if modifying a node
+    // for if modifying a node
     if (modifyNodeClicked) {
       popUpInputDialogBox();
 
@@ -338,7 +336,7 @@ public class MapEditorController {
       mouseClickForNewLocation();
     }
 
-    //for if modifying edges
+    // for if modifying edges
     if (modifyEdgeClicked) {
       // click another node
       secondNodeClicked = true;
@@ -347,7 +345,7 @@ public class MapEditorController {
       modifyEdgeButton.setText("Stop Modify Edge");
     }
 
-    //for when adding or removing edges from a node
+    // for when adding or removing edges from a node
     if (secondNodeClicked) {
       if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
         // add a line for the new edge
@@ -364,7 +362,7 @@ public class MapEditorController {
       nodesToAlign.add(entity.getNodeInfo(nodeID));
     }
 
-    //for when choosing a node to move to when adding a move
+    // for when choosing a node to move to when adding a move
     if (moveNodeMoveToBool) {
       moveNodeMoveTo = entity.getNodeInfo(nodeID);
       circle.setOnMouseEntered(null);
@@ -398,9 +396,7 @@ public class MapEditorController {
     alignNodesClicked = false;
   }
 
-  /**
-   * Sets up the screen for the user to modify an edge
-   */
+  /** Sets up the screen for the user to modify an edge */
   @FXML
   public void modifyEdge() {
     if (modifyEdgeButton.getText().equals("Modify Edge")) {
@@ -423,7 +419,7 @@ public class MapEditorController {
     inputDialog.setDisable(false);
   }
 
-  /** Hides all dialog boxes*/
+  /** Hides all dialog boxes */
   private void shutDownAllDialogBoxes() {
     if (currentPositionClicked != null) {
       topPane.getChildren().remove(currentPositionClicked);
@@ -482,8 +478,10 @@ public class MapEditorController {
     } else {
       longNameField.setBorder(Border.stroke(Color.web("0x000000")));
     }
-    submitButton.setDisable(longNameField.getText().isEmpty()
-            || (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
+    submitButton.setDisable(
+        longNameField.getText().isEmpty()
+            || (entity.determineLongNameExists(longNameField.getText())
+                && !longNameField.isDisable())
             || shortNameField.getText().isEmpty()
             || floorField.getSelectedIndex() == -1
             || buildingField.getSelectedIndex() == -1
@@ -512,9 +510,7 @@ public class MapEditorController {
     shutDownAllDialogBoxes();
   }
 
-  /**
-   * Submits the data in the input dialog depending on if it's modifying or adding
-   */
+  /** Submits the data in the input dialog depending on if it's modifying or adding */
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
@@ -546,27 +542,25 @@ public class MapEditorController {
   private void mouseClickForNewLocation() {
     currentPositionClicked = null;
     topPane.setOnMouseClicked(
-            event -> {
-              if (currentPositionClicked != null) {
-                topPane.getChildren().remove(currentPositionClicked);
-              }
-              double X = event.getX();
-              double Y = event.getY();
-              XYCoords = new int[2];
-              XYCoords[0] = (int) (X);
-              XYCoords[1] = (int) (Y);
-              // new red circle indicating new location
+        event -> {
+          if (currentPositionClicked != null) {
+            topPane.getChildren().remove(currentPositionClicked);
+          }
+          double X = event.getX();
+          double Y = event.getY();
+          XYCoords = new int[2];
+          XYCoords[0] = (int) (X);
+          XYCoords[1] = (int) (Y);
+          // new red circle indicating new location
 
-              Circle circle = entity.addTempCircle(X, Y);
-              topPane.getChildren().add(circle);
-              currentPositionClicked = circle;
-              validateInputSubmit();
-            });
+          Circle circle = entity.addTempCircle(X, Y);
+          topPane.getChildren().add(circle);
+          currentPositionClicked = circle;
+          validateInputSubmit();
+        });
   }
 
-  /**
-   * Sets up the screen for the user to align nodes
-   */
+  /** Sets up the screen for the user to align nodes */
   @FXML
   public void clickAlignNodesButton() {
     if (AlignNodesButton.getText().equals("Align Nodes")) {
@@ -582,15 +576,13 @@ public class MapEditorController {
       stopAlignment = true;
       AlignNodesButton.setText("Align Nodes");
       if (horizontal) {
-        Node node =
-            entity.determineHorizontalNodeAlignment(nodesToAlign);
+        Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
         topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
 
       } else if (vertical) {
-        Node node =
-            entity.determineVerticalNodeAlignment(nodesToAlign);
+        Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
         topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
@@ -598,9 +590,7 @@ public class MapEditorController {
     }
   }
 
-  /**
-   * Sets up the screen for horizontal alignment
-   */
+  /** Sets up the screen for horizontal alignment */
   @FXML
   public void horizontalNodeAlignment() {
     horizontal = true;
@@ -610,9 +600,7 @@ public class MapEditorController {
     alignmentHBox.setVisible(false);
   }
 
-  /**
-   * Sets up the screen for horizontal alignment
-   */
+  /** Sets up the screen for horizontal alignment */
   @FXML
   public void verticalNodeAlignment() {
     alignNodesClicked = true;
@@ -622,9 +610,7 @@ public class MapEditorController {
     alignmentHBox.setVisible(false);
   }
 
-  /**
-   * Sets up the screen for the user to add a move
-   */
+  /** Sets up the screen for the user to add a move */
   @FXML
   public void clickAddMove() {
     movesInputDialog.setVisible(true);
@@ -639,19 +625,16 @@ public class MapEditorController {
     moveToText.setText("");
   }
 
-  /**
-   * Checks to see if all fields are inputted before submitting a new move
-   */
+  /** Checks to see if all fields are inputted before submitting a new move */
   @FXML
   public void validateMovesInputSubmit() {
-    movesSubmitButton.setDisable(moveToText.getText().isEmpty()
+    movesSubmitButton.setDisable(
+        moveToText.getText().isEmpty()
             || locationMoving.getSelectedIndex() == -1
             || movesDateForMove.getValue() == null);
   }
 
-  /**
-   * Submits the new move
-   */
+  /** Submits the new move */
   @FXML
   public void movesSubmit() {
     int nodeID = moveNodeMoveTo.getNodeID();
@@ -671,9 +654,7 @@ public class MapEditorController {
     }
   }
 
-  /**
-   * Sets up screen for the user to choose a node for a move to go to
-   */
+  /** Sets up screen for the user to choose a node for a move to go to */
   @FXML
   public void chooseMoveToNode() {
     moveNodeMoveToBool = true;
