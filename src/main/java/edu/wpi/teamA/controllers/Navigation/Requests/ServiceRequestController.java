@@ -1,6 +1,5 @@
 package edu.wpi.teamA.controllers.Navigation.Requests;
 
-import edu.wpi.teamA.controllers.Navigation.PageController;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.*;
 import edu.wpi.teamA.database.Singletons.*;
@@ -20,7 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class ServiceRequestController extends PageController {
+public class ServiceRequestController {
 
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   @FXML private StackPane requestStack;
