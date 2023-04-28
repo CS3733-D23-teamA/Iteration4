@@ -1,4 +1,3 @@
 package edu.wpi.teamA.database.DAOImps;
 
-public class AlertDAOImp {
-}
+public class AlertDAOImp {}
