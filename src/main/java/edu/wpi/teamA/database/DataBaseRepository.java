@@ -21,6 +21,7 @@ public class DataBaseRepository {
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
   private SignageDAOImp signageDAOImp;
+  private AlertDAOImp alertDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
@@ -34,6 +35,7 @@ public class DataBaseRepository {
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
     signageDAOImp = new SignageDAOImp();
+    alertDAOImp = new AlertDAOImp();
   }
 
   public static DataBaseRepository getInstance() {
@@ -223,6 +225,9 @@ public class DataBaseRepository {
     } else if (type.equals("Signage")) {
       signageDAOImp.Import(filepath);
     }
+    else if(type.equals("Alert")){
+      alertDAOImp.Import(filepath);
+    }
   }
 
   public void exportData(String folderExportPath, String type) {
@@ -248,6 +253,8 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
+    } else if(type.equals("Alert")){
+      alertDAOImp.Export(folderExportPath);
     }
   }
 
@@ -486,4 +493,10 @@ public class DataBaseRepository {
   public void removeSignage(SignageComponent signage) {
     signageDAOImp.removeSignage(signage);
   }
+  public HashMap<Integer, Alert> getAlertMap() {return alertDAOImp.getAlertMap();}
+  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {return alertDAOImp.loadAlertsFromDatabaseInMap();}
+  public Alert getAlert(int ticketNum) {return alertDAOImp.getAlert(ticketNum);}
+  public void modifyAlert(Alert alert) {alertDAOImp.modifyAlert(alert);}
+  public void addAlert(Alert alert) {alertDAOImp.addAlert(alert);}
+  public void removeAlert(Alert alert) {alertDAOImp.removeAlert(alert);}
 }
