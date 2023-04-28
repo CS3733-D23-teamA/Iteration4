@@ -79,6 +79,7 @@ public class SearchSingleton {
     return searchEntity.getPath();
   }
 
+  // TODO change falses
   /** Returns path as a string of directions from set path */
   public static String pathString() {
     ArrayList<Integer> nodeIDs = getPath();
@@ -86,11 +87,11 @@ public class SearchSingleton {
     String stringPath = "Wow! You're already there! Good Job!";
     if (nodeIDs.size() > 1) {
       MapEntity mapEd = new MapEntity();
-      LocationName locName = mapEd.getLocationName(nodeIDs.get(0));
+      LocationName locName = mapEd.getLocationName(nodeIDs.get(0), false);
       stringPath = "Start at " + locName.getLongName();
 
       for (int i = 1; i < nodeIDs.size(); i++) {
-        locName = mapEd.getLocationName(nodeIDs.get(i));
+        locName = mapEd.getLocationName(nodeIDs.get(i), false);
         stringPath += ", then go to " + locName.getLongName();
       }
       stringPath += ". You have reached your destination.";

@@ -306,24 +306,30 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     return move;
   }
 
-  public Move getMoveForNode(int nodeID) {
+  public Move getFirstMoveForNode(int nodeID) {
     LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
-    Move latestMove = null;
     for (Move move : movesForNode) {
       if (!move.getDate().isAfter(App.getCurrentDate())
           && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
           && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))) {
-        //        if (latestMove == null) {
-        //          latestMove = move;
-        //        } else {
-        //          if (move.getDate().isAfter(latestMove.getDate())) {
-        //            latestMove = move;
-        //          }
-        //        }
         return move;
       }
     }
     return null;
+  }
+
+  public Move getSecondMoveForNode(int nodeID) {
+    Move firstMove = getFirstMoveForNode(nodeID);
+    LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
+    for (Move move : movesForNode) {
+      if (!move.getDate().isAfter(App.getCurrentDate())
+          && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
+          && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))
+          && !move.getLongName().equals(firstMove.getLongName())) {
+        return move;
+      }
+    }
+    return firstMove;
   }
 
   //  public Move getMoveForLocName(String longname) {

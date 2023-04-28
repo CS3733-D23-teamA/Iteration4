@@ -199,13 +199,13 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveForNodeSlow(nodeID);
   }
 
-  public Move getMoveForNode(int nodeID) {
-    return moveDAOImp.getMoveForNode(nodeID);
+  public Move getFirstMoveForNode(int nodeID) {
+    return moveDAOImp.getFirstMoveForNode(nodeID);
   }
 
-  //  public Move getMoveForLocName(String longname) {
-  //    return moveDAOImp.getMoveForLocName(longname);
-  //  }
+  public Move getSecondMoveForNode(int nodeID) {
+    return moveDAOImp.getSecondMoveForNode(nodeID);
+  }
 
   // Import and Export methods
   public void importData(String filepath, String type) {

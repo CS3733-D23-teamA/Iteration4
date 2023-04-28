@@ -299,21 +299,17 @@
                         </VBox>
                         <VBox alignment="CENTER">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Directions" textAlignment="CENTER">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Toggle Second Names" textAlignment="CENTER">
                                  <font>
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="editMapDirections" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="20.0" />
-                                 </font>
-                              </Text>
+                              <MFXToggleButton fx:id="secondNameToggle" contentDisplay="GRAPHIC_ONLY" contentDisposition="CENTER" ellipsisString="" graphicTextGap="0.0" onMouseClicked="#changeLocationNameDisplay" style="-fx-background-color: #f1f1f1;" textAlignment="CENTER" textOverrun="CLIP" />
                            </children>
                         </VBox>
                         <VBox alignment="CENTER" layoutX="10.0" layoutY="699.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Location" textAlignment="CENTER">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Location Names" textAlignment="CENTER">
                                  <font>
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>

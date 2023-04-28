@@ -330,15 +330,16 @@ public class PathfindingController {
     }
   }
 
+  // TODO change falses to something
   @FXML
   private void toggleNodeNames() {
     clearPath();
     HashMap<Integer, Node> nodeMap = mapEntity.getNodeMap(currentLevel);
     for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
       Node node = entry.getValue();
-      if (!mapEntity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
+      if (!mapEntity.getLocationName(node.getNodeID(), false).getNodeType().equals("HALL")
           && locationToggle.isSelected()) {
-        Text text = mapEntity.addText(node);
+        Text text = mapEntity.addText(node, false);
         topPane.getChildren().add(text);
       }
     }

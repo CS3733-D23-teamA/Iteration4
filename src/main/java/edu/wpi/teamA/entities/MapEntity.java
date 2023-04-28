@@ -140,7 +140,7 @@ public class MapEntity {
       node.setYcoord((int) circle.getCenterY());
       mapGesturePane.setGestureEnabled(true);
       // update database and big hashmap
-      Move move = databaseRepo.getMoveForNode(node.getNodeID());
+      Move move = databaseRepo.getFirstMoveForNode(node.getNodeID());
       determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()));
       // update level hashmap
       // determineNodeMap(node.getFloor()).remove(node.getNodeID());
@@ -148,10 +148,10 @@ public class MapEntity {
     }
   }
 
-  public Text addText(Node node) {
+  public Text addText(Node node, boolean second) {
     double xCoord = node.getXcoord() + 20;
     double yCoord = node.getYcoord() - 10;
-    String locText = getLocationName(node.getNodeID()).getShortName();
+    String locText = getLocationName(node.getNodeID(), second).getShortName();
     Text text = new Text(locText);
     text.setX(xCoord);
     text.setY(yCoord);
@@ -179,13 +179,25 @@ public class MapEntity {
     return databaseRepo.getNodeMap().get(nodeID);
   }
 
-  public LocationName getLocationName(int nodeID) {
-    Move move = databaseRepo.getMoveForNode(nodeID);
+  public LocationName getLocationName(int nodeID, boolean second) {
+    Move move;
+    if (second) {
+      move = databaseRepo.getSecondMoveForNode(nodeID);
+    } else {
+      move = databaseRepo.getFirstMoveForNode(nodeID);
+    }
+
     if (move != null) {
       return databaseRepo.getLocName(move.getLongName());
     } else {
       return databaseRepo.getLocName("Empty Node");
     }
+  }
+
+  public boolean nodeHasTwoLocations(int nodeID) {
+    Move firstMove = databaseRepo.getFirstMoveForNode(nodeID);
+    Move secondMove = databaseRepo.getSecondMoveForNode(nodeID);
+    return firstMove.getLongName().equals(secondMove.getLongName());
   }
 
   public void determineAddAction(String level, Node node, LocationName locName, Move move) {
@@ -206,10 +218,10 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    Move move = databaseRepo.getMoveForNode(nodeID);
+    Move move = databaseRepo.getFirstMoveForNode(nodeID);
     if (move != null) {
       databaseRepo.deleteLocName(databaseRepo.getLocName(move.getLongName()));
-      databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
+      databaseRepo.deleteMove(databaseRepo.getFirstMoveForNode(nodeID));
     }
     determineNodeMap(level).remove(nodeID);
   }
@@ -258,22 +270,22 @@ public class MapEntity {
     return true;
   }
 
-  public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign) {
+  public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign, boolean second) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
 
-      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), second));
     }
     return firstNode;
   }
 
-  public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign) {
+  public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign, boolean second) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
 
-      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), second));
     }
     return firstNode;
   }
@@ -307,7 +319,7 @@ public class MapEntity {
   }
 
   public String getLongName(int id) {
-    Move move = databaseRepo.getMoveForNode(id);
+    Move move = databaseRepo.getFirstMoveForNode(id);
     if (move != null) {
       return move.getLongName();
     } else {
@@ -338,7 +350,7 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // get the locationname object with nodetype
-      LocationName loc = getLocationName(id);
+      LocationName loc = getLocationName(id, false);
 
       if (!loc.getNodeType().equals("HALL")) {
         // Add
