@@ -11,13 +11,11 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDate;
 import java.util.*;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.DatePicker;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -29,15 +27,14 @@ public class MapEditorController {
   private final MapEntity entity = App.getMapEntity();
 
   // larger panes
-  @FXML private ImageView mapImageView = new ImageView();
-  @FXML private Pane topPane = new Pane();
+  @FXML private final ImageView mapImageView = new ImageView();
+  @FXML private final Pane topPane = new Pane();
   @FXML private GesturePane mapGesturePane;
-  @FXML private VBox mapEditorControls;
   @FXML private MFXGenericDialog inputDialog;
 
   @FXML private MFXGenericDialog movesInputDialog;
 
-  @FXML private StackPane mapStackPane = new StackPane(mapImageView, topPane);
+  @FXML private final StackPane mapStackPane = new StackPane(mapImageView, topPane);
 
   // level buttons and image
   @FXML private MFXButton levelL1Button;
@@ -55,7 +52,6 @@ public class MapEditorController {
 
   // text displays
   @FXML private Text locationDisplay;
-  // @FXML private Text editMapDirections;
   @FXML private Text levelDisplay;
 
   // input dialog box
@@ -69,8 +65,6 @@ public class MapEditorController {
   // alignment variables
   @FXML private MFXButton AlignNodesButton;
   @FXML private HBox alignmentHBox;
-  @FXML private MFXButton hAlignmentButton;
-  @FXML private MFXButton vAlignmentButton;
 
   // moves input dialog
   @FXML private DatePicker movesDateForMove;
@@ -92,7 +86,6 @@ public class MapEditorController {
   private boolean modifyNodeClicked;
   private boolean modifyEdgeClicked;
   private boolean secondNodeClicked;
-  // private boolean addMoveClicked;
   private boolean moveNodeMoveToBool;
 
   // variables for storing important data
@@ -126,6 +119,7 @@ public class MapEditorController {
     stopAlignment = false;
     nodesToAlign = new ArrayList<>();
     alignmentHBox.setVisible(false);
+    changeLevelText(levelL1Button);
 
     // center and zoom onto map content
     Platform.runLater(
@@ -137,16 +131,10 @@ public class MapEditorController {
     // set up dialog box visiblity
     clearDialogBoxes();
 
-    changeLevelText(levelL1Button);
-
     inputDialog.setOnClose(
-        event -> {
-          clearDialogBoxes();
-        });
+        event -> clearDialogBoxes());
     movesInputDialog.setOnClose(
-        event -> {
-          clearDialogBoxes();
-        });
+        event -> clearDialogBoxes());
 
     // set up input grid
     floorField.getItems().addAll("G", "L1", "L2", "1", "2", "3");
@@ -200,11 +188,6 @@ public class MapEditorController {
     // button
     level = button.getText();
     changeLocationNameDisplay();
-
-    // display new dots and edges
-    //
-    //    displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
-    //    displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
 
   /**
@@ -215,7 +198,6 @@ public class MapEditorController {
   private void displayNodeData(HashMap<Integer, Node> nodeMapForFloor) {
 
     for (Map.Entry<Integer, Node> entry : nodeMapForFloor.entrySet()) {
-      // Group g = new Group();
       Node node = entry.getValue();
       if (node != null) {
         Circle circle = entity.addCircle(mapGesturePane, node);
@@ -252,6 +234,11 @@ public class MapEditorController {
     App.getPrimaryStage().show();
   }
 
+  /**
+   * Displays the edge data for that floor in the form as lines on the map
+   *
+   * @param edgeMapForFloor the array with the data for that floor
+   */
   private void displayEdgeData(HashMap<String, Edge> edgeMapForFloor) {
     for (Map.Entry<String, Edge> entry : edgeMapForFloor.entrySet()) {
       Edge edge = entry.getValue();
@@ -266,12 +253,14 @@ public class MapEditorController {
     App.getPrimaryStage().show();
   }
 
+  /** Resets the display for the map editor display */
   @FXML
   public void changeLocationNameDisplay() {
     topPane.getChildren().clear();
     displayEdgeData(Objects.requireNonNull(entity.determineEdgeMap(level)));
     displayNodeData(Objects.requireNonNull(entity.determineNodeMap(level)));
   }
+
   /**
    * Defines behavior for when you hover over a dot on the map
    *
@@ -280,7 +269,6 @@ public class MapEditorController {
    */
   private void dotHover(Circle circle, int nodeID) {
     circle.setFill(Color.web("0xEEBD28"));
-    // nodeDescriptionVBox.setVisible(true);
     if (entity
         .getLocationName(nodeID, secondNameToggle.isSelected())
         .getNodeType()
@@ -322,6 +310,7 @@ public class MapEditorController {
     currentNodeID = nodeID;
     currentCircle = circle;
 
+    //for if removing a node
     if (removeNodeClicked) {
       entity.determineRemoveAction(nodeID, level);
       circle.setDisable(true);
@@ -333,8 +322,9 @@ public class MapEditorController {
       displayNodeData(entity.determineNodeMap(level));
     }
 
+    //for if modifying a node
     if (modifyNodeClicked) {
-      popUpMainDialogBox();
+      popUpInputDialogBox();
 
       // get node information
       Node node = entity.getNodeInfo(nodeID);
@@ -348,6 +338,7 @@ public class MapEditorController {
       mouseClickForNewLocation();
     }
 
+    //for if modifying edges
     if (modifyEdgeClicked) {
       // click another node
       secondNodeClicked = true;
@@ -356,6 +347,7 @@ public class MapEditorController {
       modifyEdgeButton.setText("Stop Modify Edge");
     }
 
+    //for when adding or removing edges from a node
     if (secondNodeClicked) {
       if (entity.determineModifyEdgeAction(firstNode, entity.getNodeInfo(nodeID), level)) {
         // add a line for the new edge
@@ -372,6 +364,7 @@ public class MapEditorController {
       nodesToAlign.add(entity.getNodeInfo(nodeID));
     }
 
+    //for when choosing a node to move to when adding a move
     if (moveNodeMoveToBool) {
       moveNodeMoveTo = entity.getNodeInfo(nodeID);
       circle.setOnMouseEntered(null);
@@ -405,6 +398,9 @@ public class MapEditorController {
     alignNodesClicked = false;
   }
 
+  /**
+   * Sets up the screen for the user to modify an edge
+   */
   @FXML
   public void modifyEdge() {
     if (modifyEdgeButton.getText().equals("Modify Edge")) {
@@ -421,13 +417,13 @@ public class MapEditorController {
     }
   }
 
-  /** Pops up the input dialog page and hides map editor controls */
-  private void popUpMainDialogBox() {
+  /** Pops up the input dialog page */
+  private void popUpInputDialogBox() {
     inputDialog.setVisible(true);
     inputDialog.setDisable(false);
   }
 
-  /** Hides the input dialog page and brings back map editor controls */
+  /** Hides all dialog boxes*/
   private void shutDownAllDialogBoxes() {
     if (currentPositionClicked != null) {
       topPane.getChildren().remove(currentPositionClicked);
@@ -468,7 +464,7 @@ public class MapEditorController {
     floorField.selectItem(level);
     floorField.setDisable(true);
     // pop up dialog box
-    popUpMainDialogBox();
+    popUpInputDialogBox();
 
     // resets to negative so we know if the user has clicked on a location yet
     XYCoords[0] = -1;
@@ -486,18 +482,14 @@ public class MapEditorController {
     } else {
       longNameField.setBorder(Border.stroke(Color.web("0x000000")));
     }
-    if (longNameField.getText().isEmpty()
-        || (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
-        || shortNameField.getText().isEmpty()
-        || floorField.getSelectedIndex() == -1
-        || buildingField.getSelectedIndex() == -1
-        || nodeTypeField.getSelectedIndex() == -1
-        || XYCoords[0] < 0
-        || XYCoords[1] < 0) {
-      submitButton.setDisable(true);
-    } else {
-      submitButton.setDisable(false);
-    }
+    submitButton.setDisable(longNameField.getText().isEmpty()
+            || (entity.determineLongNameExists(longNameField.getText()) && !longNameField.isDisable())
+            || shortNameField.getText().isEmpty()
+            || floorField.getSelectedIndex() == -1
+            || buildingField.getSelectedIndex() == -1
+            || nodeTypeField.getSelectedIndex() == -1
+            || XYCoords[0] < 0
+            || XYCoords[1] < 0);
   }
 
   /**
@@ -520,6 +512,9 @@ public class MapEditorController {
     shutDownAllDialogBoxes();
   }
 
+  /**
+   * Submits the data in the input dialog depending on if it's modifying or adding
+   */
   @FXML
   public void submit() {
     // once submit button has been clicked, update database
@@ -551,27 +546,27 @@ public class MapEditorController {
   private void mouseClickForNewLocation() {
     currentPositionClicked = null;
     topPane.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent event) {
-            if (currentPositionClicked != null) {
-              topPane.getChildren().remove(currentPositionClicked);
-            }
-            double X = event.getX();
-            double Y = event.getY();
-            XYCoords = new int[2];
-            XYCoords[0] = (int) (X);
-            XYCoords[1] = (int) (Y);
-            // new red circle indicating new location
+            event -> {
+              if (currentPositionClicked != null) {
+                topPane.getChildren().remove(currentPositionClicked);
+              }
+              double X = event.getX();
+              double Y = event.getY();
+              XYCoords = new int[2];
+              XYCoords[0] = (int) (X);
+              XYCoords[1] = (int) (Y);
+              // new red circle indicating new location
 
-            Circle circle = entity.addTempCircle(X, Y);
-            topPane.getChildren().add(circle);
-            currentPositionClicked = circle;
-            validateInputSubmit();
-          }
-        });
+              Circle circle = entity.addTempCircle(X, Y);
+              topPane.getChildren().add(circle);
+              currentPositionClicked = circle;
+              validateInputSubmit();
+            });
   }
 
+  /**
+   * Sets up the screen for the user to align nodes
+   */
   @FXML
   public void clickAlignNodesButton() {
     if (AlignNodesButton.getText().equals("Align Nodes")) {
@@ -588,14 +583,14 @@ public class MapEditorController {
       AlignNodesButton.setText("Align Nodes");
       if (horizontal) {
         Node node =
-            entity.determineHorizontalNodeAlignment(nodesToAlign, secondNameToggle.isSelected());
+            entity.determineHorizontalNodeAlignment(nodesToAlign);
         topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
 
       } else if (vertical) {
         Node node =
-            entity.determineVerticalNodeAlignment(nodesToAlign, secondNameToggle.isSelected());
+            entity.determineVerticalNodeAlignment(nodesToAlign);
         topPane.getChildren().clear();
         displayEdgeData(entity.determineEdgeMap(node.getFloor()));
         displayNodeData(entity.determineNodeMap(node.getFloor()));
@@ -603,6 +598,9 @@ public class MapEditorController {
     }
   }
 
+  /**
+   * Sets up the screen for horizontal alignment
+   */
   @FXML
   public void horizontalNodeAlignment() {
     horizontal = true;
@@ -612,6 +610,9 @@ public class MapEditorController {
     alignmentHBox.setVisible(false);
   }
 
+  /**
+   * Sets up the screen for horizontal alignment
+   */
   @FXML
   public void verticalNodeAlignment() {
     alignNodesClicked = true;
@@ -621,6 +622,9 @@ public class MapEditorController {
     alignmentHBox.setVisible(false);
   }
 
+  /**
+   * Sets up the screen for the user to add a move
+   */
   @FXML
   public void clickAddMove() {
     movesInputDialog.setVisible(true);
@@ -635,17 +639,19 @@ public class MapEditorController {
     moveToText.setText("");
   }
 
+  /**
+   * Checks to see if all fields are inputted before submitting a new move
+   */
   @FXML
   public void validateMovesInputSubmit() {
-    if (moveToText.getText().isEmpty()
-        || locationMoving.getSelectedIndex() == -1
-        || movesDateForMove.getValue() == null) {
-      movesSubmitButton.setDisable(true);
-    } else {
-      movesSubmitButton.setDisable(false);
-    }
+    movesSubmitButton.setDisable(moveToText.getText().isEmpty()
+            || locationMoving.getSelectedIndex() == -1
+            || movesDateForMove.getValue() == null);
   }
 
+  /**
+   * Submits the new move
+   */
   @FXML
   public void movesSubmit() {
     int nodeID = moveNodeMoveTo.getNodeID();
@@ -665,6 +671,9 @@ public class MapEditorController {
     }
   }
 
+  /**
+   * Sets up screen for the user to choose a node for a move to go to
+   */
   @FXML
   public void chooseMoveToNode() {
     moveNodeMoveToBool = true;

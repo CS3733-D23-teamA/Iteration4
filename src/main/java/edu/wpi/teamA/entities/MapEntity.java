@@ -38,6 +38,9 @@ public class MapEntity {
   private HashMap<String, Integer> nameMap;
   private LevelEntity levels = App.getLevelEntity();
 
+  /**
+   * Loads all the node maps for each floor
+   */
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
@@ -55,6 +58,9 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Loads all the edge maps for each floor
+   */
   public void loadFloorEdges() {
     for (Map.Entry<String, Edge> entry : databaseRepo.getEdgeMap().entrySet()) {
       Edge edge = entry.getValue();
@@ -74,6 +80,11 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Determines which edge map to use
+   * @param level floor level
+   * @return the edge map we want to use
+   */
   public HashMap<String, Edge> determineEdgeMap(String level) {
     if (level.equals("L1")) {
       return levelL1EdgeMap;
@@ -90,6 +101,11 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Determines which node map we want
+   * @param level floor level
+   * @return the node map for that floor
+   */
   public HashMap<Integer, Node> determineNodeMap(String level) {
     if (level.equals("L1")) {
       return levelL1NodeMap;
@@ -106,6 +122,12 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Adds a temporary circle to show where the user clicked
+   * @param X center X for circle
+   * @param Y center Y for cicle
+   * @return the circle to display
+   */
   public Circle addTempCircle(double X, double Y) {
     Circle circle = new Circle();
     circle.setCenterX(X);
@@ -116,6 +138,12 @@ public class MapEntity {
     return circle;
   }
 
+  /**
+   * Makes a new circle to represent the node
+   * @param mapGesturePane gesture pane to place the circle on
+   * @param node node to make a circle for
+   * @return the circle to display
+   */
   public Circle addCircle(GesturePane mapGesturePane, Node node) {
     Circle circle = new Circle();
     circle.setCenterX(node.getXcoord());
@@ -140,6 +168,12 @@ public class MapEntity {
     return circle;
   }
 
+  /**
+   * Determines the action for when you drag release a circle
+   * @param circle the circle you're performing on
+   * @param node the node the circle represents
+   * @param mapGesturePane the gesture pane the circle is on
+   */
   public void dragReleased(Circle circle, Node node, GesturePane mapGesturePane) {
     if ((node.getXcoord() != (int) circle.getCenterX())
         && (node.getYcoord() != (int) circle.getCenterY())) {
@@ -155,6 +189,12 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Adds the text onto the map display
+   * @param node node you're adding text too
+   * @param second whether we are displaying the first or second name on the node
+   * @return the text object to display
+   */
   public Text addText(Node node, boolean second) {
     double xCoord = node.getXcoord() + 20;
     double yCoord = node.getYcoord() - 10;
@@ -167,6 +207,12 @@ public class MapEntity {
     return text;
   }
 
+  /**
+   * Adds a line to represent an edge
+   * @param startNodeID start node for edge
+   * @param endNodeID end node for edge
+   * @return the line object
+   */
   public Line addLine(int startNodeID, int endNodeID) {
 
     Node startNode = databaseRepo.getNodeMap().get(startNodeID);
@@ -182,10 +228,21 @@ public class MapEntity {
     return line;
   }
 
+  /**
+   * Node getter
+   * @param nodeID node to get
+   * @return the node
+   */
   public Node getNodeInfo(int nodeID) {
     return databaseRepo.getNodeMap().get(nodeID);
   }
 
+  /**
+   * Location name getter for node
+   * @param nodeID node to get
+   * @param second whether to get first or second name associated to the node
+   * @return the LocationName object
+   */
   public LocationName getLocationName(int nodeID, boolean second) {
     Move move;
     if (second) {
@@ -201,6 +258,11 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Number of locations on a node
+   * @param nodeID the node to check
+   * @return number of locations on a node
+   */
   public int numberOfLocationsOnNode(int nodeID) {
     Move firstMove = databaseRepo.getFirstMoveForNode(nodeID);
     Move secondMove = databaseRepo.getSecondMoveForNode(nodeID);
@@ -215,6 +277,13 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Gets data needed to add a new node
+   * @param level current level
+   * @param node node to add
+   * @param locName location name to add
+   * @param move move to add
+   */
   public void determineAddAction(String level, Node node, LocationName locName, Move move) {
     int newNodeID = databaseRepo.getLargestNodeID().getNodeID() + 5;
     node.setNodeID(newNodeID);
@@ -225,6 +294,11 @@ public class MapEntity {
     determineNodeMap(level).put(newNodeID, node);
   }
 
+  /**
+   * Gets data to remove a node
+   * @param nodeID node ID to remove
+   * @param level level it's on
+   */
   public void determineRemoveAction(int nodeID, String level) {
     ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(databaseRepo.getNode(nodeID));
 
@@ -241,6 +315,12 @@ public class MapEntity {
     determineNodeMap(level).remove(nodeID);
   }
 
+  /**
+   * Gets data to modify a node
+   * @param level level to modify
+   * @param node node to modify
+   * @param locName location name to modify
+   */
   public void determineModifyAction(String level, Node node, LocationName locName) {
     databaseRepo.updateNode(node);
     String longname = locName.getLongName();
@@ -252,6 +332,13 @@ public class MapEntity {
     determineNodeMap(level).put(node.getNodeID(), node);
   }
 
+  /**
+   * Gets data to modify an edge
+   * @param firstNode start node to add edge
+   * @param secondNode end node to add edge
+   * @param level level to add on
+   * @return true if adding an edge, false if removing
+   */
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
     Edge edge = new Edge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
@@ -270,6 +357,10 @@ public class MapEntity {
     return false;
   }
 
+  /**
+   * Gets all the long names
+   * @return arraylist of long names
+   */
   public ArrayList<String> getAllLongNames() {
     ArrayList<String> locNames = new ArrayList<>();
     for (Map.Entry<String, LocationName> entry : databaseRepo.getLocNameMap().entrySet()) {
@@ -278,41 +369,79 @@ public class MapEntity {
     return locNames;
   }
 
+  /**
+   * Determines if the long name exists in the database
+   * @param longName the longname to check
+   * @return true if there, else false
+   */
   public boolean determineLongNameExists(String longName) {
     return databaseRepo.getLocName(longName) != null;
   }
 
-  public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign, boolean second) {
+  /**
+   * Determines horizontal node alignment
+   * @param nodesToAlign nodes you want to align
+   * @return the first node
+   */
+  public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
 
-      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), second));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
+      if(!getLocationName(node.getNodeID(), false).equals(getLocationName(node.getNodeID(), true))) {
+        determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
+      }
+
     }
     return firstNode;
   }
 
-  public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign, boolean second) {
+  /**
+   * Determines vertical node alignment
+   * @param nodesToAlign nodes you want to align
+   * @return the first node
+   */
+  public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
 
-      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), second));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
+      if(!getLocationName(node.getNodeID(), false).equals(getLocationName(node.getNodeID(), true))) {
+        determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
+      }
     }
     return firstNode;
   }
 
+  /**
+   * Adds a new move in the database
+   * @param move move to add
+   */
   public void submitNewMoves(Move move) {
     databaseRepo.addMove(move);
   }
 
+  /**
+   * Checks if the add move is valid
+   * @param nodeID nodeID to add
+   * @param longName longname to add
+   * @param localDate localDate to add
+   * @return true if valid, else false
+   */
   public boolean checkValidMove(int nodeID, String longName, LocalDate localDate) {
     int nodeCount = 0;
     boolean longNameExists = false;
+    boolean moveOnDate = false;
     HashMap<String, Move> currentMoves = databaseRepo.loadCurrentMovesMap(localDate);
 
     if (currentMoves.get(longName).getNodeID() == nodeID) {
       longNameExists = true;
+    }
+
+    if (currentMoves.get(longName).getDate().isEqual(localDate)) {
+      moveOnDate = true;
     }
 
     for (Map.Entry<String, Move> entry : currentMoves.entrySet()) {
@@ -322,7 +451,7 @@ public class MapEntity {
       }
     }
 
-    return (nodeCount > 1) || longNameExists;
+    return (nodeCount > 1) || longNameExists || moveOnDate;
   }
 
   public ArrayList<Node> loadAllNodes() {
