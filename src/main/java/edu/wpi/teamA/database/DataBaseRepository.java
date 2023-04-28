@@ -3,6 +3,7 @@ package edu.wpi.teamA.database;
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -154,12 +155,20 @@ public class DataBaseRepository {
 
   // Move related methods
 
-  public HashMap<Integer, LinkedList<Move>> getMoveMap() {
-    return moveDAOImp.getMoveMap();
+  public HashMap<Integer, LinkedList<Move>> getNodeMoveMap() {
+    return moveDAOImp.getNodeMoveMap();
   }
 
-  public HashMap<Integer, Move> getCurrentMoveMap() {
+  public HashMap<String, LinkedList<Move>> getLocationMoveMap() {
+    return moveDAOImp.getLocationMoveMap();
+  }
+
+  public HashMap<String, Move> getCurrentMoveMap() {
     return moveDAOImp.getCurrentMoveMap();
+  }
+
+  public void setCurrentMoveMap(HashMap<String, Move> currentMoveMap) {
+    moveDAOImp.setCurrentMoveMap(currentMoveMap);
   }
 
   public void createMoveTable() {
@@ -170,8 +179,8 @@ public class DataBaseRepository {
     return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public HashMap<Integer, Move> loadCurrentMovesMap() {
-    return moveDAOImp.loadCurrentMoveMap();
+  public HashMap<String, Move> loadCurrentMovesMap(LocalDate date) {
+    return moveDAOImp.loadCurrentMoveMap(date);
   }
 
   public void addMove(Move move) {
@@ -194,9 +203,9 @@ public class DataBaseRepository {
     return moveDAOImp.getMoveForNode(nodeID);
   }
 
-  public Move getMoveForLocName(String longname) {
-    return moveDAOImp.getMoveForLocName(longname);
-  }
+  //  public Move getMoveForLocName(String longname) {
+  //    return moveDAOImp.getMoveForLocName(longname);
+  //  }
 
   // Import and Export methods
   public void importData(String filepath, String type) {

@@ -6,7 +6,7 @@ import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,8 +15,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
@@ -143,8 +141,7 @@ public class MapEntity {
       mapGesturePane.setGestureEnabled(true);
       // update database and big hashmap
       Move move = databaseRepo.getMoveForNode(node.getNodeID());
-      determineModifyAction(
-          node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
+      determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()));
       // update level hashmap
       // determineNodeMap(node.getFloor()).remove(node.getNodeID());
       determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
@@ -217,7 +214,7 @@ public class MapEntity {
     determineNodeMap(level).remove(nodeID);
   }
 
-  public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
+  public void determineModifyAction(String level, Node node, LocationName locName) {
     databaseRepo.updateNode(node);
     String longname = locName.getLongName();
     if (!longname.equals("Empty Node")) {
@@ -225,8 +222,6 @@ public class MapEntity {
     } else {
       databaseRepo.addLocName(locName);
     }
-
-    databaseRepo.addMove(move);
     determineNodeMap(level).put(node.getNodeID(), node);
   }
 
@@ -268,11 +263,7 @@ public class MapEntity {
     for (Node node : nodesToAlign) {
       node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
 
-      determineModifyAction(
-          node.getFloor(),
-          node,
-          getLocationName(node.getNodeID()),
-          databaseRepo.getMoveForNode(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID()));
     }
     return firstNode;
   }
@@ -282,51 +273,33 @@ public class MapEntity {
     for (Node node : nodesToAlign) {
       node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
 
-      determineModifyAction(
-          node.getFloor(),
-          node,
-          getLocationName(node.getNodeID()),
-          databaseRepo.getMoveForNode(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID()));
     }
     return firstNode;
   }
 
-  public void importExport(boolean imported, String DAOimp) {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      if (DAOimp.equals("Node")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("LocationName")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("Move")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("Edge")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      }
-    } else {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      if (DAOimp.equals("Node")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("LocationName")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("Move")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("Edge")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      }
-    }
-  }
-
   public void submitNewMoves(Move move) {
     databaseRepo.addMove(move);
-    //    if (!databaseRepo.getLocNameMap().containsKey(locationName.getLongName())) {
-    //      databaseRepo.addLocName(locationName);
-    //    }
+  }
+
+  // TODO
+  public boolean checkValidMove(int nodeID, String longName, LocalDate localDate) {
+    int nodeCount = 0;
+    boolean longNameExists = false;
+    HashMap<String, Move> currentMoves = databaseRepo.loadCurrentMovesMap(localDate);
+
+    if (currentMoves.get(longName).getNodeID() == nodeID) {
+      longNameExists = true;
+    }
+
+    for (Map.Entry<String, Move> entry : currentMoves.entrySet()) {
+      Move move = entry.getValue();
+      if (move.getNodeID() == nodeID) {
+        nodeCount++;
+      }
+    }
+
+    return (nodeCount > 1) || longNameExists;
   }
 
   public ArrayList<Node> loadAllNodes() {

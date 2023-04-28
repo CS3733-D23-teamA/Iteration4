@@ -9,10 +9,7 @@ import edu.wpi.teamA.entities.MapEntity;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -75,12 +72,11 @@ public class MapEditorController {
   @FXML private MFXButton vAlignmentButton;
 
   // moves input dialog
-
-  // @FXML private MFXFilterComboBox<String> movesNodeTypeCombo;
   @FXML private DatePicker movesDateForMove;
   @FXML private MFXButton movesSubmitButton;
   @FXML private Text moveToText;
   @FXML private MFXFilterComboBox<String> locationMoving;
+  @FXML private Text moveError;
 
   // alignment variables
   private boolean alignNodesClicked;
@@ -161,6 +157,7 @@ public class MapEditorController {
 
     // set up moves input dialog
     locationMoving.getItems().addAll(entity.getAllLongNames());
+    moveError.setVisible(false);
   }
 
   /**
@@ -285,13 +282,6 @@ public class MapEditorController {
     } else {
       locationDisplay.setText(entity.getLocationName(nodeID).getShortName());
     }
-
-    /*javafx.scene.Node circleText = circle.getParent().getChildrenUnmodifiable().get(1);
-    // String text = circleText.toString();
-    Text text = (Text) circleText;
-    Font font = new Font("Open Sans", 20);
-    text.setFont(font);
-    text.setStrokeWidth(2);*/
   }
 
   /**
@@ -531,12 +521,12 @@ public class MapEditorController {
     LocationName locName =
         new LocationName(
             longNameField.getText(), shortNameField.getText(), nodeTypeField.getText());
-    Move move = new Move(currentNodeID, longNameField.getText(), App.getCurrentDate());
     if (modifyNodeClicked) {
-      entity.determineModifyAction(level, node, locName, move);
+      entity.determineModifyAction(level, node, locName);
       currentCircle.setVisible(false);
       currentCircle.setDisable(true);
     } else if (addNodeClicked) {
+      Move move = new Move(currentNodeID, longNameField.getText(), App.getCurrentDate());
       entity.determineAddAction(level, node, locName, move);
     }
 
@@ -643,8 +633,9 @@ public class MapEditorController {
 
   @FXML
   public void validateMovesInputSubmit() {
+    // TODO add validate if there are more than 2 moves for that date on that node id
     if (moveToText.getText().isEmpty()
-        || locationMoving.getSelectedItem().isEmpty()
+        || locationMoving.getSelectedIndex() == -1
         || movesDateForMove.getValue() == null) {
       movesSubmitButton.setDisable(true);
     } else {
@@ -658,12 +649,17 @@ public class MapEditorController {
     String longName = locationMoving.getSelectedItem();
     LocalDate localDate = movesDateForMove.getValue();
 
-    Move move = new Move(nodeID, longName, localDate);
+    if (entity.checkValidMove(nodeID, longName, localDate)) {
+      moveError.setVisible(true);
+    } else {
+      Move move = new Move(nodeID, longName, localDate);
 
-    entity.submitNewMoves(move);
-    clearDialogBoxes();
-    displayEdgeData(entity.determineEdgeMap(level));
-    displayNodeData(entity.determineNodeMap(level));
+      entity.submitNewMoves(move);
+      clearDialogBoxes();
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
+      moveError.setVisible(false);
+    }
   }
 
   @FXML

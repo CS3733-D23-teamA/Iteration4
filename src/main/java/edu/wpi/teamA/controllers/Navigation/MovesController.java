@@ -3,7 +3,6 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Move;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,7 +24,6 @@ public class MovesController extends PageController {
   @FXML private TableColumn<Move, String> nameCol;
   @FXML private TableColumn<Move, LocalDate> dateCol;
 
-  @FXML private MFXButton submitCurrentDate;
   @FXML private DatePicker currentDatePicker;
 
   @FXML
@@ -40,8 +38,8 @@ public class MovesController extends PageController {
     nameCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-    ArrayList<Move> updatedArray = new ArrayList<Move>();
-    for (Map.Entry<Integer, LinkedList<Move>> entry : databaseRepo.getMoveMap().entrySet()) {
+    ArrayList<Move> updatedArray = new ArrayList<>();
+    for (Map.Entry<Integer, LinkedList<Move>> entry : databaseRepo.getNodeMoveMap().entrySet()) {
       LinkedList<Move> linkedList = entry.getValue();
       for (Move move : linkedList) {
         if (move.getDate().isAfter(App.getCurrentDate())) {
@@ -59,7 +57,7 @@ public class MovesController extends PageController {
     if (currentDatePicker.getValue() != null) {
       App.setCurrentDate(currentDatePicker.getValue());
       displayFutureMoves();
-      databaseRepo.loadCurrentMovesMap();
+      databaseRepo.setCurrentMoveMap(databaseRepo.loadCurrentMovesMap(App.getCurrentDate()));
     }
   }
 }
