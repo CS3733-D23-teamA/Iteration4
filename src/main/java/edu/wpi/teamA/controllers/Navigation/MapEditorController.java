@@ -301,7 +301,14 @@ public class MapEditorController {
    */
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
-    circle.setFill(Color.web("0x012D5A"));
+    int code = entity.nodeHasTwoLocations(nodeID);
+    if (code == 0) {
+      circle.setFill(Color.web("0xf74c4c"));
+    } else if (code == 1) {
+      circle.setFill(Color.web("0x012D5A"));
+    } else {
+      circle.setFill(Color.web("0x4cde61"));
+    }
   }
 
   /**

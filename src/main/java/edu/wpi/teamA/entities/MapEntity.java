@@ -120,9 +120,16 @@ public class MapEntity {
     Circle circle = new Circle();
     circle.setCenterX(node.getXcoord());
     circle.setCenterY(node.getYcoord());
-    circle.setFill(Color.web("0x012D5A"));
     circle.setRadius(10);
     circle.setVisible(true);
+
+    if (nodeHasTwoLocations(node.getNodeID()) == 0) {
+      circle.setFill(Color.web("0xf74c4c"));
+    } else if (nodeHasTwoLocations(node.getNodeID()) == 1) {
+      circle.setFill(Color.web("0x012D5A"));
+    } else {
+      circle.setFill(Color.web("0x4cde61"));
+    }
 
     circle.setOnMouseDragged(
         mouseEvent -> {
@@ -194,10 +201,18 @@ public class MapEntity {
     }
   }
 
-  public boolean nodeHasTwoLocations(int nodeID) {
+  public int nodeHasTwoLocations(int nodeID) {
     Move firstMove = databaseRepo.getFirstMoveForNode(nodeID);
     Move secondMove = databaseRepo.getSecondMoveForNode(nodeID);
-    return firstMove.getLongName().equals(secondMove.getLongName());
+    if (firstMove != null && secondMove != null) {
+      if (firstMove.getLongName().equals(secondMove.getLongName())) {
+        return 1;
+      } else {
+        return 2;
+      }
+    } else {
+      return 0;
+    }
   }
 
   public void determineAddAction(String level, Node node, LocationName locName, Move move) {
@@ -264,10 +279,7 @@ public class MapEntity {
   }
 
   public boolean determineLongNameExists(String longName) {
-    if (databaseRepo.getLocName(longName) == null) {
-      return false;
-    }
-    return true;
+    return databaseRepo.getLocName(longName) != null;
   }
 
   public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign, boolean second) {
@@ -294,7 +306,6 @@ public class MapEntity {
     databaseRepo.addMove(move);
   }
 
-  // TODO
   public boolean checkValidMove(int nodeID, String longName, LocalDate localDate) {
     int nodeCount = 0;
     boolean longNameExists = false;
@@ -318,6 +329,7 @@ public class MapEntity {
     return databaseRepo.loadNodesFromDatabaseInArray();
   }
 
+  // TODO
   public String getLongName(int id) {
     Move move = databaseRepo.getFirstMoveForNode(id);
     if (move != null) {
