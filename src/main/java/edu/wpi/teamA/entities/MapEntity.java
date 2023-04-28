@@ -422,24 +422,49 @@ public class MapEntity {
     return floors;
   }
 
-  /** gets the next level from set level, returns given level if it's the last level */
+  /** @returns next level from set level, returns given level if it's the last level */
   public Level getNextLevel() {
-    return levels.nextIndex();
+    return levels.getNext();
   }
 
-  /** gets the previous level from set level, returns given level if it's the first level */
+  public Boolean nextLevelExists(Level level) {
+    return levels.hasNext(level);
+  }
+
+  /** @returns previous level from set level, returns given level if it's the first level */
   public Level getPrevLevel() {
-    return levels.lastIndex();
+    return levels.getPrev();
   }
 
+  public Boolean prevLevelExists(Level level) {
+    return levels.hasPrev(level);
+  }
+
+  /** @returns first level in order */
   public Level getFirstLevel() {
     return levels.getOrderedLevel(0);
   }
 
-  public void setOrder(ArrayList<Integer> path) {
+  /**
+   * sets specified level order in map entity
+   *
+   * @param path takes path traveled to determine floors traveled to
+   */
+  public void setLevelOrder(ArrayList<Integer> path) {
     levels.setOrder(floorsTravelledToWithRepeats(path));
   }
 
+  /** sets default level order in map entity */
+  public void setLevelOrder() {
+    levels.setOrder();
+  }
+
+  /**
+   * gets a hashmap of level objects to return nodes existing on that level
+   *
+   * @param level object to find nodes for
+   * @return Hashmap of nodeIDs and Nodes for given level
+   */
   public HashMap<Integer, Node> getNodeMap(Level level) {
     HashMap<Integer, Node> nodeMap;
     switch (level.toString()) {

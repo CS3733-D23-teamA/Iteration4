@@ -124,6 +124,8 @@ public class PathfindingController {
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
     prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
+    mapEntity.setLevelOrder();
+    // nextLevel.setStyle("-fx-background-color: #7089A2");
 
     // Set up Map in Gesture pane using a StackPane
     changeLevel(String.valueOf(currentLevel));
@@ -142,9 +144,6 @@ public class PathfindingController {
    * @return String of next level using shortened level name
    */
   private String getNextLevel() {
-    if (isSubmitted) {
-      return mapEntity.getNextLevel().toString();
-    }
     return mapEntity.getNextLevel().toString();
   }
 
@@ -154,23 +153,38 @@ public class PathfindingController {
    * @return String of next prev using shortened level name
    */
   private String getPrevLevel() {
-    if (isSubmitted) {
-      return mapEntity.getPrevLevel().toString();
-    }
     return mapEntity.getPrevLevel().toString();
   }
 
   /**
-   * Helper for change level Updates map image, current level, and label
+   * Helper for change level Updates map image, current level, diabling paginators, and label
    *
    * @param level takes the current user selected level
    */
   private void setCurrentLevel(Level level) {
     currentLevel = level;
     mapImage = currentLevel.getMapImage(); // set image
-    currentLevelLabel.setText("Level " + currentLevel); // set current level
+    setPaginator();
+    currentLevelLabel.setText("Level " + currentLevel); // set current level label
+    // draws path for each level if submitted
     if (isSubmitted) {
       drawPath();
+    }
+  }
+
+  private void setPaginator() {
+    // set next to blue if next level exists
+    if (mapEntity.nextLevelExists(currentLevel)) {
+      nextLevel.setStyle("-fx-fill: #012D5A");
+    } else { // else set next to grey
+      nextLevel.setStyle("-fx-fill: #98AABC");
+    }
+
+    // set prev blue as we paginate next
+    if (mapEntity.prevLevelExists(currentLevel)) {
+      prevLevel.setStyle("-fx-fill: #012D5A");
+    } else { // else set next to grey
+      prevLevel.setStyle("-fx-fill: #98AABC");
     }
   }
 
@@ -233,7 +247,17 @@ public class PathfindingController {
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     setTextDirections();
-    setPaginator(startID);
+
+    // Sets the Order for paginator
+    mapEntity.setLevelOrder(SearchSingleton.getPath());
+
+    // Changes the levels for pathfinding globally
+    changeLevel(mapEntity.getFirstLevel().toString());
+
+    // centers map on path
+    centerMap(
+        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
+
     drawPath();
   }
 
@@ -242,15 +266,6 @@ public class PathfindingController {
     directions.setText(SearchSingleton.pathString());
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
     directions.setFill(Color.web("#151515"));
-  }
-
-  /** Helper method for submit sets up paginator */
-  private void setPaginator(int startID) {
-    // Sets the paginator
-    mapEntity.setOrder(SearchSingleton.getPath());
-    changeLevel(mapEntity.getFirstLevel().toString());
-    centerMap(
-        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
   }
 
   /**
