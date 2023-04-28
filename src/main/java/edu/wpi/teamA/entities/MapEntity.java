@@ -123,9 +123,9 @@ public class MapEntity {
     circle.setRadius(10);
     circle.setVisible(true);
 
-    if (nodeHasTwoLocations(node.getNodeID()) == 0) {
+    if (numberOfLocationsOnNode(node.getNodeID()) == 0) {
       circle.setFill(Color.web("0xf74c4c"));
-    } else if (nodeHasTwoLocations(node.getNodeID()) == 1) {
+    } else if (numberOfLocationsOnNode(node.getNodeID()) == 1) {
       circle.setFill(Color.web("0x012D5A"));
     } else {
       circle.setFill(Color.web("0x4cde61"));
@@ -201,7 +201,7 @@ public class MapEntity {
     }
   }
 
-  public int nodeHasTwoLocations(int nodeID) {
+  public int numberOfLocationsOnNode(int nodeID) {
     Move firstMove = databaseRepo.getFirstMoveForNode(nodeID);
     Move secondMove = databaseRepo.getSecondMoveForNode(nodeID);
     if (firstMove != null && secondMove != null) {
@@ -329,16 +329,6 @@ public class MapEntity {
     return databaseRepo.loadNodesFromDatabaseInArray();
   }
 
-  // TODO
-  public String getLongName(int id) {
-    Move move = databaseRepo.getFirstMoveForNode(id);
-    if (move != null) {
-      return move.getLongName();
-    } else {
-      return "Empty Node";
-    }
-  }
-
   // sets up the hashmap linking long names to nodeIDs
   public void initializeNameIDHashMap() {
     nameMap = new HashMap<String, Integer>();
@@ -347,8 +337,21 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // puts name and ID into name map
-      if (!getLongName(id).equals("Empty Node")) {
-        nameMap.put(getLongName(id), id);
+      Move firstMove = databaseRepo.getFirstMoveForNode(id);
+      if (firstMove != null) {
+        if (!firstMove.getLongName().equals("Empty Node")) {
+          nameMap.put(firstMove.getLongName(), id);
+        }
+      }
+
+      Move secondMove = databaseRepo.getSecondMoveForNode(id);
+      if (secondMove != null) {
+        if (!secondMove.getLongName().equals("Empty Node")) {
+          assert firstMove != null;
+          if (!secondMove.getLongName().equals(firstMove.getLongName())) {
+            nameMap.put(secondMove.getLongName(), id);
+          }
+        }
       }
     }
   }
@@ -362,11 +365,24 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // get the locationname object with nodetype
-      LocationName loc = getLocationName(id, false);
+      if (numberOfLocationsOnNode(id) == 1) {
+        LocationName loc = getLocationName(id, false);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
+      } else if (numberOfLocationsOnNode(id) == 2) {
+        LocationName loc = getLocationName(id, false);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
 
-      if (!loc.getNodeType().equals("HALL")) {
-        // Add
-        nameOptions.add(getLongName(id));
+        loc = getLocationName(id, true);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
       }
     }
     return nameOptions;

@@ -301,7 +301,7 @@ public class MapEditorController {
    */
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
-    int code = entity.nodeHasTwoLocations(nodeID);
+    int code = entity.numberOfLocationsOnNode(nodeID);
     if (code == 0) {
       circle.setFill(Color.web("0xf74c4c"));
     } else if (code == 1) {
@@ -637,7 +637,6 @@ public class MapEditorController {
 
   @FXML
   public void validateMovesInputSubmit() {
-    // TODO add validate if there are more than 2 moves for that date on that node id
     if (moveToText.getText().isEmpty()
         || locationMoving.getSelectedIndex() == -1
         || movesDateForMove.getValue() == null) {
