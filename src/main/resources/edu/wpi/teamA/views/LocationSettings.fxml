@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.SetLocationController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.LocationSettingsController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
@@ -34,7 +34,7 @@
                                 </VBox>
                                 <VBox alignment="BOTTOM_RIGHT">
                                     <children>
-                                        <MFXButton fx:id="updateButton" onAction="#addUser" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Add User">
+                                        <MFXButton onAction="#setLocation" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Set Location">
                                             <VBox.margin>
                                                 <Insets />
                                             </VBox.margin></MFXButton>

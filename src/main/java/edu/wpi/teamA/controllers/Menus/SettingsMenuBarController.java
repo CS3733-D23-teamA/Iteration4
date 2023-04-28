@@ -55,11 +55,12 @@ public class SettingsMenuBarController {
     Navigation.navigate(Screen.IMPORT_EXPORT_SETTINGS);
   }
 
-  public void openAddUser() {
-    Navigation.navigate(Screen.ADD_USER);
+  public void openUserSettings() {
+    Navigation.navigate(Screen.USER_SETTINGS);
   }
-  public void openSetLocation(){
-    Navigation.navigate(Screen.SET_LOCATION);
+
+  public void openLocationSettings() {
+    Navigation.navigate(Screen.LOCATION_SETTINGS);
   }
 
   public void logout() {
