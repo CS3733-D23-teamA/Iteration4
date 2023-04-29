@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DataBaseRepository;
 import java.io.File;
 import javafx.fxml.FXML;
@@ -21,6 +22,16 @@ public class DataSettingsController {
     DirectoryChooser directoryChooser = new DirectoryChooser();
     directoryChooser.setTitle("Export CSV File for " + type + " to");
     return directoryChooser.showDialog(App.getPrimaryStage());
+  }
+
+  @FXML
+  public void changeLocalDatabase() {
+    DBConnectionProvider.createLocalConnection();
+  }
+
+  @FXML
+  public void changeAWSDatabase() {
+    DBConnectionProvider.createAWSConnection();
   }
 
   @FXML
