@@ -44,6 +44,23 @@ public class DataBaseRepository {
     return instance;
   }
 
+  /**
+   * Resets all the DAO's hashmaps (called every minute)
+   */
+  public void updateCache() {
+    nodeDAOImp = new NodeDAOImp();
+    edgeDAOImp = new EdgeDAOImp();
+    locNameDAOImp = new LocNameDAOImp();
+    moveDAOImp = new MoveDAOImp();
+    flowerDAOImp = new FlowerDAOImp();
+    crrrDAOImp = new CRRRDAOImp();
+    furnitureDAOImp = new FurnitureDAOImp();
+    mealDAOImp = new MealDAOImp();
+    userDAOImp = new UserDAOImp();
+    employeeDAOImp = new EmployeeDAOImp();
+    signageDAOImp = new SignageDAOImp();
+  }
+
   // Node related methods
 
   public HashMap<Integer, Node> getNodeMap() {
@@ -193,10 +210,6 @@ public class DataBaseRepository {
 
   public void updateMove(Move oldMove, Move newMove) {
     moveDAOImp.Update(oldMove, newMove);
-  }
-
-  public Move getMoveForNodeSlow(int nodeID) {
-    return moveDAOImp.getMoveForNodeSlow(nodeID);
   }
 
   public Move getFirstMoveForNode(int nodeID) {

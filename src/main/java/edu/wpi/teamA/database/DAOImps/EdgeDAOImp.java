@@ -20,10 +20,6 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
-  public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
-    this.EdgeMap = EdgeMap;
-  }
-
   public EdgeDAOImp() {
     this.EdgeMap = loadDataFromDatabaseInMap();
   }

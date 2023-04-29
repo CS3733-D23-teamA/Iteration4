@@ -19,10 +19,6 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     this.flowerMap = loadDataFromDatabaseInMap();
   }
 
-  private FlowerDAOImp(HashMap<Integer, Flower> flowerMap) {
-    this.flowerMap = flowerMap;
-  }
-
   public HashMap<Integer, Flower> loadDataFromDatabaseInMap() {
     try {
       Statement st =

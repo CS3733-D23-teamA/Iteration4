@@ -19,10 +19,6 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
 
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
 
-  public LocNameDAOImp(HashMap<String, LocationName> LocNameMap) {
-    this.LocNameMap = LocNameMap;
-  }
-
   public LocNameDAOImp() {
     this.LocNameMap = loadDataFromDatabaseInMap();
   }

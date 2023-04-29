@@ -22,10 +22,6 @@ public class SignageDAOImp implements ISignageDAO {
     this.signageMap = loadSignagesFromDatabaseInMap();
   }
 
-  public SignageDAOImp(HashMap<String, SignageComponent> signageMap) {
-    this.signageMap = signageMap;
-  }
-
   @Override
   public SignageComponent getSignage(String signageID) {
     return signageMap.get(signageID);

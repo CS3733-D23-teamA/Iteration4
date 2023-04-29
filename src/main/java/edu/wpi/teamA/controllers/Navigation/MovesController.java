@@ -89,9 +89,7 @@ public class MovesController {
     moveTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
-  /**
-   * Changes the current date based on the date picker
-   */
+  /** Changes the current date based on the date picker */
   @FXML
   public void submitCurrentDate() {
     if (currentDatePicker.getValue() != null) {
@@ -103,6 +101,7 @@ public class MovesController {
 
   /**
    * Preloads the dialog with the move
+   *
    * @param move the move to preload with
    */
   private void preloadDialog(Move move) {
@@ -111,9 +110,7 @@ public class MovesController {
     editDate.setValue(move.getDate());
   }
 
-  /**
-   * Removes the current move
-   */
+  /** Removes the current move */
   @FXML
   public void removeMove() {
     databaseRepo.deleteMove(currentMove);
@@ -123,9 +120,7 @@ public class MovesController {
     displayFutureMoves();
   }
 
-  /**
-   * Updates the move
-   */
+  /** Updates the move */
   @FXML
   public void submitEdit() {
     Move newMove =
