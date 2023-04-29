@@ -22,10 +22,6 @@ public class EmployeeDAOImp implements IEmployeeDAO {
     this.employeeMap = loadEmployeesFromDatabaseInMap();
   }
 
-  public EmployeeDAOImp(HashMap<String, Employee> employeeMap) {
-    this.employeeMap = employeeMap;
-  }
-
   @Override
   public Employee getEmployee(String username) {
     return employeeMap.get(username);

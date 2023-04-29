@@ -77,6 +77,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     return nodeMoveMap;
   }
 
+  /**
+   * Loads the currentMoveMap hashmap
+   * @param date the current date
+   * @return the currentMoveMap hashmap
+   */
   public HashMap<String, Move> loadCurrentMoveMap(LocalDate date) {
     HashMap<String, Move> map = new HashMap<>();
     try {
@@ -229,36 +234,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     Add(newMove);
   }
 
-  public Move getMoveForNodeSlow(int nodeID) {
-    Move move = null;
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate <= ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
-      ps.setString(1, App.getCurrentDate().toString());
-      ps.setInt(2, nodeID);
-      // ps.executeUpdate();
-      ps.execute();
-      ps.getResultSet().next();
-
-      move =
-          new Move(
-              ps.getResultSet().getInt("nodeid"),
-              ps.getResultSet().getString("longname"),
-              LocalDate.parse(
-                  ps.getResultSet().getString("localdate"), DateTimeFormatter.ISO_DATE));
-
-    } catch (SQLException e) {
-      throw new RuntimeException("SQLException in MoveDAOImp.getMoveForNode()");
-    }
-
-    return move;
-  }
-
+  /**
+   * Gets the first move associated to the node
+   * @param nodeID the node
+   * @return the move
+   */
   public Move getFirstMoveForNode(int nodeID) {
     LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
     for (Move move : movesForNode) {
@@ -271,6 +251,11 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     return null;
   }
 
+  /**
+   * Gets the second move associated to the node if it exists
+   * @param nodeID the node
+   * @return the second move or the first move if no second move exists
+   */
   public Move getSecondMoveForNode(int nodeID) {
     Move firstMove = getFirstMoveForNode(nodeID);
     LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
@@ -285,6 +270,14 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     return firstMove;
   }
 
+  /**
+   * Checks to see if the move provided can be added into the currentMoveMap
+   * @param map map to check
+   * @param nodeID nodeID for move
+   * @param longName longName for move
+   * @param localDate localDate for move
+   * @param currentDate currentDate to check for
+   */
   private void updateCurrentMove(
       HashMap<String, Move> map,
       int nodeID,
@@ -304,13 +297,9 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
   }
 
-  private void printMap() {
-    System.out.println();
-    for (Move move : currentMoveMap.values()) {
-      System.out.println(move.getLongName() + " " + move.getNodeID());
-    }
-  }
-
+  /**
+   * Checks if a location name shows mutliple times in the current move map
+   */
   private void checkDuplicateLocationNames() {
     HashMap<String, Move> locationNamesMap = new HashMap<>();
     HashMap<String, Move> currentMoveMapCopy = new HashMap<>(currentMoveMap);

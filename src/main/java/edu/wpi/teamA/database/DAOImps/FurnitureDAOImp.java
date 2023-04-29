@@ -21,10 +21,6 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     this.furnitureMap = loadDataFromDatabaseInMap();
   }
 
-  public FurnitureDAOImp(HashMap<Integer, FurnitureRequest> furnitureMap) {
-    this.furnitureMap = furnitureMap;
-  }
-
   public HashMap<Integer, FurnitureRequest> loadDataFromDatabaseInMap() {
     try {
       Statement st =

@@ -18,10 +18,6 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
   // ArrayList<Node> NodeArray;
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
-  public NodeDAOImp(HashMap<Integer, Node> NodeMap) {
-    this.NodeMap = NodeMap;
-  }
-
   public NodeDAOImp() {
     this.NodeMap = loadDataFromDatabaseInMap();
   }

@@ -22,10 +22,6 @@ public class MealDAOImp implements IServiceDAO<Meal> {
     this.mealMap = loadDataFromDatabaseInMap();
   }
 
-  public MealDAOImp(HashMap<Integer, Meal> mealMap) {
-    this.mealMap = mealMap;
-  }
-
   public HashMap<Integer, Meal> loadDataFromDatabaseInMap() {
     try {
       Statement st =

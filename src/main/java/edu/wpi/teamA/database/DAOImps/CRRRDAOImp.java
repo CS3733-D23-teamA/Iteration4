@@ -18,10 +18,6 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     this.crrrMap = loadDataFromDatabaseInMap();
   }
 
-  public CRRRDAOImp(HashMap<Integer, ConferenceRoomResRequest> crrrMap) {
-    this.crrrMap = crrrMap;
-  }
-
   public HashMap<Integer, ConferenceRoomResRequest> loadDataFromDatabaseInMap() {
     try {
       Statement st =
