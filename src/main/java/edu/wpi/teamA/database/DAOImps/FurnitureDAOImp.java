@@ -23,8 +23,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
   public HashMap<Integer, FurnitureRequest> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\"");
 
       while (rs.next()) {
@@ -72,7 +71,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String creator = data[9];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
@@ -103,8 +102,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Furniture.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -149,7 +147,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String creator = furniture.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -183,7 +181,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Furniture\" WHERE id = ?");
       ps.setInt(1, furniture.getId());
       ps.executeUpdate();
@@ -209,7 +207,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String creator = furniture.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Furniture\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
@@ -252,7 +250,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Furniture\" WHERE employee = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
@@ -286,7 +284,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Furniture\" WHERE creator = ?");
       ps.setString(1, username);
       ResultSet rs = ps.executeQuery();
@@ -322,8 +320,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   public int getNextID() {
     FurnitureRequest largestID = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\" ORDER BY id DESC LIMIT 1");
 

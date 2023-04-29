@@ -16,7 +16,6 @@ import lombok.Setter;
 public class SignageDAOImp implements ISignageDAO {
 
   @Getter @Setter private HashMap<String, SignageComponent> signageMap = new HashMap<>();
-  static DBConnectionProvider signageProvider = new DBConnectionProvider();
 
   public SignageDAOImp() {
     this.signageMap = loadSignagesFromDatabaseInMap();
@@ -29,8 +28,7 @@ public class SignageDAOImp implements ISignageDAO {
 
   public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"SignageComponent\"");
 
       while (rs.next()) {
@@ -67,7 +65,7 @@ public class SignageDAOImp implements ISignageDAO {
         int screen = Integer.parseInt(data[4]);
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?, ?)");
         ps.setString(1, locationName);
@@ -92,8 +90,7 @@ public class SignageDAOImp implements ISignageDAO {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Signage.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"SignageComponent\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -128,8 +125,7 @@ public class SignageDAOImp implements ISignageDAO {
       String signageID = locationName + date.toString();
 
       PreparedStatement ps =
-          signageProvider
-              .createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"SignageComponent\" SET direction = ?, date = ?, screen = ?, locationname = ? WHERE signageid = ?");
       ps.setString(1, direction);
@@ -156,7 +152,7 @@ public class SignageDAOImp implements ISignageDAO {
       int screen = signage.getScreen();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?)");
       ps.setString(1, locationName);
@@ -179,7 +175,7 @@ public class SignageDAOImp implements ISignageDAO {
   public void removeSignage(SignageComponent signage) {
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE signageid = ?");
       ps.setString(1, signage.getSignageID());

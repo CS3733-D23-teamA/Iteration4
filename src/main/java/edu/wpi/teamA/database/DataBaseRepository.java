@@ -44,9 +44,7 @@ public class DataBaseRepository {
     return instance;
   }
 
-  /**
-   * Resets all the DAO's hashmaps (called every minute)
-   */
+  /** Resets all the DAO's hashmaps (called every minute) */
   public void updateCache() {
     nodeDAOImp = new NodeDAOImp();
     edgeDAOImp = new EdgeDAOImp();

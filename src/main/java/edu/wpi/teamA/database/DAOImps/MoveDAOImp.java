@@ -43,7 +43,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
               + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
               + "ON UPDATE CASCADE)";
       Statement stmtMove =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       stmtMove.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -52,8 +52,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public HashMap<Integer, LinkedList<Move>> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -79,14 +78,14 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Loads the currentMoveMap hashmap
+   *
    * @param date the current date
    * @return the currentMoveMap hashmap
    */
   public HashMap<String, Move> loadCurrentMoveMap(LocalDate date) {
     HashMap<String, Move> map = new HashMap<>();
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -119,7 +118,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         LocalDate localDate = LocalDate.parse(data[2], formatter);
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
         ps.setInt(1, nodeID);
         ps.setString(2, longName);
@@ -145,8 +144,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   public void Export(String filePath) {
     try {
       String newFile = filePath + "/Move.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -175,7 +173,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     LocalDate localDate = move.getDate();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
@@ -204,7 +202,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ? AND longname = ? AND localdate = ?");
       ps.setInt(1, nodeID);
@@ -236,6 +234,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Gets the first move associated to the node
+   *
    * @param nodeID the node
    * @return the move
    */
@@ -253,6 +252,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Gets the second move associated to the node if it exists
+   *
    * @param nodeID the node
    * @return the second move or the first move if no second move exists
    */
@@ -272,6 +272,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Checks to see if the move provided can be added into the currentMoveMap
+   *
    * @param map map to check
    * @param nodeID nodeID for move
    * @param longName longName for move
@@ -297,9 +298,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
   }
 
-  /**
-   * Checks if a location name shows mutliple times in the current move map
-   */
+  /** Checks if a location name shows mutliple times in the current move map */
   private void checkDuplicateLocationNames() {
     HashMap<String, Move> locationNamesMap = new HashMap<>();
     HashMap<String, Move> currentMoveMapCopy = new HashMap<>(currentMoveMap);

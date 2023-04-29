@@ -24,8 +24,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
 
   public HashMap<Integer, Meal> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Meal\"");
 
       while (rs.next()) {
@@ -71,7 +70,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
         String creator = data[9];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
@@ -100,8 +99,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Meal.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -146,7 +144,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String creator = meal.getCreator();
 
       PreparedStatement ps =
-          DBConnectionProvider.createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"Meal\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -178,7 +176,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
 
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Meal\" WHERE id = ?");
       ps.setInt(1, meal.getId());
       ps.executeUpdate();
@@ -204,7 +202,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       String creator = meal.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Meal\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
@@ -262,8 +260,7 @@ public class MealDAOImp implements IServiceDAO<Meal> {
   public int getNextID() {
     Meal largestID = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery("SELECT * FROM \"Teama_schema\".\"Meal\" ORDER BY id DESC LIMIT 1");
 
