@@ -26,7 +26,6 @@ public class LocationSettingsController {
   }
 
   public void setLocation() {
-    // TODO ensure this is actually setting location
     App.setCurrentLocation(
         mapEntity.getLocationName(
             mapEntity.getIDFromLongName(locationComboBox.getValue().toString())));

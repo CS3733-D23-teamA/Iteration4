@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class UserSettingsController {
+  // add user UI
   @FXML private MFXTextField firstNameTextField;
   @FXML private MFXTextField lastNameTextField;
   @FXML private MFXTextField passwordTextField;
@@ -25,17 +26,25 @@ public class UserSettingsController {
   @FXML private MFXCheckbox isAdminCheckbox;
   @FXML private MFXButton updateButton;
 
+  // add employee UI
   @FXML private MFXTextField nameAddInput;
   @FXML private MFXTextField userAddInput;
   @FXML private MFXTextField passwordAddInput;
+
+  // remove employee UI
   @FXML private MFXComboBox<String> chooseEmployeeRemove;
+
+  // modify employee UI
   @FXML private MFXComboBox<String> chooseEmployeeModify;
   @FXML private MFXTextField modifyNameInput;
   @FXML private MFXTextField modifyPassInput;
+
+  // employee UI
   @FXML private MFXButton addButton;
   @FXML private MFXButton removeButton;
   @FXML private MFXButton modifyButton;
 
+  // employee table UI
   @FXML private TableView<Employee> employeeTableView;
   @FXML private TableColumn<Employee, String> nameCol;
   @FXML private TableColumn<Employee, String> userCol;
