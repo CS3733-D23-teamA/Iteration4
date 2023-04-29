@@ -70,7 +70,25 @@ public class FlowerRequestController extends PageController implements IServiceC
     Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
 
-    flowerCombo.getItems().addAll("Roses", "Tulips", "Daises", "Sunflowers");
+    flowerCombo
+        .getItems()
+        .addAll(
+            "Roses",
+            "Tulips",
+            "Daises",
+            "Sunflowers",
+            "Carnation",
+            "Dahlia",
+            "Peony",
+            "Iris",
+            "Hydrangea",
+            "Chrysanthemum",
+            "Tulips",
+            "Alstroemeria",
+            "Zinnia",
+            "Petunia",
+            "Anemone",
+            "Larkspur");
     flowerQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     confirmationDialog.setVisible(false);

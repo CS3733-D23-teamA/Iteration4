@@ -71,8 +71,36 @@ public class MealRequestController extends PageController implements IServiceCon
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
     roomCombo.getItems().addAll(allRooms);
 
-    drinkCombo.getItems().addAll("Lemonade", "Coca-Cola", "Diet Coca-Cola", "Root Beer", "Water");
-    foodCombo.getItems().addAll("Burger", "Cheeseburger", "Hot Dog");
+    drinkCombo
+        .getItems()
+        .addAll(
+            "Lemonade",
+            "Coca-Cola",
+            "Diet Coca-Cola",
+            "Root Beer",
+            "Water",
+            "Sprite",
+            "Tea",
+            "Coffee",
+            "Hot Chocolate");
+    foodCombo
+        .getItems()
+        .addAll(
+            "Burger",
+            "Cheeseburger",
+            "Hot Dog",
+            "Fries",
+            "Salad",
+            "Fried Chicken",
+            "Rice",
+            "Pasta and meatballs",
+            "Chocolate bar",
+            "BBQ ribs",
+            "Pancakes",
+            "Sausage",
+            "Bacon",
+            "Mashed Potato",
+            "Carrots");
 
     drinkQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     foodQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);

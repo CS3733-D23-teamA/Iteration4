@@ -56,7 +56,23 @@ public class FurnitureRequestController extends PageController implements IServi
     itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
     quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-    furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
+    furnitureCombo
+        .getItems()
+        .addAll(
+            "Arm Chair",
+            "Couch",
+            "Coffee Table",
+            "Massage Table",
+            "Plastic chair",
+            "Circular Table",
+            "Bean bag chair",
+            "Step Stool",
+            "Rocking Chair",
+            "Garden furniture",
+            "Chaise longue",
+            "Console Table",
+            "Cupboard",
+            "Garden furniture");
     timeCombo
         .getItems()
         .addAll(

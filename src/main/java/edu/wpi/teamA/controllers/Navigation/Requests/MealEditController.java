@@ -32,7 +32,18 @@ public class MealEditController extends PageController {
   }
 
   public void populateCombos() {
-    mealCombo.getItems().addAll("Fast Food", "Asian Cuisine", "Indian Cuisine");
+    mealCombo
+        .getItems()
+        .addAll(
+            "Fast Food",
+            "Asian Cuisine",
+            "Indian Cuisine",
+            "Mexican Cuisine",
+            "Italian Cuisine",
+            "Snack Food",
+            "BBQ Food",
+            "Breakfast Food",
+            "Greek Cuisine");
     timeCombo
         .getItems()
         .addAll(
