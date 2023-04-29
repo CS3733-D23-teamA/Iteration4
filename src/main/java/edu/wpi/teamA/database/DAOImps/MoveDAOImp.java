@@ -207,7 +207,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       ps.setString(3, java.sql.Date.valueOf(localDate).toString());
       ps.executeUpdate();
 
-      // TODO check to see if works
       Move currentMove = currentMoveMap.get(move.getLongName());
       if (currentMove != null) {
         if (Objects.equals(currentMove.getNodeID(), move.getNodeID())
