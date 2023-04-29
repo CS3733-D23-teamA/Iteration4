@@ -88,6 +88,8 @@ public class PathfindingController {
   // location toggle
   @FXML private MFXToggleButton locationToggle;
 
+  private String accessiblityLevel;
+
   public void initialize() {
 
     // setting search algortihm selection visibility based on access level
@@ -128,6 +130,16 @@ public class PathfindingController {
     level2Toggle.setOnAction(event -> changeLevel(level2Toggle.getText()));
     level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
 
+    // setting all levels in levelButtons
+    regularPathToggle.setToggleGroup(accessiblityToggles);
+    noElevatorPathToggle.setToggleGroup(accessiblityToggles);
+    noStairsPathToggle.setToggleGroup(accessiblityToggles);
+
+    // Buttons to set floor level of map
+    regularPathToggle.setOnAction(event -> changeAccessibility(""));
+    noElevatorPathToggle.setOnAction(event -> changeAccessibility("No Elevators"));
+    noStairsPathToggle.setOnAction(event -> changeAccessibility("No Stairs"));
+
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
     prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
@@ -143,6 +155,20 @@ public class PathfindingController {
     centerMap(2265, 950, 0.5);
 
     locationToggle.setOnAction(event -> toggleNodeNames());
+  }
+
+  private void changeAccessibility(String accessiblity) {
+    switch (accessiblity) {
+      case "":
+        accessiblityToggles.selectToggle(regularPathToggle);
+        break;
+      case "No Elevators":
+        accessiblityToggles.selectToggle(noElevatorPathToggle);
+        break;
+      case "No Stairs":
+        accessiblityToggles.selectToggle(noStairsPathToggle);
+        break;
+    }
   }
 
   /**
