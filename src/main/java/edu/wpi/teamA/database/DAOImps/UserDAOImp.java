@@ -17,8 +17,6 @@ import java.util.Objects;
 public class UserDAOImp {
   private ArrayList<User> UserArray;
 
-  static DBConnectionProvider UserLoginProvider = new DBConnectionProvider();
-
   public UserDAOImp() {
     this.UserArray = new ArrayList<User>();
   }
@@ -26,7 +24,7 @@ public class UserDAOImp {
   // Create database table for User
   public void createUserTable() {
     try {
-      Statement stmtUser = UserLoginProvider.createConnection().createStatement();
+      Statement stmtUser = DBConnectionProvider.getInstance().createStatement();
       String sqlCreateUser =
           "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Users\" ("
               + "adminYes   int,"
@@ -57,7 +55,7 @@ public class UserDAOImp {
         String lastName = data[4];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Users\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, accessLevel);
         ps.setString(2, userName);
@@ -81,8 +79,7 @@ public class UserDAOImp {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/User.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Users\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -112,7 +109,7 @@ public class UserDAOImp {
   public User checkUser(String userName, String password) {
     try {
       PreparedStatement ps =
-          UserLoginProvider.createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, userName);
       ResultSet rs = ps.executeQuery();
@@ -145,7 +142,7 @@ public class UserDAOImp {
       String password1, String password2, String newPassword1, String newPassword2) {
     try {
       PreparedStatement ps =
-          UserLoginProvider.createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, AccountSingleton.INSTANCE.getValue().getUserName());
       ResultSet rs = ps.executeQuery();
@@ -158,7 +155,7 @@ public class UserDAOImp {
 
           // Update the password in the database
           PreparedStatement updatePs =
-              UserLoginProvider.createConnection()
+              DBConnectionProvider.getInstance()
                   .prepareStatement(
                       "UPDATE \"Teama_schema\".\"Users\" SET password = ? WHERE userName = ?");
           updatePs.setString(1, newPassword1);
@@ -188,7 +185,7 @@ public class UserDAOImp {
       String oldFirstName, String oldLastName, String newFirstName, String newLastName) {
     try {
       PreparedStatement ps =
-          UserLoginProvider.createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
       ps.setString(1, AccountSingleton.INSTANCE.getValue().getUserName());
       ResultSet rs = ps.executeQuery();
@@ -200,7 +197,7 @@ public class UserDAOImp {
 
           // Update the password in the database
           PreparedStatement updatePs =
-              UserLoginProvider.createConnection()
+              DBConnectionProvider.getInstance()
                   .prepareStatement(
                       "UPDATE \"Teama_schema\".\"Users\" SET firstName = ? WHERE userName = ?");
           updatePs.setString(1, newFirstName);
@@ -233,7 +230,7 @@ public class UserDAOImp {
     try {
 
       PreparedStatement ps =
-          UserLoginProvider.createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"Users\" (adminYes, userName, password, firstName, lastName) VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, adminYes);
