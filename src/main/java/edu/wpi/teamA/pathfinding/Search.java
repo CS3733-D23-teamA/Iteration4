@@ -44,18 +44,6 @@ public abstract class Search {
         && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
   }
 
-  public void setRegular() {
-    accessibilitySetting = 0;
-  }
-
-  public void setNoElevators() {
-    accessibilitySetting = 1;
-  }
-
-  public void setNoStairs() {
-    accessibilitySetting = 2;
-  }
-
   public GraphNode getGraphNode(int key) {
     return graph.getGraphNode(key);
   }
