@@ -91,8 +91,9 @@ public class UserSettingsController {
   }
 
   public void displayEmployees() {
-    nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+    System.out.println("display");
     userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+    nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     passCol.setCellValueFactory(new PropertyValueFactory<>("password"));
 
     employeeTableView.setItems(FXCollections.observableArrayList(db.getEmployeeMap().values()));

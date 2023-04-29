@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.LocationSettingsController">
     <top>
@@ -19,27 +18,16 @@
             <children>
                 <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
                     <children>
+                  <Label fx:id="title" text="Location Settings" />
                         <Label text="Set Location">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
                         </Label>
-                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                        <HBox alignment="CENTER_LEFT" spacing="50.0">
                             <children>
-                                <VBox>
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Location of Kiosk" />
-                              <MFXFilterComboBox fx:id="locationComboBox" />
-                           </children>
-                                </VBox>
-                                <VBox alignment="BOTTOM_RIGHT">
-                                    <children>
-                                        <MFXButton onAction="#setLocation" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Set Location">
-                                            <VBox.margin>
-                                                <Insets />
-                                            </VBox.margin></MFXButton>
-                                    </children>
-                                </VBox>
+                        <MFXFilterComboBox fx:id="locationComboBox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="250.0" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+                                  <MFXButton onAction="#setLocation" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Set Location" />
                             </children>
                             <padding>
                                 <Insets left="37.0" />
