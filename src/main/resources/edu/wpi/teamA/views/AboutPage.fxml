@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="700.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="title" text="About Our Team">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="aboutTeamMembers" text="Team Coach: Nini Acquista">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seth Frank- Lead Software Engineer" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Xiao Xiao- Asst Lead Software Engineer" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vincent Boothroyd- Asst Lead Software Engineer" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ayden Duncan- Project Manager" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ryan Suarez- Product Owner" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ashleigh Perez- Scrum Master" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Samra- Fulltime Software Engineer" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pooja Kawatkar- Fulltime Software Engineer" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Label fx:id="title1" style="-fx-font-size: 13;" text="Special thanks to Andrew Shinn for their time and input!">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+               <StackPane.margin>
+                  <Insets />
+               </StackPane.margin>
+               <padding>
+                  <Insets top="100.0" />
+               </padding>
+            </VBox>
+         </children>
+        </StackPane>
+    </center>
+</BorderPane>

@@ -79,6 +79,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Loads the currentMoveMap hashmap
+   *
    * @param date the current date
    * @return the currentMoveMap hashmap
    */
@@ -236,6 +237,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Gets the first move associated to the node
+   *
    * @param nodeID the node
    * @return the move
    */
@@ -253,6 +255,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Gets the second move associated to the node if it exists
+   *
    * @param nodeID the node
    * @return the second move or the first move if no second move exists
    */
@@ -272,6 +275,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   /**
    * Checks to see if the move provided can be added into the currentMoveMap
+   *
    * @param map map to check
    * @param nodeID nodeID for move
    * @param longName longName for move
@@ -297,9 +301,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
   }
 
-  /**
-   * Checks if a location name shows mutliple times in the current move map
-   */
+  /** Checks if a location name shows mutliple times in the current move map */
   private void checkDuplicateLocationNames() {
     HashMap<String, Move> locationNamesMap = new HashMap<>();
     HashMap<String, Move> currentMoveMapCopy = new HashMap<>(currentMoveMap);

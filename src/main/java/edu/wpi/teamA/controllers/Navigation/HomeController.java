@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
-import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import edu.wpi.teamA.navigation.Navigation;
+import edu.wpi.teamA.navigation.Screen;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,26 +15,9 @@ import javafx.scene.text.Font;
 public class HomeController {
 
   @FXML private VBox alertsContainer;
-  @FXML private MFXGenericDialog aboutDialog;
-  @FXML private MFXGenericDialog creditDialog;
 
   @FXML
   public void initialize() {
-    aboutDialog.setVisible(false);
-    aboutDialog.setDisable(true);
-    creditDialog.setVisible(false);
-
-    aboutDialog.setOnClose(
-        event -> {
-          aboutDialog.setDisable(true);
-          aboutDialog.setVisible(false);
-        });
-
-    creditDialog.setOnClose(
-        event -> {
-          creditDialog.setDisable(true);
-          creditDialog.setVisible(false);
-        });
 
     List<String> alerts = getAlerts(); // Get your alerts here
 
@@ -50,13 +34,11 @@ public class HomeController {
   }
 
   public void openAbout() {
-    aboutDialog.setDisable(false);
-    aboutDialog.setVisible(true);
+    Navigation.navigate(Screen.ABOUT_HOME);
   }
 
   public void openCredits() {
-    creditDialog.setDisable(false);
-    creditDialog.setVisible(true);
+    // Navigation.navigate(Screen.CREDITS_HOME);
   }
 
   private List<String> getAlerts() {

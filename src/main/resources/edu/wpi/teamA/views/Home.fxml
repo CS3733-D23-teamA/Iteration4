@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -75,7 +74,7 @@
                   </StackPane>
                </children>
             </AnchorPane>
-            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: bblue; -fx-background-radius: 20;" StackPane.alignment="BOTTOM_LEFT">
+            <VBox fx:id="alertsContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: bblue; -fx-background-radius: 20;" StackPane.alignment="BOTTOM_LEFT">
                <children>
                   <Label style="-fx-text-fill: bwhite;" text="Current Alerts:" />
                   <VBox fx:id="alertsContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" />
@@ -87,82 +86,6 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-            <MFXGenericDialog fx:id="aboutDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" visible="false">
-               <center>
-                  <VBox spacing="20.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <VBox alignment="TOP_CENTER">
-                           <VBox.margin>
-                              <Insets bottom="-10.0" top="-20.0" />
-                           </VBox.margin>
-                           <children>
-                              <Label alignment="CENTER" prefHeight="25.0" prefWidth="551.0" text="About Our Team" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Team Coach: Nini Acquista">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Seth Frank - Lead Software Engineer">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Xiao Xiao - Asst Lead Software Engineer">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vincent Boothroyd - Asst Lead Software Engineer">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ayden Duncan - Project Manager">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ryan Suarez - Product Owner">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Maryna Ilyanok - Documentation Analyst">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ashleigh Perez - Scrum Master">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alex Samra - Fulltime Software Engineer">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pooja Kawatkar - Fulltime Software Engineer">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font></Text>
-                           </children>
-                        </VBox>
-                        <VBox alignment="BOTTOM_CENTER" spacing="25.0" VBox.vgrow="ALWAYS">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-fill: bblue;" text="Special thanks to Andrew Shinn for their time and input!" textAlignment="CENTER" wrappingWidth="474.4456787109375" />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WPI Computer Science Department, CS3733-D23 Software Engineering, Prof.Wilson Wong" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-               </center></MFXGenericDialog>
-            <MFXGenericDialog fx:id="creditDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
-               <center>
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label text="Credits" />
-                     </children>
-                  </VBox>
-               </center></MFXGenericDialog>
          </children>
       </StackPane>
    </center>
