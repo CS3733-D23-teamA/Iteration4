@@ -22,12 +22,15 @@
                <children>
                   <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
                      <children>
-                        <Label text="Account Settings">
+                        <Label fx:id="title" style="-fx-font-weight: bolder;" text="Account Settings">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="welcomeMessage" />
+                        <Label fx:id="welcomeMessage" style="-fx-font-weight: normal;">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></Label>
                         <Label text="Change Password" />
                         <HBox alignment="CENTER_LEFT" spacing="100.0">
                            <children>

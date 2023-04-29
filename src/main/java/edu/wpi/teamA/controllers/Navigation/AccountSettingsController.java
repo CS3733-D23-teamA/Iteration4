@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -24,7 +25,10 @@ public class AccountSettingsController {
   DataBaseRepository checker = new DataBaseRepository();
 
   @FXML
-  public void initialize() {}
+  public void initialize() {
+    welcomeMessage.setText(
+        "Welcome " + AccountSingleton.getFirstName() + " " + AccountSingleton.getLastName() + "!");
+  }
 
   public void updatePassword() {
     String oldpassword1 = password1.getText();
