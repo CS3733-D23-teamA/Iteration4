@@ -1,6 +1,6 @@
-/*package edu.wpi.teamA.pathfinding;
+package edu.wpi.teamA.pathfinding;
 
-import java.util.*;
+import edu.wpi.teamA.database.ORMclasses.Edge;
 import java.util.ArrayList;
 
 public class Dijkstra extends Search {
@@ -16,48 +16,126 @@ public class Dijkstra extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
-
     setPath();
   }
 
+  //    public class Wrapping {
+  //        Node currentNode;
+  //        Wrapping previousPath;
+  //        boolean noPrevPath;
+  //
+  //        public Wrapping(Node currentNode, Wrapping previousPath) {
+  //            this.currentNode = currentNode;
+  //            this.previousPath = previousPath;
+  //            noPrevPath = false;
+  //        }
+  //
+  //        public Wrapping(Node currentNode) {
+  //            this.currentNode = currentNode;
+  //            noPrevPath = true;
+  //        }
+  //
+  //        public void addPath(Wrapping path) {
+  //            this.previousPath = path;
+  //            noPrevPath = false;
+  //        }
+  //    }
+
+  /**
+   * pathOfNodesAStar: A* Algorithm Implementation
+   *
+   * @return path of nodes
+   */
   protected ArrayList<Integer> setPath() {
     ArrayList<Integer> queue = new ArrayList<>();
-    ArrayList<Integer> nodesSet = new ArrayList<>();
-    int graphSize = this.graph.getNumNodes();
-    int[] distances = new int[graphSize];
 
-    queue.add(startID); // add the starting node
+    ArrayList<Integer> nodesToReset = new ArrayList<>();
+
+    nodesToReset.add(startID);
+    // queue.add(startID);
+
+    nodesToReset.add(startID);
+
     GraphNode endNode = graph.getGraphNode(endID);
-    distances[startID] = 0;
+    int endX = endNode.getXcoord();
+    int endY = endNode.getYcoord();
+    GraphNode currentNode = graph.getGraphNode(startID);
+    int currentX = currentNode.getXcoord();
+    int currentY = currentNode.getYcoord();
 
-    int minDistance = 0;
-    // while, not all the nodes have calculated min dist
-    while (nodesSet.size() != graphSize) {
-      if (queue.isEmpty()) {
-        break; // how can I get rid of this?
-      }
+    // currentNode info
+    currentNode.setgCost(0);
+    currentNode.sethCost((int) (Math.hypot(endX - currentX, endX - currentX)));
 
-      for (Integer i : queue) { // remove node with min distance from queue
-        if (i < minDistance) {
-          minDistance = i;
+    while (currentNode.getNodeID() != endID) {
+      for (int i = 0; i < currentNode.edgeCount(); i++) {
+        Edge currentEdge = currentNode.getEdge(i);
+        int otherNodeID;
+        GraphNode otherGNode;
+        if (currentEdge.getStartNode()
+            == currentNode
+                .getNodeID()) { // check whether node is starting node or ending node in the
+          // edge
+          otherNodeID = currentEdge.getEndNode();
+        } else {
+          otherNodeID = currentEdge.getStartNode();
+        }
+        otherGNode = graph.getGraphNode(otherNodeID);
+        if (!otherGNode.isVisited()) {
+          int gCost =
+              currentNode.getgCost()
+                  + (int)
+                      Math.hypot(
+                          currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+
+          if (otherGNode.getPrev().getNodeID() == otherNodeID) {
+            otherGNode.setgCost(gCost);
+
+            otherGNode.setPrev(currentNode);
+            queue.add(otherNodeID);
+            otherGNode.setVisited(true);
+            nodesToReset.add(currentNode.getNodeID());
+          }
         }
       }
-      queue.remove(minDistance);
 
-      if (nodesSet.contains(minDistance)) {
-        continue;
-      }
+      currentNode.setVisited(true);
 
-      nodesSet.add(minDistance); // add the min distance for a node to set list
-
-      // Look at neighbors of the current node
-      GraphNode currentNode = graph.getGraphNode(minDistance);
-      //for (GraphNode current : currentNode.neighborNodes) { // How can I
-
-
-      }
+      currentNode = graph.getGraphNode(queue.remove(0));
+      currentX = currentNode.getXcoord();
+      currentY = currentNode.getYcoord();
     }
 
-    return priorityQ;
+    ArrayList<Integer> path = getOrder(startID, endID);
+
+    resetNodes(nodesToReset);
+
+    this.path = path;
+
+    return path;
   }
-}*/
+
+  private void insertIntoPQ(ArrayList<Integer> pQ, GraphNode node) {
+    boolean isAdded = false;
+    for (int i = 0; i < pQ.size(); i++) {
+      if (graph.getGraphNode(pQ.get(i)).getfCost() > node.getfCost()) {
+        pQ.add(i, node.getNodeID());
+        isAdded = true;
+        break;
+      }
+    }
+    if (!isAdded) {
+      pQ.add(node.getNodeID());
+    }
+  }
+
+  private void removeFromPQ(ArrayList<Integer> pQ, int nodeID) {
+
+    for (int i = 0; i < pQ.size(); i++) {
+      if (pQ.get(i) == nodeID) {
+        pQ.remove(i);
+        break;
+      }
+    }
+  }
+}

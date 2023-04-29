@@ -57,7 +57,7 @@ public class DijkstraTest {
   }
 
   @Test
-  public void testSetPathAStar() {
+  public void testSetPathDijkstra() {
     Dijkstra dij1 = new Dijkstra(graph, 11, 13);
     ArrayList<Integer> expected_path = new ArrayList<Integer>();
     expected_path.add(11);
