@@ -59,11 +59,13 @@ public class DFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) { // if not visited, add to queue and add to wrapping queue
-            otherGNode.setPrev(currentGNode);
-            nodesToReset.add(otherNodeID);
-            queue.add(otherNodeID);
-            otherGNode.setVisited(true);
+        if (!otherGNode.isVisited()
+            && accessibilityCheck(
+                otherNodeID)) { // if not visited, add to queue and add to wrapping queue
+          otherGNode.setPrev(currentGNode);
+          nodesToReset.add(otherNodeID);
+          queue.add(otherNodeID);
+          otherGNode.setVisited(true);
         }
       }
 

@@ -37,17 +37,21 @@ public abstract class Search {
     }
   }
 
-  //Takes in a node and returns false if it is something that cannot be travelled through based on accessibility settings
+  // Takes in a node and returns false if it is something that cannot be travelled through based on
+  // accessibility settings
   protected boolean accessibilityCheck(int nodeID) {
     return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting == 1)
-            && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
+        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
   }
+
   public void setRegular() {
     accessibilitySetting = 0;
   }
+
   public void setNoElevators() {
     accessibilitySetting = 1;
   }
+
   public void setNoStairs() {
     accessibilitySetting = 2;
   }

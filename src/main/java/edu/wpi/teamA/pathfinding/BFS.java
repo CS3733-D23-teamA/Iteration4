@@ -59,7 +59,9 @@ public class BFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) { // if not visited, add to queue and add to wrapping queue
+        if (!otherGNode.isVisited()
+            && accessibilityCheck(
+                otherNodeID)) { // if not visited, add to queue and add to wrapping queue
           otherGNode.setPrev(currentGNode);
           nodesToReset.add(otherNodeID);
           queue.add(otherNodeID);
