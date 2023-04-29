@@ -8,7 +8,7 @@ import io.github.palexdev.materialfx.controls.MFXCheckbox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.fxml.FXML;
 
-public class AddUserController {
+public class UserSettingsController {
   @FXML private MFXTextField firstNameTextField;
   @FXML private MFXTextField lastNameTextField;
   @FXML private MFXTextField passwordTextField;

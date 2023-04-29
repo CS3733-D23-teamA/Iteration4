@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.LocationSettingsController">
+    <top>
+        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+        <StackPane BorderPane.alignment="CENTER">
+            <children>
+                <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
+                    <children>
+                        <Label text="Set Location">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                            <children>
+                                <VBox>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Location of Kiosk" />
+                              <MFXFilterComboBox fx:id="locationComboBox" />
+                           </children>
+                                </VBox>
+                                <VBox alignment="BOTTOM_RIGHT">
+                                    <children>
+                                        <MFXButton onAction="#setLocation" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Set Location">
+                                            <VBox.margin>
+                                                <Insets />
+                                            </VBox.margin></MFXButton>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets left="37.0" />
+                            </padding>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets left="50.0" top="70.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+    <left>
+        <fx:include fx:id="settingsmenu" source="SettingsMenuBar.fxml" />
+    </left>
+</BorderPane>
