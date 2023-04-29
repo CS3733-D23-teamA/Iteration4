@@ -14,6 +14,7 @@ public class SettingsMenuBarController {
   @FXML private MFXButton logoutButton;
   @FXML private MFXButton accountSettingsButton;
   @FXML private MFXButton employeeSettingsButton;
+  @FXML private MFXButton alertSettingsButton;
   @FXML public VBox AccountSettingsDropdown;
   @FXML private MFXButton importExportButton;
 
@@ -22,6 +23,8 @@ public class SettingsMenuBarController {
     if (!AccountSingleton.isAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
+      alertSettingsButton.setVisible(false);
+      alertSettingsButton.setManaged(false);
       importExportButton.setVisible(false);
       importExportButton.setManaged(false);
     }
@@ -33,7 +36,9 @@ public class SettingsMenuBarController {
   public void openEmployeeSettings() {
     Navigation.navigate(Screen.EMPLOYEE_SETTINGS);
   }
-
+  public void openAlertSettings() {
+    Navigation.navigate(Screen.ALERT_SETTINGS);
+  }
   public void openAccountSettings() {
     // Navigation.navigate(Screen.ACCOUNT_SETTINGS);
     AccountSettingsDropdown.setVisible(!AccountSettingsDropdown.isVisible());

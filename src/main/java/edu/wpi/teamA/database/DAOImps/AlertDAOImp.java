@@ -189,5 +189,4 @@ public class AlertDAOImp implements IAlertDAO {
             throw new RuntimeException(e);
         }
     }
-
 }
