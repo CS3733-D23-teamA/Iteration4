@@ -3,7 +3,6 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Move;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import javafx.scene.text.Text;
 
 public class MovesController {
 
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @FXML private TableView<Move> moveTable;
   @FXML private TableColumn<Move, Integer> nodeCol;
@@ -33,12 +32,11 @@ public class MovesController {
   @FXML private Text nodeMovingTo;
   @FXML private Text locationMoving;
   @FXML private DatePicker editDate;
-  @FXML private MFXButton editSubmitButton;
-  @FXML private MFXButton removeButton;
   @FXML private Text moveError;
 
   private Move currentMove;
 
+  /** Initializes the move page screen */
   @FXML
   public void initialize() {
     currentDatePicker.setValue(App.getCurrentDate());
@@ -72,7 +70,7 @@ public class MovesController {
     displayFutureMoves();
   }
 
-  // display list of future moves
+  /** Displays all the future moves in the table */
   public void displayFutureMoves() {
     nodeCol.setCellValueFactory(new PropertyValueFactory<>("nodeID"));
     nameCol.setCellValueFactory(new PropertyValueFactory<>("longName"));
@@ -87,11 +85,13 @@ public class MovesController {
         }
       }
     }
-
     moveTable.setItems(FXCollections.observableArrayList(updatedArray));
     moveTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
+  /**
+   * Changes the current date based on the date picker
+   */
   @FXML
   public void submitCurrentDate() {
     if (currentDatePicker.getValue() != null) {
@@ -101,12 +101,19 @@ public class MovesController {
     }
   }
 
+  /**
+   * Preloads the dialog with the move
+   * @param move the move to preload with
+   */
   private void preloadDialog(Move move) {
     nodeMovingTo.setText(move.getNodeID().toString());
     locationMoving.setText(move.getLongName());
     editDate.setValue(move.getDate());
   }
 
+  /**
+   * Removes the current move
+   */
   @FXML
   public void removeMove() {
     databaseRepo.deleteMove(currentMove);
@@ -116,6 +123,9 @@ public class MovesController {
     displayFutureMoves();
   }
 
+  /**
+   * Updates the move
+   */
   @FXML
   public void submitEdit() {
     Move newMove =

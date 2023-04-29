@@ -159,9 +159,9 @@ public class DataBaseRepository {
     return moveDAOImp.getNodeMoveMap();
   }
 
-  public HashMap<String, LinkedList<Move>> getLocationMoveMap() {
-    return moveDAOImp.getLocationMoveMap();
-  }
+  //  public HashMap<String, LinkedList<Move>> getLocationMoveMap() {
+  //    return moveDAOImp.getLocationMoveMap();
+  //  }
 
   public HashMap<String, Move> getCurrentMoveMap() {
     return moveDAOImp.getCurrentMoveMap();

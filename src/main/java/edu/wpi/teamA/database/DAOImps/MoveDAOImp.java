@@ -19,10 +19,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   // Used to store all moves
   @Getter @Setter private HashMap<Integer, LinkedList<Move>> nodeMoveMap = new HashMap<>();
-  @Getter @Setter private HashMap<String, LinkedList<Move>> locationMoveMap = new HashMap<>();
   // Used to store current moves that are being used by location name
   @Getter @Setter private HashMap<String, Move> currentMoveMap = new HashMap<>();
-  // @Getter @Setter private LocalDate currentDate = LocalDate.now();
 
   public MoveDAOImp() {
     loadDataFromDatabaseInMap();
@@ -70,12 +68,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
           nodeMoveMap.put(nodeID, new LinkedList<>());
         }
         nodeMoveMap.get(nodeID).add(move);
-
-        if (!locationMoveMap.containsKey(longName)) {
-          // create new linkedlist
-          locationMoveMap.put(longName, new LinkedList<>());
-        }
-        locationMoveMap.get(longName).add(move);
       }
       checkDuplicateLocationNames();
     } catch (SQLException e) {
@@ -136,12 +128,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
           nodeMoveMap.put(nodeID, new LinkedList<>());
         }
         nodeMoveMap.get(nodeID).add(move);
-
-        if (!locationMoveMap.containsKey(longName)) {
-          // create new linkedlist
-          locationMoveMap.put(longName, new LinkedList<>());
-        }
-        locationMoveMap.get(longName).add(move);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {
@@ -198,12 +184,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       }
       nodeMoveMap.get(nodeID).add(move);
 
-      if (!locationMoveMap.containsKey(longName)) {
-        // create new linkedlist
-        locationMoveMap.put(longName, new LinkedList<>());
-      }
-      locationMoveMap.get(longName).add(move);
-
       updateCurrentMove(currentMoveMap, nodeID, longName, localDate, App.getCurrentDate());
       checkDuplicateLocationNames();
     } catch (SQLException e) {
@@ -236,7 +216,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         }
       }
       nodeMoveMap.get(nodeID).remove(move);
-      locationMoveMap.get(longName).remove(move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -306,15 +285,6 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     }
     return firstMove;
   }
-
-  //  public Move getMoveForLocName(String longname) {
-  //    for (Map.Entry<Integer, Move> entry : currentMoveMap.entrySet()) {
-  //      if (entry.getValue().getLongName().equals(longname)) {
-  //        return entry.getValue();
-  //      }
-  //    }
-  //    return null;
-  //  }
 
   private void updateCurrentMove(
       HashMap<String, Move> map,
