@@ -63,7 +63,7 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT">
                                  <children>
-                                    <MFXButton fx:id="updateButton" onAction="#updatePassword" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Update" />
+                                    <MFXButton fx:id="updateButton" onAction="#updatePassword" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="submit-mfx-button" text="Update" />
                                  </children>
                               </VBox>
                            </children>
@@ -103,7 +103,7 @@
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT">
                                  <children>
-                                    <MFXButton fx:id="updateButton1" onAction="#updateName" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="blue-styled-button" text="Update" />
+                                    <MFXButton fx:id="updateButton1" onAction="#updateName" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="submit-mfx-button" text="Update" />
                                  </children>
                               </VBox>
                            </children>

@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.entities.MapEntity;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
