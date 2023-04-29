@@ -6,7 +6,7 @@ import edu.wpi.teamA.database.ORMclasses.Edge;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
-import java.io.File;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,31 +15,30 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import lombok.Getter;
 import net.kurobako.gesturefx.GesturePane;
 
 public class MapEntity {
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
-  @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level1NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<Integer, Node>();
-  @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<Integer, Node>();
+  @Getter private HashMap<Integer, Node> levelL1NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> levelL2NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level1NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level2NodeMap = new HashMap<>();
+  @Getter private HashMap<Integer, Node> level3NodeMap = new HashMap<>();
 
-  @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level1EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<String, Edge>();
-  @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<String, Edge>();
+  @Getter private HashMap<String, Edge> levelL1EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> levelL2EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level1EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level2EdgeMap = new HashMap<>();
+  @Getter private HashMap<String, Edge> level3EdgeMap = new HashMap<>();
 
   // List of all nodes
-  private ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
+  private final ArrayList<Node> nodeList = databaseRepo.loadNodesFromDatabaseInArray();
   private HashMap<String, Integer> nameMap;
-  private LevelEntity levels = App.getLevelEntity();
+  private final LevelEntity levels = App.getLevelEntity();
 
+  /** Loads all the node maps for each floor */
   public void loadFloorNodes() {
     for (Map.Entry<Integer, Node> entry : databaseRepo.getNodeMap().entrySet()) {
       Node node = entry.getValue();
@@ -57,6 +56,7 @@ public class MapEntity {
     }
   }
 
+  /** Loads all the edge maps for each floor */
   public void loadFloorEdges() {
     for (Map.Entry<String, Edge> entry : databaseRepo.getEdgeMap().entrySet()) {
       Edge edge = entry.getValue();
@@ -76,6 +76,12 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Determines which edge map to use
+   *
+   * @param level floor level
+   * @return the edge map we want to use
+   */
   public HashMap<String, Edge> determineEdgeMap(String level) {
     if (level.equals("L1")) {
       return levelL1EdgeMap;
@@ -92,6 +98,12 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Determines which node map we want
+   *
+   * @param level floor level
+   * @return the node map for that floor
+   */
   public HashMap<Integer, Node> determineNodeMap(String level) {
     if (level.equals("L1")) {
       return levelL1NodeMap;
@@ -108,6 +120,13 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Adds a temporary circle to show where the user clicked
+   *
+   * @param X center X for circle
+   * @param Y center Y for cicle
+   * @return the circle to display
+   */
   public Circle addTempCircle(double X, double Y) {
     Circle circle = new Circle();
     circle.setCenterX(X);
@@ -118,13 +137,27 @@ public class MapEntity {
     return circle;
   }
 
+  /**
+   * Makes a new circle to represent the node
+   *
+   * @param mapGesturePane gesture pane to place the circle on
+   * @param node node to make a circle for
+   * @return the circle to display
+   */
   public Circle addCircle(GesturePane mapGesturePane, Node node) {
     Circle circle = new Circle();
     circle.setCenterX(node.getXcoord());
     circle.setCenterY(node.getYcoord());
-    circle.setFill(Color.web("0x012D5A"));
     circle.setRadius(10);
     circle.setVisible(true);
+
+    if (numberOfLocationsOnNode(node.getNodeID()) == 0) {
+      circle.setFill(Color.web("0xf74c4c"));
+    } else if (numberOfLocationsOnNode(node.getNodeID()) == 1) {
+      circle.setFill(Color.web("0x012D5A"));
+    } else {
+      circle.setFill(Color.web("0x4cde61"));
+    }
 
     circle.setOnMouseDragged(
         mouseEvent -> {
@@ -135,6 +168,13 @@ public class MapEntity {
     return circle;
   }
 
+  /**
+   * Determines the action for when you drag release a circle
+   *
+   * @param circle the circle you're performing on
+   * @param node the node the circle represents
+   * @param mapGesturePane the gesture pane the circle is on
+   */
   public void dragReleased(Circle circle, Node node, GesturePane mapGesturePane) {
     if ((node.getXcoord() != (int) circle.getCenterX())
         && (node.getYcoord() != (int) circle.getCenterY())) {
@@ -142,19 +182,25 @@ public class MapEntity {
       node.setYcoord((int) circle.getCenterY());
       mapGesturePane.setGestureEnabled(true);
       // update database and big hashmap
-      Move move = databaseRepo.getMoveForNode(node.getNodeID());
-      determineModifyAction(
-          node.getFloor(), node, databaseRepo.getLocName(move.getLongName()), move);
+      Move move = databaseRepo.getFirstMoveForNode(node.getNodeID());
+      determineModifyAction(node.getFloor(), node, databaseRepo.getLocName(move.getLongName()));
       // update level hashmap
       // determineNodeMap(node.getFloor()).remove(node.getNodeID());
       determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
     }
   }
 
-  public Text addText(Node node) {
-    double xCoord = node.getXcoord() + 20;
+  /**
+   * Adds the text onto the map display
+   *
+   * @param node node you're adding text too
+   * @param second whether we are displaying the first or second name on the node
+   * @return the text object to display
+   */
+  public Text addText(Node node, boolean second) {
+    double xCoord = node.getXcoord() + 10;
     double yCoord = node.getYcoord() - 10;
-    String locText = getLocationName(node.getNodeID()).getShortName();
+    String locText = getLocationName(node.getNodeID(), second).getShortName();
     Text text = new Text(locText);
     text.setX(xCoord);
     text.setY(yCoord);
@@ -163,6 +209,13 @@ public class MapEntity {
     return text;
   }
 
+  /**
+   * Adds a line to represent an edge
+   *
+   * @param startNodeID start node for edge
+   * @param endNodeID end node for edge
+   * @return the line object
+   */
   public Line addLine(int startNodeID, int endNodeID) {
 
     Node startNode = databaseRepo.getNodeMap().get(startNodeID);
@@ -178,12 +231,31 @@ public class MapEntity {
     return line;
   }
 
+  /**
+   * Node getter
+   *
+   * @param nodeID node to get
+   * @return the node
+   */
   public Node getNodeInfo(int nodeID) {
     return databaseRepo.getNodeMap().get(nodeID);
   }
 
-  public LocationName getLocationName(int nodeID) {
-    Move move = databaseRepo.getMoveForNode(nodeID);
+  /**
+   * Location name getter for node
+   *
+   * @param nodeID node to get
+   * @param second whether to get first or second name associated to the node
+   * @return the LocationName object
+   */
+  public LocationName getLocationName(int nodeID, boolean second) {
+    Move move;
+    if (second) {
+      move = databaseRepo.getSecondMoveForNode(nodeID);
+    } else {
+      move = databaseRepo.getFirstMoveForNode(nodeID);
+    }
+
     if (move != null) {
       return databaseRepo.getLocName(move.getLongName());
     } else {
@@ -191,6 +263,34 @@ public class MapEntity {
     }
   }
 
+  /**
+   * Number of locations on a node
+   *
+   * @param nodeID the node to check
+   * @return number of locations on a node
+   */
+  public int numberOfLocationsOnNode(int nodeID) {
+    Move firstMove = databaseRepo.getFirstMoveForNode(nodeID);
+    Move secondMove = databaseRepo.getSecondMoveForNode(nodeID);
+    if (firstMove != null && secondMove != null) {
+      if (firstMove.getLongName().equals(secondMove.getLongName())) {
+        return 1;
+      } else {
+        return 2;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Gets data needed to add a new node
+   *
+   * @param level current level
+   * @param node node to add
+   * @param locName location name to add
+   * @param move move to add
+   */
   public void determineAddAction(String level, Node node, LocationName locName, Move move) {
     int newNodeID = databaseRepo.getLargestNodeID().getNodeID() + 5;
     node.setNodeID(newNodeID);
@@ -201,6 +301,12 @@ public class MapEntity {
     determineNodeMap(level).put(newNodeID, node);
   }
 
+  /**
+   * Gets data to remove a node
+   *
+   * @param nodeID node ID to remove
+   * @param level level it's on
+   */
   public void determineRemoveAction(int nodeID, String level) {
     ArrayList<Edge> edgesToRemove = databaseRepo.deleteEdgesWithNode(databaseRepo.getNode(nodeID));
 
@@ -209,15 +315,21 @@ public class MapEntity {
       determineEdgeMap(level).remove(key);
     }
     databaseRepo.deleteNode(databaseRepo.getNode(nodeID));
-    Move move = databaseRepo.getMoveForNode(nodeID);
+    Move move = databaseRepo.getFirstMoveForNode(nodeID);
     if (move != null) {
       databaseRepo.deleteLocName(databaseRepo.getLocName(move.getLongName()));
-      databaseRepo.deleteMove(databaseRepo.getMoveForNode(nodeID));
+      databaseRepo.deleteMove(databaseRepo.getFirstMoveForNode(nodeID));
     }
     determineNodeMap(level).remove(nodeID);
   }
 
-  public void determineModifyAction(String level, Node node, LocationName locName, Move move) {
+  /**
+   * Gets data to modify a node
+   *
+   * @param node node to modify
+   * @param locName location name to modify
+   */
+  public void determineModifyAction(String level, Node node, LocationName locName) {
     databaseRepo.updateNode(node);
     String longname = locName.getLongName();
     if (!longname.equals("Empty Node")) {
@@ -225,11 +337,21 @@ public class MapEntity {
     } else {
       databaseRepo.addLocName(locName);
     }
+    determineNodeMap(node.getFloor()).put(node.getNodeID(), node);
 
-    databaseRepo.addMove(move);
-    determineNodeMap(level).put(node.getNodeID(), node);
+    if (!node.getFloor().equals(level)) {
+      determineNodeMap(level).remove(node.getNodeID());
+    }
   }
 
+  /**
+   * Gets data to modify an edge
+   *
+   * @param firstNode start node to add edge
+   * @param secondNode end node to add edge
+   * @param level level to add on
+   * @return true if adding an edge, false if removing
+   */
   public boolean determineModifyEdgeAction(Node firstNode, Node secondNode, String level) {
     Edge edge = new Edge(firstNode.getNodeID(), secondNode.getNodeID());
     String key = firstNode.getNodeID().toString() + secondNode.getNodeID().toString();
@@ -248,90 +370,112 @@ public class MapEntity {
     return false;
   }
 
-  public boolean determineLongNameExists(String longName) {
-    if (databaseRepo.getLocName(longName) == null) {
-      return false;
+  /**
+   * Gets all the long names
+   *
+   * @return arraylist of long names
+   */
+  public ArrayList<String> getAllLongNames() {
+    ArrayList<String> locNames = new ArrayList<>();
+    for (Map.Entry<String, LocationName> entry : databaseRepo.getLocNameMap().entrySet()) {
+      locNames.add(entry.getKey());
     }
-    return true;
+    return locNames;
   }
 
+  /**
+   * Determines if the long name exists in the database
+   *
+   * @param longName the longname to check
+   * @return true if there, else false
+   */
+  public boolean determineLongNameExists(String longName) {
+    return databaseRepo.getLocName(longName) != null;
+  }
+
+  /**
+   * Determines horizontal node alignment
+   *
+   * @param nodesToAlign nodes you want to align
+   * @return the first node
+   */
   public Node determineHorizontalNodeAlignment(ArrayList<Node> nodesToAlign) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setYcoord(firstNode.getYcoord()); // sets all node XCoords to the first node's XCoord
 
-      determineModifyAction(
-          node.getFloor(),
-          node,
-          getLocationName(node.getNodeID()),
-          databaseRepo.getMoveForNode(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
+      if (!getLocationName(node.getNodeID(), false)
+          .equals(getLocationName(node.getNodeID(), true))) {
+        determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
+      }
     }
     return firstNode;
   }
 
+  /**
+   * Determines vertical node alignment
+   *
+   * @param nodesToAlign nodes you want to align
+   * @return the first node
+   */
   public Node determineVerticalNodeAlignment(ArrayList<Node> nodesToAlign) {
     Node firstNode = nodesToAlign.get(0);
     for (Node node : nodesToAlign) {
       node.setXcoord(firstNode.getXcoord()); // sets all node YCoords to the first node's YCoord
 
-      determineModifyAction(
-          node.getFloor(),
-          node,
-          getLocationName(node.getNodeID()),
-          databaseRepo.getMoveForNode(node.getNodeID()));
+      determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), false));
+      if (!getLocationName(node.getNodeID(), false)
+          .equals(getLocationName(node.getNodeID(), true))) {
+        determineModifyAction(node.getFloor(), node, getLocationName(node.getNodeID(), true));
+      }
     }
     return firstNode;
   }
 
-  public void importExport(boolean imported, String DAOimp) {
-    if (imported) {
-      FileChooser fileChooser = new FileChooser();
-      fileChooser.setTitle("Open CSV File");
-      fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-      File selectedFile = fileChooser.showOpenDialog(App.getPrimaryStage());
-      if (DAOimp.equals("Node")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("LocationName")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("Move")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      } else if (DAOimp.equals("Edge")) {
-        databaseRepo.importData(selectedFile.getPath(), DAOimp);
-      }
-    } else {
-      DirectoryChooser directoryChooser = new DirectoryChooser();
-      directoryChooser.setTitle("Export CSV File to");
-      File selectedDirectory = directoryChooser.showDialog(App.getPrimaryStage());
-      if (DAOimp.equals("Node")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("LocationName")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("Move")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      } else if (DAOimp.equals("Edge")) {
-        databaseRepo.exportData(selectedDirectory.getPath(), DAOimp);
-      }
-    }
-  }
-
+  /**
+   * Adds a new move in the database
+   *
+   * @param move move to add
+   */
   public void submitNewMoves(Move move) {
     databaseRepo.addMove(move);
-    //    if (!databaseRepo.getLocNameMap().containsKey(locationName.getLongName())) {
-    //      databaseRepo.addLocName(locationName);
-    //    }
+  }
+
+  /**
+   * Checks if the add move is valid
+   *
+   * @param nodeID nodeID to add
+   * @param longName longname to add
+   * @param localDate localDate to add
+   * @return true if valid, else false
+   */
+  public boolean checkValidMove(int nodeID, String longName, LocalDate localDate) {
+    int nodeCount = 0;
+    boolean longNameExists = false;
+    boolean moveOnDate = false;
+    HashMap<String, Move> currentMoves = databaseRepo.loadCurrentMovesMap(localDate);
+
+    if (currentMoves.get(longName).getNodeID() == nodeID) {
+      longNameExists = true;
+    }
+
+    if (currentMoves.get(longName).getDate().isEqual(localDate)) {
+      moveOnDate = true;
+    }
+
+    for (Map.Entry<String, Move> entry : currentMoves.entrySet()) {
+      Move move = entry.getValue();
+      if (move.getNodeID() == nodeID) {
+        nodeCount++;
+      }
+    }
+
+    return (nodeCount > 1) || longNameExists || moveOnDate;
   }
 
   public ArrayList<Node> loadAllNodes() {
     return databaseRepo.loadNodesFromDatabaseInArray();
-  }
-
-  public String getLongName(int id) {
-    Move move = databaseRepo.getMoveForNode(id);
-    if (move != null) {
-      return move.getLongName();
-    } else {
-      return "Empty Node";
-    }
   }
 
   // sets up the hashmap linking long names to nodeIDs
@@ -342,8 +486,21 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // puts name and ID into name map
-      if (!getLongName(id).equals("Empty Node")) {
-        nameMap.put(getLongName(id), id);
+      Move firstMove = databaseRepo.getFirstMoveForNode(id);
+      if (firstMove != null) {
+        if (!firstMove.getLongName().equals("Empty Node")) {
+          nameMap.put(firstMove.getLongName(), id);
+        }
+      }
+
+      Move secondMove = databaseRepo.getSecondMoveForNode(id);
+      if (secondMove != null) {
+        if (!secondMove.getLongName().equals("Empty Node")) {
+          assert firstMove != null;
+          if (!secondMove.getLongName().equals(firstMove.getLongName())) {
+            nameMap.put(secondMove.getLongName(), id);
+          }
+        }
       }
     }
   }
@@ -357,11 +514,24 @@ public class MapEntity {
       int id = node.getNodeID();
 
       // get the locationname object with nodetype
-      LocationName loc = getLocationName(id);
+      if (numberOfLocationsOnNode(id) == 1) {
+        LocationName loc = getLocationName(id, false);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
+      } else if (numberOfLocationsOnNode(id) == 2) {
+        LocationName loc = getLocationName(id, false);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
 
-      if (!loc.getNodeType().equals("HALL")) {
-        // Add
-        nameOptions.add(getLongName(id));
+        loc = getLocationName(id, true);
+        if (!loc.getNodeType().equals("HALL")) {
+          // Add
+          nameOptions.add(loc.getLongName());
+        }
       }
     }
     return nameOptions;
