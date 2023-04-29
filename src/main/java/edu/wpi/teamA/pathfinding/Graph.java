@@ -8,9 +8,19 @@ import java.util.HashMap;
 
 public class Graph {
   private HashMap<Integer, GraphNode> pathfindingArea;
+  private int numNodes;
+  private int[] distances; // ArrayList<Integer> distances;
+
+  /*public Graph() {
+    this.pathfindingArea = new HashMap<Integer, GraphNode>();
+  }*/
 
   public Graph() {
     this.pathfindingArea = new HashMap<Integer, GraphNode>();
+  }
+
+  public int getNumNodes() {
+    return this.pathfindingArea.size();
   }
 
   public void prepGraph() {
