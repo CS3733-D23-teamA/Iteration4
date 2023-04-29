@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.entities.MapEntity;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
@@ -12,6 +13,7 @@ public class LocationSettingsController {
   @FXML private MFXFilterComboBox locationComboBox;
   private MapEntity mapEntity = App.getMapEntity();
   private ArrayList<String> locationOptions;
+
   private DataBaseRepository db = DataBaseRepository.getInstance();
 
   public void initialize() {
