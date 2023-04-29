@@ -10,6 +10,7 @@ public class DFS extends Search {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = 0;
     setPath();
   }
 
@@ -49,7 +50,6 @@ public class DFS extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         GraphNode otherGNode = graph.getGraphNode(otherNodeID);
-
         //                boolean otherVisited = false;
         //                for (int j = 0; j < visited.size(); j++) {
         //                    if (otherNode
@@ -59,11 +59,11 @@ public class DFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited()) { // if not visited, add to queue and add to wrapping queue
-          otherGNode.setPrev(currentGNode);
-          nodesToReset.add(otherNodeID);
-          queue.add(otherNodeID);
-          otherGNode.setVisited(true);
+        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) { // if not visited, add to queue and add to wrapping queue
+            otherGNode.setPrev(currentGNode);
+            nodesToReset.add(otherNodeID);
+            queue.add(otherNodeID);
+            otherGNode.setVisited(true);
         }
       }
 

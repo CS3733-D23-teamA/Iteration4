@@ -97,11 +97,11 @@
                      </font>
                   </Label>
                   <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line" />
-                  <VBox alignment="CENTER_LEFT" spacing="20.0">
+                  <VBox alignment="CENTER_LEFT" spacing="30.0">
                      <children>
                         <VBox fx:id="searchAlgorithmVbox" spacing="5.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Search Algorithm" wrappingWidth="175.5586359484676">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Search Algorithm" wrappingWidth="293.15864205198324">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -109,7 +109,8 @@
                               <MFXFilterComboBox fx:id="searchAlgorithmSelection" editable="false" floatMode="ABOVE" graphicTextGap="-10.0" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" selectable="true" style="-fx-font-weight: bold; -fx-background-color: bgrey; -fx-text-fill: bblack;">
                                  <font>
                                     <Font size="18.0" />
-                                 </font></MFXFilterComboBox>
+                                 </font>
+                              </MFXFilterComboBox>
                            </children>
                         </VBox>
                         <VBox spacing="10.0">
@@ -120,6 +121,22 @@
                                  </padding>
                               </MFXFilterComboBox>
                               <MFXFilterComboBox fx:id="endSelection" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
+                           </children>
+                        </VBox>
+                        <VBox spacing="5.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Accessibility" wrappingWidth="293.15864205198324">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="60.0">
+                                 <children>
+                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="3" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="1" textAlignment="RIGHT" />
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>

@@ -9,6 +9,7 @@ public class AStar extends Search {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = 0;
     setPath();
   }
 
@@ -80,7 +81,7 @@ public class AStar extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         otherGNode = graph.getGraphNode(otherNodeID);
-        if (!otherGNode.isVisited()) {
+        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) {
           int gCost =
               currentNode.getgCost()
                   + (int)

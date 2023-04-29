@@ -9,6 +9,7 @@ public class BFS extends Search {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = 0;
     setPath();
   }
 
@@ -58,7 +59,7 @@ public class BFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited()) { // if not visited, add to queue and add to wrapping queue
+        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) { // if not visited, add to queue and add to wrapping queue
           otherGNode.setPrev(currentGNode);
           nodesToReset.add(otherNodeID);
           queue.add(otherNodeID);

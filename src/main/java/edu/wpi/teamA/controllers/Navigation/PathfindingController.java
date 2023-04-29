@@ -37,6 +37,11 @@ public class PathfindingController {
   @FXML private MFXRectangleToggleNode level2Toggle;
   @FXML private MFXRectangleToggleNode level3Toggle;
 
+  private ToggleGroup accessiblityToggles = new ToggleGroup();
+  @FXML private MFXRectangleToggleNode regularPathToggle;
+  @FXML private MFXRectangleToggleNode noElevatorPathToggle;
+  @FXML private MFXRectangleToggleNode noStairsPathToggle;
+
   // Boolean for admin settings
   private Boolean isAdmin = AccountSingleton.isAdmin();
 
