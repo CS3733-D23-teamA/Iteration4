@@ -1,9 +1,9 @@
 package edu.wpi.teamA;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
-import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
 import edu.wpi.teamA.entities.LevelEntity;
 import edu.wpi.teamA.entities.MapEntity;
 import edu.wpi.teamA.entities.ServiceRequestEntity;
@@ -26,10 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class App extends Application {
-
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
   @Setter @Getter private static LocalDate currentDate = LocalDate.now();
+  @Setter @Getter private static LocationName currentLocation;
 
   // map entities + images
 
@@ -72,10 +72,8 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException, IncorrectLengthException {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
-
     final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/Root.fxml"));
     final BorderPane root = loader.load();
-
     App.rootPane = root;
 
     // move to init?
@@ -85,11 +83,16 @@ public class App extends Application {
     mapEntity.loadFloorEdges();
     mapEntity.loadFloorNodes();
 
+    // setting kiosk default location
+    currentLocation = databaseRepo.getLocName("Garden Cafe");
+
+    // setting up scene and stylesheets
     final Scene scene = new Scene(root);
     scene.getStylesheets().add("edu/wpi/teamA/views/stylesheets/main.css");
     primaryStage.setScene(scene);
     primaryStage.show();
 
+    // navigate to login screen
     Navigation.navigate(Screen.LOGIN);
   }
 

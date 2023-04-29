@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.UserSettingsController">
+    <top>
+        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+      <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+              <StackPane>
+                  <children>
+                      <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
+                          <children>
+                              <Label text="Add User">
+                                  <VBox.margin>
+                                      <Insets />
+                                  </VBox.margin>
+                              </Label>
+                        <VBox spacing="20.0">
+                           <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="100.0">
+                                        <children>
+                                            <VBox>
+                                                <children>
+                                          <MFXTextField fx:id="usernameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                </children>
+                                            </VBox>
+                                            <VBox>
+                                                <children>
+                                          <MFXTextField fx:id="passwordTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                        <padding>
+                                            <Insets left="37.0" />
+                                        </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="50.0">
+                                        <children>
+                                    <HBox spacing="100.0">
+                                       <children>
+                                                  <VBox>
+                                                      <children>
+                                                <MFXTextField fx:id="firstNameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="First Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                      </children>
+                                                  </VBox>
+                                                  <VBox>
+                                                      <children>
+                                                <MFXTextField fx:id="lastNameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                      </children>
+                                                  </VBox>
+                                       </children>
+                                    </HBox>
+                                    <MFXCheckbox fx:id="isAdminCheckbox" text="Make Admin" />
+                                              <MFXButton fx:id="updateButton" onAction="#addUser" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite; -fx-pref-width: 150;" styleClass="submit-mfx-button" text="Add User" />
+                                        </children>
+                                        <padding>
+                                            <Insets left="37.0" />
+                                        </padding>
+                                    </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="employeeSettings">
+                           <children>
+                              <VBox alignment="TOP_CENTER" spacing="50.0">
+                                 <children>
+                                    <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Add Employee" />
+                                          <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXTextField fx:id="userAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" VBox.vgrow="ALWAYS" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXTextField fx:id="nameAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" VBox.vgrow="ALWAYS" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXTextField fx:id="passwordAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" VBox.vgrow="ALWAYS" />
+                                                   </children>
+                                                </VBox>
+                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                                   <children>
+                                                      <MFXButton fx:id="addButton" onAction="#addEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Add" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="-20.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Remove Employee" />
+                                          <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
+                                                   <children>
+                                                      <MFXFilterComboBox fx:id="chooseEmployeeRemove" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateRemove" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                   </children>
+                                                </VBox>
+                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                                   <children>
+                                                      <MFXButton fx:id="removeButton" onAction="#removeEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-text-fill: bred; -fx-max-width: 100;" styleClass="delete-mfx-button" text="Remove" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="-20.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <Label text="Modify Employee" />
+                                          <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
+                                             <children>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXFilterComboBox fx:id="chooseEmployeeModify" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXTextField fx:id="modifyNameInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" VBox.vgrow="ALWAYS" />
+                                                   </children>
+                                                </VBox>
+                                                <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                                   <children>
+                                                      <MFXTextField fx:id="modifyPassInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="New Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" VBox.vgrow="ALWAYS" />
+                                                   </children>
+                                                </VBox>
+                                                <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
+                                                   <children>
+                                                      <MFXButton fx:id="modifyButton" onAction="#modifyEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="clear-mfx-button" text="Modify" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets top="-20.0" />
+                                             </VBox.margin>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="30.0">
+                                       <children>
+                                          <Label text="Current Employees" />
+                                          <VBox alignment="TOP_CENTER">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                             <children>
+                                                <TableView fx:id="employeeTableView" maxWidth="-Infinity" prefHeight="400.0" prefWidth="1100.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="userCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Username" />
+                                                      <TableColumn fx:id="nameCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Name" />
+                                                      <TableColumn fx:id="passCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Password" />
+                                                   </columns>
+                                                </TableView>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                          </children>
+                          <padding>
+                              <Insets bottom="50.0" left="50.0" right="50.0" top="70.0" />
+                          </padding>
+                      </VBox>
+                  </children>
+              </StackPane>
+         </content>
+      </ScrollPane>
+    </center>
+    <left>
+        <fx:include fx:id="settingsmenu" source="SettingsMenuBar.fxml" />
+    </left>
+</BorderPane>
