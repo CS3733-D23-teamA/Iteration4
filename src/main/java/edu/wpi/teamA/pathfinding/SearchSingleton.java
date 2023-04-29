@@ -57,11 +57,11 @@ public class SearchSingleton {
    */
   public static void createSearch(int startID, int endID, String accessiblity) {
     if (getSearchAlgorithm() == SearchAlgorithm.BFS) {
-      searchEntity = new BFS(startID, endID);
+      searchEntity = new BFS(startID, endID, accessiblity);
     } else if (getSearchAlgorithm() == SearchAlgorithm.DFS) {
-      searchEntity = new DFS(startID, endID);
+      searchEntity = new DFS(startID, endID, accessiblity);
     } else {
-      searchEntity = new AStar(startID, endID);
+      searchEntity = new AStar(startID, endID, accessiblity);
     }
   }
 

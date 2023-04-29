@@ -40,7 +40,8 @@ public abstract class Search {
   // Takes in a node and returns false if it is something that cannot be travelled through based on
   // accessibility settings
   protected boolean accessibilityCheck(int nodeID) {
-    return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting.equals("No Elevators"))
+    return !(graph.getNodeType(nodeID).equals("ELEV")
+            && accessibilitySetting.equals("No Elevators"))
         && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting.equals("No Stairs"));
   }
 

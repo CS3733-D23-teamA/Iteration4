@@ -8,6 +8,7 @@ public class BFS extends Search {
   public BFS(int startID, int endID) {
     this(startID, endID, "");
   }
+
   public BFS(int startID, int endID, String accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;

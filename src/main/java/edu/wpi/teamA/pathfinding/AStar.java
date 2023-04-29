@@ -8,6 +8,7 @@ public class AStar extends Search {
   public AStar(int startID, int endID) {
     this(startID, endID, "");
   }
+
   public AStar(int startID, int endID, String accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
