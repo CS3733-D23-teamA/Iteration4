@@ -228,7 +228,13 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       ps.executeUpdate();
 
       // TODO check to see if works
-      currentMoveMap.remove(move.getLongName());
+      Move currentMove = currentMoveMap.get(move.getLongName());
+      if (currentMove != null) {
+        if (Objects.equals(currentMove.getNodeID(), move.getNodeID())
+            && currentMove.getDate().equals(move.getDate())) {
+          currentMoveMap.remove(move.getLongName());
+        }
+      }
       nodeMoveMap.get(nodeID).remove(move);
       locationMoveMap.get(longName).remove(move);
 
@@ -241,39 +247,8 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   public void Update(Move obj) {}
 
   public void Update(Move oldMove, Move newMove) {
-    int nodeID = newMove.getNodeID();
-    String longName = newMove.getLongName();
-
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ?, nodeid = ?");
-      ps.setString(1, newMove.getLongName());
-      ps.setString(2, java.sql.Date.valueOf(newMove.getDate()).toString());
-      ps.setInt(3, newMove.getNodeID());
-      ps.executeUpdate();
-
-      // TODO check to see if works
-      nodeMoveMap.get(nodeID).remove(oldMove);
-      // MoveMap.put(move.getNodeID(), move);
-      if (!nodeMoveMap.containsKey(nodeID)) {
-        // create new linkedlist
-        nodeMoveMap.put(nodeID, new LinkedList<>());
-      }
-      nodeMoveMap.get(nodeID).add(newMove);
-
-      locationMoveMap.get(longName).remove(oldMove);
-      if (!locationMoveMap.containsKey(longName)) {
-        // create new linkedlist
-        locationMoveMap.put(longName, new LinkedList<>());
-      }
-      locationMoveMap.get(longName).add(newMove);
-
-      checkDuplicateLocationNames();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+    Delete(oldMove);
+    Add(newMove);
   }
 
   public Move getMoveForNodeSlow(int nodeID) {

@@ -198,7 +198,7 @@ public class MapEntity {
    * @return the text object to display
    */
   public Text addText(Node node, boolean second) {
-    double xCoord = node.getXcoord() + 20;
+    double xCoord = node.getXcoord() + 10;
     double yCoord = node.getYcoord() - 10;
     String locText = getLocationName(node.getNodeID(), second).getShortName();
     Text text = new Text(locText);

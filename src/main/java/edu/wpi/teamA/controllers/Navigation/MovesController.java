@@ -3,6 +3,8 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Move;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,6 +16,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 public class MovesController {
 
@@ -26,9 +29,46 @@ public class MovesController {
 
   @FXML private DatePicker currentDatePicker;
 
+  @FXML private MFXGenericDialog editRemoveDialog;
+  @FXML private Text nodeMovingTo;
+  @FXML private Text locationMoving;
+  @FXML private DatePicker editDate;
+  @FXML private MFXButton editSubmitButton;
+  @FXML private MFXButton removeButton;
+  @FXML private Text moveError;
+
+  private Move currentMove;
+
   @FXML
   public void initialize() {
     currentDatePicker.setValue(App.getCurrentDate());
+
+    editRemoveDialog.setVisible(false);
+    editRemoveDialog.setDisable(true);
+    moveError.setVisible(false);
+
+    editRemoveDialog.setOnClose(
+        event -> {
+          editRemoveDialog.setVisible(false);
+          editRemoveDialog.setDisable(true);
+        });
+
+    moveTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (obs, oldSelection, newSelection) -> {
+              if (newSelection != null) {
+                currentMove = newSelection;
+                preloadDialog(currentMove);
+                moveError.setVisible(false);
+                editRemoveDialog.setVisible(true);
+                editRemoveDialog.setDisable(false);
+              }
+            });
+
+    moveError.setVisible(false);
+
     displayFutureMoves();
   }
 
@@ -59,5 +99,37 @@ public class MovesController {
       displayFutureMoves();
       databaseRepo.setCurrentMoveMap(databaseRepo.loadCurrentMovesMap(App.getCurrentDate()));
     }
+  }
+
+  private void preloadDialog(Move move) {
+    nodeMovingTo.setText(move.getNodeID().toString());
+    locationMoving.setText(move.getLongName());
+    editDate.setValue(move.getDate());
+  }
+
+  @FXML
+  public void removeMove() {
+    databaseRepo.deleteMove(currentMove);
+    currentMove = null;
+    editRemoveDialog.setVisible(false);
+    editRemoveDialog.setDisable(true);
+    displayFutureMoves();
+  }
+
+  @FXML
+  public void submitEdit() {
+    Move newMove =
+        new Move(currentMove.getNodeID(), currentMove.getLongName(), editDate.getValue());
+    if (currentMove.getDate().isEqual(newMove.getDate())) {
+      moveError.setVisible(true);
+    } else {
+      databaseRepo.updateMove(currentMove, newMove);
+      moveError.setVisible(false);
+    }
+
+    currentMove = null;
+    editRemoveDialog.setVisible(false);
+    editRemoveDialog.setDisable(true);
+    displayFutureMoves();
   }
 }
