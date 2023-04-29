@@ -7,7 +7,7 @@ public abstract class Search {
   protected Graph graph = new Graph();
   protected int startID;
   protected int endID;
-  protected int accessibilitySetting;
+  protected String accessibilitySetting;
 
   protected ArrayList<Integer> path = new ArrayList<Integer>();
 
@@ -40,8 +40,8 @@ public abstract class Search {
   // Takes in a node and returns false if it is something that cannot be travelled through based on
   // accessibility settings
   protected boolean accessibilityCheck(int nodeID) {
-    return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting == 1)
-        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
+    return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting.equals("No Elevators"))
+        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting.equals("No Stairs"));
   }
 
   public GraphNode getGraphNode(int key) {

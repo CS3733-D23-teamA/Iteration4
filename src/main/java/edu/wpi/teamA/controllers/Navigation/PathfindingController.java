@@ -248,7 +248,7 @@ public class PathfindingController {
 
     // sends user input starting and ending IDs and set search algorithm to singleton
     SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-    SearchSingleton.createSearch(startID, endID);
+    SearchSingleton.createSearch(startID, endID, "");
 
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
