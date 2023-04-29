@@ -25,7 +25,7 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import net.kurobako.gesturefx.GesturePane;
 
-public class PathfindingController extends PageController {
+public class PathfindingController {
   // Map helper entity
   private final MapEntity mapEntity = App.getMapEntity();
 
