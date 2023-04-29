@@ -31,7 +31,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
               + "shortName     Varchar(600),"
               + "nodeType      Varchar(600))";
       Statement stmtLocName =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       stmtLocName.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -40,8 +40,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
 
   public HashMap<String, LocationName> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"LocationName\"");
 
       while (rs.next()) {
@@ -73,7 +72,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
         String nodeType = data[2];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
         ps.setString(1, longName);
         ps.setString(2, shortName);
@@ -94,8 +93,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
   public void Export(String filePath) {
     try {
       String newFile = filePath + "/LocationName.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"LocationName\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -123,7 +121,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
     String nodetype = locName.getNodeType();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"LocationName\" VALUES (?, ?, ?)");
       ps.setString(1, longName);
       ps.setString(2, shortName);
@@ -144,7 +142,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"LocationName\" WHERE longname = ? ");
       ps.setString(1, longName);
@@ -164,7 +162,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"LocationName\" SET shortname = ?, nodetype = ? WHERE longname = ?");
       ps.setString(1, shortName);
@@ -188,7 +186,7 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
     ArrayList<String> lnList = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "SELECT * FROM \"Teama_schema\".\"LocationName\" WHERE nodetype = ?");
       ps.setString(1, type);

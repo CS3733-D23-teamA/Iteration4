@@ -20,8 +20,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
 
   public HashMap<Integer, ConferenceRoomResRequest> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
 
       while (rs.next()) {
@@ -69,7 +68,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
         String creator = data[9];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
@@ -100,8 +99,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/CRRR.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -145,7 +143,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       String creator = crrr.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"ConferenceRoomRequest\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -178,7 +176,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
   public void delete(ConferenceRoomResRequest crrr) {
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE id = ?");
       ps.setInt(1, crrr.getId());
@@ -205,7 +203,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       String creator = crrr.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"ConferenceRoomRequest\" SET name = ?, room = ?, date = ?, starttime = ?, endtime = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
@@ -248,7 +246,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE employee = ?");
       ps.setString(1, username);
@@ -282,7 +280,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE creator = ?");
       ps.setString(1, username);
@@ -314,8 +312,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
   public int getNextID() {
     ConferenceRoomResRequest largestID = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery(
               "SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\" ORDER BY id DESC LIMIT 1");
@@ -348,7 +345,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\" WHERE date = ?");
       ps.setDate(1, d);
