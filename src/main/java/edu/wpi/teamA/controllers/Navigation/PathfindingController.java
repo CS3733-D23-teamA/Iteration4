@@ -102,6 +102,8 @@ public class PathfindingController {
 
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(locationOptions));
+    startSelection.setText(App.getCurrentLocation().getLongName());
+    startSelection.setValue(App.getCurrentLocation().getLongName());
     endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
     searchAlgorithmSelection.setText(SearchSingleton.getSearchAlgorithm().toString());
