@@ -130,11 +130,11 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="60.0">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
                                  <children>
-                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="3" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="1" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
                                  </children>
                               </HBox>
                            </children>

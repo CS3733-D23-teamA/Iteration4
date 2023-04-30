@@ -36,6 +36,9 @@ public class App extends Application {
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
   @Getter private static Image map2 = new Image("edu/wpi/teamA/images/map-page/Level 2.png");
   @Getter private static Image map3 = new Image("edu/wpi/teamA/images/map-page/Level 3.png");
+  @Getter private static Image defaultPF = new Image("edu/wpi/teamA/images/icons/defaultPF.png");
+  @Getter private static Image stairsPF = new Image("edu/wpi/teamA/images/icons/stairsPF.png");
+  @Getter private static Image elevatorPF = new Image("edu/wpi/teamA/images/icons/elevatorPF.png");
 
   @Getter
   private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");

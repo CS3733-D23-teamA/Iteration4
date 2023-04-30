@@ -130,12 +130,16 @@ public class PathfindingController {
     level2Toggle.setOnAction(event -> changeLevel(level2Toggle.getText()));
     level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
 
-    // setting all levels in levelButtons
+    // setting up accessibility toggle
     regularPathToggle.setToggleGroup(accessiblityToggles);
     noElevatorPathToggle.setToggleGroup(accessiblityToggles);
     noStairsPathToggle.setToggleGroup(accessiblityToggles);
+    regularPathToggle.setSelected(true);
+    regularPathToggle.setGraphic(new ImageView(App.getDefaultPF()));
+    noElevatorPathToggle.setGraphic(new ImageView(App.getElevatorPF()));
+    noStairsPathToggle.setGraphic(new ImageView(App.getStairsPF()));
 
-    // Buttons to set floor level of map
+    // Buttons to set accessibility of map
     regularPathToggle.setOnAction(event -> changeAccessibility(""));
     noElevatorPathToggle.setOnAction(event -> changeAccessibility("No Elevators"));
     noStairsPathToggle.setOnAction(event -> changeAccessibility("No Stairs"));
@@ -144,7 +148,6 @@ public class PathfindingController {
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
     prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
     mapEntity.setLevelOrder();
-    // nextLevel.setStyle("-fx-background-color: #7089A2");
 
     // Set up Map in Gesture pane using a StackPane
     changeLevel(String.valueOf(currentLevel));
