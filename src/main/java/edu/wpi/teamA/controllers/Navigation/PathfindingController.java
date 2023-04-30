@@ -88,7 +88,7 @@ public class PathfindingController {
   // location toggle
   @FXML private MFXToggleButton locationToggle;
 
-  private String accessiblityLevel;
+  private int accessibilityLevel;
 
   public void initialize() {
 
@@ -129,6 +129,7 @@ public class PathfindingController {
     level1Toggle.setOnAction(event -> changeLevel(level1Toggle.getText()));
     level2Toggle.setOnAction(event -> changeLevel(level2Toggle.getText()));
     level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
+    levelL1Toggle.setSelected(true);
 
     // setting up accessibility toggle
     regularPathToggle.setToggleGroup(accessiblityToggles);
@@ -161,21 +162,16 @@ public class PathfindingController {
   }
 
   /**
-   * sets the accessiblity for the path
+   * sets the accessibility for the path
    *
-   * @param accessiblity is an in representing an accessiblity level where 0 = none, 1 = no elevator, 2 = no stairs
+   * @param accessibility is an in representing an accessibility level where 0 = none, 1 = no
+   *     elevator, 2 = no stairs
    */
-  private void setAccessibility(int accessiblity) {
-    switch (accessiblity) {
-      case 0:
-        // set no accessablity
-        break;
-      case 1:
-        // set no elevator accessablity
-        break;
-      case 2:
-        // set no stairs accessablity
-        break;
+  private void setAccessibility(int accessibility) {
+    accessibilityLevel = accessibility;
+    if (isSubmitted) {
+      submit();
+      drawPath();
     }
   }
 
@@ -214,8 +210,8 @@ public class PathfindingController {
   }
 
   /**
-   * Helper for set current level,
-   * disables paginators when user paginates to end or beginning of the path
+   * Helper for set current level, disables paginators when user paginates to end or beginning of
+   * the path
    */
   private void setPaginator() {
     // set next to blue if next level exists
@@ -245,26 +241,21 @@ public class PathfindingController {
     switch (level) {
       case "L1":
         setCurrentLevel(Level.LOWERLEVELL1);
-        levelToggles.selectToggle(levelL1Toggle);
         break;
       case "L2":
         setCurrentLevel(Level.LOWERLEVELL2);
-        levelToggles.selectToggle(levelL2Toggle);
         break;
       case "1":
         setCurrentLevel(Level.LEVEL1);
-        levelToggles.selectToggle(level1Toggle);
         break;
       case "2":
         setCurrentLevel(Level.LEVEL2);
-        levelToggles.selectToggle(level2Toggle);
-        // levelL1Toggle.setEffect(new ColorAdjust(0, 0, 0.5, 0));
         break;
       case "3":
         setCurrentLevel(Level.LEVEL3);
-        levelToggles.selectToggle(level3Toggle);
         break;
     }
+
     toggleNodeNames();
 
     // set map image in image view
@@ -286,7 +277,7 @@ public class PathfindingController {
 
     // sends user input starting and ending IDs and set search algorithm to singleton
     SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-    SearchSingleton.createSearch(startID, endID, "");
+    SearchSingleton.createSearch(startID, endID, accessibilityLevel);
 
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
@@ -324,13 +315,13 @@ public class PathfindingController {
     if (isAdmin) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+        if (startSelection.getValue() != null && endSelection.getValue() != null) {
           submit();
           isSubmitted = true;
         }
       }
     } else {
-      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+      if (startSelection.getValue() != null && endSelection.getValue() != null) {
         submit();
         isSubmitted = true;
       }
@@ -343,7 +334,7 @@ public class PathfindingController {
    */
   public void drawPath() {
 
-    if (isAdmin) {
+    if (isAdmin && isSubmitted) {
       resetAdminMessageInput();
     }
 
@@ -416,7 +407,7 @@ public class PathfindingController {
     // set up a highlight object
     BorderStroke highlight =
         new BorderStroke(
-            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+            Color.web("F0C747"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
 
     ArrayList<String> stringList = mapEntity.floorsTravelledTo(nodeIDS);
     if (stringList.contains("L1")) {

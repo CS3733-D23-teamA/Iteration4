@@ -50,12 +50,13 @@ public class SearchSingleton {
   }
 
   /**
-   * Creates the search depending on set algorithm and given starting and ending point
+   * Creates the search depending on set algorithm and given starting and ending point access level:
+   * 0 = none, 1 = no elevator, 2 = no stairs
    *
    * @param startID takes starting Node ID as an int
    * @param endID takes ending Node ID as an int
    */
-  public static void createSearch(int startID, int endID, String accessiblity) {
+  public static void createSearch(int startID, int endID, int accessiblity) {
     if (getSearchAlgorithm() == SearchAlgorithm.BFS) {
       searchEntity = new BFS(startID, endID, accessiblity);
     } else if (getSearchAlgorithm() == SearchAlgorithm.DFS) {

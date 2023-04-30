@@ -7,14 +7,14 @@ import java.util.ArrayList;
 public class DFS extends Search {
 
   public DFS(int startID, int endID) {
-    this(startID, endID, "");
+    this(startID, endID, 0);
   }
 
-  public DFS(int startID, int endID, String accessiblitySetting) {
+  public DFS(int startID, int endID, int accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
-    this.accessibilitySetting = accessiblitySetting;
+    this.accessibilitySetting = 0;
     setPath();
   }
 
@@ -22,7 +22,7 @@ public class DFS extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
-    this.accessibilitySetting = "";
+    this.accessibilitySetting = 0;
     setPath();
   }
 

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class BFS extends Search {
 
   public BFS(int startID, int endID) {
-    this(startID, endID, "");
+    this(startID, endID, 0);
   }
 
-  public BFS(int startID, int endID, String accessiblitySetting) {
+  public BFS(int startID, int endID, int accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
@@ -21,7 +21,7 @@ public class BFS extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
-    this.accessibilitySetting = "";
+    this.accessibilitySetting = 0;
     setPath();
   }
 

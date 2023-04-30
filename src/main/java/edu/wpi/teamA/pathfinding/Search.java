@@ -7,7 +7,7 @@ public abstract class Search {
   protected Graph graph = new Graph();
   protected int startID;
   protected int endID;
-  protected String accessibilitySetting;
+  protected int accessibilitySetting;
 
   protected ArrayList<Integer> path = new ArrayList<Integer>();
 
@@ -37,12 +37,15 @@ public abstract class Search {
     }
   }
 
-  // Takes in a node and returns false if it is something that cannot be travelled through based on
-  // accessibility settings
+  /**
+   * access level: 0 = none, 1 = no elevator, 2 = no stairs
+   *
+   * @param nodeID takes an int representing a node id
+   * @returns true if inputted node is equal to set accessibility level
+   */
   protected boolean accessibilityCheck(int nodeID) {
-    return !(graph.getNodeType(nodeID).equals("ELEV")
-            && accessibilitySetting.equals("No Elevators"))
-        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting.equals("No Stairs"));
+    return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting == 1)
+        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
   }
 
   public GraphNode getGraphNode(int key) {
