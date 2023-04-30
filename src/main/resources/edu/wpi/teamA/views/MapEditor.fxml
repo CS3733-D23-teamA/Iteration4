@@ -39,35 +39,6 @@
                   </StackPane>
                </children>
             </VBox>
-            <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
-               <children>
-                  <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L1" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="levelL2Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L2" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="1" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level2Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="2" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level3Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="3" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-               </children>
-            </VBox>
             <VBox alignment="TOP_RIGHT" spacing="3.0">
                <children>
                   <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
