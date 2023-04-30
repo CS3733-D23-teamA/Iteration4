@@ -39,7 +39,7 @@
                   </StackPane>
                </children>
             </VBox>
-            <VBox alignment="TOP_RIGHT" spacing="3.0">
+            <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="270.0" prefWidth="50.0" spacing="3.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
                   <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
@@ -51,6 +51,14 @@
                   <Insets right="10.0" top="10.0" />
                </StackPane.margin>
             </VBox>
+            <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #151515;" textAlignment="CENTER" StackPane.alignment="TOP_LEFT">
+               <font>
+                  <Font name="Open Sans Regular" size="32.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets left="10.0" top="10.0" />
+               </StackPane.margin>
+            </Text>
             <HBox fx:id="alignmentHBox" prefHeight="100.0" prefWidth="200.0" translateY="430.0">
                <children>
                   <MFXButton fx:id="hAlignmentButton" onAction="#horizontalNodeAlignment" prefHeight="63.0" prefWidth="189.0" text="Horizontal Alignment" textFill="#012d5a">
@@ -67,73 +75,79 @@
             </HBox>
             <MFXGenericDialog fx:id="inputDialog" prefHeight="548.0" prefWidth="450.0" StackPane.alignment="CENTER_LEFT">
                <center>
-                  <GridPane prefHeight="502.0" prefWidth="450.0" BorderPane.alignment="CENTER">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="200.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="250.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
+                  <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Add/Modify Node" textAlignment="CENTER">
                            <font>
-                              <Font name="Open Sans Regular" size="24.0" />
+                              <Font size="25.0" />
                            </font>
                         </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name" GridPane.rowIndex="1">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor" GridPane.rowIndex="2">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building" GridPane.rowIndex="3">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type" GridPane.rowIndex="4">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Map Position By Clicking On Map" wrappingWidth="150.0" GridPane.rowIndex="5">
-                           <font>
-                              <Font name="Open Sans Regular" size="16.0" />
-                           </font>
-                        </Text>
-                        <MFXTextField fx:id="longNameField" onKeyReleased="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" />
-                        <MFXTextField fx:id="shortNameField" onKeyReleased="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <MFXComboBox fx:id="buildingField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <MFXComboBox fx:id="nodeTypeField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <MFXComboBox fx:id="floorField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <MFXButton fx:id="submitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <font>
-                              <Font name="System Bold" size="20.0" />
-                           </font>
-                        </MFXButton>
+                        <GridPane prefHeight="500.0" prefWidth="350.0">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="125.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="200.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Long Name" textAlignment="CENTER" wrappingWidth="136.296875">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Short Name" textAlignment="CENTER" wrappingWidth="135.83203125" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor" textAlignment="CENTER" wrappingWidth="60.0" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Building" textAlignment="CENTER" wrappingWidth="98.625" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node Type" textAlignment="CENTER" wrappingWidth="131.12109375" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Change Map Position By Clicking On Map" textAlignment="CENTER" wrappingWidth="128.0" GridPane.rowIndex="5">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="16.0" />
+                                 </font>
+                              </Text>
+                              <MFXTextField fx:id="longNameField" onKeyReleased="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                              <MFXTextField fx:id="shortNameField" onKeyReleased="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <MFXComboBox fx:id="buildingField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <MFXComboBox fx:id="nodeTypeField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <MFXComboBox fx:id="floorField" onHiding="#validateInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <MFXButton fx:id="submitButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#submit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </GridPane>
                      </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </GridPane>
+                  </VBox>
                </center>
                <StackPane.margin>
                   <Insets />
                </StackPane.margin>
             </MFXGenericDialog>
-            <MFXGenericDialog fx:id="movesInputDialog" prefHeight="548.0" prefWidth="450.0" StackPane.alignment="CENTER_LEFT">
+            <MFXGenericDialog fx:id="movesInputDialog" maxWidth="-Infinity" prefHeight="548.0" prefWidth="200.0" visible="false" StackPane.alignment="CENTER_LEFT">
                <center>
-                  <VBox alignment="CENTER" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Add Move" textAlignment="CENTER">
                            <font>
@@ -143,10 +157,10 @@
                               <Insets />
                            </VBox.margin>
                         </Text>
-                        <GridPane prefHeight="400.0" prefWidth="450.0">
+                        <GridPane prefHeight="350.0">
                            <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="200.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="250.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="261.3785095214844" minWidth="10.0" prefWidth="150.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="349.1982879638672" minWidth="10.0" prefWidth="200.0" />
                            </columnConstraints>
                            <rowConstraints>
                               <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
@@ -155,22 +169,22 @@
                               <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node to Move To" wrappingWidth="150.0">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node to Move To" textAlignment="CENTER" wrappingWidth="111.0">
                                  <font>
                                     <Font name="Open Sans Regular" size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Moving" wrappingWidth="150.0" GridPane.rowIndex="1">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Moving" textAlignment="CENTER" wrappingWidth="107.0" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date for Move" GridPane.rowIndex="2">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date for Move" textAlignment="CENTER" wrappingWidth="108.44921875" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Node on Map to Add Move" wrappingWidth="150.0" GridPane.rowIndex="3">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose Node on Map to Add Move" textAlignment="CENTER" wrappingWidth="105.0" GridPane.rowIndex="3">
                                  <font>
                                     <Font name="Open Sans Regular" size="16.0" />
                                  </font>
@@ -181,7 +195,7 @@
                                  </font>
                               </MFXButton>
                               <DatePicker fx:id="movesDateForMove" onAction="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <VBox GridPane.columnIndex="1">
+                              <VBox alignment="CENTER" GridPane.columnIndex="1">
                                  <children>
                                     <MFXButton fx:id="chooseMoveToNode" defaultButton="true" mnemonicParsing="false" onAction="#chooseMoveToNode" prefHeight="58.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Choose Node" textFill="#eebd28">
                                        <font>
@@ -193,9 +207,6 @@
                               </VBox>
                               <MFXFilterComboBox fx:id="locationMoving" onAction="#validateMovesInputSubmit" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
-                           <padding>
-                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                           </padding>
                         </GridPane>
                         <Text fx:id="moveError" fill="#f74c4c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cannot add location to node on this date" textAlignment="CENTER" wrappingWidth="347.0">
                            <font>
@@ -281,29 +292,10 @@
                               </MFXButton>
                            </children>
                         </VBox>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" spacing="10.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Toggle Second Names" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="24.0" />
-                                 </font>
-                              </Text>
-                              <MFXToggleButton fx:id="secondNameToggle" contentDisplay="GRAPHIC_ONLY" contentDisposition="CENTER" ellipsisString="" graphicTextGap="0.0" onMouseClicked="#changeLocationNameDisplay" style="-fx-background-color: #f1f1f1;" textAlignment="CENTER" textOverrun="CLIP" />
-                           </children>
-                        </VBox>
-                        <VBox alignment="CENTER" layoutX="10.0" layoutY="699.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" text="Location Names" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="24.0" />
-                                 </font>
-                              </Text>
-                              <MFXToggleButton fx:id="locationNameToggle" contentDisplay="GRAPHIC_ONLY" contentDisposition="CENTER" ellipsisString="" graphicTextGap="0.0" onMouseClicked="#changeLocationNameDisplay" style="-fx-background-color: #f1f1f1;" textAlignment="CENTER" textOverrun="CLIP" />
-                              <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1;" textAlignment="CENTER">
-                                 <font>
-                                    <Font name="Open Sans Regular" size="20.0" />
-                                 </font>
-                              </Text>
+                              <MFXToggleButton fx:id="secondNameToggle" contentDisposition="RIGHT" onMouseClicked="#changeLocationNameDisplay" text="Second Names" textFill="#012d5a" />
+                              <MFXToggleButton fx:id="locationNameToggle" contentDisposition="RIGHT" onMouseClicked="#changeLocationNameDisplay" text="Location Names" textFill="#012d5a" />
                            </children>
                         </VBox>
                      </children>

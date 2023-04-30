@@ -95,6 +95,8 @@ public class MapEditorController {
   private int currentNodeID;
   private int[] XYCoords = new int[2];
   private Circle currentCircle;
+  private int currentModifyNodeID;
+  private Circle currentEdgeCircle;
   private Circle currentPositionClicked;
   private Node firstNode;
   private Node moveNodeMoveTo;
@@ -211,6 +213,10 @@ public class MapEditorController {
       if (node != null) {
         Circle circle = entity.addCircle(mapGesturePane, node);
 
+        if (node.getNodeID() == currentModifyNodeID) {
+          circle.setFill(Color.web("0xf74c4c"));
+        }
+
         circle.setOnMouseReleased(
             mouseEvent -> {
               entity.dragReleased(circle, node, mapGesturePane);
@@ -299,12 +305,17 @@ public class MapEditorController {
   @FXML
   public void dotUnhover(Circle circle, int nodeID) {
     int code = entity.numberOfLocationsOnNode(nodeID);
-    if (code == 0) {
+
+    if (nodeID == currentModifyNodeID) {
       circle.setFill(Color.web("0xf74c4c"));
-    } else if (code == 1) {
-      circle.setFill(Color.web("0x012D5A"));
     } else {
-      circle.setFill(Color.web("0x4cde61"));
+      if (code == 0) {
+        circle.setFill(Color.web("0xf74c4c"));
+      } else if (code == 1) {
+        circle.setFill(Color.web("0x012D5A"));
+      } else {
+        circle.setFill(Color.web("0x4cde61"));
+      }
     }
   }
 
@@ -333,6 +344,8 @@ public class MapEditorController {
 
     // for if modifying a node
     if (modifyNodeClicked) {
+      currentModifyNodeID = nodeID;
+      circle.setFill(Color.web("0xf74c4c"));
       popUpInputDialogBox();
 
       // get node information
@@ -350,6 +363,9 @@ public class MapEditorController {
     // for if modifying edges
     if (modifyEdgeClicked) {
       // click another node
+      // currentEdgeCircle = circle;
+      currentModifyNodeID = nodeID;
+      circle.setFill(Color.web("0xf74c4c"));
       secondNodeClicked = true;
       firstNode = entity.getNodeInfo(nodeID);
       modifyEdgeClicked = false;
@@ -390,6 +406,7 @@ public class MapEditorController {
   /** Sets up screen for the user to remove a node */
   @FXML
   public void removeNode() {
+    shutDownAllDialogBoxes();
     removeNodeClicked = true;
     modifyNodeClicked = false;
     addNodeClicked = false;
@@ -400,6 +417,7 @@ public class MapEditorController {
   /** Sets up the screen for the user to modify a node */
   @FXML
   public void modifyNode() {
+    shutDownAllDialogBoxes();
     removeNodeClicked = false;
     modifyNodeClicked = true;
     addNodeClicked = false;
@@ -410,6 +428,7 @@ public class MapEditorController {
   /** Sets up the screen for the user to modify an edge */
   @FXML
   public void modifyEdge() {
+    shutDownAllDialogBoxes();
     if (modifyEdgeButton.getText().equals("Modify Edge")) {
       modifyEdgeClicked = true;
       removeNodeClicked = false;
@@ -420,7 +439,10 @@ public class MapEditorController {
     } else {
       secondNodeClicked = false;
       modifyEdgeClicked = false;
+      currentModifyNodeID = -1;
       modifyEdgeButton.setText("Modify Edge");
+      displayEdgeData(entity.determineEdgeMap(level));
+      displayNodeData(entity.determineNodeMap(level));
     }
   }
 
@@ -463,6 +485,7 @@ public class MapEditorController {
   /** Sets up screen for the user to add a node */
   @FXML
   public void addNode() {
+    shutDownAllDialogBoxes();
     removeNodeClicked = false;
     modifyNodeClicked = false;
     addNodeClicked = true;
@@ -543,6 +566,7 @@ public class MapEditorController {
     clearDialogBoxes();
     topPane.getChildren().clear();
     topPane.setOnMouseClicked(null);
+    currentModifyNodeID = -1;
     displayEdgeData(entity.determineEdgeMap(level));
     displayNodeData(entity.determineNodeMap(level));
   }
@@ -574,6 +598,7 @@ public class MapEditorController {
   /** Sets up the screen for the user to align nodes */
   @FXML
   public void clickAlignNodesButton() {
+    shutDownAllDialogBoxes();
     if (AlignNodesButton.getText().equals("Align Nodes")) {
       stopAlignment = false;
       alignNodesClicked = true;
@@ -624,6 +649,7 @@ public class MapEditorController {
   /** Sets up the screen for the user to add a move */
   @FXML
   public void clickAddMove() {
+    shutDownAllDialogBoxes();
     movesInputDialog.setVisible(true);
     movesInputDialog.setDisable(false);
 
