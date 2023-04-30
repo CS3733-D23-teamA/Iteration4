@@ -104,11 +104,13 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <MFXComboBox fx:id="requestCombo" alignment="CENTER" onAction="#updateTable" prefHeight="55.0" prefWidth="486.0">
-                     <VBox.margin>
-                        <Insets right="100.0" />
-                     </VBox.margin>
-                  </MFXComboBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <MFXComboBox fx:id="requestCombo" alignment="CENTER" onAction="#updateTable" prefHeight="55.0" prefWidth="351.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="443.92694091796875" />
+                        <MFXComboBox fx:id="acCombo" alignment="CENTER" onAction="#updateType" prefHeight="55.0" prefWidth="351.0" />
+                     </children>
+                  </HBox>
                   <StackPane fx:id="requestStack" prefHeight="260.0" prefWidth="1146.0">
                      <children>
                         <TableView fx:id="flowerTable" minHeight="100.0">
