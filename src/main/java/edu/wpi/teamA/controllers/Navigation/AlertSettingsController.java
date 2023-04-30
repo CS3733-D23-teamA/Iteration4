@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
+import edu.wpi.teamA.database.ORMclasses.Alert;
 import edu.wpi.teamA.database.ORMclasses.Employee;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -31,10 +33,12 @@ public class AlertSettingsController {
   @FXML private MFXButton removeButton;
   @FXML private MFXButton modifyButton;
 
-  @FXML private TableView<Employee> employeeTableView;
-  @FXML private TableColumn<Employee, String> nameCol;
-  @FXML private TableColumn<Employee, String> userCol;
-  @FXML private TableColumn<Employee, String> passCol;
+  @FXML private TableView<Alert> alertTableView;
+  @FXML private TableColumn<Alert, Integer> ticketNumCol;
+  @FXML private TableColumn<Alert, String> usernameCol;
+  @FXML private TableColumn<Alert, LocalDate> dateCol;
+  @FXML private TableColumn<Alert, String> messageCol;
+
 
   public void initialize() {
     ArrayList<String> allEmployeeUsernames = new ArrayList<>();
@@ -46,35 +50,36 @@ public class AlertSettingsController {
     chooseEmployeeRemove.getItems().addAll(allEmployeeUsernames);
     chooseEmployeeModify.getItems().addAll(allEmployeeUsernames);
 
-    displayEmployees();
+    displayAlerts();
     addButton.setDisable(true);
     removeButton.setDisable(true);
     modifyButton.setDisable(true);
   }
 
-  public void displayEmployees() {
-    nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-    userCol.setCellValueFactory(new PropertyValueFactory<>("username"));
-    passCol.setCellValueFactory(new PropertyValueFactory<>("password"));
+  public void displayAlerts() {
+    ticketNumCol.setCellValueFactory(new PropertyValueFactory<>("ticketNum"));
+    usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
+    dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    messageCol.setCellValueFactory(new PropertyValueFactory<>("message"));
 
-    employeeTableView.setItems(FXCollections.observableArrayList(db.getEmployeeMap().values()));
-    employeeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    alertTableView.setItems(FXCollections.observableArrayList(db.getAlertMap().values()));
+    alertTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
-  public void addEmployee() {
+  public void addAlert() {
     Employee employee =
         new Employee(nameAddInput.getText(), userAddInput.getText(), passwordAddInput.getText());
     db.addEmployee(employee);
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
-  public void removeEmployee() {
+  public void removeAlert() {
     Employee employee = db.getEmployee(chooseEmployeeRemove.getSelectedItem());
     db.removeEmployee(employee);
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
-  public void modifyEmployee() {
+  public void modifyAlert() {
     Employee employee = db.getEmployee(chooseEmployeeModify.getSelectedItem());
     employee.setName(modifyNameInput.getText());
     employee.setPassword(modifyPassInput.getText());

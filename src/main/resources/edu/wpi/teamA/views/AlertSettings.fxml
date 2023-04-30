@@ -4,6 +4,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,12 +15,12 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AlertSettingsController">
-    <top>
-        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
-    </top>
-    <left>
-        <fx:include source="SettingsMenuBar.fxml" BorderPane.alignment="TOP_CENTER" />
-    </left>
+   <top>
+      <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+   </top>
+   <left>
+      <fx:include source="SettingsMenuBar.fxml" BorderPane.alignment="TOP_CENTER" />
+   </left>
    <center>
       <ScrollPane fitToWidth="true" BorderPane.alignment="TOP_CENTER">
          <content>
@@ -32,25 +33,25 @@
                            <children>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                                    <MFXTextField fx:id="userAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
+                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
-                                    <MFXTextField fx:id="nameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                                    <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
-                                    <MFXTextField fx:id="passwordAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
+                                    <MFXTextField fx:id="messageAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="addButton" onAction="#addEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Add" />
+                                    <MFXButton fx:id="addButton" onAction="#addAlert" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Add" />
                                  </children>
                               </HBox>
                            </children>
@@ -62,18 +63,18 @@
                   </VBox>
                   <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label text="Remove Alert" />
+                        <Label text="Remove Signage" />
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                                    <MFXFilterComboBox fx:id="chooseEmployeeRemove" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
+                                    <MFXFilterComboBox fx:id="SignageIDRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="removeButton" onAction="#removeEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-text-fill: bred; -fx-max-width: 100;" styleClass="delete-mfx-button" text="Remove" />
+                                    <MFXButton fx:id="removeButton" onAction="#removeAlert" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -85,30 +86,42 @@
                   </VBox>
                   <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label text="Modify Alert" />
+                        <Label text="Modify Signage" />
+                        <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
+                              <MFXFilterComboBox fx:id="signageIDModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                           </children>
+                        </VBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                                    <MFXFilterComboBox fx:id="chooseEmployeeModify" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
+                                    <MFXTextField fx:id="locNameModifyText" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Name" />
-                                    <MFXTextField fx:id="modifyNameInput" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
+                                    <MFXFilterComboBox fx:id="directionModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Password" />
-                                    <MFXTextField fx:id="modifyPassInput" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
+                                    <DatePicker fx:id="modifyDateInput" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
+                                    <MFXFilterComboBox fx:id="screenModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="modifyButton" onAction="#modifyEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Modify" />
+                                    <MFXButton fx:id="modifyButton" onAction="#modifyAlert" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Modify" />
                                  </children>
                               </HBox>
                            </children>
@@ -121,12 +134,13 @@
                   <VBox spacing="30.0">
                      <children>
                         <Label text="Current Alerts" />
-                        <TableView fx:id="employeeTableView" prefHeight="400.0" prefWidth="1140.0">
-                          <columns>
-                            <TableColumn fx:id="userCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Username" />
-                            <TableColumn fx:id="nameCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Name" />
-                              <TableColumn fx:id="passCol" maxWidth="-1.0" minWidth="320.0" prefWidth="-1.0" text="Password" />
-                          </columns>
+                        <TableView fx:id="alertTableView" prefHeight="400.0" prefWidth="1140.0">
+                           <columns>
+                              <TableColumn fx:id="Col" minWidth="200.0" prefWidth="380.0" text="Location Name" />
+                              <TableColumn fx:id="directionCol" minWidth="200.0" prefWidth="380.0" text="Direction" />
+                              <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="380.0" text="Date" />
+                              <TableColumn fx:id="messageCol" minWidth="200.0" prefWidth="380.0" text="Message" />
+                           </columns>
                         </TableView>
                      </children>
                   </VBox>
