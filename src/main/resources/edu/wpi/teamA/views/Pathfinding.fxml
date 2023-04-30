@@ -99,7 +99,7 @@
                   <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line" />
                   <VBox alignment="CENTER_LEFT" spacing="30.0">
                      <children>
-                        <VBox fx:id="searchAlgorithmVbox" spacing="5.0">
+                        <VBox fx:id="searchAlgorithmVbox" spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Search Algorithm" wrappingWidth="293.15864205198324">
                                  <font>
@@ -123,18 +123,18 @@
                               <MFXFilterComboBox fx:id="endSelection" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
                            </children>
                         </VBox>
-                        <VBox spacing="5.0">
+                        <VBox spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Accessibility" wrappingWidth="293.15864205198324">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
+                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="30.0">
                                  <children>
-                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 35; -fx-border-radius: 35; -fx-pref-height: 65; -fx-pref-width: 65;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
                                  </children>
                               </HBox>
                            </children>
