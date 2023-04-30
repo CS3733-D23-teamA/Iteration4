@@ -23,6 +23,7 @@ public class UserSettingsController {
   @FXML private MFXTextField lastNameTextField;
   @FXML private MFXTextField passwordTextField;
   @FXML private MFXTextField usernameTextField;
+  @FXML private MFXTextField userIDTextField;
   @FXML private MFXCheckbox isAdminCheckbox;
   @FXML private MFXButton updateButton;
 
@@ -84,7 +85,8 @@ public class UserSettingsController {
           usernameTextField.getText(),
           passwordTextField.getText(),
           firstNameTextField.getText(),
-          lastNameTextField.getText());
+          lastNameTextField.getText(),
+          Integer.parseInt(userIDTextField.getText()));
       System.out.println("User added");
       Navigation.navigate(Screen.ACCOUNT_SETTINGS);
     }

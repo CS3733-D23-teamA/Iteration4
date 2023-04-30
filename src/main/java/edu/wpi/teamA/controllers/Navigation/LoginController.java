@@ -66,7 +66,7 @@ public class LoginController {
     User user =
         dataBaseRepository.checkUser(
             username, password); // Make a user object to send to Home Page controller
-    User wrongPassword = new User(2, "N", "N", "N", "N"); // creates no existing user object
+    User wrongPassword = new User(2, "N", "N", "N", "N", 0); // creates no existing user object
     if (user != null) { // checks if a user was returned by check user (the username exists)
       if (user.equals(wrongPassword)) { // checks if returned user is the wrong password user
         loginMessageLabel.setText("Your password is incorrect.");

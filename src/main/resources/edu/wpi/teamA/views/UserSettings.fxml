@@ -28,7 +28,7 @@
                               <Label text="Add User" />
                         <VBox spacing="20.0">
                            <children>
-                              <HBox>
+                              <HBox spacing="10.0">
                                  <children>
                                             <VBox>
                                                 <children>
@@ -40,6 +40,7 @@
                                           <MFXTextField fx:id="lastNameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                                 </children>
                                             </VBox>
+                                    <MFXTextField fx:id="userIDTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="User ID (Swipe Card)" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                  </children>
                               </HBox>
                               <HBox spacing="10.0">
@@ -115,7 +116,7 @@
                         <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Label text="Modify Employee" />
-                              <HBox alignment="BOTTOM_LEFT" VBox.vgrow="ALWAYS">
+                              <HBox alignment="BOTTOM_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <MFXFilterComboBox fx:id="chooseEmployeeModify" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                     <MFXTextField fx:id="modifyNameInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />

@@ -33,7 +33,8 @@ public class UserDAOImp {
               + "userName   VARCHAR(255) PRIMARY KEY,"
               + "password   VARCHAR(255),"
               + "firstName  VARCHAR(255),"
-              + "lastName   VARCHAR(255))";
+              + "lastName   VARCHAR(255),"
+              + "userID int)";
       stmtUser.execute(sqlCreateUser);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -52,8 +53,9 @@ public class UserDAOImp {
         String password = rs.getString("password");
         String firstname = rs.getString("firstname");
         String lastname = rs.getString("lastname");
+        int userID = rs.getInt("userid");
 
-        User user = new User(adminYes, username, password, firstname, lastname);
+        User user = new User(adminYes, username, password, firstname, lastname, userID);
         userMap.put(username, user);
       }
     } catch (SQLException e) {
@@ -77,18 +79,21 @@ public class UserDAOImp {
         String password = data[2];
         String firstName = data[3];
         String lastName = data[4];
+        int userID = Integer.parseInt(data[5]);
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.getInstance())
-                .prepareStatement("INSERT INTO \"Teama_schema\".\"Users\" VALUES (?, ?, ?, ?, ?)");
+                .prepareStatement(
+                    "INSERT INTO \"Teama_schema\".\"Users\" VALUES (?, ?, ?, ?, ?, ?)");
         ps.setInt(1, accessLevel);
         ps.setString(2, userName);
         ps.setString(3, password);
         ps.setString(4, firstName);
         ps.setString(5, lastName);
+        ps.setInt(6, userID);
         ps.executeUpdate();
 
-        User user = new User(accessLevel, userName, password, firstName, lastName);
+        User user = new User(accessLevel, userName, password, firstName, lastName, userID);
 
         userMap.put(userName, user);
       }
@@ -108,13 +113,14 @@ public class UserDAOImp {
 
       FileWriter csvWriter = new FileWriter(newFile);
 
-      csvWriter.append("adminyes,username,password,firstname,lastname\n");
+      csvWriter.append("adminyes,username,password,firstname,lastname,userid\n");
 
       while (rs.next()) {
         csvWriter.append((rs.getInt("adminyes")) + (","));
         csvWriter.append((rs.getString("username")) + (","));
         csvWriter.append((rs.getString("password")) + (","));
         csvWriter.append(rs.getString("firstname")).append(",");
+        csvWriter.append((rs.getInt("userid")) + (","));
         csvWriter.append(rs.getString("lastname")).append("\n");
       }
 
@@ -195,7 +201,8 @@ public class UserDAOImp {
                   rs.getString("userName"),
                   newPassword1,
                   rs.getString("firstName"),
-                  rs.getString("lastName"));
+                  rs.getString("lastName"),
+                  rs.getInt("userid"));
           AccountSingleton.INSTANCE.setValue(returnUser);
 
           // Update password in map
@@ -240,7 +247,8 @@ public class UserDAOImp {
                   rs.getString("userName"),
                   rs.getString("password"),
                   rs.getString("firstName"),
-                  rs.getString("lastName"));
+                  rs.getString("lastName"),
+                  rs.getInt("userid"));
           AccountSingleton.INSTANCE.setValue(returnUser);
 
           // Update the user map
@@ -258,21 +266,27 @@ public class UserDAOImp {
   // Add the new user into the database
   // Also store the user into the array
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName) {
+      int adminYes,
+      String userName,
+      String password,
+      String firstName,
+      String lastName,
+      int userID) {
     try {
 
       PreparedStatement ps =
           DBConnectionProvider.getInstance()
               .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"Users\" (adminYes, userName, password, firstName, lastName) VALUES (?, ?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"Users\" (adminyes, username, password, firstname, lastname, userid) VALUES (?, ?, ?, ?, ?, ?)");
       ps.setInt(1, adminYes);
       ps.setString(2, userName);
       ps.setString(3, password);
       ps.setString(4, firstName);
       ps.setString(5, lastName);
+      ps.setInt(6, userID);
       ps.executeUpdate();
 
-      userMap.put(userName, new User(adminYes, userName, password, firstName, lastName));
+      userMap.put(userName, new User(adminYes, userName, password, firstName, lastName, userID));
       System.out.println("New user added successfully.");
 
     } catch (SQLException e) {
