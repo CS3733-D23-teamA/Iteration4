@@ -38,7 +38,7 @@ public class HomeController {
   }
 
   public void openCredits() {
-    // Navigation.navigate(Screen.CREDITS_HOME);
+     Navigation.navigate(Screen.ABOUT_CREDITPAGE);
   }
 
   private List<String> getAlerts() {

@@ -23,7 +23,8 @@ public enum Screen {
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
   IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
   ADD_USER("views/AddUser.fxml"),
-  ABOUT_HOME("views/AboutPage.fxml");
+  ABOUT_HOME("views/AboutPage.fxml"),
+  ABOUT_CREDITPAGE("views/CreditPage.fxml");
 
   private final String filename;
 

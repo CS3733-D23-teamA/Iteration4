@@ -107,7 +107,6 @@
                         <Insets />
                      </VBox.margin>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." wrappingWidth="771.0835876464844" />
                </children>
                <StackPane.margin>
                   <Insets />
