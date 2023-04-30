@@ -244,8 +244,7 @@ public class DataBaseRepository {
       userDAOImp.Import(filepath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Import(filepath);
-    }
-    else if(type.equals("Alert")){
+    } else if (type.equals("Alert")) {
       alertDAOImp.Import(filepath);
     }
   }
@@ -273,7 +272,7 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
-    } else if(type.equals("Alert")){
+    } else if (type.equals("Alert")) {
       alertDAOImp.Export(folderExportPath);
     }
   }
@@ -281,6 +280,10 @@ public class DataBaseRepository {
   // Flower related methods
   public HashMap<Integer, Flower> getFlowerMap() {
     return flowerDAOImp.getFlowerMap();
+  }
+
+  public void createFlowerTable() {
+    flowerDAOImp.createTable();
   }
 
   public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
@@ -361,12 +364,20 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurnitureMap();
   }
 
+  public void createCRRRTable() {
+    crrrDAOImp.createTable();
+  }
+
   public HashMap<Integer, FurnitureRequest> loadFurnitureFromDatabaseInMap() {
     return furnitureDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.add(furniture);
+  }
+
+  public void createFurnitureTable() {
+    furnitureDAOImp.createTable();
   }
 
   public void deleteFurniture(FurnitureRequest furniture) {
@@ -396,6 +407,10 @@ public class DataBaseRepository {
   // Meal related methods
   public HashMap<Integer, Meal> getMealMap() {
     return mealDAOImp.getMealMap();
+  }
+
+  public void createMealTable() {
+    mealDAOImp.createTable();
   }
 
   public HashMap<Integer, Meal> loadMealsFromDatabaseInMap() {
@@ -513,10 +528,28 @@ public class DataBaseRepository {
   public void removeSignage(SignageComponent signage) {
     signageDAOImp.removeSignage(signage);
   }
-  public HashMap<Integer, Alert> getAlertMap() {return alertDAOImp.getAlertMap();}
-  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {return alertDAOImp.loadAlertsFromDatabaseInMap();}
-  public Alert getAlert(int ticketNum) {return alertDAOImp.getAlert(ticketNum);}
-  public void modifyAlert(Alert alert) {alertDAOImp.modifyAlert(alert);}
-  public void addAlert(Alert alert) {alertDAOImp.addAlert(alert);}
-  public void removeAlert(Alert alert) {alertDAOImp.removeAlert(alert);}
+
+  public HashMap<Integer, Alert> getAlertMap() {
+    return alertDAOImp.getAlertMap();
+  }
+
+  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
+    return alertDAOImp.loadAlertsFromDatabaseInMap();
+  }
+
+  public Alert getAlert(int ticketNum) {
+    return alertDAOImp.getAlert(ticketNum);
+  }
+
+  public void modifyAlert(Alert alert) {
+    alertDAOImp.modifyAlert(alert);
+  }
+
+  public void addAlert(Alert alert) {
+    alertDAOImp.addAlert(alert);
+  }
+
+  public void removeAlert(Alert alert) {
+    alertDAOImp.removeAlert(alert);
+  }
 }
