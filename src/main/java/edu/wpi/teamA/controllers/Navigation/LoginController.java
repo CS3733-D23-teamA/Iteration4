@@ -20,6 +20,7 @@ public class LoginController {
   @FXML private Label loginMessageLabel;
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
+  @FXML private PasswordField userIDField;
   @FXML private AnchorPane imagePane;
 
   DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
@@ -31,56 +32,52 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
-    // Checking username and password inpput fields
+    String userID = userIDField.getText();
+    // Checking username and password input fields
 
-    if (username.isBlank() == true) {
-      if (password.isBlank() == true) {
-        loginMessageLabel.setText(
-            "Please enter username and password"); // request username and password if neither are
-        // entered
-        return;
-      } else {
-        loginMessageLabel.setText(
-            "Please enter username"); // requests username if one is not entered
-        return;
-      }
-    }
-
-    if (username.isBlank() == true) {
-      if (password.isBlank() == true) {
-        loginMessageLabel.setText(
-            "Please enter username and password"); // request username and password if neither are
-        // entered
-        return;
-      } else {
-        loginMessageLabel.setText(
-            "Please enter username"); // requests username if one is not entered
-        return;
-      }
-    }
-    if (password.isBlank() == true) {
+    if (username.isBlank() && password.isBlank() && userID.isBlank()) {
+      loginMessageLabel.setText(
+          "Please enter username and password"); // request username and password if neither are
+      // entered
+      return;
+    } else if (username.isBlank() && userID.isBlank()) {
+      loginMessageLabel.setText("Please enter username"); // requests username if one is not entered
+      return;
+    } else if (password.isBlank() && userID.isBlank()) {
       loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
       return;
     }
-    // Setting up User
-    User user =
-        dataBaseRepository.checkUser(
-            username, password); // Make a user object to send to Home Page controller
-    User wrongPassword = new User(2, "N", "N", "N", "N"); // creates no existing user object
-    if (user != null) { // checks if a user was returned by check user (the username exists)
-      if (user.equals(wrongPassword)) { // checks if returned user is the wrong password user
-        loginMessageLabel.setText("Your password is incorrect.");
-      } else if (user.getAccessLevel() // else because it returned a user the password was correct
-          == 1) { // checks if user is an admin, if so, do following commands
 
+    if (!userID.isBlank()) {
+      User user = dataBaseRepository.checkUserByID(userID);
+      if (user != null) {
         AccountSingleton.INSTANCE.setValue(user);
         Navigation.navigate(Screen.HOME);
-      } else { // actions to be made if user is not an admin
-        AccountSingleton.INSTANCE.setValue(user);
-        Navigation.navigate(Screen.HOME);
+      } else {
+        loginMessageLabel.setText("User ID doesn't exist, swipe again");
+        userIDField.clear();
       }
     } else {
-      loginMessageLabel.setText("Your username does not exist.");
+      // Setting up User
+      User user =
+          dataBaseRepository.checkUser(
+              username, password); // Make a user object to send to Home Page controller
+      User wrongPassword = new User(2, "N", "N", "N", "N", "N"); // creates no existing user object
+      if (user != null) { // checks if a user was returned by check user (the username exists)
+        if (user.equals(wrongPassword)) { // checks if returned user is the wrong password user
+          loginMessageLabel.setText("Your password is incorrect.");
+        } else if (user.getAccessLevel() // else because it returned a user the password was correct
+            == 1) { // checks if user is an admin, if so, do following commands
+
+          AccountSingleton.INSTANCE.setValue(user);
+          Navigation.navigate(Screen.HOME);
+        } else { // actions to be made if user is not an admin
+          AccountSingleton.INSTANCE.setValue(user);
+          Navigation.navigate(Screen.HOME);
+        }
+      } else {
+        loginMessageLabel.setText("Your username does not exist.");
+      }
     }
   }
 
