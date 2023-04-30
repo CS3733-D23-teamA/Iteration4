@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
@@ -66,6 +67,18 @@
                      </font>
                   </MFXButton>
                </children>
+            </VBox>
+            <VBox alignment="TOP_RIGHT" spacing="3.0">
+               <children>
+                  <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="1" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="2" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level3Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="3" textAlignment="RIGHT" />
+               </children>
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
             </VBox>
             <HBox fx:id="alignmentHBox" prefHeight="100.0" prefWidth="200.0" translateY="430.0">
                <children>
