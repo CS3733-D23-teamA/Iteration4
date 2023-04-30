@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -37,16 +38,8 @@
                               </Text>
                               <HBox spacing="10.0">
                                  <children>
-                                    <MFXButton fx:id="changeLocalDatabase" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#changeLocalDatabase" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Local Database" textFill="#eebd28">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </MFXButton>
-                                    <MFXButton fx:id="changeAWSDatabase" defaultButton="true" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#changeAWSDatabase" prefHeight="60.0" prefWidth="200.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="AWS Database" textFill="#eebd28">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </MFXButton>
+                                    <MFXRectangleToggleNode fx:id="changeLocalDatabase" onAction="#changeLocalDatabase" style="-fx-pref-width: 100;" text="Local" />
+                                    <MFXRectangleToggleNode fx:id="changeAWSDatabase" onAction="#changeAWSDatabase" style="-fx-pref-width: 100;" text="AWS" />
                                  </children>
                               </HBox>
                            </children>
