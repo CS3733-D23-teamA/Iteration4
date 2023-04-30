@@ -22,7 +22,11 @@ public enum Screen {
   UPDATE_NAME_SETTINGS("views/UpdateName.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
   IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
-  ADD_USER("views/AddUser.fxml");
+  ADD_USER("views/AddUser.fxml"),
+  DATA_SETTINGS("views/DataSettings.fxml"),
+  USER_SETTINGS("views/UserSettings.fxml"),
+  LOCATION_SETTINGS("views/LocationSettings.fxml"),
+  SCREEN_SAVER("views/ScreenSaver.fxml");
 
   private final String filename;
 

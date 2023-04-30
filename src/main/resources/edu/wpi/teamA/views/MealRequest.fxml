@@ -30,7 +30,7 @@
                               <Insets left="50.0" top="50.0" />
                           </padding>
                      <children>
-                        <Text fx:id="title11" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Info View" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
+                        <Text fx:id="title11" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Meal Request - Delivery Information" wrappingWidth="734.6353149414062" x="290.0" y="100.0">
                            <font>
                               <Font name="Open Sans Bold" size="32.0" />
                            </font>

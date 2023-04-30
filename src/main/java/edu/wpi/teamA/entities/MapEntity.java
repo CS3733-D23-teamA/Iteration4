@@ -131,7 +131,7 @@ public class MapEntity {
     Circle circle = new Circle();
     circle.setCenterX(X);
     circle.setCenterY(Y);
-    circle.setFill(Color.web("0xf74c4c"));
+    circle.setFill(Color.web("0x4cde61"));
     circle.setRadius(10);
     circle.setVisible(true);
     return circle;

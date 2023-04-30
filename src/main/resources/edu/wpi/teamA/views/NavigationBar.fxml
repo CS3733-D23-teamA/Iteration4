@@ -41,7 +41,7 @@
                   </HBox>
                   <HBox alignment="CENTER" maxWidth="150.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <MenuButton fx:id="profileButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="31.0" minWidth="71.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
+                        <MenuButton fx:id="profile" alignment="CENTER" contentDisplay="CENTER" maxHeight="80.0" maxWidth="80.0" minHeight="31.0" minWidth="71.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="71.0" styleClass="cha" textAlignment="CENTER" textOverrun="CLIP" HBox.hgrow="ALWAYS">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#openSettings" style="-fx-padding: 10;" text="Settings" />
                               <MenuItem mnemonicParsing="false" onAction="#logout" style="-fx-padding: 10;" text="Sign Out" />

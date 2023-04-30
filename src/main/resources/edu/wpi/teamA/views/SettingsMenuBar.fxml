@@ -22,25 +22,10 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
             </Line>
-            <MFXButton fx:id="AccountSettingsButton" onAction="#openAccountSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Account Settings" VBox.vgrow="ALWAYS" />
-            <VBox fx:id="AccountSettingsDropdown" prefHeight="130.0" prefWidth="100.0">
-               <children>
-                  <MFXButton fx:id="ChangePasswordButton" onAction="#openChangePassword" style="-fx-background-radius: 15; -fx-background-color: blightblue; -fx-text-fill: bblue;" text="Change Password">
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin></MFXButton>
-                  <MFXButton fx:id="openUpdateName" onAction="#openUpdateName" style="-fx-background-radius: 15; -fx-background-color: blightblue; -fx-text-fill: bblue;" text="Update Name">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></MFXButton>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </VBox>
-            <MFXButton fx:id="employeeSettingsButton" onAction="#openEmployeeSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Employee Settings" VBox.vgrow="ALWAYS" />
-            <MFXButton fx:id="addUserButton" onAction="#openAddUser" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" text="Add User" />
-            <MFXButton fx:id="importExportButton" onAction="#openImportExport" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Import/Export" />
+            <MFXButton fx:id="AccountSettingsButton" onAction="#openAccountSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="My Account" VBox.vgrow="ALWAYS" />
+            <MFXButton fx:id="userSettingsButton" onAction="#openUserSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" text="Users" />
+            <MFXButton fx:id="locationSettingsButton" onAction="#openLocationSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" text="Location" />
+            <MFXButton fx:id="dataSettingsButton" onAction="#openDataSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Data" />
             <MFXButton fx:id="logoutButton" onAction="#logout" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Sign Out" VBox.vgrow="ALWAYS" />
             <MFXButton fx:id="exitApplicationButton" onAction="#exitApp" style="-fx-background-color: bwhite; -fx-text-fill: #AA4A44; -fx-background-radius: 15; -fx-border-color: #AA4A44;" styleClass="mfx-button" text="Exit Application" VBox.vgrow="ALWAYS" />
          </children>
