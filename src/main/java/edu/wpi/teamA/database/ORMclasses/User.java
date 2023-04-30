@@ -16,7 +16,7 @@ public class User {
 
   @Getter @Setter String lastName;
 
-  @Getter @Setter int userID;
+  @Getter @Setter String userID;
 
   public User(
       int adminYes,
@@ -24,7 +24,7 @@ public class User {
       String password,
       String firstName,
       String lastName,
-      int userID) {
+      String userID) {
     this.accessLevel = adminYes;
     this.userName = userName;
     this.password = password;
@@ -43,7 +43,7 @@ public class User {
         if (Objects.equals(this.password, user2.password)) {
           if (Objects.equals(this.firstName, user2.firstName)) {
             if (Objects.equals(this.lastName, user2.lastName)) {
-              if (this.userID == user2.userID) {
+              if (Objects.equals(this.userID, user2.userID)) {
                 return true;
               }
             }

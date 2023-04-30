@@ -32,42 +32,38 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
+    String userID = userIDField.getText();
     // Checking username and password input fields
 
-    if (username.isBlank() == true) {
-      if (password.isBlank() == true) {
-        loginMessageLabel.setText(
-            "Please enter username and password"); // request username and password if neither are
-        // entered
-        return;
-      } else {
-        loginMessageLabel.setText(
-            "Please enter username"); // requests username if one is not entered
-        return;
-      }
-    }
-
-    if (username.isBlank() == true) {
-      if (password.isBlank() == true) {
-        loginMessageLabel.setText(
-            "Please enter username and password"); // request username and password if neither are
-        // entered
-        return;
-      } else {
-        loginMessageLabel.setText(
-            "Please enter username"); // requests username if one is not entered
-        return;
-      }
-    }
-    if (password.isBlank() == true) {
+    if (username.isBlank() && password.isBlank() && userID.isBlank()) {
+      loginMessageLabel.setText(
+          "Please enter username and password"); // request username and password if neither are
+      // entered
+      return;
+    } else if (username.isBlank() && userID.isBlank()) {
+      loginMessageLabel.setText("Please enter username"); // requests username if one is not entered
+      return;
+    } else if (password.isBlank() && userID.isBlank()) {
       loginMessageLabel.setText("Please enter password"); // requests password if one is not entered
       return;
     }
+
+    if (!userID.isBlank()) {
+      User user = dataBaseRepository.checkUserByID(userID);
+      if (user != null) {
+        AccountSingleton.INSTANCE.setValue(user);
+        Navigation.navigate(Screen.HOME);
+      } else {
+        loginMessageLabel.setText("User ID doesn't exist, swipe again");
+        userIDField.clear();
+      }
+    }
+
     // Setting up User
     User user =
         dataBaseRepository.checkUser(
             username, password); // Make a user object to send to Home Page controller
-    User wrongPassword = new User(2, "N", "N", "N", "N", 0); // creates no existing user object
+    User wrongPassword = new User(2, "N", "N", "N", "N", "N"); // creates no existing user object
     if (user != null) { // checks if a user was returned by check user (the username exists)
       if (user.equals(wrongPassword)) { // checks if returned user is the wrong password user
         loginMessageLabel.setText("Your password is incorrect.");

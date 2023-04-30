@@ -86,7 +86,7 @@ public class UserSettingsController {
           passwordTextField.getText(),
           firstNameTextField.getText(),
           lastNameTextField.getText(),
-          Integer.parseInt(userIDTextField.getText()));
+          userIDTextField.getText());
       System.out.println("User added");
       Navigation.navigate(Screen.ACCOUNT_SETTINGS);
     }

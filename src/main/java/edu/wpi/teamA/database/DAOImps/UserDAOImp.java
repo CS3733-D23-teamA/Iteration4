@@ -34,7 +34,7 @@ public class UserDAOImp {
               + "password   VARCHAR(255),"
               + "firstName  VARCHAR(255),"
               + "lastName   VARCHAR(255),"
-              + "userID int)";
+              + "userID VARCHAR(255) PRIMARY KEY)";
       stmtUser.execute(sqlCreateUser);
     } catch (SQLException e) {
       e.printStackTrace();
@@ -53,7 +53,7 @@ public class UserDAOImp {
         String password = rs.getString("password");
         String firstname = rs.getString("firstname");
         String lastname = rs.getString("lastname");
-        int userID = rs.getInt("userid");
+        String userID = rs.getString("userid");
 
         User user = new User(adminYes, username, password, firstname, lastname, userID);
         userMap.put(username, user);
@@ -79,7 +79,7 @@ public class UserDAOImp {
         String password = data[2];
         String firstName = data[3];
         String lastName = data[4];
-        int userID = Integer.parseInt(data[5]);
+        String userID = data[5];
 
         PreparedStatement ps =
             Objects.requireNonNull(DBConnectionProvider.getInstance())
@@ -90,7 +90,7 @@ public class UserDAOImp {
         ps.setString(3, password);
         ps.setString(4, firstName);
         ps.setString(5, lastName);
-        ps.setInt(6, userID);
+        ps.setString(6, userID);
         ps.executeUpdate();
 
         User user = new User(accessLevel, userName, password, firstName, lastName, userID);
@@ -137,37 +137,61 @@ public class UserDAOImp {
   // Check if the user exists. If exists, pull the password from the database and check if it fits
   // If not exist, call addUser
   public User checkUser(String userName, String password) {
-    return userMap.get(userName);
-    //    try {
-    //      PreparedStatement ps =
-    //          DBConnectionProvider.getInstance()
-    //              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName =
-    // ?");
-    //      ps.setString(1, userName);
-    //      ResultSet rs = ps.executeQuery();
-    //
-    //      if (rs.next()) {
-    //        String storedPassword = rs.getString("password");
-    //        if (password.equals(storedPassword)) {
-    //          User returnUser =
-    //              new User(
-    //                  rs.getInt("adminYes"),
-    //                  rs.getString("userName"),
-    //                  rs.getString("password"),
-    //                  rs.getString("firstName"),
-    //                  rs.getString("lastName"));
-    //          return returnUser;
-    //        } else {
-    //          User returnNoUser = new User(2, "N", "N", "N", "N");
-    //          return returnNoUser;
-    //        }
-    //      } else {
-    //        System.out.println("User not found, add new user.");
-    //      }
-    //    } catch (SQLException e) {
-    //      throw new RuntimeException(e);
-    //    }
-    //    return null;
+    try {
+      PreparedStatement ps =
+          DBConnectionProvider.getInstance()
+              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
+      ps.setString(1, userName);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        String storedPassword = rs.getString("password");
+        if (password.equals(storedPassword)) {
+          User returnUser =
+              new User(
+                  rs.getInt("adminyes"),
+                  rs.getString("username"),
+                  rs.getString("password"),
+                  rs.getString("firstname"),
+                  rs.getString("lastname"),
+                  rs.getString("userid"));
+          return returnUser;
+        } else {
+          User returnNoUser = new User(2, "N", "N", "N", "N", "N");
+          return returnNoUser;
+        }
+      } else {
+        System.out.println("User not found, add new user.");
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
+  }
+
+  public User checkUserByID(String userID) {
+    try {
+      PreparedStatement ps =
+          DBConnectionProvider.getInstance()
+              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userid = ?");
+      ps.setString(1, userID);
+      ResultSet rs = ps.executeQuery();
+
+      if (rs.next()) {
+        return new User(
+            rs.getInt("adminyes"),
+            rs.getString("username"),
+            rs.getString("password"),
+            rs.getString("firstname"),
+            rs.getString("lastname"),
+            rs.getString("userid"));
+      } else {
+        System.out.println("User not found, add new user.");
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return null;
   }
 
   public void updatePassword(
@@ -202,7 +226,7 @@ public class UserDAOImp {
                   newPassword1,
                   rs.getString("firstName"),
                   rs.getString("lastName"),
-                  rs.getInt("userid"));
+                  rs.getString("userid"));
           AccountSingleton.INSTANCE.setValue(returnUser);
 
           // Update password in map
@@ -248,7 +272,7 @@ public class UserDAOImp {
                   rs.getString("password"),
                   rs.getString("firstName"),
                   rs.getString("lastName"),
-                  rs.getInt("userid"));
+                  rs.getString("userid"));
           AccountSingleton.INSTANCE.setValue(returnUser);
 
           // Update the user map
@@ -271,7 +295,7 @@ public class UserDAOImp {
       String password,
       String firstName,
       String lastName,
-      int userID) {
+      String userID) {
     try {
 
       PreparedStatement ps =
@@ -283,7 +307,7 @@ public class UserDAOImp {
       ps.setString(3, password);
       ps.setString(4, firstName);
       ps.setString(5, lastName);
-      ps.setInt(6, userID);
+      ps.setString(6, userID);
       ps.executeUpdate();
 
       userMap.put(userName, new User(adminYes, userName, password, firstName, lastName, userID));
