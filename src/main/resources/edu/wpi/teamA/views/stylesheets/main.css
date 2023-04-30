@@ -157,6 +157,11 @@
     -fx-font-size: 20;
 }
 
+.mfx-toggle-node{
+    -fx-border-color: #f1f1f1;
+    -fx-background-radius: 11;
+}
+
 .mfx-toggle-button {
     -fx-background-color: #f1f1f1;
     -fx-prompt-text-fill: #012D5A;

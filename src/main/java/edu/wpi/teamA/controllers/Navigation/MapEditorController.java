@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -36,13 +37,15 @@ public class MapEditorController {
 
   @FXML private final StackPane mapStackPane = new StackPane(mapImageView, topPane);
 
-  // level buttons and image
-  @FXML private MFXButton levelL1Button;
-  @FXML private MFXButton levelL2Button;
-  @FXML private MFXButton level1Button;
-  @FXML private MFXButton level2Button;
-  @FXML private MFXButton level3Button;
+  // level toggle buttons
+  private ToggleGroup levelToggles = new ToggleGroup();
+  @FXML private MFXRectangleToggleNode levelL1Toggle;
+  @FXML private MFXRectangleToggleNode levelL2Toggle;
+  @FXML private MFXRectangleToggleNode level1Toggle;
+  @FXML private MFXRectangleToggleNode level2Toggle;
+  @FXML private MFXRectangleToggleNode level3Toggle;
   @FXML private Image mapImage = App.getMapL1();
+  // private Level currentLevel = Level.LOWERLEVELL1;
   private String level = "L1";
 
   // buttons and toggles
@@ -101,12 +104,19 @@ public class MapEditorController {
   /** Used to initialize the screen and inputs */
   public void initialize() {
     mapGesturePane.setGestureEnabled(true);
-    // set up level buttons
-    levelL1Button.setOnAction(event -> changeLevelText(levelL1Button));
-    levelL2Button.setOnAction(event -> changeLevelText(levelL2Button));
-    level1Button.setOnAction(event -> changeLevelText(level1Button));
-    level2Button.setOnAction(event -> changeLevelText(level2Button));
-    level3Button.setOnAction(event -> changeLevelText(level3Button));
+
+    // level toggle buttons set up
+    levelL1Toggle.setToggleGroup(levelToggles);
+    levelL2Toggle.setToggleGroup(levelToggles);
+    level1Toggle.setToggleGroup(levelToggles);
+    level2Toggle.setToggleGroup(levelToggles);
+    level3Toggle.setToggleGroup(levelToggles);
+
+    levelL1Toggle.setOnAction(event -> changeLevelText(levelL1Toggle));
+    levelL2Toggle.setOnAction(event -> changeLevelText(levelL2Toggle));
+    level1Toggle.setOnAction(event -> changeLevelText(level1Toggle));
+    level2Toggle.setOnAction(event -> changeLevelText(level2Toggle));
+    level3Toggle.setOnAction(event -> changeLevelText(level3Toggle));
 
     // set up page
     mapGesturePane.setContent(mapStackPane);
@@ -121,7 +131,8 @@ public class MapEditorController {
     stopAlignment = false;
     nodesToAlign = new ArrayList<>();
     alignmentHBox.setVisible(false);
-    changeLevelText(levelL1Button);
+    changeLevelText(levelL1Toggle);
+    levelL1Toggle.setSelected(true);
 
     // center and zoom onto map content
     Platform.runLater(
@@ -154,7 +165,7 @@ public class MapEditorController {
    *
    * @param button button chosen
    */
-  private void changeLevelText(MFXButton button) {
+  private void changeLevelText(MFXRectangleToggleNode button) {
     // get pre-loaded map image from App
     switch (button.getText()) {
       case "L1":

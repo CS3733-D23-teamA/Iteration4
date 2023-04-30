@@ -3,6 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXRectangleToggleNode?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
@@ -38,34 +39,17 @@
                   </StackPane>
                </children>
             </VBox>
-            <VBox alignment="CENTER" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="100.0" spacing="4.0" StackPane.alignment="TOP_RIGHT">
+            <VBox alignment="TOP_RIGHT" spacing="3.0">
                <children>
-                  <MFXButton fx:id="levelL1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L1" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="levelL2Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="L2" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level1Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="1" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level2Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="2" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="level3Button" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-font-weight: bold;" text="3" textFill="#012d5a">
-                     <font>
-                        <Font name="Open Sans Regular" size="24.0" />
-                     </font>
-                  </MFXButton>
+                  <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="1" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="2" textAlignment="RIGHT" />
+                  <MFXRectangleToggleNode fx:id="level3Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="3" textAlignment="RIGHT" />
                </children>
+               <StackPane.margin>
+                  <Insets right="10.0" top="10.0" />
+               </StackPane.margin>
             </VBox>
             <Text fx:id="locationDisplay" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #151515;" textAlignment="CENTER" StackPane.alignment="TOP_LEFT">
                <font>
