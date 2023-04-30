@@ -56,6 +56,8 @@ public class App extends Application {
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
   @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
+  private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
   @Override
   public void init() {
     log.info("Starting Up");
@@ -64,7 +66,6 @@ public class App extends Application {
     databaseRepo.createLocNameTable();
     databaseRepo.createMoveTable();
 
-    ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
     executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }
 
@@ -101,5 +102,6 @@ public class App extends Application {
 
     log.info("Shutting Down");
     DBConnectionProvider.closeConnection();
+    executor.shutdown();
   }
 }
