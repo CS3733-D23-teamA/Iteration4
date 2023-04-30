@@ -87,6 +87,7 @@ public class PathfindingController {
 
   // location toggle
   @FXML private MFXToggleButton locationToggle;
+  @FXML private MFXToggleButton secondNameToggle;
 
   private int accessibilityLevel;
 
@@ -299,7 +300,7 @@ public class PathfindingController {
 
   /** Helper method for submit sends text directions to the user */
   private void setTextDirections() {
-    directions.setText(SearchSingleton.pathString());
+    directions.setText(SearchSingleton.pathString(secondNameToggle.isSelected()));
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
     directions.setFill(Color.web("#151515"));
   }
@@ -381,15 +382,19 @@ public class PathfindingController {
     }
   }
 
+  // TODO change falses to something
   @FXML
   private void toggleNodeNames() {
     clearPath();
     HashMap<Integer, Node> nodeMap = mapEntity.getNodeMap(currentLevel);
     for (Map.Entry<Integer, Node> entry : nodeMap.entrySet()) {
       Node node = entry.getValue();
-      if (!mapEntity.getLocationName(node.getNodeID()).getNodeType().equals("HALL")
+      if (!mapEntity
+              .getLocationName(node.getNodeID(), secondNameToggle.isSelected())
+              .getNodeType()
+              .equals("HALL")
           && locationToggle.isSelected()) {
-        Text text = mapEntity.addText(node);
+        Text text = mapEntity.addText(node, secondNameToggle.isSelected());
         topPane.getChildren().add(text);
       }
     }

@@ -11,6 +11,8 @@ import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -57,14 +59,17 @@ public class App extends Application {
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
   @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
+  private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
   @Override
   public void init() {
     log.info("Starting Up");
-    // currentDate = LocalDate.now();
     databaseRepo.createNodeTable();
     databaseRepo.createEdgeTable();
     databaseRepo.createLocNameTable();
     databaseRepo.createMoveTable();
+
+    executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }
 
   @Override
@@ -100,5 +105,6 @@ public class App extends Application {
 
     log.info("Shutting Down");
     DBConnectionProvider.closeConnection();
+    executor.shutdown();
   }
 }
