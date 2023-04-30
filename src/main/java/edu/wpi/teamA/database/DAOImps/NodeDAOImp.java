@@ -18,10 +18,6 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
   // ArrayList<Node> NodeArray;
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
-  public NodeDAOImp(HashMap<Integer, Node> NodeMap) {
-    this.NodeMap = NodeMap;
-  }
-
   public NodeDAOImp() {
     this.NodeMap = loadDataFromDatabaseInMap();
   }
@@ -36,7 +32,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
               + "floor     VARCHAR(600),"
               + "building  VARCHAR(600))";
       Statement stmtNode =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       stmtNode.execute(sqlCreateNode);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -45,8 +41,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
 
   public HashMap<Integer, Node> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       while (rs.next()) {
@@ -71,8 +66,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
     ArrayList<Node> nodes = new ArrayList<>();
 
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       while (rs.next()) {
@@ -108,7 +102,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
         String building = data[4];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
         ps.setInt(1, nodeID);
         ps.setInt(2, xcoord);
@@ -131,8 +125,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Node.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -167,7 +160,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Node\" VALUES (?, ?, ?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setInt(2, xcoord);
@@ -193,7 +186,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
       edgeDAO.deleteEdgesWithNode(node);
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Node\" WHERE nodeid = ?");
       ps.setInt(1, nodeID);
       ps.executeUpdate();
@@ -215,7 +208,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Node\" SET xcoord = ?, ycoord = ?, floor = ?, building = ? WHERE nodeid = ?");
       ps.setInt(1, xcoord);
@@ -239,8 +232,7 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
   public Node getLargestNodeID() {
     Node largestNode = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery("SELECT * FROM \"Teama_schema\".\"Node\" ORDER BY nodeid DESC LIMIT 1");
 

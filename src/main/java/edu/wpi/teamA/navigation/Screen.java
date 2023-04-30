@@ -21,6 +21,9 @@ public enum Screen {
   CHANGE_PASSWORD_SETTINGS("views/ChangePassword.fxml"),
   UPDATE_NAME_SETTINGS("views/UpdateName.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
+  DATA_SETTINGS("views/DataSettings.fxml"),
+  USER_SETTINGS("views/UserSettings.fxml"),
+  LOCATION_SETTINGS("views/LocationSettings.fxml"),
   IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
   ALERT_SETTINGS("views/AlertSettings.fxml"),
   ADD_USER("views/AddUser.fxml");

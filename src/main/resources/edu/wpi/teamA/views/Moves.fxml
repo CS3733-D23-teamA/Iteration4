@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -55,6 +60,74 @@
                   </VBox>
                </children>
             </VBox>
+            <MFXGenericDialog fx:id="editRemoveDialog" prefHeight="506.0" prefWidth="454.0">
+               <center>
+                  <VBox alignment="CENTER" prefHeight="460.0" prefWidth="471.0" spacing="20.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A; -fx-font-weight: bold;" text="Edit Move" textAlignment="CENTER">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Text>
+                        <GridPane alignment="TOP_CENTER" maxWidth="400.0" prefHeight="400.0" prefWidth="400.0" VBox.vgrow="ALWAYS">
+                           <columnConstraints>
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="200.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Node to Move To" textAlignment="CENTER" wrappingWidth="150.0">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Moving" textAlignment="CENTER" wrappingWidth="150.0" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date for Move" textAlignment="CENTER" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <MFXButton fx:id="editSubmitButton" defaultButton="true" mnemonicParsing="false" onAction="#submitEdit" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Submit" textFill="#eebd28" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </MFXButton>
+                              <Text fx:id="nodeMovingTo" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="198.88897705078125" GridPane.columnIndex="1">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="locationMoving" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="198.88897705078125" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="24.0" />
+                                 </font>
+                              </Text>
+                              <DatePicker fx:id="editDate" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <MFXButton fx:id="removeButton" defaultButton="true" mnemonicParsing="false" onAction="#removeMove" prefHeight="58.0" prefWidth="120.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1;" styleClass="blue-styled-button" text="Remove" textFill="#eebd28" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </GridPane>
+                        <Text fx:id="moveError" fill="#f74c4c" strokeType="OUTSIDE" strokeWidth="0.0" text="Cannot add location to node on this date" textAlignment="CENTER" wrappingWidth="347.0">
+                           <font>
+                              <Font name="Open Sans Regular" size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+               </center>
+            </MFXGenericDialog>
          </children>
          <BorderPane.margin>
             <Insets bottom="100.0" left="100.0" right="100.0" top="100.0" />

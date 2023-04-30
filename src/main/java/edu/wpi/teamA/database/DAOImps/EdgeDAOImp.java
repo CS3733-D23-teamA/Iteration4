@@ -20,10 +20,6 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
   // ArrayList<Edge> EdgeArray;
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
-  public EdgeDAOImp(HashMap<String, Edge> EdgeMap) {
-    this.EdgeMap = EdgeMap;
-  }
-
   public EdgeDAOImp() {
     this.EdgeMap = loadDataFromDatabaseInMap();
   }
@@ -44,7 +40,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
               + "ON DELETE CASCADE)";
 
       Statement stmtEdge =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       stmtEdge.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -55,8 +51,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
     // HashMap<String, Edge> edges = new HashMap<String, Edge>();
 
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       while (rs.next()) {
@@ -78,8 +73,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
     ArrayList<Edge> edges = new ArrayList<>();
 
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       while (rs.next()) {
@@ -109,7 +103,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
         int endNode = Integer.parseInt(data[1]);
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Edge\" VALUES (?, ?)");
         ps.setInt(1, startNode);
         ps.setInt(2, endNode);
@@ -130,8 +124,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Edge.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -160,7 +153,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Edge\" VALUES (?, ?)");
       ps.setInt(1, startNode);
       ps.setInt(2, endNode);
@@ -185,7 +178,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"Edge\" WHERE startnode = ? AND endnode = ?");
       ps.setInt(1, startNode);
@@ -210,7 +203,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
     HashMap<String, Edge> copiedEdgeMap = new HashMap<>(EdgeMap);
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"Edge\" WHERE startnode = ? OR endnode = ?");
       ps.setInt(1, node.getNodeID());

@@ -41,12 +41,12 @@ public class CRRRDAOImpTest {
             "testStatus",
             "testCreator");
 
-    connection = DBConnectionProvider.createConnection();
+    connection = DBConnectionProvider.createLocalConnection();
   }
 
   @Test
   public void testLoadDataFromDatabaseInMap() throws SQLException {
-    try (Connection connection = dbConnectionProvider.createConnection();
+    try (Connection connection = dbConnectionProvider.createLocalConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet =
             statement.executeQuery("SELECT * FROM \"Teama_schema\".\"ConferenceRoomRequest\"")) {
