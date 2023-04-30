@@ -34,7 +34,7 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
-                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <MFXTextField fx:id="ticketNumAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
@@ -46,7 +46,7 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
-                                    <MFXTextField fx:id="messageAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXTextField fx:id="messageAddInputText" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -63,18 +63,18 @@
                   </VBox>
                   <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label text="Remove Signage" />
+                        <Label text="Remove Alert" />
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
                               <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
-                                    <MFXFilterComboBox fx:id="SignageIDRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
+                                    <MFXFilterComboBox fx:id="TicketNumRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
                                  <children>
-                                    <MFXButton fx:id="removeButton" onAction="#removeAlert" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="blue-styled-button" text="Remove" />
+                                    <MFXButton fx:id="removeButton" onAction="#removeAlert" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="delete-mfx-button" text="Remove" />
                                  </children>
                               </HBox>
                            </children>
@@ -86,27 +86,15 @@
                   </VBox>
                   <VBox spacing="30.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label text="Modify Signage" />
+                        <Label text="Modify Alert" />
                         <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
-                              <MFXFilterComboBox fx:id="signageIDModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
+                              <MFXFilterComboBox fx:id="TicketNumModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                            </children>
                         </VBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXTextField fx:id="locNameModifyText" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                                    <MFXFilterComboBox fx:id="directionModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
-                                 </children>
-                              </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
@@ -115,8 +103,8 @@
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
-                                    <MFXFilterComboBox fx:id="screenModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
+                                    <MFXTextField fx:id="messageModifyText" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -136,8 +124,8 @@
                         <Label text="Current Alerts" />
                         <TableView fx:id="alertTableView" prefHeight="400.0" prefWidth="1140.0">
                            <columns>
-                              <TableColumn fx:id="Col" minWidth="200.0" prefWidth="380.0" text="Location Name" />
-                              <TableColumn fx:id="directionCol" minWidth="200.0" prefWidth="380.0" text="Direction" />
+                              <TableColumn fx:id="ticketNumCol" minWidth="200.0" prefWidth="380.0" text="Ticket Number" />
+                              <TableColumn fx:id="Username" minWidth="200.0" prefWidth="380.0" text="Username" />
                               <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="380.0" text="Date" />
                               <TableColumn fx:id="messageCol" minWidth="200.0" prefWidth="380.0" text="Message" />
                            </columns>

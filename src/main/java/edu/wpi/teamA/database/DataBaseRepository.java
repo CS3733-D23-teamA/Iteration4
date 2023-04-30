@@ -244,8 +244,7 @@ public class DataBaseRepository {
       userDAOImp.Import(filepath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Import(filepath);
-    }
-    else if(type.equals("Alert")){
+    } else if (type.equals("Alert")) {
       alertDAOImp.Import(filepath);
     }
   }
@@ -273,7 +272,7 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
-    } else if(type.equals("Alert")){
+    } else if (type.equals("Alert")) {
       alertDAOImp.Export(folderExportPath);
     }
   }
@@ -431,12 +430,17 @@ public class DataBaseRepository {
   }
 
   // user dao functions
-  public HashMap<String, User> getUserMap() {return userDAOImp.getUserMap();}
+  public HashMap<String, User> getUserMap() {
+    return userDAOImp.getUserMap();
+  }
+
   public void createUserTable() {
     userDAOImp.createUserTable();
   }
 
-  public HashMap<String, User> loadUsersFromDatabaseInMap() {return userDAOImp.loadUsersFromDatabaseInMap();}
+  public HashMap<String, User> loadUsersFromDatabaseInMap() {
+    return userDAOImp.loadUsersFromDatabaseInMap();
+  }
 
   public void addUser(
       int adminYes, String userName, String password, String firstName, String lastName) {
@@ -516,10 +520,28 @@ public class DataBaseRepository {
   public void removeSignage(SignageComponent signage) {
     signageDAOImp.removeSignage(signage);
   }
-  public HashMap<Integer, Alert> getAlertMap() {return alertDAOImp.getAlertMap();}
-  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {return alertDAOImp.loadAlertsFromDatabaseInMap();}
-  public Alert getAlert(int ticketNum) {return alertDAOImp.getAlert(ticketNum);}
-  public void modifyAlert(Alert alert) {alertDAOImp.modifyAlert(alert);}
-  public void addAlert(Alert alert) {alertDAOImp.addAlert(alert);}
-  public void removeAlert(Alert alert) {alertDAOImp.removeAlert(alert);}
+
+  public HashMap<Integer, Alert> getAlertMap() {
+    return alertDAOImp.getAlertMap();
+  }
+
+  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
+    return alertDAOImp.loadAlertsFromDatabaseInMap();
+  }
+
+  public Alert getAlert(int ticketNum) {
+    return alertDAOImp.getAlert(ticketNum);
+  }
+
+  public void modifyAlert(Alert alert) {
+    alertDAOImp.modifyAlert(alert);
+  }
+
+  public void addAlert(Alert alert) {
+    alertDAOImp.addAlert(alert);
+  }
+
+  public void removeAlert(Alert alert) {
+    alertDAOImp.removeAlert(alert);
+  }
 }

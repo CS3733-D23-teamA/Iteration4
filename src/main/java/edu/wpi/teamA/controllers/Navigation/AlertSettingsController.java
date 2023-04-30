@@ -2,33 +2,34 @@ package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Alert;
-import edu.wpi.teamA.database.ORMclasses.Employee;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Map;
-
 public class AlertSettingsController {
 
   private DataBaseRepository db = DataBaseRepository.getInstance();
-  @FXML private MFXTextField nameAddInput;
-  @FXML private MFXTextField userAddInput;
-  @FXML private MFXTextField passwordAddInput;
-  @FXML private MFXComboBox<String> chooseEmployeeRemove;
-  @FXML private MFXComboBox<String> chooseEmployeeModify;
-  @FXML private MFXTextField modifyNameInput;
-  @FXML private MFXTextField modifyPassInput;
+  @FXML private MFXTextField ticketNumAddInput;
+  @FXML private DatePicker dateAddInput;
+  @FXML private MFXTextField messageAddInputText;
+  @FXML private MFXComboBox<Integer> TicketNumModifyCombo;
+  @FXML private MFXComboBox<Integer> TicketNumRemoveCombo;
+  @FXML private DatePicker modifyDateInput;
+  @FXML private MFXTextField messageModifyText;
   @FXML private MFXButton addButton;
   @FXML private MFXButton removeButton;
   @FXML private MFXButton modifyButton;
@@ -39,16 +40,17 @@ public class AlertSettingsController {
   @FXML private TableColumn<Alert, LocalDate> dateCol;
   @FXML private TableColumn<Alert, String> messageCol;
 
-
   public void initialize() {
-    ArrayList<String> allEmployeeUsernames = new ArrayList<>();
-    for (Map.Entry<String, Employee> entry : db.getEmployeeMap().entrySet()) {
-      Employee employee = entry.getValue();
-      allEmployeeUsernames.add(employee.getUsername());
+
+    ArrayList<Integer> allTicketNum = new ArrayList<>();
+    for (Map.Entry<Integer, Alert> entry : db.getAlertMap().entrySet()) {
+      Alert alert = entry.getValue();
+
+      allTicketNum.add(alert.getTicketNum());
     }
 
-    chooseEmployeeRemove.getItems().addAll(allEmployeeUsernames);
-    chooseEmployeeModify.getItems().addAll(allEmployeeUsernames);
+    TicketNumRemoveCombo.getItems().addAll(allTicketNum);
+    TicketNumModifyCombo.getItems().addAll(allTicketNum);
 
     displayAlerts();
     addButton.setDisable(true);
@@ -67,30 +69,35 @@ public class AlertSettingsController {
   }
 
   public void addAlert() {
-    Employee employee =
-        new Employee(nameAddInput.getText(), userAddInput.getText(), passwordAddInput.getText());
-    db.addEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
+    String currentUsername = AccountSingleton.INSTANCE.getValue().getUserName();
+    Alert alert =
+        new Alert(
+            Integer.parseInt(ticketNumAddInput.getText()),
+            currentUsername,
+            Date.valueOf(dateAddInput.getValue()).toLocalDate(),
+            messageAddInputText.getText());
+    db.addAlert(alert);
+    Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
   public void removeAlert() {
-    Employee employee = db.getEmployee(chooseEmployeeRemove.getSelectedItem());
-    db.removeEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
+    Alert alert = db.getAlert(TicketNumRemoveCombo.getSelectedItem());
+    db.removeAlert(alert);
+    Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
   public void modifyAlert() {
-    Employee employee = db.getEmployee(chooseEmployeeModify.getSelectedItem());
-    employee.setName(modifyNameInput.getText());
-    employee.setPassword(modifyPassInput.getText());
-    db.modifyEmployee(employee);
-    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
+    Alert alert = db.getAlert(TicketNumModifyCombo.getSelectedItem());
+    alert.setMessage(messageModifyText.getText());
+    alert.setDate(Date.valueOf(modifyDateInput.getValue()).toLocalDate());
+    db.modifyAlert(alert);
+    Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
   public void validateAdd() {
-    if (nameAddInput.getText().isEmpty()
-        || userAddInput.getText().isEmpty()
-        || passwordAddInput.getText().isEmpty()) {
+    if (ticketNumAddInput.getText().isEmpty()
+        || dateAddInput.getValue() == null
+        || messageAddInputText.getText().isEmpty()) {
       removeButton.setDisable(true);
     } else {
       removeButton.setDisable(false);
@@ -98,7 +105,7 @@ public class AlertSettingsController {
   }
 
   public void validateRemove() {
-    if (chooseEmployeeRemove.getSelectedIndex() == -1) {
+    if (TicketNumRemoveCombo.getSelectedIndex() == -1) {
       removeButton.setDisable(true);
     } else {
       removeButton.setDisable(false);
@@ -106,9 +113,9 @@ public class AlertSettingsController {
   }
 
   public void validateModify() {
-    if (chooseEmployeeModify.getSelectedIndex() == -1
-        || modifyNameInput.getText().isEmpty()
-        || modifyPassInput.getText().isEmpty()) {
+    if (TicketNumModifyCombo.getSelectedItem() == -1) {
+      modifyButton.setDisable(true);
+    } else if (modifyDateInput.getValue() == null || messageModifyText.getText().isEmpty()) {
       modifyButton.setDisable(true);
     } else {
       modifyButton.setDisable(false);

@@ -35,9 +35,11 @@ public class SettingsMenuBarController {
       locationSettingsButton.setManaged(false);
     }
   }
+
   public void openAlertSettings() {
     Navigation.navigate(Screen.ALERT_SETTINGS);
   }
+
   public void openAccountSettings() {
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
