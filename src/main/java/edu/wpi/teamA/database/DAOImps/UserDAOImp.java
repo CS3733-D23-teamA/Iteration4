@@ -11,14 +11,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import lombok.Getter;
+import lombok.Setter;
 
 public class UserDAOImp {
-  private ArrayList<User> UserArray;
+  @Getter @Setter private HashMap<String, User> userMap = new HashMap<>();
 
   public UserDAOImp() {
-    this.UserArray = new ArrayList<User>();
+    this.userMap = loadUsersFromDatabaseInMap();
   }
 
   // Create database table for User
@@ -39,7 +41,29 @@ public class UserDAOImp {
     }
   }
 
-  public ArrayList<User> Import(String filePath) {
+  public HashMap<String, User> loadUsersFromDatabaseInMap() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+      ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Users\"");
+
+      while (rs.next()) {
+        int adminYes = rs.getInt("adminyes");
+        String username = rs.getString("username");
+        String password = rs.getString("password");
+        String firstname = rs.getString("firstname");
+        String lastname = rs.getString("lastname");
+
+        User user = new User(adminYes, username, password, firstname, lastname);
+        userMap.put(username, user);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return userMap;
+  }
+
+  public HashMap<String, User> Import(String filePath) {
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -66,14 +90,14 @@ public class UserDAOImp {
 
         User user = new User(accessLevel, userName, password, firstName, lastName);
 
-        UserArray.add(user);
+        userMap.put(userName, user);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {
 
       throw new RuntimeException(e);
     }
-    return UserArray;
+    return userMap;
   }
 
   public void Export(String folderExportPath) {
@@ -107,35 +131,37 @@ public class UserDAOImp {
   // Check if the user exists. If exists, pull the password from the database and check if it fits
   // If not exist, call addUser
   public User checkUser(String userName, String password) {
-    try {
-      PreparedStatement ps =
-          DBConnectionProvider.getInstance()
-              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName = ?");
-      ps.setString(1, userName);
-      ResultSet rs = ps.executeQuery();
-
-      if (rs.next()) {
-        String storedPassword = rs.getString("password");
-        if (password.equals(storedPassword)) {
-          User returnUser =
-              new User(
-                  rs.getInt("adminYes"),
-                  rs.getString("userName"),
-                  rs.getString("password"),
-                  rs.getString("firstName"),
-                  rs.getString("lastName"));
-          return returnUser;
-        } else {
-          User returnNoUser = new User(2, "N", "N", "N", "N");
-          return returnNoUser;
-        }
-      } else {
-        System.out.println("User not found, add new user.");
-      }
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-    return null;
+    return userMap.get(userName);
+    //    try {
+    //      PreparedStatement ps =
+    //          DBConnectionProvider.getInstance()
+    //              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Users\" WHERE userName =
+    // ?");
+    //      ps.setString(1, userName);
+    //      ResultSet rs = ps.executeQuery();
+    //
+    //      if (rs.next()) {
+    //        String storedPassword = rs.getString("password");
+    //        if (password.equals(storedPassword)) {
+    //          User returnUser =
+    //              new User(
+    //                  rs.getInt("adminYes"),
+    //                  rs.getString("userName"),
+    //                  rs.getString("password"),
+    //                  rs.getString("firstName"),
+    //                  rs.getString("lastName"));
+    //          return returnUser;
+    //        } else {
+    //          User returnNoUser = new User(2, "N", "N", "N", "N");
+    //          return returnNoUser;
+    //        }
+    //      } else {
+    //        System.out.println("User not found, add new user.");
+    //      }
+    //    } catch (SQLException e) {
+    //      throw new RuntimeException(e);
+    //    }
+    //    return null;
   }
 
   public void updatePassword(
@@ -171,6 +197,9 @@ public class UserDAOImp {
                   rs.getString("firstName"),
                   rs.getString("lastName"));
           AccountSingleton.INSTANCE.setValue(returnUser);
+
+          // Update password in map
+          userMap.put(AccountSingleton.INSTANCE.getValue().getUserName(), returnUser);
 
         } else {
           System.out.println("Incorrect Password");
@@ -214,6 +243,9 @@ public class UserDAOImp {
                   rs.getString("lastName"));
           AccountSingleton.INSTANCE.setValue(returnUser);
 
+          // Update the user map
+          userMap.put(AccountSingleton.INSTANCE.getValue().getUserName(), returnUser);
+
         } else {
           System.out.println("Incorrect Password");
         }
@@ -240,7 +272,7 @@ public class UserDAOImp {
       ps.setString(5, lastName);
       ps.executeUpdate();
 
-      UserArray.add(new User(adminYes, userName, password, firstName, lastName));
+      userMap.put(userName, new User(adminYes, userName, password, firstName, lastName));
       System.out.println("New user added successfully.");
 
     } catch (SQLException e) {

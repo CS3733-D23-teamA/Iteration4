@@ -431,9 +431,12 @@ public class DataBaseRepository {
   }
 
   // user dao functions
+  public HashMap<String, User> getUserMap() {return userDAOImp.getUserMap();}
   public void createUserTable() {
     userDAOImp.createUserTable();
   }
+
+  public HashMap<String, User> loadUsersFromDatabaseInMap() {return userDAOImp.loadUsersFromDatabaseInMap();}
 
   public void addUser(
       int adminYes, String userName, String password, String firstName, String lastName) {

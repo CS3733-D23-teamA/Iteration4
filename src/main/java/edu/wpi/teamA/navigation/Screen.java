@@ -26,7 +26,8 @@ public enum Screen {
   LOCATION_SETTINGS("views/LocationSettings.fxml"),
   IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
   ALERT_SETTINGS("views/AlertSettings.fxml"),
-  ADD_USER("views/AddUser.fxml");
+  ADD_USER("views/AddUser.fxml"),
+  SCREEN_SAVER("views/ScreenSaver.fxml");
 
   private final String filename;
 
