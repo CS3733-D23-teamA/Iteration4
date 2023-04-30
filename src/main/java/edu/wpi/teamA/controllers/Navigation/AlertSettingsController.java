@@ -95,12 +95,12 @@ public class AlertSettingsController {
   }
 
   public void validateAdd() {
-    if (ticketNumAddInput.getText().isEmpty()
+    if (ticketNumAddInput.getText() == null
         || dateAddInput.getValue() == null
         || messageAddInputText.getText().isEmpty()) {
-      removeButton.setDisable(true);
+      addButton.setDisable(true);
     } else {
-      removeButton.setDisable(false);
+      addButton.setDisable(false);
     }
   }
 

@@ -124,10 +124,10 @@
                         <Label text="Current Alerts" />
                         <TableView fx:id="alertTableView" prefHeight="400.0" prefWidth="1140.0">
                            <columns>
-                              <TableColumn fx:id="ticketNumCol" minWidth="200.0" prefWidth="380.0" text="Ticket Number" />
-                              <TableColumn fx:id="usernameCol" minWidth="200.0" prefWidth="380.0" text="Username" />
-                              <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="380.0" text="Date" />
-                              <TableColumn fx:id="messageCol" minWidth="200.0" prefWidth="380.0" text="Message" />
+                              <TableColumn fx:id="ticketNumCol" minWidth="200.0" prefWidth="287.5" text="Ticket Number" />
+                              <TableColumn fx:id="usernameCol" minWidth="200.0" prefWidth="287.5" text="Username" />
+                              <TableColumn fx:id="dateCol" minWidth="200.0" prefWidth="287.5" text="Date" />
+                              <TableColumn fx:id="messageCol" minWidth="200.0" prefWidth="287.5" text="Message" />
                            </columns>
                         </TableView>
                      </children>
