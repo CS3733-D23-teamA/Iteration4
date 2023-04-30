@@ -20,6 +20,7 @@ public class LoginController {
   @FXML private Label loginMessageLabel;
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
+  @FXML private PasswordField userIDField;
   @FXML private AnchorPane imagePane;
 
   DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
@@ -31,7 +32,7 @@ public class LoginController {
 
     String username = usernameTextField.getText();
     String password = passwordTextField.getText();
-    // Checking username and password inpput fields
+    // Checking username and password input fields
 
     if (username.isBlank() == true) {
       if (password.isBlank() == true) {
