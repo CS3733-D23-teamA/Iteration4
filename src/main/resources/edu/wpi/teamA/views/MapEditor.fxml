@@ -39,7 +39,7 @@
                   </StackPane>
                </children>
             </VBox>
-            <VBox alignment="TOP_RIGHT" spacing="3.0">
+            <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="270.0" prefWidth="50.0" spacing="3.0" StackPane.alignment="TOP_RIGHT">
                <children>
                   <MFXRectangleToggleNode fx:id="levelL1Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L1" textAlignment="RIGHT" />
                   <MFXRectangleToggleNode fx:id="levelL2Toggle" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="mfx-toggle-node" text="L2" textAlignment="RIGHT" />
