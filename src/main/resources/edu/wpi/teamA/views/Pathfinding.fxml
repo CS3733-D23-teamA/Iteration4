@@ -124,7 +124,12 @@
                         </VBox>
                      </children>
                   </VBox>
-                  <MFXToggleButton fx:id="locationToggle" contentDisposition="RIGHT" text="Location Names" textFill="#012d5a" />
+                  <VBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <MFXToggleButton fx:id="secondNameToggle" contentDisposition="RIGHT" text="Second Location" textFill="#012d5a" />
+                        <MFXToggleButton fx:id="locationToggle" contentDisposition="RIGHT" text="Location Names" textFill="#012d5a" />
+                     </children>
+                  </VBox>
                   <VBox maxWidth="300.0">
                      <children>
                         <Label id="title" fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Directions:">
