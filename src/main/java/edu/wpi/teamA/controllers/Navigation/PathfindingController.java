@@ -136,7 +136,6 @@ public class PathfindingController {
     regularPathToggle.setToggleGroup(accessibilityToggles);
     noElevatorPathToggle.setToggleGroup(accessibilityToggles);
     noStairsPathToggle.setToggleGroup(accessibilityToggles);
-    regularPathToggle.setSelected(true);
     regularPathToggle.setGraphic(new ImageView(App.getDefaultPF()));
     noElevatorPathToggle.setGraphic(new ImageView(App.getElevatorPF()));
     noStairsPathToggle.setGraphic(new ImageView(App.getStairsPF()));
@@ -145,6 +144,7 @@ public class PathfindingController {
     regularPathToggle.setOnAction(event -> setAccessibility(0));
     noElevatorPathToggle.setOnAction(event -> setAccessibility(1));
     noStairsPathToggle.setOnAction(event -> setAccessibility(2));
+    regularPathToggle.setSelected(true);
 
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
@@ -382,7 +382,6 @@ public class PathfindingController {
     }
   }
 
-  // TODO change falses to something
   @FXML
   private void toggleNodeNames() {
     clearPath();

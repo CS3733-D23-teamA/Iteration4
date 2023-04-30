@@ -241,12 +241,14 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   public Move getFirstMoveForNode(int nodeID) {
     LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
     for (Move move : movesForNode) {
-      if (!move.getDate().isAfter(App.getCurrentDate())
+      if (!move.getDate().isAfter(App.getCurrentDate()) // if move is before current date
           && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
           && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))) {
+        System.out.println("move returned");
         return move;
       }
     }
+    System.out.println("move returned null");
     return null;
   }
 
