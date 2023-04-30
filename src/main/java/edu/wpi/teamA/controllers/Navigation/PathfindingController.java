@@ -37,7 +37,7 @@ public class PathfindingController {
   @FXML private MFXRectangleToggleNode level2Toggle;
   @FXML private MFXRectangleToggleNode level3Toggle;
 
-  private ToggleGroup accessiblityToggles = new ToggleGroup();
+  private ToggleGroup accessibilityToggles = new ToggleGroup();
   @FXML private MFXRectangleToggleNode regularPathToggle;
   @FXML private MFXRectangleToggleNode noElevatorPathToggle;
   @FXML private MFXRectangleToggleNode noStairsPathToggle;
@@ -132,9 +132,9 @@ public class PathfindingController {
     levelL1Toggle.setSelected(true);
 
     // setting up accessibility toggle
-    regularPathToggle.setToggleGroup(accessiblityToggles);
-    noElevatorPathToggle.setToggleGroup(accessiblityToggles);
-    noStairsPathToggle.setToggleGroup(accessiblityToggles);
+    regularPathToggle.setToggleGroup(accessibilityToggles);
+    noElevatorPathToggle.setToggleGroup(accessibilityToggles);
+    noStairsPathToggle.setToggleGroup(accessibilityToggles);
     regularPathToggle.setSelected(true);
     regularPathToggle.setGraphic(new ImageView(App.getDefaultPF()));
     noElevatorPathToggle.setGraphic(new ImageView(App.getElevatorPF()));
