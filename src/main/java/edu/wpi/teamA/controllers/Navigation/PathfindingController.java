@@ -140,9 +140,9 @@ public class PathfindingController {
     noStairsPathToggle.setGraphic(new ImageView(App.getStairsPF()));
 
     // Buttons to set accessibility of map
-    regularPathToggle.setOnAction(event -> changeAccessibility(""));
-    noElevatorPathToggle.setOnAction(event -> changeAccessibility("No Elevators"));
-    noStairsPathToggle.setOnAction(event -> changeAccessibility("No Stairs"));
+    regularPathToggle.setOnAction(event -> setAccessibility(0));
+    noElevatorPathToggle.setOnAction(event -> setAccessibility(1));
+    noStairsPathToggle.setOnAction(event -> setAccessibility(2));
 
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
@@ -160,16 +160,21 @@ public class PathfindingController {
     locationToggle.setOnAction(event -> toggleNodeNames());
   }
 
-  private void changeAccessibility(String accessiblity) {
+  /**
+   * sets the accessiblity for the path
+   *
+   * @param accessiblity is an in representing an accessiblity level where 0 = none, 1 = no elevator, 2 = no stairs
+   */
+  private void setAccessibility(int accessiblity) {
     switch (accessiblity) {
-      case "":
-        accessiblityToggles.selectToggle(regularPathToggle);
+      case 0:
+        // set no accessablity
         break;
-      case "No Elevators":
-        accessiblityToggles.selectToggle(noElevatorPathToggle);
+      case 1:
+        // set no elevator accessablity
         break;
-      case "No Stairs":
-        accessiblityToggles.selectToggle(noStairsPathToggle);
+      case 2:
+        // set no stairs accessablity
         break;
     }
   }
@@ -193,7 +198,7 @@ public class PathfindingController {
   }
 
   /**
-   * Helper for change level Updates map image, current level, diabling paginators, and label
+   * Helper for change level Updates map image, current level, disabling paginators, and label
    *
    * @param level takes the current user selected level
    */
@@ -208,6 +213,10 @@ public class PathfindingController {
     }
   }
 
+  /**
+   * Helper for set current level,
+   * disables paginators when user paginates to end or beginning of the path
+   */
   private void setPaginator() {
     // set next to blue if next level exists
     if (mapEntity.nextLevelExists(currentLevel)) {
