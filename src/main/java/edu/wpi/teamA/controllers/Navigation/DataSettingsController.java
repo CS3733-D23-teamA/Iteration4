@@ -5,10 +5,24 @@ import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.DataBaseRepository;
 import java.io.File;
 import javafx.fxml.FXML;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 public class DataSettingsController {
+
+  @FXML private ToggleButton changeLocalDatabase;
+  @FXML private ToggleButton changeAWSDatabase;
+  private ToggleGroup changeDatabaseGroup = new ToggleGroup();
+
+  @FXML
+  public void initialize() {
+    changeLocalDatabase.setToggleGroup(changeDatabaseGroup);
+    changeAWSDatabase.setToggleGroup(changeDatabaseGroup);
+    changeLocalDatabase.setSelected(true);
+  }
+
   private final DataBaseRepository databaseRepo = App.getDatabaseRepo();
 
   private File importCSV(String type) {
@@ -31,7 +45,7 @@ public class DataSettingsController {
 
   @FXML
   public void changeAWSDatabase() {
-    DBConnectionProvider.createAWSConnection();
+    // DBConnectionProvider.createAWSConnection();
   }
 
   @FXML
