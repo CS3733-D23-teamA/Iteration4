@@ -32,8 +32,7 @@ public class AlertDAOImp implements IAlertDAO {
 
   public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Alert\"");
 
       while (rs.next()) {
@@ -67,7 +66,7 @@ public class AlertDAOImp implements IAlertDAO {
         String message = data[3];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?)");
         ps.setInt(1, ticketNum);
@@ -90,8 +89,7 @@ public class AlertDAOImp implements IAlertDAO {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Alert.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Alert\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -125,7 +123,7 @@ public class AlertDAOImp implements IAlertDAO {
 
       PreparedStatement ps =
           alertProvider
-              .createConnection()
+              .getInstance()
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Alert\" SET username = ?, date = ?, message = ? WHERE ticketNum = ?");
       ps.setString(1, username);
@@ -149,7 +147,7 @@ public class AlertDAOImp implements IAlertDAO {
       String message = alert.getMessage();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Alert\" VALUES (?, ?, ?, ?)");
       ps.setInt(1, ticketNum);
       ps.setString(2, username);
@@ -168,7 +166,7 @@ public class AlertDAOImp implements IAlertDAO {
   public void removeAlert(Alert alert) {
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Alert\" WHERE ticketNum = ?");
       ps.setInt(1, alert.getTicketNum());
       ps.executeUpdate();
