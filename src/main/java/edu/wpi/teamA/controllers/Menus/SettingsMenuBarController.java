@@ -14,46 +14,50 @@ public class SettingsMenuBarController {
   @FXML private MFXButton logoutButton;
   @FXML private MFXButton accountSettingsButton;
   @FXML private MFXButton employeeSettingsButton;
+  @FXML private MFXButton alertSettingsButton;
   @FXML public VBox AccountSettingsDropdown;
-  @FXML private MFXButton importExportButton;
+  @FXML private MFXButton dataSettingsButton;
+  @FXML private MFXButton userSettingsButton;
+  @FXML private MFXButton locationSettingsButton;
 
   @FXML
   public void initialize() {
     if (!AccountSingleton.isAdmin()) {
       employeeSettingsButton.setVisible(false);
       employeeSettingsButton.setManaged(false);
-      importExportButton.setVisible(false);
-      importExportButton.setManaged(false);
+      alertSettingsButton.setVisible(false);
+      alertSettingsButton.setManaged(false);
+      dataSettingsButton.setVisible(false);
+      dataSettingsButton.setManaged(false);
+      userSettingsButton.setVisible(false);
+      userSettingsButton.setManaged(false);
+      locationSettingsButton.setVisible(false);
+      locationSettingsButton.setManaged(false);
     }
-
-    AccountSettingsDropdown.setVisible(false);
-    AccountSettingsDropdown.setManaged(false);
   }
 
-  public void openEmployeeSettings() {
-    Navigation.navigate(Screen.EMPLOYEE_SETTINGS);
+  public void openAlertSettings() {
+    Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
   public void openAccountSettings() {
-    // Navigation.navigate(Screen.ACCOUNT_SETTINGS);
-    AccountSettingsDropdown.setVisible(!AccountSettingsDropdown.isVisible());
-    AccountSettingsDropdown.setManaged(!AccountSettingsDropdown.isManaged());
+    Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
-  public void openChangePassword() {
-    Navigation.navigate(Screen.CHANGE_PASSWORD_SETTINGS);
+  public void openDataSettings() {
+    Navigation.navigate(Screen.DATA_SETTINGS);
   }
 
-  public void openUpdateName() {
-    Navigation.navigate(Screen.UPDATE_NAME_SETTINGS);
+  public void openUserSettings() {
+    Navigation.navigate(Screen.USER_SETTINGS);
   }
 
-  public void openImportExport() {
-    Navigation.navigate(Screen.IMPORT_EXPORT_SETTINGS);
+  public void openLocationSettings() {
+    Navigation.navigate(Screen.LOCATION_SETTINGS);
   }
 
   public void logout() {
-    User loggedOut = new User(2, "N", "N", "N", "N");
+    User loggedOut = new User(2, "N", "N", "N", "N", "N");
     AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }

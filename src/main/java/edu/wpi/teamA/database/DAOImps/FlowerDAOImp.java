@@ -19,14 +19,9 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     this.flowerMap = loadDataFromDatabaseInMap();
   }
 
-  private FlowerDAOImp(HashMap<Integer, Flower> flowerMap) {
-    this.flowerMap = flowerMap;
-  }
-
   public HashMap<Integer, Flower> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\"");
 
       while (rs.next()) {
@@ -72,7 +67,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
         String creator = data[9];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
@@ -102,8 +97,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Flower.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -148,7 +142,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       String creator = flower.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"Flower\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -176,7 +170,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
 
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Flower\" WHERE id = ?");
       ps.setInt(1, flower.getId());
       ps.executeUpdate();
@@ -202,7 +196,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       String creator = flower.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Flower\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
@@ -235,8 +229,11 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getEmployee().equals(username)) {
-        flowers.add(entry.getValue());
+      if (!entry.getValue().getEmployee().isEmpty()) {
+        if (entry.getValue().getEmployee().equals(username)
+            && !entry.getValue().getStatus().equals("done")) {
+          flowers.add(entry.getValue());
+        }
       }
     }
 
@@ -248,7 +245,8 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username)
+          && !entry.getValue().getStatus().equals("done")) {
         flowers.add(entry.getValue());
       }
     }
@@ -260,8 +258,7 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   public int getNextID() {
     Flower largestID = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery("SELECT * FROM \"Teama_schema\".\"Flower\" ORDER BY id DESC LIMIT 1");
 
@@ -284,7 +281,10 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       throw new RuntimeException(e);
     }
 
-    assert largestID != null;
-    return largestID.getId() + 1;
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getId() + 1;
+    }
   }
 }

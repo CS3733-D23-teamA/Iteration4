@@ -18,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class SignageController extends PageController {
+public class SignageController {
   private DataBaseRepository db = DataBaseRepository.getInstance();
 
   @FXML private VBox ScreenVBox;

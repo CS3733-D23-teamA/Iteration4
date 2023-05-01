@@ -19,7 +19,16 @@
     -fx-padding: 0, 0, 0, 0;
 }
 
-.menu-button{
+.button:hover {
+    -fx-background-color: #F0C747;
+    -fx-font-size: 20;
+}
+
+.arrow {
+    -fx-background-color: transparent;
+}
+
+#profile{
     -fx-background-color: #f1f1f1;
     -fx-text-fill: #012D5A;
     -fx-background-radius: 60;
@@ -33,22 +42,10 @@
     -fx-font-weight: bold;
 }
 
-.button:hover {
-    -fx-background-color: #F0C747;
-    -fx-font-size: 20;
-}
-
-.arrow {
-    -fx-background-color: transparent;
-}
-
-#home {
-    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-white.png");
-    -fx-background-image: url("edu/wpi/teamA/images/icons/bwh-logo-white.png");
-}
-
-#home:hover {
-    -fx-graphic: url("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
+#profile:hover {
+    -fx-border-color: #F0C747;
+    -fx-border-width: 7;
+    -fx-border-insets: -6.5;
 }
 
 /* this part is from  default stiles fxrt.jar!/com/sun/javafx/scene/control/skin/caspian/caspian.css */

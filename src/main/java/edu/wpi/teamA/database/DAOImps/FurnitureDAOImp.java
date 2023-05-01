@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +22,9 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
     this.furnitureMap = loadDataFromDatabaseInMap();
   }
 
-  public FurnitureDAOImp(HashMap<Integer, FurnitureRequest> furnitureMap) {
-    this.furnitureMap = furnitureMap;
-  }
-
   public HashMap<Integer, FurnitureRequest> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\"");
 
       while (rs.next()) {
@@ -76,7 +72,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
         String creator = data[9];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement(
                     "INSERT INTO \"Teama_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         ps.setInt(1, id);
@@ -107,8 +103,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Furniture.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -153,7 +148,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String creator = furniture.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "INSERT INTO \"Teama_schema\".\"Furniture\" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
       ps.setInt(1, id);
@@ -187,7 +182,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Furniture\" WHERE id = ?");
       ps.setInt(1, furniture.getId());
       ps.executeUpdate();
@@ -213,7 +208,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       String creator = furniture.getCreator();
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Furniture\" SET name = ?, room = ?, date = ?, time = ?, items = ?, comment = ?, employee = ?, status = ?, creator = ? WHERE id = ?");
       ps.setString(1, name);
@@ -253,70 +248,30 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
 
   @Override
   public ArrayList<FurnitureRequest> getAssigned(String username) {
-    ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Furniture\" WHERE employee = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
+    ArrayList<FurnitureRequest> frs = new ArrayList<>();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        FurnitureRequest temp =
-            new FurnitureRequest(
-                id, name, room, date, time, items, comment, employee, status, creator);
-        furnitureRequests.add(temp);
+    for (Map.Entry<Integer, FurnitureRequest> entry : furnitureMap.entrySet()) {
+      if (entry.getValue().getEmployee().equals(username)
+          && !entry.getValue().getStatus().equals("done")) {
+        frs.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
-    return furnitureRequests;
+
+    return frs;
   }
 
   @Override
   public ArrayList<FurnitureRequest> getCreated(String username) {
-    ArrayList<FurnitureRequest> furnitureRequests = new ArrayList<>();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement("SELECT * FROM \"Teama_schema\".\"Furniture\" WHERE creator = ?");
-      ps.setString(1, username);
-      ResultSet rs = ps.executeQuery();
+    ArrayList<FurnitureRequest> frs = new ArrayList<>();
 
-      while (rs.next()) {
-        int id = rs.getInt("id");
-        String name = rs.getString("name");
-        String room = rs.getString("room");
-        Date date = rs.getDate("date");
-        int time = rs.getInt("time");
-        String items = rs.getString("items");
-        String comment = rs.getString("comment");
-        String employee = rs.getString("employee");
-        String status = rs.getString("status");
-        String creator = rs.getString("creator");
-
-        FurnitureRequest temp =
-            new FurnitureRequest(
-                id, name, room, date, time, items, comment, employee, status, creator);
-        furnitureRequests.add(temp);
+    for (Map.Entry<Integer, FurnitureRequest> entry : furnitureMap.entrySet()) {
+      if (entry.getValue().getCreator().equals(username)
+          && !entry.getValue().getStatus().equals("done")) {
+        frs.add(entry.getValue());
       }
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
     }
-    return furnitureRequests;
+
+    return frs;
   }
 
   public FurnitureRequest getFurniture(int id) {
@@ -326,8 +281,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   public int getNextID() {
     FurnitureRequest largestID = null;
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs =
           st.executeQuery("SELECT * FROM \"Teama_schema\".\"Furniture\" ORDER BY id DESC LIMIT 1");
 
@@ -351,7 +305,10 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
       throw new RuntimeException(e);
     }
 
-    assert largestID != null;
-    return largestID.getId() + 1;
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getId() + 1;
+    }
   }
 }
