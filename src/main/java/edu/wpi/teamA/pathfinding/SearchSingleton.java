@@ -56,7 +56,7 @@ public class SearchSingleton {
    * @param startID takes starting Node ID as an int
    * @param endID takes ending Node ID as an int
    */
-  public static void createSearch(int startID, int endID, int accessiblity) {
+  public static void createSearch(int startID, int endID, boolean accessiblity) {
     if (getSearchAlgorithm() == SearchAlgorithm.BFS) {
       searchEntity = new BFS(startID, endID, accessiblity);
     } else if (getSearchAlgorithm() == SearchAlgorithm.DFS) {

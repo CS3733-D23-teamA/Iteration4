@@ -38,11 +38,6 @@ public class PathfindingController {
   @FXML private MFXRectangleToggleNode level2Toggle;
   @FXML private MFXRectangleToggleNode level3Toggle;
 
-  private ToggleGroup accessibilityToggles = new ToggleGroup();
-  @FXML private MFXRectangleToggleNode regularPathToggle;
-  @FXML private MFXRectangleToggleNode noElevatorPathToggle;
-  @FXML private MFXRectangleToggleNode noStairsPathToggle;
-
   // Boolean for admin settings
   private Boolean isAdmin = AccountSingleton.isAdmin();
 
@@ -91,8 +86,9 @@ public class PathfindingController {
   // location toggle
   @FXML private MFXToggleButton locationToggle;
   @FXML private MFXToggleButton secondNameToggle;
+  @FXML private MFXToggleButton noStairs;
 
-  private int accessibilityLevel;
+  private boolean accessibilityLevel = false;
 
   public void initialize() {
 
@@ -135,20 +131,6 @@ public class PathfindingController {
     level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
     levelL1Toggle.setSelected(true);
 
-    // setting up accessibility toggle
-    regularPathToggle.setToggleGroup(accessibilityToggles);
-    noElevatorPathToggle.setToggleGroup(accessibilityToggles);
-    noStairsPathToggle.setToggleGroup(accessibilityToggles);
-    regularPathToggle.setGraphic(new ImageView(App.getDefaultPF()));
-    noElevatorPathToggle.setGraphic(new ImageView(App.getElevatorPF()));
-    noStairsPathToggle.setGraphic(new ImageView(App.getStairsPF()));
-
-    // Buttons to set accessibility of map
-    regularPathToggle.setOnAction(event -> setAccessibility(0));
-    noElevatorPathToggle.setOnAction(event -> setAccessibility(1));
-    noStairsPathToggle.setOnAction(event -> setAccessibility(2));
-    regularPathToggle.setSelected(true);
-
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
     prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
@@ -163,16 +145,16 @@ public class PathfindingController {
     centerMap(2265, 950, 0.5);
 
     locationToggle.setOnAction(event -> toggleNodeNames());
+    noStairs.setOnAction(event -> setAccessibility());
   }
 
   /**
    * sets the accessibility for the path
    *
-   * @param accessibility is an in representing an accessibility level where 0 = none, 1 = no
-   *     elevator, 2 = no stairs
+   * <p>elevator, 2 = no stairs
    */
-  private void setAccessibility(int accessibility) {
-    accessibilityLevel = accessibility;
+  private void setAccessibility() {
+    accessibilityLevel = !accessibilityLevel;
     if (isSubmitted) {
       submit();
     }

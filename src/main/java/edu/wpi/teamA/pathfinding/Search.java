@@ -7,7 +7,7 @@ public abstract class Search {
   protected Graph graph = new Graph();
   protected int startID;
   protected int endID;
-  protected int accessibilitySetting;
+  protected boolean accessibilitySetting;
 
   protected ArrayList<Integer> path = new ArrayList<Integer>();
 
@@ -45,8 +45,7 @@ public abstract class Search {
    */
   protected boolean accessibilityCheck(int nodeID) {
     // TODO handle empty string for null move
-    return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting == 1)
-        && !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
+    return !(accessibilitySetting && graph.getNodeType(nodeID).equals("STAI"));
   }
 
   public GraphNode getGraphNode(int key) {

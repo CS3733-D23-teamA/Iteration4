@@ -132,9 +132,7 @@
                               </Text>
                               <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="30.0">
                                  <children>
-                                    <MFXRectangleToggleNode fx:id="regularPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noElevatorPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
-                                    <MFXRectangleToggleNode fx:id="noStairsPathToggle" contentDisplay="GRAPHIC_ONLY" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 50; -fx-border-radius: 50; -fx-pref-height: 70; -fx-pref-width: 70;" styleClass="mfx-toggle-node" textAlignment="RIGHT" />
+                                    <MFXToggleButton fx:id="noStairs" contentDisposition="RIGHT" text="No Stairs" textFill="#012d5a" />
                                  </children>
                               </HBox>
                            </children>

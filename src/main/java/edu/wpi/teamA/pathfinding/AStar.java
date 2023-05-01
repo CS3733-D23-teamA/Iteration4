@@ -6,10 +6,10 @@ import java.util.ArrayList;
 public class AStar extends Search {
 
   public AStar(int startID, int endID) {
-    this(startID, endID, 0);
+    this(startID, endID, false);
   }
 
-  public AStar(int startID, int endID, int accessiblitySetting) {
+  public AStar(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
@@ -21,7 +21,7 @@ public class AStar extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
-    this.accessibilitySetting = 0;
+    this.accessibilitySetting = false;
     setPath();
   }
 
