@@ -79,10 +79,6 @@ public class App extends Application {
     databaseRepo.createEdgeTable();
     databaseRepo.createLocNameTable();
     databaseRepo.createMoveTable();
-    databaseRepo.createFlowerTable();
-    databaseRepo.createCRRRTable();
-    databaseRepo.createFurnitureTable();
-    databaseRepo.createMealTable();
 
     executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }

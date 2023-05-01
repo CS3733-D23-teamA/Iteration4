@@ -19,30 +19,7 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
   @Getter @Setter private HashMap<Integer, FurnitureRequest> furnitureMap = new HashMap<>();
 
   public FurnitureDAOImp() {
-    createTable();
     this.furnitureMap = loadDataFromDatabaseInMap();
-  }
-
-  public void createTable() {
-    try {
-      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      st.execute(
-          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Furniture\" ("
-              + "id INTEGER PRIMARY KEY,"
-              + "name VARCHAR(255) NOT NULL,"
-              + "room VARCHAR(255) NOT NULL,"
-              + "date DATE NOT NULL,"
-              + "time INTEGER NOT NULL,"
-              + "items VARCHAR(255) NOT NULL,"
-              + "comment VARCHAR(255),"
-              + "employee VARCHAR(255) NOT NULL,"
-              + "status VARCHAR(255) NOT NULL,"
-              + "creator VARCHAR(255) NOT NULL"
-              + ")");
-      System.out.println("Furniture table created or already exists.");
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public HashMap<Integer, FurnitureRequest> loadDataFromDatabaseInMap() {

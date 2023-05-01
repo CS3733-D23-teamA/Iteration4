@@ -15,30 +15,7 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
   @Getter @Setter private HashMap<Integer, ConferenceRoomResRequest> crrrMap = new HashMap<>();
 
   public CRRRDAOImp() {
-    createTable();
     this.crrrMap = loadDataFromDatabaseInMap();
-  }
-
-  public void createTable() {
-    try {
-      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-
-      st.execute(
-          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"ConferenceRoomRequest\" ("
-              + "id INTEGER PRIMARY KEY,"
-              + "name VARCHAR(255) NOT NULL,"
-              + "room VARCHAR(255) NOT NULL,"
-              + "date DATE NOT NULL,"
-              + "starttime INTEGER NOT NULL,"
-              + "endtime INTEGER NOT NULL,"
-              + "comment VARCHAR(255),"
-              + "employee VARCHAR(255) NOT NULL,"
-              + "status VARCHAR(255) NOT NULL,"
-              + "creator VARCHAR(255) NOT NULL)");
-
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public HashMap<Integer, ConferenceRoomResRequest> loadDataFromDatabaseInMap() {
