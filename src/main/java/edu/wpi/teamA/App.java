@@ -45,6 +45,20 @@ public class App extends Application {
   @Getter
   private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
 
+  @Getter
+  private static Image signageRight = new Image("edu/wpi/teamA/images/icons/signage-right.png");
+
+  @Getter
+  private static Image signageLeft = new Image("edu/wpi/teamA/images/icons/signage-left.png");
+
+  @Getter private static Image signageUp = new Image("edu/wpi/teamA/images/icons/signage-up.png");
+
+  @Getter
+  private static Image signageDown = new Image("edu/wpi/teamA/images/icons/signage-down.png");
+
+  @Getter
+  private static Image signageStop = new Image("edu/wpi/teamA/images/icons/signage-stop.png");
+
   // BWH Colors
   @Getter private static Color YELLOWBWH = Color.web("F0C747");
   @Getter private static Color BLUEBWH = Color.web("012D5A");
