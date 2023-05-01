@@ -9,7 +9,6 @@ import java.util.Map;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -62,6 +61,8 @@ public class SignageController {
   }
 
   public void screenDisplay(boolean screen1) {
+    // screenDialog.setStyle("-fx-background-color: #98AABC;");
+    // screenDialog.setBackground(Background.fill(Color.web("0x98AABC")));
     System.out.println("in screen display");
     ArrayList<SignageComponent> signageToDisplay = new ArrayList<>();
     if (screen1) {
@@ -69,16 +70,14 @@ public class SignageController {
     } else if (!screen1) {
       signageToDisplay.addAll(allSignageScreen2);
     }
-    // ArrayList<String> allSignageLocNames = new ArrayList<>();
-    // ArrayList<String> allSignageDates = new ArrayList<>();
 
     int numRow = 1;
     for (SignageComponent signage : signageToDisplay) {
       screenDialog.addRow(numRow);
       Text locName = new Text(signage.getLocationName());
+      // TextArea locN = new TextArea(locName);
       System.out.println(signage.getLocationName());
       System.out.println(locName.getText());
-      Text date = new Text(signage.getDate().toString());
 
       ImageView imgView = new ImageView();
       if (signage.getDirection().equals("right")) {
@@ -108,16 +107,12 @@ public class SignageController {
       }
       locName.setFont(Font.font("Open Sans", FontWeight.BOLD, 30));
       locName.setFill(Color.web("0x012d5a"));
-      screenDialog.setHalignment(locName, HPos.CENTER);
-      date.setFont(Font.font("Open Sans", FontWeight.BOLD, 30));
-      date.setFill(Color.web("0x012d5a"));
-      screenDialog.setHalignment(date, HPos.CENTER);
-
-      screenDialog.setBackground(Background.fill(Color.web("0x98AABC")));
-      screenDialog.setStyle("-fx-border: 2px solid;");
+      screenDialog.setHalignment(locName, HPos.LEFT);
       screenDialog.add(imgView, 0, numRow);
+      // screenDialog.getColumnConstraints().setWrapText(true);
       screenDialog.add(locName, 1, numRow);
-      screenDialog.add(date, 2, numRow);
+      screenDialog.setVgap(20);
+
       numRow++;
       // Navigation.navigate(Screen.SIGNAGE);
       // App.getPrimaryStage().show();

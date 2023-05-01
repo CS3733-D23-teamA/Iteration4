@@ -41,45 +41,31 @@
                   </HBox>
                   <VBox fx:id="ScreenVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="600.0" prefHeight="512.0" prefWidth="1500.0">
                      <children>
-                         <Text fx:id="title" fill="#222222" strokeType="OUTSIDE" strokeWidth="0.0" text="Signage" textAlignment="CENTER" wrappingWidth="700.0" x="290.0" y="100.0" VBox.vgrow="SOMETIMES">
-                             <font>
-                                 <Font name="Open Sans Bold" size="48.0" />
-                             </font>
-                           <VBox.margin>
-                              <Insets bottom="25.0" top="25.0" />
-                           </VBox.margin>
-                         </Text>
                         <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="1500.0" VBox.vgrow="SOMETIMES">
                            <children>
                               <GridPane fx:id="screenDialog" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1252.0" HBox.hgrow="SOMETIMES">
                                 <columnConstraints>
                                   <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
-                                  <ColumnConstraints fx:id="locationCol" halignment="CENTER" hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="550.0" />
-                                    <ColumnConstraints fx:id="dateCol" halignment="CENTER" hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="550.0" />
+                                  <ColumnConstraints fx:id="locationCol" halignment="CENTER" hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="600.0" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="75.0" minHeight="0.0" prefHeight="75.0" valignment="CENTER" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Location" textAlignment="CENTER" wrappingWidth="325.71514892578125" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Signage" textAlignment="CENTER" wrappingWidth="325.71514892578125" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                                        <font>
                                           <Font name="Open Sans Regular" size="35.0" />
                                        </font>
                                        <GridPane.margin>
-                                          <Insets bottom="30.0" top="15.0" />
-                                       </GridPane.margin>
-                                    </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Date" textAlignment="CENTER" wrappingWidth="329.71484375" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="35.0" />
-                                       </font>
-                                       <GridPane.margin>
-                                          <Insets bottom="30.0" top="15.0" />
+                                          <Insets bottom="75.0" top="15.0" />
                                        </GridPane.margin>
                                     </Text>
                                  </children>
                               </GridPane>
                            </children>
+                           <VBox.margin>
+                              <Insets top="100.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
                      <StackPane.margin>
