@@ -39,7 +39,6 @@ public class FlowerRequestController implements IServiceController {
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
-  @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
   @FXML private MFXButton addFlower;
 
@@ -92,15 +91,12 @@ public class FlowerRequestController implements IServiceController {
 
   @FXML
   public void validateAddFlower() {
-    if (flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1) {
-      addFlower.setDisable(true);
-    } else {
-      addFlower.setDisable(false);
-    }
+    addFlower.setDisable(
+        flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1);
   }
 
   @FXML
-  public void validateButton() {
+  public void validateSubmit() {
     submitButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
@@ -138,7 +134,7 @@ public class FlowerRequestController implements IServiceController {
     String flower = flowerCombo.getSelectedItem();
     int quantity = flowerQuantity.getSelectedItem();
     entity.addItemsToTable(itemsTable, flower, quantity);
-    validateButton();
+    validateSubmit();
   }
 
   public void submit() {

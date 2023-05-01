@@ -8,7 +8,7 @@ public interface IServiceController {
   @FXML MFXButton clearButton = new MFXButton();
 
   @FXML
-  public void validateButton();
+  public void validateSubmit();
 
   public void clear();
 
