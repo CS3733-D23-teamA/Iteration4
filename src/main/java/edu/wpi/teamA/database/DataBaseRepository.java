@@ -273,7 +273,7 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
-    } else if(type.equals("Alert")){
+    } else if (type.equals("Alert")) {
       alertDAOImp.Export(folderExportPath);
     }
   }
