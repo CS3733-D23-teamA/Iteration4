@@ -65,7 +65,12 @@ public class FlowerEditController {
     populateCombos();
     populateFields();
     populateTable();
-    statusBarHBox.setVisible(false);
+    statusBarHBox.setVisible(true);
+    newStatusRect.setVisible(true);
+    orderBeginStatusRect.setVisible(true);
+    pickFlowersStatusRect.setVisible(true);
+    flowersReadyStatusRect.setVisible(true);
+    deliveredStatusRect.setVisible(true);
   }
 
   public void populateCombos() {

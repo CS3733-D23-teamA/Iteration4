@@ -34,7 +34,7 @@
                                     <Font name="Open Sans Bold" size="32.0" />
                                  </font>
                               </Text>
-                              <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
+                              <HBox fx:id="statusBarHBox" alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Rectangle fx:id="newStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#012d5a" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
                                     <Rectangle fx:id="orderBeginStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
