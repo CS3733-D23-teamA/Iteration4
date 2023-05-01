@@ -212,7 +212,6 @@ public class SearchSingleton {
           dir = "s";
         }
       }
-
     }
     return dir;
   }
