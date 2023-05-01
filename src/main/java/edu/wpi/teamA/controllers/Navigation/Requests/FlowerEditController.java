@@ -19,7 +19,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 
 public class FlowerEditController {
   @FXML private StackPane infoDisplay;
@@ -42,6 +44,13 @@ public class FlowerEditController {
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
+  @FXML private HBox statusBarHBox;
+  @FXML private Rectangle newStatusRect;
+  @FXML private Rectangle orderBeginStatusRect;
+  @FXML private Rectangle pickFlowersStatusRect;
+  @FXML private Rectangle flowersReadyStatusRect;
+  @FXML private Rectangle deliveredStatusRect;
+
   public void initialize() {
     cartDisplay.setDisable(true);
     cartDisplay.setVisible(false);
@@ -56,6 +65,7 @@ public class FlowerEditController {
     populateCombos();
     populateFields();
     populateTable();
+    statusBarHBox.setVisible(false);
   }
 
   public void populateCombos() {
