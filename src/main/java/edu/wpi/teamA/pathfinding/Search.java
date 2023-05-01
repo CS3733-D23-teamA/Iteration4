@@ -44,7 +44,7 @@ public abstract class Search {
    * @returns true if inputted node is equal to set accessibility level
    */
   protected boolean accessibilityCheck(int nodeID) {
-    //TODO I CHNAGED THIS TO OR IDK IF ITS SUPPOSED TO BE
+    // TODO I CHNAGED THIS TO OR IDK IF ITS SUPPOSED TO BE
     return !(graph.getNodeType(nodeID).equals("ELEV") && accessibilitySetting == 1)
         || !(graph.getNodeType(nodeID).equals("STAI") && accessibilitySetting == 2);
   }
