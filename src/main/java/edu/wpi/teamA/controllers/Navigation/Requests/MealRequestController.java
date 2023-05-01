@@ -40,13 +40,12 @@ public class MealRequestController implements IServiceController {
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
-  @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
   @FXML private MFXButton addDrink;
   @FXML private MFXButton addFood;
 
   private final ServiceRequestEntity entity = App.getServiceRequestEntity();
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -73,8 +72,8 @@ public class MealRequestController implements IServiceController {
     drinkCombo.getItems().addAll("Lemonade", "Coca-Cola", "Diet Coca-Cola", "Root Beer", "Water");
     foodCombo.getItems().addAll("Burger", "Cheeseburger", "Hot Dog");
 
-    drinkQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-    foodQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    drinkQuantity.getItems().addAll(-3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    foodQuantity.getItems().addAll(-3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
@@ -87,36 +86,25 @@ public class MealRequestController implements IServiceController {
 
   @FXML
   public void validateNext() {
-    if (nameField.getText().isEmpty()
-        || datePicker.getValue() == null
-        || timeCombo.getSelectedIndex() == -1
-        || roomCombo.getSelectedIndex() == -1) {
-      nextButton.setDisable(true);
-    } else {
-      nextButton.setDisable(false);
-    }
+    nextButton.setDisable(
+        nameField.getText().isEmpty()
+            || datePicker.getValue() == null
+            || timeCombo.getSelectedIndex() == -1
+            || roomCombo.getSelectedIndex() == -1);
   }
 
   @FXML
   public void validateAddDrink() {
-    if (drinkCombo.getSelectedIndex() == -1 || drinkQuantity.getSelectedIndex() == -1) {
-      addDrink.setDisable(true);
-    } else {
-      addDrink.setDisable(false);
-    }
+    addDrink.setDisable(
+        drinkCombo.getSelectedIndex() == -1 || drinkQuantity.getSelectedIndex() == -1);
   }
 
   @FXML
   public void validateAddFood() {
-    if (foodCombo.getSelectedIndex() == -1 || foodQuantity.getSelectedIndex() == -1) {
-      addFood.setDisable(true);
-    } else {
-      addFood.setDisable(false);
-    }
+    addFood.setDisable(foodCombo.getSelectedIndex() == -1 || foodQuantity.getSelectedIndex() == -1);
   }
 
-  // TODO change to validate submit
-  public void validateButton() {
+  public void validateSubmit() {
     submitButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
@@ -156,7 +144,7 @@ public class MealRequestController implements IServiceController {
     String drink = drinkCombo.getSelectedItem();
     int quantity = drinkQuantity.getSelectedItem();
     entity.addItemsToTable(itemsTable, drink, quantity);
-    validateButton();
+    validateSubmit();
   }
 
   @FXML
@@ -173,7 +161,7 @@ public class MealRequestController implements IServiceController {
       itemsTable.getItems().remove(item);
       itemsTable.getItems().add(item);
     }
-    validateButton();
+    validateSubmit();
   }
 
   @FXML

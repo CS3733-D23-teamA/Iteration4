@@ -18,6 +18,18 @@ public class ServiceRequestEntity {
     return num;
   }
 
+  public String convertInt(int num) {
+    String time = "";
+
+    if (num < 100) {
+      time += "00";
+    } else {
+      time += (num / 100);
+    }
+    time += ":00";
+    return time;
+  }
+
   public ServiceRequestItem tableContainsItem(TableView<ServiceRequestItem> items, String item) {
     for (ServiceRequestItem currentItem : items.getItems()) {
       if (currentItem.getItem().equals(item)) {
@@ -31,10 +43,16 @@ public class ServiceRequestEntity {
       TableView<ServiceRequestItem> itemsTable, String itemStr, int quantity) {
     ServiceRequestItem item = tableContainsItem(itemsTable, itemStr);
     if (item == null) {
-      itemsTable.getItems().add(new ServiceRequestItem(itemStr, quantity));
+      if (quantity > 0) {
+        itemsTable.getItems().add(new ServiceRequestItem(itemStr, quantity));
+      }
     } else {
       int prevQuantity = item.getQuantity();
-      item.setQuantity(prevQuantity + quantity);
+      if (prevQuantity + quantity > 0) {
+        item.setQuantity(prevQuantity + quantity);
+      } else {
+        itemsTable.getItems().remove(item);
+      }
       itemsTable.refresh();
     }
   }
@@ -42,7 +60,7 @@ public class ServiceRequestEntity {
   public String appendItemsIntoString(TableView<ServiceRequestItem> itemsTable) {
     StringBuilder items = new StringBuilder();
     for (ServiceRequestItem item : itemsTable.getItems()) {
-      items.append(item.getItem()).append(" ").append(item.getQuantity()).append(", ");
+      items.append(item.getItem()).append(" ").append(item.getQuantity()).append(",");
     }
     return items.toString();
   }
