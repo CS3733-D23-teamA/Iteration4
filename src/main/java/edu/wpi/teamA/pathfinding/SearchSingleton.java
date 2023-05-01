@@ -111,51 +111,72 @@ public class SearchSingleton {
    *
    * @param second whether to get the second locations of the date
    */
-  public static ArrayList<String> simplePathString(boolean second) {
+  public static ArrayList<String> simplePathArray(boolean second) {
     ArrayList<String> simplePath = new ArrayList<String>();
     ArrayList<Integer> pathIDs = getPath();
     MapEntity mapEd = new MapEntity();
 
-    // Setting some variables to represent the previous node
-    int prevID = pathIDs.get(0);
-    GraphNode prevNode = getGraphNode(prevID);
+    if (pathIDs == null) {
+      return null;
+    } else {
 
-    int currID = pathIDs.get(1);
-    GraphNode currNode = getGraphNode(currID);
+      // Setting some variables to represent the previous node
+      int prevID = pathIDs.get(0);
+      GraphNode prevNode = getGraphNode(prevID);
 
-    String currDir = getDirection(prevNode, currNode);
+      int currID = pathIDs.get(1);
+      GraphNode currNode = getGraphNode(currID);
 
-    for (int i = 2; i < pathIDs.size(); i++) {
-      prevID = currID;
-      prevNode = currNode;
+      String currDir = getDirection(prevNode, currNode);
 
-      currID = pathIDs.get(i);
-      currNode = getGraphNode(currID);
+      for (int i = 2; i < pathIDs.size(); i++) {
+        prevID = currID;
+        prevNode = currNode;
 
-      String newDir = getDirection(prevNode, currNode);
+        currID = pathIDs.get(i);
+        currNode = getGraphNode(currID);
 
-      if (newDir.equals("u")) {
-        simplePath.add("Go up to floor " + currNode.getFloor());
-      } else if (newDir.equals("d")) {
-        simplePath.add("Go down to floor " + currNode.getFloor());
-      } else {
+        String newDir = getDirection(prevNode, currNode);
 
-        String turn = getTurn(currDir, newDir);
-
-        if (turn.equals("f")) {
-
-        } else if (turn.equals("l")) {
-          simplePath.add("Turn left at " + mapEd.getLocationName(currID, false).getLongName());
-        } else if (turn.equals("r")) {
-          simplePath.add("Turn right at " + mapEd.getLocationName(currID, false).getLongName());
+        if (newDir.equals("u")) {
+          simplePath.add("Go up to floor " + currNode.getFloor());
+        } else if (newDir.equals("d")) {
+          simplePath.add("Go down to floor " + currNode.getFloor());
         } else {
-          simplePath.add("Something seems off?");
-        }
-      }
-      currDir = newDir;
-    }
 
+          String turn = getTurn(currDir, newDir);
+
+          if (turn.equals("l")) {
+            simplePath.add("Turn left at " + mapEd.getLocationName(currID, false).getShortName());
+          } else if (turn.equals("r")) {
+            simplePath.add("Turn right at " + mapEd.getLocationName(currID, false).getShortName());
+          }
+        }
+        currDir = newDir;
+      }
+    }
     return simplePath;
+  }
+
+  public static String simplePathString(boolean second) {
+    ArrayList<String> pathArray = simplePathArray(second);
+
+    String stringPath = "Wow! You're already there! Good Job!";
+
+    if (pathArray == null) {
+      return "There is no available path.";
+    } else {
+
+      if (pathArray.size() > 1) {
+        stringPath = pathArray.get(0);
+
+        for (int i = 1; i < pathArray.size(); i++) {
+          stringPath += ". " + pathArray.get(i);
+        }
+        stringPath += ". You have reached your destination.";
+      }
+    }
+    return stringPath;
   }
 
   private static String getDirection(GraphNode startNode, GraphNode endNode) {
@@ -207,9 +228,9 @@ public class SearchSingleton {
         }
       } else {
         if (y > 0) {
-          dir = "n";
-        } else {
           dir = "s";
+        } else {
+          dir = "n";
         }
       }
     }
