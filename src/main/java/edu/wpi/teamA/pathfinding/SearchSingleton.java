@@ -146,14 +146,10 @@ public class SearchSingleton {
 
           String turn = getTurn(currDir, newDir);
 
-          if (turn.equals("f")) {
-
-          } else if (turn.equals("l")) {
+          if (turn.equals("l")) {
             simplePath.add("Turn left at " + mapEd.getLocationName(currID, false).getShortName());
           } else if (turn.equals("r")) {
             simplePath.add("Turn right at " + mapEd.getLocationName(currID, false).getShortName());
-          } else {
-            simplePath.add("Something seems off?");
           }
         }
         currDir = newDir;
