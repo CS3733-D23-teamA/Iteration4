@@ -312,7 +312,7 @@ public class PathfindingController {
 
   /** Helper method for submit sends text directions to the user */
   private void setTextDirections() {
-    directions.setText(SearchSingleton.pathString(secondNameToggle.isSelected()));
+    directions.setText(SearchSingleton.simplePathString(secondNameToggle.isSelected()));
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
     if (SearchSingleton.getPath() == null) {
       directions.setStyle("-fx-font-weight: bold;");
