@@ -105,4 +105,113 @@ public class SearchSingleton {
     }
     return stringPath;
   }
+
+  /**
+   * Returns an arraylist of simple directions indicating left, right, up, and down
+   *
+   * @param second whether to get the second locations of the date
+   */
+  public static ArrayList<String> simplePathString(boolean second) {
+    ArrayList<String> simplePath = new ArrayList<String>();
+    ArrayList<Integer> pathIDs = getPath();
+
+    // Setting some variables to represent the previous node
+    int prevID = pathIDs.get(0);
+    GraphNode prevNode = getGraphNode(prevID);
+    int prevX = prevNode.getXcoord();
+    int prevY = prevNode.getYcoord();
+
+    int currID = pathIDs.get(1);
+    GraphNode currNode = getGraphNode(currID);
+    int currX = currNode.getXcoord();
+    int currY = currNode.getYcoord();
+
+    String currentDir = getDirection(prevX,prevY,currX,currY);
+
+    for (int i = 2; i < pathIDs.size(); i++) {
+      prevID = currID;
+      prevNode = currNode;
+      prevX = currX;
+      prevY = currY;
+
+      currID = pathIDs.get(i);
+      currNode = getGraphNode(currID);
+      currX = currNode.getXcoord();
+      currY = currNode.getYcoord();
+
+      String newDir = getDirection(prevX,prevY,currX,currY);
+
+      String turn = getTurn(currentDir, newDir);
+
+      if (turn.equals("f")) {
+
+      } else if (turn.equals("l")) {
+
+      } else if (turn.equals("r")) {
+
+      } else {
+
+      }
+    }
+
+    return simplePath;
+  }
+
+  private static String getDirection(int x1, int y1, int x2, int y2) {
+    int x = x2 - x1;
+    int y = y2 - y1;
+    int absX = Math.abs(x);
+    int absY = Math.abs(y);
+
+    String dir = "";
+
+    if (absX > absY) {
+      if (x > 0) {
+        dir = "e";
+      } else {
+        dir = "w";
+      }
+    } else {
+      if (y > 0) {
+        dir = "n";
+      } else {
+        dir = "s";
+      }
+    }
+    return dir;
+  }
+
+  private static String getTurn(String prevDir, String newDir) {
+    String turn = "";
+
+    if (prevDir.equals(newDir)) {
+      turn = "f";
+    } else if (prevDir.equals("e")) {
+      if (newDir.equals("n")) {
+        turn = "l";
+      } else if (newDir.equals("s")) {
+        turn = "r";
+      }
+    } else if (prevDir.equals("w")) {
+      if (newDir.equals("n")) {
+        turn = "r";
+      } else if (newDir.equals("s")) {
+        turn = "l";
+      }
+    } else if (prevDir.equals("n")) {
+      if (newDir.equals("w")) {
+        turn = "l";
+      } else if (newDir.equals("e")) {
+        turn = "r";
+      }
+    } else if (prevDir.equals("s")) {
+      if (newDir.equals("w")) {
+        turn = "r";
+      } else if (newDir.equals("e")) {
+        turn = "l";
+      }
+    }
+
+    return turn;
+  }
 }

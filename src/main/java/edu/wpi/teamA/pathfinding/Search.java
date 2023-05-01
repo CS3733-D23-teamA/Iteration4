@@ -11,8 +11,6 @@ public abstract class Search {
 
   protected ArrayList<Integer> path;
 
-  protected ArrayList<String> simplePath;
-
   public ArrayList<Integer> getPath() {
     return path;
   }
@@ -73,6 +71,4 @@ public abstract class Search {
 
     return stringPath;
   }
-
-
 }
