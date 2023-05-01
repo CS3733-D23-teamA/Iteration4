@@ -105,4 +105,149 @@ public class SearchSingleton {
     }
     return stringPath;
   }
+
+  /**
+   * Returns an arraylist of simple directions indicating left, right, up, and down
+   *
+   * @param second whether to get the second locations of the date
+   */
+  public static ArrayList<String> simplePathString(boolean second) {
+    ArrayList<String> simplePath = new ArrayList<String>();
+    ArrayList<Integer> pathIDs = getPath();
+    MapEntity mapEd = new MapEntity();
+
+    // Setting some variables to represent the previous node
+    int prevID = pathIDs.get(0);
+    GraphNode prevNode = getGraphNode(prevID);
+
+    int currID = pathIDs.get(1);
+    GraphNode currNode = getGraphNode(currID);
+
+    String currDir = getDirection(prevNode, currNode);
+
+    for (int i = 2; i < pathIDs.size(); i++) {
+      prevID = currID;
+      prevNode = currNode;
+
+      currID = pathIDs.get(i);
+      currNode = getGraphNode(currID);
+
+      String newDir = getDirection(prevNode, currNode);
+
+      if (newDir.equals("u")) {
+        simplePath.add("Go up to floor " + currNode.getFloor());
+      } else if (newDir.equals("d")) {
+        simplePath.add("Go down to floor " + currNode.getFloor());
+      } else {
+
+        String turn = getTurn(currDir, newDir);
+
+        if (turn.equals("f")) {
+
+        } else if (turn.equals("l")) {
+          simplePath.add("Turn left at " + mapEd.getLocationName(currID, false).getLongName());
+        } else if (turn.equals("r")) {
+          simplePath.add("Turn right at " + mapEd.getLocationName(currID, false).getLongName());
+        } else {
+          simplePath.add("Something seems off?");
+        }
+      }
+      currDir = newDir;
+    }
+
+    return simplePath;
+  }
+
+  private static String getDirection(GraphNode startNode, GraphNode endNode) {
+
+    int x1 = startNode.getXcoord();
+    int y1 = startNode.getYcoord();
+    int x2 = endNode.getXcoord();
+    int y2 = endNode.getYcoord();
+    int x = x2 - x1;
+    int y = y2 - y1;
+    int absX = Math.abs(x);
+    int absY = Math.abs(y);
+    String startFloor = startNode.getFloor();
+    String endFloor = endNode.getFloor();
+
+    String dir = "";
+
+    if (!startFloor.equals(endFloor)) {
+      if (startFloor.equals("L1")) {
+        dir = "u";
+      } else if (startFloor.equals("L2")) {
+        if (endFloor.equals("L1")) {
+          dir = "d";
+        } else {
+          dir = "u";
+        }
+      } else if (startFloor.equals("1")) {
+        if (endFloor.equals("L1") || endFloor.equals("L2")) {
+          dir = "d";
+        } else {
+          dir = "u";
+        }
+      } else if (startFloor.equals("2")) {
+        if (endFloor.equals("3")) {
+          dir = "u";
+        } else {
+          dir = "d";
+        }
+      } else {
+        dir = "d";
+      }
+    } else {
+
+      if (absX > absY) {
+        if (x > 0) {
+          dir = "e";
+        } else {
+          dir = "w";
+        }
+      } else {
+        if (y > 0) {
+          dir = "n";
+        } else {
+          dir = "s";
+        }
+      }
+
+    }
+    return dir;
+  }
+
+  private static String getTurn(String prevDir, String newDir) {
+    String turn = "";
+
+    if (prevDir.equals(newDir)) {
+      turn = "f";
+    } else if (prevDir.equals("e")) {
+      if (newDir.equals("n")) {
+        turn = "l";
+      } else if (newDir.equals("s")) {
+        turn = "r";
+      }
+    } else if (prevDir.equals("w")) {
+      if (newDir.equals("n")) {
+        turn = "r";
+      } else if (newDir.equals("s")) {
+        turn = "l";
+      }
+    } else if (prevDir.equals("n")) {
+      if (newDir.equals("w")) {
+        turn = "l";
+      } else if (newDir.equals("e")) {
+        turn = "r";
+      }
+    } else if (prevDir.equals("s")) {
+      if (newDir.equals("w")) {
+        turn = "r";
+      } else if (newDir.equals("e")) {
+        turn = "l";
+      }
+    }
+
+    return turn;
+  }
 }
