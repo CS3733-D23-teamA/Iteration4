@@ -23,7 +23,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class AlertSettingsController {
 
   private DataBaseRepository db = DataBaseRepository.getInstance();
-  @FXML private MFXTextField ticketNumAddInput;
+
   @FXML private DatePicker dateAddInput;
   @FXML private MFXTextField messageAddInputText;
   @FXML private MFXComboBox<Integer> TicketNumModifyCombo;
@@ -73,7 +73,7 @@ public class AlertSettingsController {
     String currentUsername = AccountSingleton.INSTANCE.getValue().getUserName();
     Alert alert =
         new Alert(
-            Integer.parseInt(ticketNumAddInput.getText()),
+            db.getNextAlertTicket(),
             currentUsername,
             Date.valueOf(dateAddInput.getValue()).toLocalDate(),
             messageAddInputText.getText());
@@ -99,9 +99,7 @@ public class AlertSettingsController {
 
   @FXML
   public void validateAdd() {
-    if (ticketNumAddInput.getText().isEmpty()
-        || dateAddInput.getValue() == null
-        || messageAddInputText.getText().isEmpty()) {
+    if (dateAddInput.getValue() == null || messageAddInputText.getText().isEmpty()) {
       addButton.setDisable(true);
     } else {
       addButton.setDisable(false);

@@ -16,14 +16,9 @@ import lombok.Setter;
 
 public class AlertDAOImp implements IAlertDAO {
   @Getter @Setter private HashMap<Integer, Alert> alertMap = new HashMap<>();
-  static DBConnectionProvider alertProvider = new DBConnectionProvider();
 
   public AlertDAOImp() {
     this.alertMap = loadAlertsFromDatabaseInMap();
-  }
-
-  public AlertDAOImp(HashMap<Integer, Alert> signageMap) {
-    this.alertMap = alertMap;
   }
 
   public Alert getAlert(int ticketNum) {
@@ -122,8 +117,7 @@ public class AlertDAOImp implements IAlertDAO {
       String message = alert.getMessage();
 
       PreparedStatement ps =
-          alertProvider
-              .getInstance()
+          DBConnectionProvider.getInstance()
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Alert\" SET username = ?, date = ?, message = ? WHERE ticketNum = ?");
       ps.setString(1, username);
@@ -167,7 +161,7 @@ public class AlertDAOImp implements IAlertDAO {
     try {
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.getInstance())
-              .prepareStatement("DELETE FROM \"Teama_schema\".\"Alert\" WHERE ticketNum = ?");
+              .prepareStatement("DELETE FROM \"Teama_schema\".\"Alert\" WHERE ticket_num = ?");
       ps.setInt(1, alert.getTicketNum());
       ps.executeUpdate();
 
@@ -176,6 +170,33 @@ public class AlertDAOImp implements IAlertDAO {
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public int getNextID() {
+    Alert largestID = null;
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+      ResultSet rs =
+          st.executeQuery(
+              "SELECT * FROM \"Teama_schema\".\"Alert\" ORDER BY ticket_num DESC LIMIT 1");
+
+      if (rs.next()) {
+        int ticket = rs.getInt("ticket_num");
+        String username = rs.getString("username");
+        Date date = rs.getDate("date");
+        String message = rs.getString("message");
+
+        largestID = new Alert(ticket, username, date.toLocalDate(), message);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getTicketNum() + 1;
     }
   }
 }

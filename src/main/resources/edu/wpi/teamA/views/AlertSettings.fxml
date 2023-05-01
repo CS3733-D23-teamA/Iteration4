@@ -33,12 +33,6 @@
                            <children>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
-                                    <MFXTextField fx:id="ticketNumAddInput" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
-                                 </children>
-                              </VBox>
-                              <VBox alignment="BOTTOM_LEFT" spacing="5.0">
-                                 <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
                                     <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>

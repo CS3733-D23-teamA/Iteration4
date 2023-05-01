@@ -59,6 +59,7 @@ public class DataBaseRepository {
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
     signageDAOImp = new SignageDAOImp();
+    alertDAOImp = new AlertDAOImp();
   }
 
   // Node related methods
@@ -553,5 +554,9 @@ public class DataBaseRepository {
 
   public void removeAlert(Alert alert) {
     alertDAOImp.removeAlert(alert);
+  }
+
+  public int getNextAlertTicket() {
+    return alertDAOImp.getNextID();
   }
 }
