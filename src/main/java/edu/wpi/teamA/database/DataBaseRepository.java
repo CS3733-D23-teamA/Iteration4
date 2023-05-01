@@ -466,15 +466,6 @@ public class DataBaseRepository {
       String firstName,
       String lastName,
       String userID) {
-    if (userName.length() < 3) {
-      System.out.println("username is too short");
-    } else if (password.length() < 5) {
-      System.out.println("password is too short, " + "must be more than 5 characters");
-    } else if (firstName.length() < 1) {
-      System.out.println("Please enter a first name");
-    } else if (lastName.length() < 1) {
-      System.out.println("please enter a last name");
-    }
     userDAOImp.addUser(adminYes, userName, password, firstName, lastName, userID);
   }
 
