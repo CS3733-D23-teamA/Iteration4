@@ -282,7 +282,7 @@ public class PathfindingController {
 
     // Sets the Order for paginator
     mapEntity.setLevelOrder(SearchSingleton.getPath());
-
+    levelButtonIndicator(SearchSingleton.getPath());
     // Changes the levels for pathfinding globally
     changeLevel(mapEntity.getFirstLevel().toString());
 
@@ -360,7 +360,6 @@ public class PathfindingController {
     // get list of node IDs and set graph node to gnode from search and indicate levels
     ArrayList<Integer> pathIDs = SearchSingleton.getPath();
     GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
-    levelButtonIndicator(pathIDs);
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
