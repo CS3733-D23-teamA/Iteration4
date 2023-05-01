@@ -32,15 +32,15 @@
                                  <children>
                                             <VBox>
                                                 <children>
-                                          <MFXTextField fx:id="firstNameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="First Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                          <MFXTextField fx:id="firstNameTextField" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAddUser" onKeyReleased="#validateAddUser" prefHeight="45.0" prefWidth="250.0" promptText="First Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                                 </children>
                                             </VBox>
                                             <VBox>
                                                 <children>
-                                          <MFXTextField fx:id="lastNameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                          <MFXTextField fx:id="lastNameTextField" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAddUser" onKeyReleased="#validateAddUser" prefHeight="45.0" prefWidth="250.0" promptText="Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                                 </children>
                                             </VBox>
-                                    <MFXTextField fx:id="userIDTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="User ID (Swipe Card)" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="userIDTextField" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAddUser" onKeyReleased="#validateAddUser" prefHeight="45.0" prefWidth="250.0" promptText="User ID (Swipe Card)" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                  </children>
                               </HBox>
                               <HBox spacing="10.0">
@@ -49,12 +49,12 @@
                                               <children>
                                                   <VBox>
                                                       <children>
-                                                <MFXTextField fx:id="usernameTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                <MFXTextField fx:id="usernameTextField" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAddUser" onKeyReleased="#validateAddUser" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                                       </children>
                                                   </VBox>
                                                   <VBox>
                                                       <children>
-                                                <MFXTextField fx:id="passwordTextField" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="45.0" prefWidth="250.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                                <MFXTextField fx:id="passwordTextField" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAddUser" onKeyReleased="#validateAddUser" prefHeight="45.0" prefWidth="250.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                                       </children>
                                                   </VBox>
                                               </children>
@@ -62,7 +62,7 @@
                                           <HBox alignment="CENTER_LEFT" spacing="30.0">
                                               <children>
                                           <MFXCheckbox fx:id="isAdminCheckbox" text="Make Admin" />
-                                                    <MFXButton fx:id="updateButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addUser" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite; -fx-pref-width: 120;" styleClass="submit-mfx-button" text="Add User" />
+                                                    <MFXButton fx:id="addUserButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#addUser" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: bblue; -fx-text-fill: bwhite; -fx-pref-width: 120;" styleClass="submit-mfx-button" text="Add User" />
                                               </children>
                                        <padding>
                                           <Insets left="20.0" />
@@ -84,9 +84,9 @@
                               <Label text="Add Employee" />
                               <HBox alignment="BOTTOM_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <MFXTextField fx:id="userAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
-                                    <MFXTextField fx:id="nameAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
-                                    <MFXTextField fx:id="passwordAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="userAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="nameAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="passwordAddInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                     <MFXButton fx:id="addButton" onAction="#addEmployee" prefHeight="45.0" prefWidth="79.0" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="submit-mfx-button" text="Add">
                                        <HBox.margin>
                                           <Insets left="10.0" />
@@ -119,8 +119,8 @@
                               <HBox alignment="BOTTOM_LEFT" spacing="10.0" VBox.vgrow="ALWAYS">
                                  <children>
                                     <MFXFilterComboBox fx:id="chooseEmployeeModify" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefHeight="45.0" prefWidth="250.0" promptText="Username" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
-                                    <MFXTextField fx:id="modifyNameInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
-                                    <MFXTextField fx:id="modifyPassInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="New Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="modifyNameInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" onKeyReleased="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="First and Last Name" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
+                                    <MFXTextField fx:id="modifyPassInput" maxHeight="-Infinity" minHeight="-Infinity" minWidth="150.0" onAction="#validateModify" onKeyReleased="#validateModify" prefColumnCount="3" prefHeight="45.0" prefWidth="250.0" promptText="New Password" style="-fx-border-radius: 10; -fx-background-radius: 10; -fx-pref-height: 50;" />
                                     <MFXButton fx:id="modifyButton" onAction="#modifyEmployee" style="-fx-background-color: #012D5A; -fx-text-fill: #f1f1f1; -fx-max-width: 100;" styleClass="clear-mfx-button" text="Modify">
                                        <HBox.margin>
                                           <Insets left="10.0" />

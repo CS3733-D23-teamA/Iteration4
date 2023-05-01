@@ -337,8 +337,11 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       throw new RuntimeException(e);
     }
 
-    assert largestID != null;
-    return largestID.getId() + 1;
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getId() + 1;
+    }
   }
 
   public ArrayList<ConferenceRoomResRequest> filterDate(Date d) {
