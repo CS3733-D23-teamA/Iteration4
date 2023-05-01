@@ -13,6 +13,8 @@ public class SettingsMenuBarController {
   @FXML private MFXButton exitApplicationButton;
   @FXML private MFXButton logoutButton;
   @FXML private MFXButton accountSettingsButton;
+  @FXML private MFXButton employeeSettingsButton;
+  @FXML private MFXButton alertSettingsButton;
   @FXML public VBox AccountSettingsDropdown;
   @FXML private MFXButton dataSettingsButton;
   @FXML private MFXButton userSettingsButton;
@@ -21,6 +23,10 @@ public class SettingsMenuBarController {
   @FXML
   public void initialize() {
     if (!AccountSingleton.isAdmin()) {
+      employeeSettingsButton.setVisible(false);
+      employeeSettingsButton.setManaged(false);
+      alertSettingsButton.setVisible(false);
+      alertSettingsButton.setManaged(false);
       dataSettingsButton.setVisible(false);
       dataSettingsButton.setManaged(false);
       userSettingsButton.setVisible(false);
@@ -28,6 +34,10 @@ public class SettingsMenuBarController {
       locationSettingsButton.setVisible(false);
       locationSettingsButton.setManaged(false);
     }
+  }
+
+  public void openAlertSettings() {
+    Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
   public void openAccountSettings() {
@@ -47,7 +57,7 @@ public class SettingsMenuBarController {
   }
 
   public void logout() {
-    User loggedOut = new User(2, "N", "N", "N", "N");
+    User loggedOut = new User(2, "N", "N", "N", "N", "N");
     AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }

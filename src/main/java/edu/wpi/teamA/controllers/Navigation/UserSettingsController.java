@@ -23,8 +23,9 @@ public class UserSettingsController {
   @FXML private MFXTextField lastNameTextField;
   @FXML private MFXTextField passwordTextField;
   @FXML private MFXTextField usernameTextField;
+  @FXML private MFXTextField userIDTextField;
   @FXML private MFXCheckbox isAdminCheckbox;
-  @FXML private MFXButton updateButton;
+  @FXML private MFXButton addUserButton;
 
   // add employee UI
   @FXML private MFXTextField nameAddInput;
@@ -66,6 +67,7 @@ public class UserSettingsController {
     addButton.setDisable(true);
     removeButton.setDisable(true);
     modifyButton.setDisable(true);
+    addUserButton.setDisable(true);
   }
 
   public void addUser() {
@@ -84,7 +86,8 @@ public class UserSettingsController {
           usernameTextField.getText(),
           passwordTextField.getText(),
           firstNameTextField.getText(),
-          lastNameTextField.getText());
+          lastNameTextField.getText(),
+          userIDTextField.getText());
       System.out.println("User added");
       Navigation.navigate(Screen.ACCOUNT_SETTINGS);
     }
@@ -121,31 +124,31 @@ public class UserSettingsController {
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
 
+  @FXML
+  public void validateAddUser() {
+    addUserButton.setDisable(
+        firstNameTextField.getText().isEmpty()
+            || lastNameTextField.getText().isEmpty()
+            || userIDTextField.getText().isEmpty()
+            || usernameTextField.getText().isEmpty()
+            || passwordTextField.getText().isEmpty());
+  }
+
   public void validateAdd() {
-    if (nameAddInput.getText().isEmpty()
-        || userAddInput.getText().isEmpty()
-        || passwordAddInput.getText().isEmpty()) {
-      removeButton.setDisable(true);
-    } else {
-      removeButton.setDisable(false);
-    }
+    addButton.setDisable(
+        nameAddInput.getText().isEmpty()
+            || userAddInput.getText().isEmpty()
+            || passwordAddInput.getText().isEmpty());
   }
 
   public void validateRemove() {
-    if (chooseEmployeeRemove.getSelectedIndex() == -1) {
-      removeButton.setDisable(true);
-    } else {
-      removeButton.setDisable(false);
-    }
+    removeButton.setDisable(chooseEmployeeRemove.getSelectedIndex() == -1);
   }
 
   public void validateModify() {
-    if (chooseEmployeeModify.getSelectedIndex() == -1
-        || modifyNameInput.getText().isEmpty()
-        || modifyPassInput.getText().isEmpty()) {
-      modifyButton.setDisable(true);
-    } else {
-      modifyButton.setDisable(false);
-    }
+    modifyButton.setDisable(
+        chooseEmployeeModify.getSelectedIndex() == -1
+            || modifyNameInput.getText().isEmpty()
+            || modifyPassInput.getText().isEmpty());
   }
 }

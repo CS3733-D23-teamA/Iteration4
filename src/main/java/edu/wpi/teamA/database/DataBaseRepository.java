@@ -59,6 +59,7 @@ public class DataBaseRepository {
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
     signageDAOImp = new SignageDAOImp();
+    alertDAOImp = new AlertDAOImp();
   }
 
   // Node related methods
@@ -272,7 +273,7 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
-    } else if (type.equals("Alert")) {
+    } else if(type.equals("Alert")){
       alertDAOImp.Export(folderExportPath);
     }
   }
@@ -446,12 +447,25 @@ public class DataBaseRepository {
   }
 
   // user dao functions
+  public HashMap<String, User> getUserMap() {
+    return userDAOImp.getUserMap();
+  }
+
   public void createUserTable() {
     userDAOImp.createUserTable();
   }
 
+  public HashMap<String, User> loadUsersFromDatabaseInMap() {
+    return userDAOImp.loadUsersFromDatabaseInMap();
+  }
+
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName) {
+      int adminYes,
+      String userName,
+      String password,
+      String firstName,
+      String lastName,
+      String userID) {
     if (userName.length() < 3) {
       System.out.println("username is too short");
     } else if (password.length() < 5) {
@@ -461,12 +475,17 @@ public class DataBaseRepository {
     } else if (lastName.length() < 1) {
       System.out.println("please enter a last name");
     }
-    userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
+    userDAOImp.addUser(adminYes, userName, password, firstName, lastName, userID);
   }
 
   public User checkUser(String userName, String password) {
 
     return userDAOImp.checkUser(userName, password);
+  }
+
+  public User checkUserByID(String userID) {
+
+    return userDAOImp.checkUserByID(userID);
   }
 
   public void updatePassword(
@@ -551,5 +570,9 @@ public class DataBaseRepository {
 
   public void removeAlert(Alert alert) {
     alertDAOImp.removeAlert(alert);
+  }
+
+  public int getNextAlertTicket() {
+    return alertDAOImp.getNextID();
   }
 }
