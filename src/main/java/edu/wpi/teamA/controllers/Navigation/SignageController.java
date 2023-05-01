@@ -3,7 +3,6 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.SignageComponent;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 import javafx.fxml.FXML;
@@ -61,13 +60,12 @@ public class SignageController {
   }
 
   public void screenDisplay(boolean screen1) {
-    // screenDialog.setStyle("-fx-background-color: #98AABC;");
     // screenDialog.setBackground(Background.fill(Color.web("0x98AABC")));
     System.out.println("in screen display");
     ArrayList<SignageComponent> signageToDisplay = new ArrayList<>();
     if (screen1) {
       signageToDisplay.addAll(allSignageScreen1);
-    } else if (!screen1) {
+    } else {
       signageToDisplay.addAll(allSignageScreen2);
     }
 
@@ -75,7 +73,6 @@ public class SignageController {
     for (SignageComponent signage : signageToDisplay) {
       screenDialog.addRow(numRow);
       Text locName = new Text(signage.getLocationName());
-      // TextArea locN = new TextArea(locName);
       System.out.println(signage.getLocationName());
       System.out.println(locName.getText());
 
@@ -88,19 +85,15 @@ public class SignageController {
         imgView = new ImageView(App.getSignageLeft());
         imgView.setFitWidth(50);
         imgView.setFitHeight(50);
-        // direction.setText("<-");
       } else if (signage.getDirection().equals("up")) {
         imgView = new ImageView(App.getSignageUp());
         imgView.setFitWidth(50);
         imgView.setFitHeight(50);
-        // direction.setText("^");
       } else if (signage.getDirection().equals("down")) {
         imgView = new ImageView(App.getSignageDown());
         imgView.setFitWidth(50);
         imgView.setFitHeight(50);
-        // direction.setText("v");
       } else {
-        // direction.setText("Stop here for");
         imgView = new ImageView(App.getSignageStop());
         imgView.setFitWidth(50);
         imgView.setFitHeight(50);
@@ -109,13 +102,10 @@ public class SignageController {
       locName.setFill(Color.web("0x012d5a"));
       screenDialog.setHalignment(locName, HPos.LEFT);
       screenDialog.add(imgView, 0, numRow);
-      // screenDialog.getColumnConstraints().setWrapText(true);
       screenDialog.add(locName, 1, numRow);
       screenDialog.setVgap(20);
 
       numRow++;
-      // Navigation.navigate(Screen.SIGNAGE);
-      // App.getPrimaryStage().show();
     }
   }
 }
