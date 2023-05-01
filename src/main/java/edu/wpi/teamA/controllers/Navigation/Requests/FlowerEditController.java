@@ -24,8 +24,8 @@ import javafx.scene.layout.StackPane;
 public class FlowerEditController {
   @FXML private StackPane infoDisplay;
   @FXML private StackPane cartDisplay;
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
-  private ServiceRequestEntity entity = App.getServiceRequestEntity();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final ServiceRequestEntity entity = App.getServiceRequestEntity();
   @FXML private MFXButton nextButton;
   @FXML private MFXButton updateButton;
   @FXML private MFXTextField nameField;
@@ -112,20 +112,12 @@ public class FlowerEditController {
 
   @FXML
   public void validateNext() {
-    if (nameField.getText().isEmpty() || datePicker.getValue() == null) {
-      nextButton.setDisable(true);
-    } else {
-      nextButton.setDisable(false);
-    }
+    nextButton.setDisable(nameField.getText().isEmpty() || datePicker.getValue() == null);
   }
 
   @FXML
   public void validateAddFlower() {
-    if (flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1) {
-      addFlower.setDisable(true);
-    } else {
-      addFlower.setDisable(false);
-    }
+    addFlower.setDisable(flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1);
   }
 
   @FXML
