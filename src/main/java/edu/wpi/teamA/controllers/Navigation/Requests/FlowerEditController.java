@@ -82,19 +82,25 @@ public class FlowerEditController {
     commentField.setText(FlowerSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FlowerSingleton.INSTANCE.getValue().getRoom());
     datePicker.setValue(FlowerSingleton.INSTANCE.getValue().getDate().toLocalDate());
-    timeCombo.setText(convertInt(FlowerSingleton.INSTANCE.getValue().getTime()));
+    timeCombo.setText(entity.convertInt(FlowerSingleton.INSTANCE.getValue().getTime()));
   }
 
   public void populateTable() {
     String items = FlowerSingleton.INSTANCE.getValue().getItems();
     String[] parts = items.split(",");
-    System.out.println(parts[1]);
     for (String item : parts) {
       if (item.length() > 2) {
         String[] subParts = item.split(" ");
+        String name = "";
+        for (int i = 0; i < subParts.length - 1; i++) {
+          name = name.concat(subParts[i] + " ");
+        }
         itemsTable
             .getItems()
-            .add(new ServiceRequestItem(subParts[0], Integer.parseInt(subParts[1])));
+            .add(
+                new ServiceRequestItem(
+                    name.substring(0, name.length() - 1),
+                    Integer.parseInt(subParts[subParts.length - 1])));
       }
     }
   }
@@ -117,7 +123,8 @@ public class FlowerEditController {
 
   @FXML
   public void validateAddFlower() {
-    addFlower.setDisable(flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1);
+    addFlower.setDisable(
+        flowerCombo.getSelectedIndex() == -1 || flowerQuantity.getSelectedIndex() == -1);
   }
 
   @FXML
@@ -125,7 +132,6 @@ public class FlowerEditController {
     updateButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
-  // TODO
   public void update() {
     String items = entity.appendItemsIntoString(itemsTable);
     Flower flower =
@@ -142,18 +148,6 @@ public class FlowerEditController {
             FlowerSingleton.INSTANCE.getValue().getCreator());
     databaseRepo.updateFlower(flower);
     Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public String convertInt(int num) {
-    String time = "";
-
-    if (num < 100) {
-      time += "00";
-    } else {
-      time += (num / 100);
-    }
-    time += ":00";
-    return time;
   }
 
   @FXML

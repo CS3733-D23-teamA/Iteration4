@@ -104,7 +104,7 @@ public class FurnitureRequestController implements IServiceController {
 
   // TODO make validateSubmitButton
   @FXML
-  public void validateButton() {
+  public void validateSubmit() {
     submitButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
@@ -143,7 +143,7 @@ public class FurnitureRequestController implements IServiceController {
     String furniture = furnitureCombo.getSelectedItem();
     int quantity = furnitureQuantity.getSelectedItem();
     entity.addItemsToTable(itemsTable, furniture, quantity);
-    validateButton();
+    validateSubmit();
   }
 
   @FXML

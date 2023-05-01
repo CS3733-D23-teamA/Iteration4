@@ -83,7 +83,7 @@ public class FurnitureEditController {
     commentField.setText(FurnitureSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FurnitureSingleton.INSTANCE.getValue().getRoom());
     datePicker.setValue(FurnitureSingleton.INSTANCE.getValue().getDate().toLocalDate());
-    timeCombo.setText(convertInt(FurnitureSingleton.INSTANCE.getValue().getTime()));
+    timeCombo.setText(entity.convertInt(FurnitureSingleton.INSTANCE.getValue().getTime()));
   }
 
   public void populateTable() {
@@ -94,7 +94,9 @@ public class FurnitureEditController {
         String[] subParts = item.split(" ");
         String name = "";
         for (int i = 0; i < subParts.length - 1; i++) {
-          name = name.concat(subParts[i] + " ");
+          if (!subParts[i].equals(" ")) {
+            name = name.concat(subParts[i] + " ");
+          }
         }
         itemsTable
             .getItems()
@@ -124,7 +126,8 @@ public class FurnitureEditController {
 
   @FXML
   public void validateAddFurniture() {
-    addFurniture.setDisable(furnitureCombo.getSelectedIndex() == -1 || furnitureQuantity.getSelectedIndex() == -1);
+    addFurniture.setDisable(
+        furnitureCombo.getSelectedIndex() == -1 || furnitureQuantity.getSelectedIndex() == -1);
   }
 
   @FXML
@@ -150,18 +153,6 @@ public class FurnitureEditController {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 
-  public String convertInt(int num) {
-    String time = "";
-
-    if (num < 100) {
-      time += "00";
-    } else {
-      time += (num / 100);
-    }
-    time += ":00";
-    return time;
-  }
-
   public void delete() {
     databaseRepo.deleteFurniture(FurnitureSingleton.INSTANCE.getValue());
     Navigation.navigate(Screen.SERVICE_REQUEST);
@@ -177,9 +168,9 @@ public class FurnitureEditController {
 
   @FXML
   public void addFurniture() {
-    String flower = furnitureCombo.getSelectedItem();
+    String furniture = furnitureCombo.getSelectedItem();
     int quantity = furnitureQuantity.getSelectedItem();
-    entity.addItemsToTable(itemsTable, flower, quantity);
+    entity.addItemsToTable(itemsTable, furniture, quantity);
     validateUpdate();
   }
 }
