@@ -294,15 +294,19 @@ public class PathfindingController {
   }
 
   private void setTurnDirections() {
-    ImageView icon = new ImageView(App.getHomeWhite());
-    icon.setStyle("-fx-max-height: 50; -fx-max-width: 50");
+    ImageView icon = new ImageView();
+    icon.setFitHeight(50);
+    icon.setFitWidth(50);
+    Text directions = new Text();
+    directions.setStyle("-fx-text-fill: #012D5A; -fx-font: \"Open Sans\"; -fx-font-size: 18");
+    HBox turn = new HBox(10);
+    turn.setStyle(
+        "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
 
-    Text directions = new Text("testing");
-
-    HBox turn = new HBox(10, icon, directions);
-    turn.setStyle("-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10");
-
-    // turn.setPadding(new Insets(10));
+    // loop through array of directions
+    icon.setImage(App.getUp());
+    directions.setText("testing turn directions");
+    turn.getChildren().addAll(icon, directions);
     turnDirections.getChildren().add(turn);
   }
 
