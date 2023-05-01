@@ -1,15 +1,21 @@
 package edu.wpi.teamA.controllers.Navigation;
 
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.SignageComponent;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class SignageController extends PageController {
@@ -25,12 +31,6 @@ public class SignageController extends PageController {
   public void initialize() {
     ScreenVBox.setVisible(false);
     screenHBox.setVisible(true);
-    /*ArrayList<String> allSignageIDs = new ArrayList<>();
-    for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
-      SignageComponent signage = entry.getValue();
-      // allSignageLocationNames.add(signage.getLocationName());
-      allSignageIDs.add(signage.getSignageID());
-    }*/
 
     for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
@@ -79,25 +79,43 @@ public class SignageController extends PageController {
       System.out.println(signage.getLocationName());
       System.out.println(locName.getText());
       Text date = new Text(signage.getDate().toString());
-      Text direction = new Text();
+
+      ImageView imgView = new ImageView();
       if (signage.getDirection().equals("right")) {
-        direction.setText("->");
+        imgView = new ImageView(App.getSignageRight());
+        imgView.setFitWidth(50);
+        imgView.setFitHeight(50);
       } else if (signage.getDirection().equals("left")) {
-        direction.setText("<-");
+        imgView = new ImageView(App.getSignageLeft());
+        imgView.setFitWidth(50);
+        imgView.setFitHeight(50);
+        // direction.setText("<-");
       } else if (signage.getDirection().equals("up")) {
-        direction.setText("^");
+        imgView = new ImageView(App.getSignageUp());
+        imgView.setFitWidth(50);
+        imgView.setFitHeight(50);
+        // direction.setText("^");
       } else if (signage.getDirection().equals("down")) {
-        direction.setText("v");
+        imgView = new ImageView(App.getSignageDown());
+        imgView.setFitWidth(50);
+        imgView.setFitHeight(50);
+        // direction.setText("v");
       } else {
-        direction.setText("Stop here for");
+        // direction.setText("Stop here for");
+        imgView = new ImageView(App.getSignageStop());
+        imgView.setFitWidth(50);
+        imgView.setFitHeight(50);
       }
-      direction.setFont(Font.font("Open Sans", 20));
-      direction.setFill(Color.web("0x012d5a"));
-      locName.setFont(Font.font("Open Sans", 20));
+      locName.setFont(Font.font("Open Sans", FontWeight.BOLD, 30));
       locName.setFill(Color.web("0x012d5a"));
-      date.setFont(Font.font("Open Sans", 20));
+      screenDialog.setHalignment(locName, HPos.CENTER);
+      date.setFont(Font.font("Open Sans", FontWeight.BOLD, 30));
       date.setFill(Color.web("0x012d5a"));
-      screenDialog.add(direction, 0, numRow);
+      screenDialog.setHalignment(date, HPos.CENTER);
+
+      screenDialog.setBackground(Background.fill(Color.web("0x98AABC")));
+      screenDialog.setStyle("-fx-border: 2px solid;");
+      screenDialog.add(imgView, 0, numRow);
       screenDialog.add(locName, 1, numRow);
       screenDialog.add(date, 2, numRow);
       numRow++;
