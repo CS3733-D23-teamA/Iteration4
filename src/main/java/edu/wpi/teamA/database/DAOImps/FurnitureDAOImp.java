@@ -39,7 +39,6 @@ public class FurnitureDAOImp implements IServiceDAO<FurnitureRequest> {
               + "status VARCHAR(255) NOT NULL,"
               + "creator VARCHAR(255) NOT NULL"
               + ")");
-      System.out.println("Furniture table created or already exists.");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

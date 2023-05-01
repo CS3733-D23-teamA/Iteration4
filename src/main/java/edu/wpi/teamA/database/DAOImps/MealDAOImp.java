@@ -39,7 +39,6 @@ public class MealDAOImp implements IServiceDAO<Meal> {
               + "status VARCHAR(255) NOT NULL,"
               + "creator VARCHAR(255) NOT NULL"
               + ")");
-      System.out.println("Meal table created or already exists.");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

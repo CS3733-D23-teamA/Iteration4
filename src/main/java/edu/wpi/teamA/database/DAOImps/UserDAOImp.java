@@ -160,8 +160,6 @@ public class UserDAOImp {
           User returnNoUser = new User(2, "N", "N", "N", "N", "N");
           return returnNoUser;
         }
-      } else {
-        System.out.println("User not found, add new user.");
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -185,8 +183,6 @@ public class UserDAOImp {
             rs.getString("firstname"),
             rs.getString("lastname"),
             rs.getString("userid"));
-      } else {
-        System.out.println("User not found, add new user.");
       }
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -231,9 +227,6 @@ public class UserDAOImp {
 
           // Update password in map
           userMap.put(AccountSingleton.INSTANCE.getValue().getUserName(), returnUser);
-
-        } else {
-          System.out.println("Incorrect Password");
         }
       }
     } catch (SQLException e) {
@@ -277,9 +270,6 @@ public class UserDAOImp {
 
           // Update the user map
           userMap.put(AccountSingleton.INSTANCE.getValue().getUserName(), returnUser);
-
-        } else {
-          System.out.println("Incorrect Password");
         }
       }
     } catch (SQLException e) {
@@ -311,7 +301,6 @@ public class UserDAOImp {
       ps.executeUpdate();
 
       userMap.put(userName, new User(adminYes, userName, password, firstName, lastName, userID));
-      System.out.println("New user added successfully.");
 
     } catch (SQLException e) {
       throw new RuntimeException(e);

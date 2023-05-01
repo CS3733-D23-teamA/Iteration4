@@ -8,7 +8,6 @@ import lombok.SneakyThrows;
 
 public class DBConnectionProvider {
   private static Connection instance = null;
-  private static Connection connection;
 
   public static Connection getInstance() {
     if (instance == null) {
@@ -21,7 +20,7 @@ public class DBConnectionProvider {
   @SneakyThrows
   public static Connection createLocalConnection() {
     closeConnection();
-    if (connection == null || connection.isClosed()) {
+    if (instance == null || instance.isClosed()) {
 
       String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
       String user = "teama";
@@ -29,7 +28,7 @@ public class DBConnectionProvider {
 
       try {
         Class.forName("org.postgresql.Driver");
-        connection = DriverManager.getConnection(url, user, password);
+        instance = DriverManager.getConnection(url, user, password);
         System.out.println("Local connection created");
       } catch (SQLException e) {
         e.printStackTrace();
@@ -38,13 +37,13 @@ public class DBConnectionProvider {
         throw new RuntimeException(e);
       }
     }
-    return connection;
+    return instance;
   }
 
   @SneakyThrows
   public static Connection createAWSConnection() {
     closeConnection();
-    if (connection == null || connection.isClosed()) {
+    if (instance == null || instance.isClosed()) {
 
       String url =
           "jdbc:postgresql://cs3733-d23-teama.coiigqxuofye.us-east-2.rds.amazonaws.com:5432/postgres";
@@ -53,7 +52,7 @@ public class DBConnectionProvider {
 
       try {
         Class.forName("org.postgresql.Driver");
-        connection = DriverManager.getConnection(url, user, password);
+        instance = DriverManager.getConnection(url, user, password);
         System.out.println("AWS connection created");
       } catch (SQLException e) {
         e.printStackTrace();
@@ -62,7 +61,7 @@ public class DBConnectionProvider {
         throw new RuntimeException(e);
       }
     }
-    return connection;
+    return instance;
   }
 
   public static void createSchema() {
@@ -78,8 +77,8 @@ public class DBConnectionProvider {
   // close the connection and exit
   public static void closeConnection() {
     try {
-      if (connection != null && !connection.isClosed()) {
-        connection.close();
+      if (instance != null && !instance.isClosed()) {
+        instance.close();
         System.out.println("Connection closed");
       } else {
         System.out.println("Connection already closed");
