@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.Level;
@@ -50,6 +51,8 @@ public class PathfindingController {
 
   // Current Level Object
   private Level currentLevel = Level.LOWERLEVELL1;
+
+  private DataBaseRepository db = DataBaseRepository.getInstance();
 
   // level pagination
   @FXML private Label currentLevelLabel;
