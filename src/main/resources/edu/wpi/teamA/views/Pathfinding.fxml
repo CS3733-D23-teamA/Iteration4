@@ -8,6 +8,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -91,7 +92,7 @@
          <content>
             <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="350.0" spacing="40.0" style="-fx-background-color: #012D5A;">
                <children>
-                  <Label id="title" fx:id="title1" alignment="CENTER" style="-fx-text-fill: #f1f1f1;" text="Find Path" textAlignment="CENTER">
+                  <Label id="title" fx:id="title" alignment="CENTER" style="-fx-text-fill: #f1f1f1;" text="Find Path" textAlignment="CENTER">
                      <font>
                         <Font name="Open Sans Regular" size="24.0" />
                      </font>
@@ -99,13 +100,16 @@
                   <Line endX="100.0" startX="-200.0" stroke="#f1f1f1" strokeLineCap="BUTT" strokeWidth="3.0" styleClass="line" />
                   <VBox alignment="CENTER_LEFT" spacing="30.0">
                      <children>
-                        <VBox fx:id="searchAlgorithmVbox" spacing="10.0">
+                        <VBox fx:id="searchAlgorithmVbox">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Search Algorithm" wrappingWidth="293.15864205198324">
+                              <Label style="-fx-text-fill: #f1f1f1; -fx-font-size: 24;" text="Search Algorithm">
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="Open Sans Regular" size="24.0" />
                                  </font>
-                              </Text>
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </Label>
                               <MFXFilterComboBox fx:id="searchAlgorithmSelection" editable="false" floatMode="ABOVE" graphicTextGap="-10.0" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" selectable="true" style="-fx-font-weight: bold; -fx-background-color: bgrey; -fx-text-fill: bblack;">
                                  <font>
                                     <Font size="18.0" />
@@ -113,41 +117,39 @@
                               </MFXFilterComboBox>
                            </children>
                         </VBox>
-                        <VBox spacing="10.0">
+                        <HBox alignment="CENTER_RIGHT">
                            <children>
-                              <MFXFilterComboBox fx:id="startSelection" editable="false" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Starting Location">
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </MFXFilterComboBox>
-                              <MFXFilterComboBox fx:id="endSelection" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
-                           </children>
-                        </VBox>
-                        <VBox spacing="10.0">
-                           <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #f1f1f1; -fx-font-weight: bold;" text="Accessibility" wrappingWidth="293.15864205198324">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </Text>
-                              <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="30.0">
+                              <ImageView fx:id="locationImage" fitHeight="110.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets left="7.0" right="13.0" />
+                                 </HBox.margin>
+                              </ImageView>
+                              <VBox spacing="10.0">
                                  <children>
-                                    <MFXToggleButton fx:id="noStairs" contentDisposition="RIGHT" text="No Stairs" textFill="#012d5a" />
+                                    <MFXFilterComboBox fx:id="startSelection" editable="false" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Starting Location">
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </MFXFilterComboBox>
+                                    <MFXFilterComboBox fx:id="endSelection" floatMode="ABOVE" maxHeight="-Infinity" minHeight="-Infinity" onAction="#checkSelections" prefHeight="44.0" prefWidth="300.0" promptText="Destination" />
                                  </children>
-                              </HBox>
+                              </VBox>
                            </children>
-                        </VBox>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <padding>
+                              <Insets bottom="10.0" right="30.0" top="20.0" />
+                           </padding>
+                        </HBox>
                      </children>
+                     <padding>
+                        <Insets top="-10.0" />
+                     </padding>
                   </VBox>
-                  <VBox alignment="CENTER" spacing="10.0">
+                  <VBox prefHeight="183.0" prefWidth="432.0" spacing="5.0">
                      <children>
-                        <MFXToggleButton fx:id="secondNameToggle" contentDisposition="RIGHT" text="Second Location" textFill="#012d5a" />
-                        <MFXToggleButton fx:id="locationToggle" contentDisposition="RIGHT" text="Location Names" textFill="#012d5a" />
-                     </children>
-                  </VBox>
-                  <VBox maxWidth="300.0">
-                     <children>
-                        <Label id="title" fx:id="title" style="-fx-text-fill: #f1f1f1;" text="Directions:">
+                        <Label style="-fx-text-fill: #f1f1f1; -fx-font-size: 24;" text="Accessibility">
                            <font>
                               <Font name="Open Sans Regular" size="24.0" />
                            </font>
@@ -155,6 +157,30 @@
                               <Insets bottom="5.0" />
                            </padding>
                         </Label>
+                        <VBox alignment="CENTER" spacing="10.0">
+                           <children>
+                              <MFXToggleButton fx:id="noStairs" contentDisposition="RIGHT" style="-fx-min-width: 165;" text="Avoid Stairs" textFill="#012d5a" />
+                              <MFXToggleButton fx:id="locationToggle" contentDisposition="RIGHT" style="-fx-min-width: 165;" text="Location Names" textFill="#012d5a" />
+                              <MFXToggleButton fx:id="secondNameToggle" contentDisposition="RIGHT" style="-fx-min-width: 165;" text="Second Location" textFill="#012d5a" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox maxWidth="300.0">
+                     <children>
+                        <Label style="-fx-text-fill: #f1f1f1; -fx-font-size: 24;" text="Directions:">
+                           <font>
+                              <Font name="Open Sans Regular" size="24.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </Label>
+                        <VBox fx:id="turnDirections" spacing="5.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
                         <VBox style="-fx-background-color: bwhite; -fx-background-radius: 10;">
                            <children>
                               <Text fx:id="directions" fill="#8d8989" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter starting and ending destination" wrappingWidth="300.0" />
@@ -171,7 +197,7 @@
                   </VBox>
                </children>
                <padding>
-                  <Insets bottom="50.0" left="10.0" right="10.0" top="40.0" />
+                  <Insets bottom="50.0" left="20.0" right="10.0" top="40.0" />
                </padding>
             </VBox>
          </content>

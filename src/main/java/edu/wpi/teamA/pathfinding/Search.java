@@ -73,6 +73,4 @@ public abstract class Search {
 
     return stringPath;
   }
-
-
 }

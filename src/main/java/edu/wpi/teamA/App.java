@@ -43,6 +43,9 @@ public class App extends Application {
   @Getter private static Image elevatorPF = new Image("edu/wpi/teamA/images/icons/elevatorPF.png");
 
   @Getter
+  private static Image locationPF = new Image("edu/wpi/teamA/images/icons/pathfindingLoc.png");
+
+  @Getter
   private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");
 
   @Getter

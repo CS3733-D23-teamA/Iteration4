@@ -90,7 +90,12 @@ public class PathfindingController {
 
   private boolean accessibilityLevel = false;
 
+  @FXML ImageView locationImage;
+  @FXML VBox turnDirections;
+
   public void initialize() {
+
+    locationImage.setImage(App.getLocationPF());
 
     // setting search algortihm selection visibility based on access level
     if (!isAdmin) {
@@ -273,6 +278,7 @@ public class PathfindingController {
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     setTextDirections();
+    setTurnDirections();
 
     // Sets the Order for paginator
     mapEntity.setLevelOrder(SearchSingleton.getPath());
@@ -285,6 +291,19 @@ public class PathfindingController {
         mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
 
     drawPath();
+  }
+
+  private void setTurnDirections() {
+    ImageView icon = new ImageView(App.getHomeWhite());
+    icon.setStyle("-fx-max-height: 50; -fx-max-width: 50");
+
+    Text directions = new Text("testing");
+
+    HBox turn = new HBox(10, icon, directions);
+    turn.setStyle("-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10");
+
+    // turn.setPadding(new Insets(10));
+    turnDirections.getChildren().add(turn);
   }
 
   /** Helper method for submit sends text directions to the user */
