@@ -119,7 +119,7 @@ public class ServiceRequestController {
             (obs, oldSelection, newSelection) -> {
               if (newSelection != null) {
                 CRRRSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.CR_REQUEST);
+                Navigation.navigate(Screen.CR_REQUEST_EDIT);
               }
             });
     mealTable
