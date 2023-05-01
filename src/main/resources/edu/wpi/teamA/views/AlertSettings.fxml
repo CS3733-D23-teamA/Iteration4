@@ -34,7 +34,7 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ticket Number" />
-                                    <MFXTextField fx:id="ticketNumAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <MFXTextField fx:id="ticketNumAddInput" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
@@ -46,7 +46,7 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
-                                    <MFXTextField fx:id="messageAddInputText" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXTextField fx:id="messageAddInputText" minWidth="150.0" onAction="#validateAdd" onKeyReleased="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -104,7 +104,7 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message" />
-                                    <MFXTextField fx:id="messageModifyText" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXTextField fx:id="messageModifyText" minWidth="150.0" onAction="#validateModify" onKeyReleased="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">

@@ -68,6 +68,7 @@ public class AlertSettingsController {
     alertTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
+  @FXML
   public void addAlert() {
     String currentUsername = AccountSingleton.INSTANCE.getValue().getUserName();
     Alert alert =
@@ -80,12 +81,14 @@ public class AlertSettingsController {
     Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
+  @FXML
   public void removeAlert() {
     Alert alert = db.getAlert(TicketNumRemoveCombo.getSelectedItem());
     db.removeAlert(alert);
     Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
+  @FXML
   public void modifyAlert() {
     Alert alert = db.getAlert(TicketNumModifyCombo.getSelectedItem());
     alert.setMessage(messageModifyText.getText());
@@ -94,8 +97,9 @@ public class AlertSettingsController {
     Navigation.navigate(Screen.ALERT_SETTINGS);
   }
 
+  @FXML
   public void validateAdd() {
-    if (ticketNumAddInput.getText() == null
+    if (ticketNumAddInput.getText().isEmpty()
         || dateAddInput.getValue() == null
         || messageAddInputText.getText().isEmpty()) {
       addButton.setDisable(true);
@@ -104,6 +108,7 @@ public class AlertSettingsController {
     }
   }
 
+  @FXML
   public void validateRemove() {
     if (TicketNumRemoveCombo.getSelectedIndex() == -1) {
       removeButton.setDisable(true);
@@ -112,6 +117,7 @@ public class AlertSettingsController {
     }
   }
 
+  @FXML
   public void validateModify() {
     if (TicketNumModifyCombo.getSelectedItem() == -1) {
       modifyButton.setDisable(true);
