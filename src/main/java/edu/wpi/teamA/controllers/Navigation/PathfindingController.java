@@ -172,7 +172,6 @@ public class PathfindingController {
     accessibilityLevel = accessibility;
     if (isSubmitted) {
       submit();
-      drawPath();
     }
   }
 
@@ -242,18 +241,23 @@ public class PathfindingController {
     switch (level) {
       case "L1":
         setCurrentLevel(Level.LOWERLEVELL1);
+        levelL1Toggle.setSelected(true);
         break;
       case "L2":
         setCurrentLevel(Level.LOWERLEVELL2);
+        levelL2Toggle.setSelected(true);
         break;
       case "1":
         setCurrentLevel(Level.LEVEL1);
+        level1Toggle.setSelected(true);
         break;
       case "2":
         setCurrentLevel(Level.LEVEL2);
+        level2Toggle.setSelected(true);
         break;
       case "3":
         setCurrentLevel(Level.LEVEL3);
+        level3Toggle.setSelected(true);
         break;
     }
 
@@ -409,25 +413,27 @@ public class PathfindingController {
    */
   private void levelButtonIndicator(ArrayList<Integer> nodeIDS) {
     // set up a highlight object
-    BorderStroke highlight =
-        new BorderStroke(
-            Color.web("F0C747"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+    String highlight = "-fx-border-width: 5; -fx-border-color: #F0C747";
 
     ArrayList<String> stringList = mapEntity.floorsTravelledTo(nodeIDS);
     if (stringList.contains("L1")) {
-      levelL1Toggle.setBorder(new Border(highlight));
+      levelL1Toggle.setStyle(highlight);
     }
     if (stringList.contains("L2")) {
-      levelL2Toggle.setBorder(new Border(highlight));
+      levelL2Toggle.setStyle(highlight);
+      // levelL2Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("1")) {
-      level1Toggle.setBorder(new Border(highlight));
+      level1Toggle.setStyle(highlight);
+      // level1Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("2")) {
-      level2Toggle.setBorder(new Border(highlight));
+      level2Toggle.setStyle(highlight);
+      // level2Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("3")) {
-      level3Toggle.setBorder(new Border(highlight));
+      level3Toggle.setStyle(highlight);
+      // level3Toggle.setBorder(new Border(highlight));
     }
   }
 
