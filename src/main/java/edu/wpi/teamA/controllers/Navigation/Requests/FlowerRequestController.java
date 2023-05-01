@@ -70,7 +70,7 @@ public class FlowerRequestController implements IServiceController {
     roomCombo.getItems().addAll(allRooms);
 
     flowerCombo.getItems().addAll("Roses", "Tulips", "Daises", "Sunflowers");
-    flowerQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    flowerQuantity.getItems().addAll(-3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
