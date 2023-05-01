@@ -19,7 +19,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class FlowerEditController {
   @FXML private StackPane infoDisplay;
@@ -42,6 +45,13 @@ public class FlowerEditController {
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
+  @FXML private HBox statusBarHBox;
+  @FXML private Rectangle newStatusRect;
+  @FXML private Rectangle orderBeginStatusRect;
+  @FXML private Rectangle pickFlowersStatusRect;
+  @FXML private Rectangle flowersReadyStatusRect;
+  @FXML private Rectangle deliveredStatusRect;
+
   public void initialize() {
     cartDisplay.setDisable(true);
     cartDisplay.setVisible(false);
@@ -56,6 +66,57 @@ public class FlowerEditController {
     populateCombos();
     populateFields();
     populateTable();
+    updateProgressBar();
+    statusBarHBox.setVisible(true);
+    newStatusRect.setVisible(true);
+    orderBeginStatusRect.setVisible(true);
+    pickFlowersStatusRect.setVisible(true);
+    flowersReadyStatusRect.setVisible(true);
+    deliveredStatusRect.setVisible(true);
+  }
+
+  public void updateProgressBar() {
+    if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("new")) {
+      System.out.println("new status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+
+      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
+      pickFlowersStatusRect.setFill(Color.web("0x98aabc"));
+      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+
+    } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
+      System.out.println("in progress status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+
+      pickFlowersStatusRect.setFill(Color.web("0x98aabc"));
+      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("picking flowers")) {
+      System.out.println("picking flowers status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
+
+      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("flowers ready")) {
+      System.out.println("flowers ready status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
+      flowersReadyStatusRect.setFill(Color.web("0x012d5a"));
+
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
+      System.out.println("delivered status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
+      flowersReadyStatusRect.setFill(Color.web("0x012d5a"));
+      deliveredStatusRect.setFill(Color.web("0x012d5a"));
+    }
   }
 
   public void populateCombos() {

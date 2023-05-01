@@ -19,7 +19,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class FurnitureEditController {
   @FXML private StackPane infoDisplay;
@@ -42,6 +45,12 @@ public class FurnitureEditController {
   @FXML private TableView<ServiceRequestItem> itemsTable;
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
+  @FXML private HBox statusBarHBox;
+  @FXML private Rectangle newStatusRect;
+  @FXML private Rectangle orderBeginStatusRect;
+  @FXML private Rectangle packedStatusRect;
+  @FXML private Rectangle shippedStatusRect;
+  @FXML private Rectangle deliveredStatusRect;
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -57,6 +66,51 @@ public class FurnitureEditController {
     populateCombos();
     populateFields();
     populateTable();
+    updateProgressBar();
+  }
+
+  public void updateProgressBar() {
+    if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("new")) {
+      System.out.println("new status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+
+      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
+      packedStatusRect.setFill(Color.web("0x98aabc"));
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
+      System.out.println("in progress status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+
+      packedStatusRect.setFill(Color.web("0x98aabc"));
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("furniture packed")) {
+      System.out.println("in preparation status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("being shipped")) {
+      System.out.println("meal prepared");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+      shippedStatusRect.setFill(Color.web("0x012d5a"));
+
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
+      System.out.println("delivered status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+      shippedStatusRect.setFill(Color.web("0x012d5a"));
+      deliveredStatusRect.setFill(Color.web("0x012d5a"));
+    }
   }
 
   public void populateCombos() {
