@@ -16,7 +16,30 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
 
   public FlowerDAOImp() {
+    createTable();
     this.flowerMap = loadDataFromDatabaseInMap();
+  }
+
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Flower\" ("
+              + "id INTEGER PRIMARY KEY,"
+              + "name VARCHAR(255) NOT NULL,"
+              + "room VARCHAR(255) NOT NULL,"
+              + "date DATE NOT NULL,"
+              + "time INTEGER NOT NULL,"
+              + "items VARCHAR(255) NOT NULL,"
+              + "comment VARCHAR(255) NOT NULL,"
+              + "employee VARCHAR(255) NOT NULL,"
+              + "status VARCHAR(255) NOT NULL,"
+              + "creator VARCHAR(255) NOT NULL"
+              + ")");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public HashMap<Integer, Flower> loadDataFromDatabaseInMap() {

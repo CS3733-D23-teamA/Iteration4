@@ -283,6 +283,10 @@ public class DataBaseRepository {
     return flowerDAOImp.getFlowerMap();
   }
 
+  public void createFlowerTable() {
+    flowerDAOImp.createTable();
+  }
+
   public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
     return flowerDAOImp.loadDataFromDatabaseInMap();
   }
@@ -361,12 +365,20 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurnitureMap();
   }
 
+  public void createCRRRTable() {
+    crrrDAOImp.createTable();
+  }
+
   public HashMap<Integer, FurnitureRequest> loadFurnitureFromDatabaseInMap() {
     return furnitureDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.add(furniture);
+  }
+
+  public void createFurnitureTable() {
+    furnitureDAOImp.createTable();
   }
 
   public void deleteFurniture(FurnitureRequest furniture) {
@@ -396,6 +408,10 @@ public class DataBaseRepository {
   // Meal related methods
   public HashMap<Integer, Meal> getMealMap() {
     return mealDAOImp.getMealMap();
+  }
+
+  public void createMealTable() {
+    mealDAOImp.createTable();
   }
 
   public HashMap<Integer, Meal> loadMealsFromDatabaseInMap() {
