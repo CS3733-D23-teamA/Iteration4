@@ -54,9 +54,12 @@ public class Graph {
   }
 
   public String getNodeType(int key) {
-    // TODO move == null handeling -> return ""
 
     Move move = databaseRepo.getFirstMoveForNode(key);
+    if (move == null) {
+      return "";
+    }
+
     LocationName locName = databaseRepo.getLocName(move.getLongName());
     return locName.getNodeType();
   }
