@@ -294,12 +294,13 @@ public class PathfindingController {
   }
 
   private void setTurnDirections() {
+    turnDirections.getChildren().clear();
+
     ImageView icon = new ImageView();
     icon.setFitHeight(50);
     icon.setFitWidth(50);
-    Text directions = new Text();
-    directions.setStyle("-fx-text-fill: #012D5A; -fx-font: \"Open Sans\"; -fx-font-size: 18");
-    HBox turn = new HBox(10);
+    Label directions = new Label();
+    HBox turn = new HBox(15);
     turn.setStyle(
         "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
 
@@ -426,7 +427,7 @@ public class PathfindingController {
    */
   private void levelButtonIndicator(ArrayList<Integer> nodeIDS) {
     // set up a highlight object
-    String highlight = "-fx-border-width: 5; -fx-border-color: #F0C747";
+    String highlight = "-fx-border-width: 5; -fx-border-color: #F0C747; -fx-border-radius: 3";
 
     ArrayList<String> stringList = mapEntity.floorsTravelledTo(nodeIDS);
     if (stringList.contains("L1")) {
@@ -434,19 +435,15 @@ public class PathfindingController {
     }
     if (stringList.contains("L2")) {
       levelL2Toggle.setStyle(highlight);
-      // levelL2Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("1")) {
       level1Toggle.setStyle(highlight);
-      // level1Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("2")) {
       level2Toggle.setStyle(highlight);
-      // level2Toggle.setBorder(new Border(highlight));
     }
     if (stringList.contains("3")) {
       level3Toggle.setStyle(highlight);
-      // level3Toggle.setBorder(new Border(highlight));
     }
   }
 
