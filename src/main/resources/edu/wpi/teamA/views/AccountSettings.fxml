@@ -36,12 +36,12 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <MFXPasswordField fx:id="password1" onAction="#validateUpdate" prefWidth="300.0" promptText="Current Password" style="-fx-border-radius: 10;" />
+                                    <MFXPasswordField fx:id="password1" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Current Password" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
-                                    <MFXPasswordField fx:id="password2" onAction="#validateUpdate" prefWidth="300.0" promptText="Re-enter Current Password" style="-fx-border-radius: 10;" />
+                                    <MFXPasswordField fx:id="password2" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Re-enter Current Password" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                            </children>
@@ -53,12 +53,12 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <MFXPasswordField fx:id="newPassword1" onAction="#validateUpdate" prefWidth="300.0" promptText="New Password" style="-fx-border-radius: 10;" />
+                                    <MFXPasswordField fx:id="newPassword1" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="New Password" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
-                                    <MFXPasswordField fx:id="newPassword2" onAction="#validateUpdate" prefWidth="300.0" promptText="Re-enter New Password" style="-fx-border-radius: 10;" />
+                                    <MFXPasswordField fx:id="newPassword2" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Re-enter New Password" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT">
@@ -76,12 +76,12 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <MFXTextField fx:id="oldFirst" onAction="#validateChangeName" prefWidth="300.0" promptText="Current Name" style="-fx-border-radius: 10;" />
+                                    <MFXTextField fx:id="oldFirst" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="Current Name" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
-                                    <MFXTextField fx:id="oldLast" onAction="#validateChangeName" prefWidth="300.0" promptText="Re-enter Current Name" style="-fx-border-radius: 10;" />
+                                    <MFXTextField fx:id="oldLast" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="Re-enter Current Name" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                            </children>
@@ -93,12 +93,12 @@
                            <children>
                               <VBox>
                                  <children>
-                                    <MFXTextField fx:id="newFirst" onAction="#validateChangeName" prefWidth="300.0" promptText="New First Name" style="-fx-border-radius: 10;" />
+                                    <MFXTextField fx:id="newFirst" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="New First Name" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox>
                                  <children>
-                                    <MFXTextField fx:id="newLast" onAction="#validateChangeName" prefWidth="300.0" promptText="New Last Name" style="-fx-border-radius: 10;" />
+                                    <MFXTextField fx:id="newLast" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="New Last Name" style="-fx-border-radius: 10;" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_RIGHT">
