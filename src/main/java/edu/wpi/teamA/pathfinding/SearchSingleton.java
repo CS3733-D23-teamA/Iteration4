@@ -114,69 +114,105 @@ public class SearchSingleton {
   public static ArrayList<String> simplePathString(boolean second) {
     ArrayList<String> simplePath = new ArrayList<String>();
     ArrayList<Integer> pathIDs = getPath();
+    MapEntity mapEd = new MapEntity();
 
     // Setting some variables to represent the previous node
     int prevID = pathIDs.get(0);
     GraphNode prevNode = getGraphNode(prevID);
-    int prevX = prevNode.getXcoord();
-    int prevY = prevNode.getYcoord();
 
     int currID = pathIDs.get(1);
     GraphNode currNode = getGraphNode(currID);
-    int currX = currNode.getXcoord();
-    int currY = currNode.getYcoord();
 
-    String currentDir = getDirection(prevX,prevY,currX,currY);
+    String currDir = getDirection(prevNode, currNode);
 
     for (int i = 2; i < pathIDs.size(); i++) {
       prevID = currID;
       prevNode = currNode;
-      prevX = currX;
-      prevY = currY;
 
       currID = pathIDs.get(i);
       currNode = getGraphNode(currID);
-      currX = currNode.getXcoord();
-      currY = currNode.getYcoord();
 
-      String newDir = getDirection(prevX,prevY,currX,currY);
+      String newDir = getDirection(prevNode, currNode);
 
-      String turn = getTurn(currentDir, newDir);
-
-      if (turn.equals("f")) {
-
-      } else if (turn.equals("l")) {
-
-      } else if (turn.equals("r")) {
-
+      if (newDir.equals("u")) {
+        simplePath.add("Go up to floor " + currNode.getFloor());
+      } else if (newDir.equals("d")) {
+        simplePath.add("Go down to floor " + currNode.getFloor());
       } else {
 
+        String turn = getTurn(currDir, newDir);
+
+        if (turn.equals("f")) {
+
+        } else if (turn.equals("l")) {
+          simplePath.add("Turn left at " + mapEd.getLocationName(currID, false).getLongName());
+        } else if (turn.equals("r")) {
+          simplePath.add("Turn right at " + mapEd.getLocationName(currID, false).getLongName());
+        } else {
+          simplePath.add("Something seems off?");
+        }
       }
+      currDir = newDir;
     }
 
     return simplePath;
   }
 
-  private static String getDirection(int x1, int y1, int x2, int y2) {
+  private static String getDirection(GraphNode startNode, GraphNode endNode) {
+
+    int x1 = startNode.getXcoord();
+    int y1 = startNode.getYcoord();
+    int x2 = endNode.getXcoord();
+    int y2 = endNode.getYcoord();
     int x = x2 - x1;
     int y = y2 - y1;
     int absX = Math.abs(x);
     int absY = Math.abs(y);
+    String startFloor = startNode.getFloor();
+    String endFloor = endNode.getFloor();
 
     String dir = "";
 
-    if (absX > absY) {
-      if (x > 0) {
-        dir = "e";
+    if (!startFloor.equals(endFloor)) {
+      if (startFloor.equals("L1")) {
+        dir = "u";
+      } else if (startFloor.equals("L2")) {
+        if (endFloor.equals("L1")) {
+          dir = "d";
+        } else {
+          dir = "u";
+        }
+      } else if (startFloor.equals("1")) {
+        if (endFloor.equals("L1") || endFloor.equals("L2")) {
+          dir = "d";
+        } else {
+          dir = "u";
+        }
+      } else if (startFloor.equals("2")) {
+        if (endFloor.equals("3")) {
+          dir = "u";
+        } else {
+          dir = "d";
+        }
       } else {
-        dir = "w";
+        dir = "d";
       }
     } else {
-      if (y > 0) {
-        dir = "n";
+
+      if (absX > absY) {
+        if (x > 0) {
+          dir = "e";
+        } else {
+          dir = "w";
+        }
       } else {
-        dir = "s";
+        if (y > 0) {
+          dir = "n";
+        } else {
+          dir = "s";
+        }
       }
+
     }
     return dir;
   }
