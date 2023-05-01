@@ -24,6 +24,7 @@
             </Line>
             <MFXButton fx:id="AccountSettingsButton" onAction="#openAccountSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="My Account" VBox.vgrow="ALWAYS" />
             <MFXButton fx:id="userSettingsButton" onAction="#openUserSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" text="Users" />
+            <MFXButton fx:id="alertSettingsButton" onAction="#openAlertSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Alert Settings" />
             <MFXButton fx:id="locationSettingsButton" onAction="#openLocationSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" text="Location" />
             <MFXButton fx:id="dataSettingsButton" onAction="#openDataSettings" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Data" />
             <MFXButton fx:id="logoutButton" onAction="#logout" style="-fx-background-color: bwhite; -fx-text-fill: bblue; -fx-background-radius: 15;" styleClass="mfx-button" text="Sign Out" VBox.vgrow="ALWAYS" />
