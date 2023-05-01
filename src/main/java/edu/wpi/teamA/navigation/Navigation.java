@@ -23,7 +23,7 @@ public class Navigation {
       App.getPrimaryStage().setTitle(String.valueOf(screen));
 
       App.getRootPane().setCenter(loader.load());
-      if(!screen.getFilename().equals("views/ScreenSaver.fxml")){
+      if (!screen.getFilename().equals("views/ScreenSaver.fxml")) {
         idleMonitor.register(App.getPrimaryStage().getScene(), Event.ANY);
       }
     } catch (IOException | NullPointerException e) {
