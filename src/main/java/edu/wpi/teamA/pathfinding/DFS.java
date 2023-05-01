@@ -75,7 +75,11 @@ public class DFS extends Search {
       }
 
       currentGNode.setVisited(true);
-      currentID = queue.remove(queue.size() - 1);
+      try {
+        currentID = queue.remove(queue.size() - 1);
+      } catch (Exception e) {
+        return null;
+      }
       currentGNode = graph.getGraphNode(currentID);
     }
 

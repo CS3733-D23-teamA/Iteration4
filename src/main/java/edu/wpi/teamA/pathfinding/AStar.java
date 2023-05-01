@@ -112,7 +112,11 @@ public class AStar extends Search {
 
       currentNode.setVisited(true);
 
-      currentNode = graph.getGraphNode(queue.remove(0));
+      try {
+        currentNode = graph.getGraphNode(queue.remove(0));
+      } catch (Exception e) {
+        return null;
+      }
       currentX = currentNode.getXcoord();
       currentY = currentNode.getYcoord();
     }

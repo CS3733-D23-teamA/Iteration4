@@ -86,18 +86,23 @@ public class SearchSingleton {
     ArrayList<Integer> nodeIDs = getPath();
 
     String stringPath = "Wow! You're already there! Good Job!";
-    if (nodeIDs.size() > 1) {
-      MapEntity mapEd = new MapEntity();
-      LocationName locName = mapEd.getLocationName(nodeIDs.get(0), second);
-      stringPath = "Start at " + locName.getLongName();
 
-      for (int i = 1; i < nodeIDs.size(); i++) {
-        locName = mapEd.getLocationName(nodeIDs.get(i), second);
-        stringPath += ", then go to " + locName.getLongName();
+    if (nodeIDs == null) {
+      return "There is no available path.";
+    } else {
+
+      if (nodeIDs.size() > 1) {
+        MapEntity mapEd = new MapEntity();
+        LocationName locName = mapEd.getLocationName(nodeIDs.get(0), second);
+        stringPath = "Start at " + locName.getLongName();
+
+        for (int i = 1; i < nodeIDs.size(); i++) {
+          locName = mapEd.getLocationName(nodeIDs.get(i), second);
+          stringPath += ", then go to " + locName.getLongName();
+        }
+        stringPath += ". You have reached your destination.";
       }
-      stringPath += ". You have reached your destination.";
     }
-
     return stringPath;
   }
 }

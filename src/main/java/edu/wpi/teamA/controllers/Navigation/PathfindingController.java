@@ -291,7 +291,12 @@ public class PathfindingController {
   private void setTextDirections() {
     directions.setText(SearchSingleton.pathString(secondNameToggle.isSelected()));
     searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
-    directions.setFill(Color.web("#151515"));
+    if (SearchSingleton.getPath() == null) {
+      directions.setStyle("-fx-font-weight: bold;");
+      directions.setFill(Color.web("#AA4A44"));
+    } else {
+      directions.setFill(Color.web("#151515"));
+    }
   }
 
   /**

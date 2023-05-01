@@ -75,7 +75,11 @@ public class BFS extends Search {
       }
 
       currentGNode.setVisited(true);
-      currentID = queue.remove(0);
+      try {
+        currentID = queue.remove(0);
+      } catch (Exception e) {
+        return null;
+      }
       currentGNode = graph.getGraphNode(currentID);
     }
 
