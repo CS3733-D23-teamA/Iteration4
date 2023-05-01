@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -22,7 +23,19 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
          <children>
-            <StackPane fx:id="infoDisplay" visible="false">
+            <HBox fx:id="statusBarHBox" alignment="CENTER" maxHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="TOP_CENTER">
+               <children>
+                  <Rectangle fx:id="newStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#012d5a" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Rectangle fx:id="orderBeginStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Rectangle fx:id="packedStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Rectangle fx:id="shippedStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Rectangle fx:id="deliveredStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+               </children>
+               <StackPane.margin>
+                  <Insets top="20.0" />
+               </StackPane.margin>
+            </HBox>
+            <StackPane fx:id="infoDisplay" maxHeight="600.0" minHeight="600.0" prefHeight="600.0" translateY="150.0" visible="false">
                <children>
                   <VBox spacing="20.0">
                      <children>
@@ -139,7 +152,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </StackPane.margin>
             </StackPane>
-            <StackPane fx:id="cartDisplay">
+            <StackPane fx:id="cartDisplay" maxHeight="600.0" minHeight="600.0" prefHeight="600.0" translateY="50.0">
                <children>
                   <VBox spacing="20.0">
                      <children>
@@ -233,6 +246,9 @@
                      </StackPane.margin>
                   </VBox>
                </children>
+               <StackPane.margin>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </StackPane.margin>
             </StackPane>
          </children>
         </StackPane>
