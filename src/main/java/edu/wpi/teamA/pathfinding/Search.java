@@ -11,6 +11,8 @@ public abstract class Search {
 
   protected ArrayList<Integer> path;
 
+  protected ArrayList<String> simplePath;
+
   public ArrayList<Integer> getPath() {
     return path;
   }
@@ -72,22 +74,5 @@ public abstract class Search {
     return stringPath;
   }
 
-  public String getTextDirections() {
-    String stringPath = "Wow! You're already there! Good Job!";
 
-    if (startID != endID) {
-
-      stringPath = "Start at node " + path.get(0);
-
-      int pastID = path.get(0);
-      GraphNode pastNode = getGraphNode(pastID);
-      for (int i = 1; i < path.size(); i++) {
-        stringPath += ", then go to node " + path.get(i);
-      }
-
-      stringPath += ". You have reached your destination.";
-    }
-
-    return stringPath;
-  }
 }
