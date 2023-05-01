@@ -26,7 +26,7 @@ public class FurnitureRequestController implements IServiceController {
 
   @FXML private MFXButton nextButton;
   @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox<String> roomComboBox;
+  @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
   @FXML private MFXComboBox<String> timeCombo;
   @FXML private MFXTextField commentField;
@@ -55,7 +55,6 @@ public class FurnitureRequestController implements IServiceController {
     itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
     quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-    furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
     timeCombo
         .getItems()
         .addAll(
@@ -68,9 +67,10 @@ public class FurnitureRequestController implements IServiceController {
     rooms.addAll(databaseRepo.filterLocType("DEPT"));
     rooms.addAll(databaseRepo.filterLocType("LABS"));
     rooms.addAll(databaseRepo.filterLocType("REST"));
-    roomComboBox.getItems().addAll(rooms);
+    roomCombo.getItems().addAll(rooms);
 
-    furnitureQuantity.getItems().addAll(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+    furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
+    furnitureQuantity.getItems().addAll(-3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
     confirmationDialog.setVisible(false);
     confirmationDialog.setDisable(true);
@@ -86,7 +86,7 @@ public class FurnitureRequestController implements IServiceController {
     if (nameField.getText().isEmpty()
         || datePicker.getValue() == null
         || timeCombo.getSelectedIndex() == -1
-        || roomComboBox.getSelectedIndex() == -1) {
+        || roomCombo.getSelectedIndex() == -1) {
       nextButton.setDisable(true);
     } else {
       nextButton.setDisable(false);
@@ -104,7 +104,7 @@ public class FurnitureRequestController implements IServiceController {
 
   // TODO make validateSubmitButton
   @FXML
-  public void validateButton() {
+  public void validateSubmit() {
     submitButton.setDisable(itemsTable.getItems().isEmpty());
   }
 
@@ -112,7 +112,7 @@ public class FurnitureRequestController implements IServiceController {
   public void clear() {
     submitButton.setDisable(true);
     nameField.clear();
-    roomComboBox.clear();
+    roomCombo.clear();
     commentField.clear();
     timeCombo.getSelectionModel().clearSelection();
     datePicker.setValue(null);
@@ -143,7 +143,7 @@ public class FurnitureRequestController implements IServiceController {
     String furniture = furnitureCombo.getSelectedItem();
     int quantity = furnitureQuantity.getSelectedItem();
     entity.addItemsToTable(itemsTable, furniture, quantity);
-    validateButton();
+    validateSubmit();
   }
 
   @FXML
@@ -153,7 +153,7 @@ public class FurnitureRequestController implements IServiceController {
         new FurnitureRequest(
             databaseRepo.getNextFurnitureID(),
             nameField.getText(),
-            roomComboBox.getText(),
+            roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
             entity.convertTime(timeCombo.getText()),
             items,
