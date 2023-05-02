@@ -133,9 +133,9 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
       csvWriter.append("nodeid,xcoord,ycoord,floor,building\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("nodeid")) + (","));
-        csvWriter.append((rs.getInt("xcoord")) + (","));
-        csvWriter.append((rs.getInt("ycoord")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("nodeid")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("xcoord")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("ycoord")))).append(",");
         csvWriter.append(rs.getString("floor")).append(",");
         csvWriter.append(rs.getString("building")).append("\n");
       }

@@ -117,11 +117,11 @@ public class SignageDAOImp implements ISignageDAO {
       csvWriter.append("locationname,direction,date,signageid,screen\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getString("locationname")) + (","));
-        csvWriter.append((rs.getString("direction")) + (","));
-        csvWriter.append((rs.getDate("date")) + (","));
-        csvWriter.append(rs.getInt("signageid") + (","));
-        csvWriter.append((rs.getInt("screen")) + "\n");
+        csvWriter.append(rs.getString("locationname")).append(",");
+        csvWriter.append(rs.getString("direction")).append(",");
+        csvWriter.append(String.valueOf(rs.getDate("date"))).append(",");
+        csvWriter.append(String.valueOf(rs.getInt("signageid"))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("screen")))).append("\n");
       }
 
       csvWriter.flush();

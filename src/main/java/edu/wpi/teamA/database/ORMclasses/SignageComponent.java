@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class SignageComponent {
-  @Getter @Setter String locationName;
-  @Getter @Setter String direction;
-  @Getter @Setter Date date;
-  @Getter @Setter int screen;
-  @Getter @Setter int signageID;
+  @Getter @Setter private String locationName;
+  @Getter @Setter private String direction;
+  @Getter @Setter private Date date;
+  @Getter @Setter private int screen;
+  @Getter @Setter private int signageID;
 
   public SignageComponent(
       String locationName, String direction, Date date, int screen, int signageID) {

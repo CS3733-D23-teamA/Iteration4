@@ -1,7 +1,6 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
-import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.Level;
@@ -31,7 +30,7 @@ public class PathfindingController {
   private final MapEntity mapEntity = App.getMapEntity();
 
   // level toggle buttons
-  private ToggleGroup levelToggles = new ToggleGroup();
+  private final ToggleGroup levelToggles = new ToggleGroup();
   @FXML private MFXRectangleToggleNode levelL1Toggle;
   @FXML private MFXRectangleToggleNode levelL2Toggle;
   @FXML private MFXRectangleToggleNode level1Toggle;
@@ -39,7 +38,7 @@ public class PathfindingController {
   @FXML private MFXRectangleToggleNode level3Toggle;
 
   // Boolean for admin settings
-  private Boolean isAdmin = AccountSingleton.isAdmin();
+  private final Boolean isAdmin = AccountSingleton.isAdmin();
 
   // Boolean for user submit
   private Boolean isSubmitted = false;
@@ -47,16 +46,12 @@ public class PathfindingController {
   // Current Level Object
   private Level currentLevel = Level.LOWERLEVELL1;
 
-  private DataBaseRepository db = DataBaseRepository.getInstance();
-
   // level pagination
   @FXML private Label currentLevelLabel;
   @FXML private SVGPath nextLevel;
   @FXML private SVGPath prevLevel;
 
-  // Search and location options
-  private ArrayList<String> locationOptions = new ArrayList<>();
-  private ArrayList<String> searchOptions = new ArrayList<>();
+  private final ArrayList<String> searchOptions = new ArrayList<>();
 
   // Gesture pane setup
   @FXML private GesturePane gesturePane;
@@ -107,7 +102,8 @@ public class PathfindingController {
     errorMessage.setVisible(false);
 
     // Getting LongNames from Database
-    locationOptions = mapEntity.makeListOfLongNames();
+    // Search and location options
+    ArrayList<String> locationOptions = mapEntity.makeListOfLongNames();
     mapEntity.initializeNameIDHashMap();
 
     // Adding search options
@@ -373,7 +369,7 @@ public class PathfindingController {
       turn.getChildren().addAll(icon, directions);
       turnDirections.getChildren().add(turn);
     } else {
-      for (int i = 0; i < path.size(); i++) {
+      for (String s : path) {
         ImageView icon = new ImageView();
         icon.setFitHeight(50);
         icon.setFitWidth(50);
@@ -381,17 +377,17 @@ public class PathfindingController {
         HBox turn = new HBox(15);
         turn.setStyle(
             "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
-        if (path.get(i).contains("up")) {
+        if (s.contains("up")) {
           icon.setImage(App.getUp());
-        } else if (path.get(i).contains("down")) {
+        } else if (s.contains("down")) {
           icon.setImage(App.getDown());
-        } else if (path.get(i).contains("left")) {
+        } else if (s.contains("left")) {
           icon.setImage(App.getLeft());
         } else {
           icon.setImage(App.getRight());
         }
 
-        directions.setText(path.get(i));
+        directions.setText(s);
         directions.setWrapText(true);
         turn.getChildren().addAll(icon, directions);
         turnDirections.getChildren().add(turn);
@@ -403,8 +399,6 @@ public class PathfindingController {
   /**
    * Helper method to wrap for submit called upon user input, runs submit when user sets something
    * for all inputs
-   *
-   * @return true if starting and ending locations are set by user, false otherwise
    */
   @FXML
   public void checkSelections() {
