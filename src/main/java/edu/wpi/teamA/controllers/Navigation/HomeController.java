@@ -6,19 +6,13 @@ import edu.wpi.teamA.database.ORMclasses.*;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.awt.*;
 import java.time.LocalDate;
-import edu.wpi.teamA.navigation.Navigation;
-import edu.wpi.teamA.navigation.Screen;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javax.swing.text.html.ImageView;
 
 public class HomeController {
@@ -31,13 +25,8 @@ public class HomeController {
   @FXML
   public void initialize() {
 
-    List<String> alerts = getAlerts(); // Get your alerts here
-
-    // Reverse the list to display in reverse chronological order
-    Collections.reverse(alerts);
-
-    getAlerts(alertsContainer);
-    loadServiceRequests(serviceRequestsContainer);
+    getAlerts();
+    loadServiceRequests();
   }
 
   public void openAbout() {
@@ -45,10 +34,10 @@ public class HomeController {
   }
 
   public void openCredits() {
-    Navigation.navigate(Screen.ABOUT_CREDITPAGE);
+    Navigation.navigate(Screen.CREDIT_HOME);
   }
 
-  private void getAlerts(VBox alertsContainer) {
+  private void getAlerts() {
     alertsContainer.getChildren().clear();
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -85,7 +74,7 @@ public class HomeController {
     }
   }
 
-  private void loadServiceRequests(VBox serviceRequestsContainer) {
+  private void loadServiceRequests() {
     serviceRequestsContainer.getChildren().clear();
 
     DataBaseRepository dbRepo = new DataBaseRepository();

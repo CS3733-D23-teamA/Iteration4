@@ -48,30 +48,6 @@
                               </Text>
                            </children>
                         </VBox>
-                        <VBox alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openAbout" StackPane.alignment="BOTTOM_RIGHT">
-                           <StackPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </StackPane.margin>
-                           <children>
-                              <ImageView fx:id="aboutButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openAbout">
-                                 <image>
-                                    <Image url="@../images/icons/help.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </VBox>
-                        <VBox alignment="BOTTOM_LEFT" fillWidth="false" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openCredits" StackPane.alignment="BOTTOM_LEFT">
-                           <StackPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </StackPane.margin>
-                           <children>
-                              <ImageView fx:id="creditButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openCredits">
-                                 <image>
-                                    <Image url="@../images/icons/info.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </VBox>
                      </children>
                   </StackPane>
                </children>
@@ -111,6 +87,30 @@
                   <Insets top="20.0" />
                </StackPane.margin>
             </HBox>
+            <VBox alignment="BOTTOM_LEFT" fillWidth="false" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openCredits" StackPane.alignment="BOTTOM_LEFT">
+               <StackPane.margin>
+                  <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+               </StackPane.margin>
+               <children>
+                  <ImageView fx:id="creditButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openCredits">
+                     <image>
+                        <Image url="@../images/icons/info.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
+            <VBox alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openAbout" StackPane.alignment="BOTTOM_RIGHT">
+               <StackPane.margin>
+                  <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
+               </StackPane.margin>
+               <children>
+                  <ImageView fx:id="aboutButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openAbout">
+                     <image>
+                        <Image url="@../images/icons/help.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
       </StackPane>
 

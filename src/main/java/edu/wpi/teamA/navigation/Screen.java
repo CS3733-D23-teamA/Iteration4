@@ -12,6 +12,7 @@ public enum Screen {
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   FLOWER_REQUEST_EDIT("views/FlowerEdit.fxml"),
   CR_REQUEST("views/CRResquest.fxml"),
+  CR_REQUEST_EDIT("views/CRREdit.fxml"),
   FURNITURE_REQUEST("views/FurnitureRequest.fxml"),
   FURNITURE_REQUEST_EDIT("views/FurnitureEdit.fxml"),
   MEAL_REQUEST("views/MealRequest.fxml"),
@@ -29,7 +30,7 @@ public enum Screen {
   ADD_USER("views/AddUser.fxml"),
   SCREEN_SAVER("views/ScreenSaver.fxml"),
   ABOUT_HOME("views/AboutPage.fxml"),
-  ABOUT_CREDITPAGE("views/CreditPage.fxml");
+  CREDIT_HOME("views/CreditPage.fxml");
 
   private final String filename;
 
