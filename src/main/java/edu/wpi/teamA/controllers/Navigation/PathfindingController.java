@@ -283,7 +283,7 @@ public class PathfindingController {
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     if (setTurnDirections()) {
-
+      isSubmitted = true;
       // Sets the Order for paginator
       mapEntity.setLevelOrder(SearchSingleton.getPath());
       levelButtonIndicator(SearchSingleton.getPath());
@@ -297,7 +297,43 @@ public class PathfindingController {
           1);
 
       drawPath();
+    } else {
+      isSubmitted = false;
+      clearPath();
+      resetPaginator();
     }
+  }
+
+  private void resetPaginator() {
+    mapEntity.setLevelOrder();
+    switch (currentLevel) {
+      case LOWERLEVELL1:
+        setCurrentLevel(Level.LOWERLEVELL1);
+        break;
+      case LOWERLEVELL2:
+        setCurrentLevel(Level.LOWERLEVELL2);
+        getNextLevel();
+        break;
+      case LEVEL1:
+        setCurrentLevel(Level.LEVEL1);
+        getNextLevel();
+        getNextLevel();
+        break;
+      case LEVEL2:
+        setCurrentLevel(Level.LEVEL2);
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        break;
+      case LEVEL3:
+        setCurrentLevel(Level.LEVEL3);
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        break;
+    }
+    setPaginator();
   }
 
   private boolean setTurnDirections() {
@@ -376,13 +412,11 @@ public class PathfindingController {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getValue() != null && endSelection.getValue() != null) {
           submit();
-          isSubmitted = true;
         }
       }
     } else {
       if (startSelection.getValue() != null && endSelection.getValue() != null) {
         submit();
-        isSubmitted = true;
       }
     }
   }
