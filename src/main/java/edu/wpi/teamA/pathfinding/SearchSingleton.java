@@ -123,9 +123,7 @@ public class SearchSingleton {
 
     if (pathIDs == null) {
       return null;
-    } else if (pathIDs.size() == 1) {
-      simplePath.add("Wow! You're already there! Good Job!");
-    } else {
+    } else if (pathIDs.size() != 1) {
 
       // Setting some variables to represent the previous node
       int prevID = pathIDs.get(0);
