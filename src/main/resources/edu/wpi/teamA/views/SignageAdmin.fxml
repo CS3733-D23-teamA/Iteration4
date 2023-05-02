@@ -23,7 +23,7 @@
          <content>
             <VBox alignment="TOP_CENTER" spacing="50.0">
                <children>
-                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Add Signage" />
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -31,25 +31,25 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXTextField fx:id="locNameAddInput" minWidth="150.0" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
+                                    <MFXTextField fx:id="locNameAddInput" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAdd" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                                    <MFXFilterComboBox fx:id="directionAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="directionAddInputCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
-                                    <DatePicker fx:id="dateAddInput" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
+                                    <DatePicker fx:id="dateAddInput" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
-                                    <MFXFilterComboBox fx:id="screenAddInputCombo" minWidth="150.0" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="screenAddInputCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateAdd" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -59,12 +59,12 @@
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets top="-40.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Remove Signage" />
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -72,7 +72,7 @@
                               <VBox alignment="BOTTOM_LEFT" prefWidth="250.0" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
-                                    <MFXFilterComboBox fx:id="SignageIDRemoveCombo" minWidth="150.0" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="SignageIDRemoveCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateRemove" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -82,18 +82,18 @@
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets top="-40.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox spacing="30.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" VBox.vgrow="ALWAYS">
                      <children>
                         <Label text="Modify Signage" />
                         <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Signage ID" />
-                              <MFXFilterComboBox fx:id="signageIDModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                              <MFXFilterComboBox fx:id="signageIDModifyCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                            </children>
                         </VBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" VBox.vgrow="ALWAYS">
@@ -101,25 +101,25 @@
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location Name" />
-                                    <MFXTextField fx:id="locNameModifyText" minWidth="150.0" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXTextField fx:id="locNameModifyText" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateModify" prefColumnCount="3" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Direction" />
-                                    <MFXFilterComboBox fx:id="directionModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="directionModifyCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date" />
-                                    <DatePicker fx:id="modifyDateInput" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                    <DatePicker fx:id="modifyDateInput" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="BOTTOM_LEFT" spacing="5.0">
                                  <children>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Screen" />
-                                    <MFXFilterComboBox fx:id="screenModifyCombo" minWidth="150.0" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
+                                    <MFXFilterComboBox fx:id="screenModifyCombo" maxHeight="-Infinity" minHeight="-Infinity" onAction="#validateModify" prefHeight="50.0" prefWidth="250.0" />
                                  </children>
                               </VBox>
                               <HBox alignment="BOTTOM_RIGHT" prefHeight="68.0" prefWidth="138.0">
@@ -129,15 +129,15 @@
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets top="-40.0" />
+                              <Insets />
                            </VBox.margin>
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox spacing="30.0">
+                  <VBox spacing="10.0">
                      <children>
                         <Label text="Current Signages" />
-                        <TableView fx:id="signageTableView" prefHeight="400.0" prefWidth="1140.0">
+                        <TableView fx:id="signageTableView" minHeight="-Infinity" prefHeight="400.0" prefWidth="1140.0">
                            <columns>
                               <TableColumn fx:id="signageIDCol" minWidth="100.0" prefWidth="100.0" text="ID" />
                               <TableColumn fx:id="locationNameCol" minWidth="200.0" prefWidth="380.0" text="Location Name" />
@@ -155,7 +155,7 @@
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets bottom="50.0" left="50.0" right="50.0" top="50.0" />
+            <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
          </padding>
       </ScrollPane>
    </center>

@@ -58,7 +58,10 @@
                      <content>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Label alignment="TOP_CENTER" style="-fx-text-fill: bwhite;" text="Service Requests" />
+                              <Label alignment="TOP_CENTER" style="-fx-text-fill: bwhite; -fx-font-size: 22;" text="Service Requests">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </VBox.margin></Label>
                               <VBox fx:id="serviceRequestsContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -72,7 +75,10 @@
                      <content>
                         <VBox alignment="TOP_CENTER">
                            <children>
-                              <Label alignment="TOP_CENTER" style="-fx-text-fill: bwhite;" text="Alerts" />
+                              <Label alignment="TOP_CENTER" style="-fx-text-fill: bwhite; -fx-font-size: 22;" text="Alerts">
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </VBox.margin></Label>
                               <VBox fx:id="alertsContainer" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="10.0">
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -84,7 +90,7 @@
                   </MFXScrollPane>
                </children>
                <StackPane.margin>
-                  <Insets top="20.0" />
+                  <Insets left="30.0" right="30.0" top="30.0" />
                </StackPane.margin>
             </HBox>
             <VBox alignment="BOTTOM_LEFT" fillWidth="false" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openCredits" StackPane.alignment="BOTTOM_LEFT">
