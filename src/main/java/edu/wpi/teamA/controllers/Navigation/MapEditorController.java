@@ -49,7 +49,11 @@ public class MapEditorController {
   private String level = "L1";
 
   // buttons and toggles
+  @FXML private MFXButton addNodeButton;
+  @FXML private MFXButton removeNodeButton;
+  @FXML private MFXButton modifyNodeButton;
   @FXML private MFXButton modifyEdgeButton;
+  @FXML private MFXButton addMove;
   @FXML private MFXToggleButton locationNameToggle;
   @FXML private MFXToggleButton secondNameToggle;
 
@@ -435,12 +439,22 @@ public class MapEditorController {
       modifyNodeClicked = false;
       addNodeClicked = false;
       alignNodesClicked = false;
+      addNodeButton.setDisable(true);
+      modifyNodeButton.setDisable(true);
+      removeNodeButton.setDisable(true);
+      AlignNodesButton.setDisable(true);
+      addMove.setDisable(true);
 
     } else {
       secondNodeClicked = false;
       modifyEdgeClicked = false;
       currentModifyNodeID = -1;
       modifyEdgeButton.setText("Modify Edge");
+      addNodeButton.setDisable(false);
+      modifyNodeButton.setDisable(false);
+      removeNodeButton.setDisable(false);
+      AlignNodesButton.setDisable(false);
+      addMove.setDisable(false);
       displayEdgeData(entity.determineEdgeMap(level));
       displayNodeData(entity.determineNodeMap(level));
     }
@@ -605,23 +619,36 @@ public class MapEditorController {
       nodesToAlign =
           new ArrayList<>(); // initializes the array before an alignment is done/before the
       // selection
+      addNodeButton.setDisable(true);
+      modifyNodeButton.setDisable(true);
+      removeNodeButton.setDisable(true);
+      modifyEdgeButton.setDisable(true);
+      addMove.setDisable(true);
       AlignNodesButton.setText("Stop Alignment");
       alignmentHBox.setVisible(true);
     } else {
       alignNodesClicked = false;
       stopAlignment = true;
+      addNodeButton.setDisable(false);
+      modifyNodeButton.setDisable(false);
+      removeNodeButton.setDisable(false);
+      modifyEdgeButton.setDisable(false);
+      addMove.setDisable(false);
       AlignNodesButton.setText("Align Nodes");
       if (horizontal) {
-        Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
-        topPane.getChildren().clear();
-        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
-        displayNodeData(entity.determineNodeMap(node.getFloor()));
-
+        if (!nodesToAlign.isEmpty()) {
+          Node node = entity.determineHorizontalNodeAlignment(nodesToAlign);
+          topPane.getChildren().clear();
+          displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+          displayNodeData(entity.determineNodeMap(node.getFloor()));
+        }
       } else if (vertical) {
-        Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
-        topPane.getChildren().clear();
-        displayEdgeData(entity.determineEdgeMap(node.getFloor()));
-        displayNodeData(entity.determineNodeMap(node.getFloor()));
+        if (!nodesToAlign.isEmpty()) {
+          Node node = entity.determineVerticalNodeAlignment(nodesToAlign);
+          topPane.getChildren().clear();
+          displayEdgeData(entity.determineEdgeMap(node.getFloor()));
+          displayNodeData(entity.determineNodeMap(node.getFloor()));
+        }
       }
     }
   }

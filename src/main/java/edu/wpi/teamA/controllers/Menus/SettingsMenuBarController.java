@@ -13,7 +13,6 @@ public class SettingsMenuBarController {
   @FXML private MFXButton exitApplicationButton;
   @FXML private MFXButton logoutButton;
   @FXML private MFXButton accountSettingsButton;
-  @FXML private MFXButton employeeSettingsButton;
   @FXML private MFXButton alertSettingsButton;
   @FXML public VBox AccountSettingsDropdown;
   @FXML private MFXButton dataSettingsButton;
@@ -23,8 +22,6 @@ public class SettingsMenuBarController {
   @FXML
   public void initialize() {
     if (!AccountSingleton.isAdmin()) {
-      employeeSettingsButton.setVisible(false);
-      employeeSettingsButton.setManaged(false);
       alertSettingsButton.setVisible(false);
       alertSettingsButton.setManaged(false);
       dataSettingsButton.setVisible(false);

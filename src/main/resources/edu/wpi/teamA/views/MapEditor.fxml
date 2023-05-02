@@ -251,7 +251,7 @@
                         </VBox>
                         <VBox alignment="CENTER" prefWidth="350.0" spacing="10.0" stylesheets="@stylesheets/menu.css">
                            <children>
-                              <MFXButton fx:id="AddNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
+                              <MFXButton fx:id="addNodeButton" onAction="#addNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" stylesheets="@stylesheets/main.css" text="Add Node" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>
@@ -259,7 +259,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </MFXButton>
-                              <MFXButton fx:id="ModifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Node" textFill="#012d5a">
+                              <MFXButton fx:id="modifyNodeButton" onAction="#modifyNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Modify Node" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>
@@ -267,7 +267,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </MFXButton>
-                              <MFXButton fx:id="RemoveNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Remove Node" textFill="#012d5a">
+                              <MFXButton fx:id="removeNodeButton" onAction="#removeNode" prefHeight="70.0" prefWidth="250.0" style="-fx-background-color: bwhite; -fx-background-radius: 15;" styleClass="mfx-button" text="Remove Node" textFill="#012d5a">
                                  <font>
                                     <Font name="Open Sans ExtraBold" size="28.0" />
                                  </font>

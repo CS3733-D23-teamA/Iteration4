@@ -15,18 +15,37 @@ import lombok.Setter;
 
 public class SignageDAOImp implements ISignageDAO {
 
-  @Getter @Setter private HashMap<String, SignageComponent> signageMap = new HashMap<>();
+  @Getter @Setter private HashMap<Integer, SignageComponent> signageMap = new HashMap<>();
 
   public SignageDAOImp() {
+    createTable();
     this.signageMap = loadSignagesFromDatabaseInMap();
   }
 
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"SignageComponent\" ("
+              + "locationname VARCHAR(255),"
+              + "direction VARCHAR(255) NOT NULL,"
+              + "date DATE NOT NULL,"
+              + "signageid INTEGER PRIMARY KEY,"
+              + "screen INTEGER NOT NULL"
+              + ")");
+    } catch (SQLException e) {
+
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
-  public SignageComponent getSignage(String signageID) {
+  public SignageComponent getSignage(int signageID) {
     return signageMap.get(signageID);
   }
 
-  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+  public HashMap<Integer, SignageComponent> loadSignagesFromDatabaseInMap() {
     try {
       Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"SignageComponent\"");
@@ -35,7 +54,7 @@ public class SignageDAOImp implements ISignageDAO {
         String locationName = rs.getString("locationName");
         String direction = rs.getString("direction");
         Date date = rs.getDate("date");
-        String signageID = locationName + date.toString();
+        int signageID = rs.getInt("signageid");
         int screen = rs.getInt("screen");
 
         SignageComponent signage =
@@ -49,7 +68,7 @@ public class SignageDAOImp implements ISignageDAO {
     return signageMap;
   }
 
-  public HashMap<String, SignageComponent> Import(String filePath) {
+  public HashMap<Integer, SignageComponent> Import(String filePath) {
     try {
       BufferedReader csvReader = new BufferedReader(new FileReader(filePath));
       csvReader.readLine();
@@ -61,7 +80,7 @@ public class SignageDAOImp implements ISignageDAO {
         String locationName = data[0];
         String direction = data[1];
         Date date = Date.valueOf((data[2]));
-        String signageID = data[3];
+        int signageID = Integer.parseInt(data[3]);
         int screen = Integer.parseInt(data[4]);
 
         PreparedStatement ps =
@@ -71,7 +90,7 @@ public class SignageDAOImp implements ISignageDAO {
         ps.setString(1, locationName);
         ps.setString(2, direction);
         ps.setDate(3, date);
-        ps.setString(4, signageID);
+        ps.setInt(4, signageID);
         ps.setInt(5, screen);
         ps.executeUpdate();
 
@@ -101,7 +120,7 @@ public class SignageDAOImp implements ISignageDAO {
         csvWriter.append((rs.getString("locationname")) + (","));
         csvWriter.append((rs.getString("direction")) + (","));
         csvWriter.append((rs.getDate("date")) + (","));
-        csvWriter.append(rs.getString("signageid")).append(",");
+        csvWriter.append(rs.getInt("signageid") + (","));
         csvWriter.append((rs.getInt("screen")) + "\n");
       }
 
@@ -122,7 +141,7 @@ public class SignageDAOImp implements ISignageDAO {
       String direction = signage.getDirection();
       Date date = signage.getDate();
       int screen = signage.getScreen();
-      String signageID = locationName + date.toString();
+      int signageID = signage.getSignageID();
 
       PreparedStatement ps =
           DBConnectionProvider.getInstance()
@@ -132,11 +151,10 @@ public class SignageDAOImp implements ISignageDAO {
       ps.setDate(2, date);
       ps.setInt(3, screen);
       ps.setString(4, locationName);
-      ps.setString(5, signageID);
+      ps.setInt(5, signageID);
 
       signageMap.put(
-          signageID,
-          new SignageComponent(locationName, direction, date, screen, signage.getSignageID()));
+          signageID, new SignageComponent(locationName, direction, date, screen, signageID));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -150,18 +168,18 @@ public class SignageDAOImp implements ISignageDAO {
       String direction = signage.getDirection();
       Date date = signage.getDate();
       int screen = signage.getScreen();
+      int signageID = signage.getSignageID();
 
       PreparedStatement ps =
           Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
-                  "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?)");
+                  "INSERT INTO \"Teama_schema\".\"SignageComponent\" VALUES (?, ?, ?, ?, ?)");
       ps.setString(1, locationName);
       ps.setString(2, direction);
       ps.setDate(3, date);
-      ps.setInt(4, screen);
+      ps.setInt(4, signageID);
+      ps.setInt(5, screen);
       ps.executeUpdate();
-
-      String signageID = locationName + date.toString();
 
       signageMap.put(
           signageID, new SignageComponent(locationName, direction, date, screen, signageID));
@@ -178,7 +196,7 @@ public class SignageDAOImp implements ISignageDAO {
           Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"SignageComponent\" WHERE signageid = ?");
-      ps.setString(1, signage.getSignageID());
+      ps.setInt(1, signage.getSignageID());
       ps.executeUpdate();
 
       // String signageID = signage.getLocationName() + signage.getDate().toString();
@@ -186,6 +204,34 @@ public class SignageDAOImp implements ISignageDAO {
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  public int getNextID() {
+    SignageComponent largestID = null;
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+      ResultSet rs =
+          st.executeQuery(
+              "SELECT * FROM \"Teama_schema\".\"SignageComponent\" ORDER BY signageid DESC LIMIT 1");
+
+      if (rs.next()) {
+        String locationName = rs.getString("locationname");
+        String name = rs.getString("direction");
+        Date date = rs.getDate("date");
+        int signageID = rs.getInt("signageid");
+        int screen = rs.getInt("screen");
+
+        largestID = new SignageComponent(locationName, name, date, screen, signageID);
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getSignageID() + 1;
     }
   }
 }

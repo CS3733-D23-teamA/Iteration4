@@ -7,8 +7,9 @@ public abstract class Search {
   protected Graph graph = new Graph();
   protected int startID;
   protected int endID;
+  protected boolean accessibilitySetting;
 
-  protected ArrayList<Integer> path = new ArrayList<Integer>();
+  protected ArrayList<Integer> path;
 
   public ArrayList<Integer> getPath() {
     return path;
@@ -31,9 +32,21 @@ public abstract class Search {
 
   protected void resetNodes(ArrayList<Integer> resetList) {
     for (int i : resetList) {
-      System.out.println("RESET NODES: i-" + i);
       graph.getGraphNode(i).reset();
     }
+  }
+
+  /**
+   * access level: 0 = none, 1 = no elevator, 2 = no stairs
+   *
+   * @param nodeID takes an int representing a node id
+   * @returns true if inputted node is equal to set accessibility level
+   */
+  protected boolean accessibilityCheck(int nodeID) {
+    if (graph.getNodeType(nodeID).equals("")) {
+      return false;
+    }
+    return !(accessibilitySetting && graph.getNodeType(nodeID).equals("STAI"));
   }
 
   public GraphNode getGraphNode(int key) {

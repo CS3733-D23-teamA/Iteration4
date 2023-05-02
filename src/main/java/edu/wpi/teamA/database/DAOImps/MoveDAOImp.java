@@ -23,28 +23,24 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   @Getter @Setter private HashMap<String, Move> currentMoveMap = new HashMap<>();
 
   public MoveDAOImp() {
+    createTable();
     loadDataFromDatabaseInMap();
     this.currentMoveMap = loadCurrentMoveMap(App.getCurrentDate());
   }
 
   public void createTable() {
     try {
-      String sqlCreateEdge =
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
           "Create Table if not exists \"Teama_schema\".\"Move\""
-              + "(nodeID   int,"
-              + "longName  Varchar(600),"
-              + "localDate     Varchar(600),"
+              + "(nodeID   int NOT NULL,"
+              + "longName  Varchar(600) NOT NULL,"
+              + "localDate     Varchar(600) NOT NULL,"
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
-              + "ON DELETE CASCADE,"
-              + "CONSTRAINT fk_longname "
-              + "FOREIGN KEY(longname) "
-              + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
-              + "ON UPDATE CASCADE)";
-      Statement stmtMove =
-          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      stmtMove.execute(sqlCreateEdge);
+              + "ON DELETE CASCADE)");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -241,7 +237,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   public Move getFirstMoveForNode(int nodeID) {
     LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
     for (Move move : movesForNode) {
-      if (!move.getDate().isAfter(App.getCurrentDate())
+      if (!move.getDate().isAfter(App.getCurrentDate()) // if move is before current date
           && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
           && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))) {
         return move;
