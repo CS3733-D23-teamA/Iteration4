@@ -6,8 +6,6 @@ import edu.wpi.teamA.database.ORMclasses.*;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
-import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -15,32 +13,30 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javax.swing.text.html.ImageView;
 
 public class HomeController {
 
   @FXML private VBox alertsContainer;
-  @FXML private MFXGenericDialog aboutDialog;
-  @FXML private MFXGenericDialog creditDialog;
+  @FXML private ImageView imageCredits;
 
   @FXML private VBox serviceRequestsContainer;
 
   @FXML
   public void initialize() {
-    getAlerts(alertsContainer);
-    loadServiceRequests(serviceRequestsContainer);
+    getAlerts();
+    loadServiceRequests();
   }
 
   public void openAbout() {
-    aboutDialog.setDisable(false);
-    aboutDialog.setVisible(true);
+    // Navigation.navigate(Screen.ABOUT_HOME);
   }
 
   public void openCredits() {
-    creditDialog.setDisable(false);
-    creditDialog.setVisible(true);
+    Navigation.navigate(Screen.CREDIT_HOME);
   }
 
-  private void getAlerts(VBox alertsContainer) {
+  private void getAlerts() {
     alertsContainer.getChildren().clear();
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -77,7 +73,7 @@ public class HomeController {
     }
   }
 
-  private void loadServiceRequests(VBox serviceRequestsContainer) {
+  private void loadServiceRequests() {
     serviceRequestsContainer.getChildren().clear();
 
     DataBaseRepository dbRepo = new DataBaseRepository();

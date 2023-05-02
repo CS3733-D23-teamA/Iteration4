@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class LoginController {
@@ -20,13 +21,19 @@ public class LoginController {
   @FXML private Label loginMessageLabel;
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
-  @FXML private PasswordField userIDField;
+  @FXML private TextField userIDField;
   @FXML private AnchorPane imagePane;
+
+  @FXML private VBox loginContatiner;
+  @FXML private VBox swipeContainer;
 
   DataBaseRepository dataBaseRepository = DataBaseRepository.getInstance();
 
   @FXML
-  public void initialize() {}
+  public void initialize() {
+    loginContatiner.setVisible(false);
+    swipeContainer.setVisible(true);
+  }
 
   public void login() {
 
@@ -55,7 +62,7 @@ public class LoginController {
         Navigation.navigate(Screen.HOME);
       } else {
         loginMessageLabel.setText("User ID doesn't exist, swipe again");
-        userIDField.clear();
+        //        userIDField.clear();
       }
     } else {
       // Setting up User
@@ -79,6 +86,16 @@ public class LoginController {
         loginMessageLabel.setText("Your username does not exist.");
       }
     }
+  }
+
+  public void showLogin() {
+    swipeContainer.setVisible(false);
+    loginContatiner.setVisible(true);
+  }
+
+  public void showSwipe() {
+    swipeContainer.setVisible(true);
+    loginContatiner.setVisible(false);
   }
 
   public void exit() throws IOException {

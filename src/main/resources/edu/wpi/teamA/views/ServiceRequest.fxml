@@ -115,13 +115,13 @@
                      <children>
                         <TableView fx:id="flowerTable" minHeight="100.0">
                            <columns>
-                              <TableColumn fx:id="flowerIDCol" prefWidth="64.02249145507812" text="ID" />
-                              <TableColumn fx:id="flowerNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="flowerIDCol" maxWidth="50.0" minWidth="40.0" prefWidth="-1.0" text="ID" />
+                              <TableColumn fx:id="flowerNameCol" maxWidth="100.0" minWidth="90.0" prefWidth="-1.0" text="Name" />
                               <TableColumn fx:id="flowerRoomCol" prefWidth="68.01507568359375" text="Room" />
                               <TableColumn fx:id="flowerDateCol" prefWidth="71.46612548828125" text="Date" />
-                              <TableColumn fx:id="flowerTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="flowerTimeCol" maxWidth="80.0" minWidth="70.0" prefWidth="-1.0" text="Time" />
                               <TableColumn fx:id="flowerTypeCol" prefWidth="126.99951171875" text="Flower Type" />
-                              <TableColumn fx:id="flowerCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="flowerCommentCol" minWidth="0.0" prefWidth="130.0" text="Comment" />
                               <TableColumn fx:id="flowerEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
                               <TableColumn fx:id="flowerCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="flowerStatusCol" prefWidth="108.0830078125" text="Status" />
@@ -129,13 +129,13 @@
                         </TableView>
                         <TableView fx:id="roomTable" minHeight="100.0" prefHeight="234.0" prefWidth="1146.0">
                            <columns>
-                              <TableColumn fx:id="roomIDCol" prefWidth="64.02249145507812" text="ID" />
-                              <TableColumn fx:id="roomNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="roomIDCol" maxWidth="50.0" minWidth="40.0" prefWidth="-1.0" text="ID" />
+                              <TableColumn fx:id="roomNameCol" maxWidth="100.0" minWidth="90.0" prefWidth="-1.0" text="Name" />
                               <TableColumn fx:id="roomRoomCol" prefWidth="68.01507568359375" text="Room" />
                               <TableColumn fx:id="roomDateCol" prefWidth="71.46612548828125" text="Date" />
-                              <TableColumn fx:id="roomStartCol" prefWidth="110.50048828125" text="Start Time" />
-                              <TableColumn fx:id="roomEndCol" prefWidth="126.99951171875" text="End Time" />
-                              <TableColumn fx:id="roomCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="roomStartCol" maxWidth="80.0" minWidth="70.0" prefWidth="-1.0" text="Start " />
+                              <TableColumn fx:id="roomEndCol" maxWidth="80.0" minWidth="70.0" prefWidth="-1.0" text="End " />
+                              <TableColumn fx:id="roomCommentCol" minWidth="0.0" prefWidth="130.0" text="Comment" />
                               <TableColumn fx:id="roomEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
                               <TableColumn fx:id="roomCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="roomStatusCol" prefWidth="108.0830078125" text="Status" />
@@ -143,13 +143,13 @@
                         </TableView>
                         <TableView fx:id="mealTable" minHeight="100.0">
                            <columns>
-                              <TableColumn fx:id="mealIDCol" prefWidth="64.02249145507812" text="ID" />
-                              <TableColumn fx:id="mealNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="mealIDCol" maxWidth="50.0" minWidth="40.0" prefWidth="-1.0" text="ID" />
+                              <TableColumn fx:id="mealNameCol" maxWidth="100.0" minWidth="90.0" prefWidth="-1.0" text="Name" />
                               <TableColumn fx:id="mealRoomCol" prefWidth="68.01507568359375" text="Room" />
                               <TableColumn fx:id="mealDateCol" prefWidth="71.46612548828125" text="Date" />
-                              <TableColumn fx:id="mealTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="mealTimeCol" maxWidth="80.0" minWidth="70.0" prefWidth="-1.0" text="Time" />
                               <TableColumn fx:id="mealTypeCol" prefWidth="126.99951171875" text="Meal Items" />
-                              <TableColumn fx:id="mealCommentCol" minWidth="0.0" prefWidth="214.83282470703125" text="Comment" />
+                              <TableColumn fx:id="mealCommentCol" minWidth="0.0" prefWidth="130.0" text="Comment" />
                               <TableColumn fx:id="mealEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
                               <TableColumn fx:id="mealCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="mealStatusCol" prefWidth="108.0830078125" text="Status" />
@@ -157,13 +157,13 @@
                         </TableView>
                         <TableView fx:id="furnitureTable" minHeight="100.0">
                            <columns>
-                              <TableColumn fx:id="furnitureIDCol" prefWidth="64.02249145507812" text="ID" />
-                              <TableColumn fx:id="furnitureNameCol" prefWidth="131.48492431640625" text="Name" />
+                              <TableColumn fx:id="furnitureIDCol" maxWidth="50.0" minWidth="40.0" prefWidth="-1.0" text="ID" />
+                              <TableColumn fx:id="furnitureNameCol" maxWidth="100.0" minWidth="90.0" prefWidth="-1.0" text="Name" />
                               <TableColumn fx:id="furnitureRoomCol" prefWidth="68.01507568359375" text="Room" />
                               <TableColumn fx:id="furnitureDateCol" prefWidth="71.46612548828125" text="Date" />
-                              <TableColumn fx:id="furnitureTimeCol" prefWidth="110.50048828125" text="Time" />
+                              <TableColumn fx:id="furnitureTimeCol" maxWidth="80.0" minWidth="70.0" prefWidth="-1.0" text="Time" />
                               <TableColumn fx:id="furnitureTypeCol" prefWidth="204.66668701171875" text="Furniture Items" />
-                              <TableColumn fx:id="furnitureCommentCol" minWidth="0.0" prefWidth="138.0" text="Comment" />
+                              <TableColumn fx:id="furnitureCommentCol" minWidth="0.0" prefWidth="130.0" text="Comment" />
                               <TableColumn fx:id="furnitureEmployeeCol" prefWidth="125.5631103515625" text="Employee" />
                               <TableColumn fx:id="furnitureCreatorCol" prefWidth="117.1685791015625" text="Creator" />
                               <TableColumn fx:id="furnitureStatusCol" prefWidth="108.0830078125" text="Status" />

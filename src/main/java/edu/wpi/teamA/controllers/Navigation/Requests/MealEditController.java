@@ -19,14 +19,15 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
 
 public class MealEditController {
-  @FXML private StackPane infoDisplay;
-  @FXML private StackPane cartDisplay;
+  @FXML private AnchorPane infoDisplay;
+  @FXML private AnchorPane cartDisplay;
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   private final ServiceRequestEntity entity = App.getServiceRequestEntity();
 
@@ -50,11 +51,11 @@ public class MealEditController {
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
   @FXML private HBox statusBarHBox;
-  @FXML private Rectangle newStatusRect;
-  @FXML private Rectangle orderBeginStatusRect;
-  @FXML private Rectangle inPrepStatusRect;
-  @FXML private Rectangle mealPreppedStatusRect;
-  @FXML private Rectangle deliveredStatusRect;
+  @FXML private SVGPath newStatus;
+  @FXML private VBox assignedStatus;
+  @FXML private VBox inProgressStatus;
+  @FXML private VBox inDeliveryStatus;
+  @FXML private SVGPath doneStatus;
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -76,44 +77,44 @@ public class MealEditController {
   public void updateProgressBar() {
     if (MealSingleton.INSTANCE.getValue().getStatus().equals("new")) {
       System.out.println("new status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
 
-      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
-      inPrepStatusRect.setFill(Color.web("0x98aabc"));
-      mealPreppedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+      assignedStatus.setStyle("-fx-background-color: #98AABC");
+      inProgressStatus.setStyle("-fx-background-color: #98AABC");
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
 
-    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
+    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("assigned")) {
       System.out.println("in progress status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
 
-      inPrepStatusRect.setFill(Color.web("0x98aabc"));
-      mealPreppedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("in preparation")) {
+      inProgressStatus.setStyle("-fx-background-color: #98AABC");
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
+    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
       System.out.println("in preparation status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      inPrepStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
 
-      mealPreppedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("meal prepared")) {
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
+    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("in delivery")) {
       System.out.println("meal prepared");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      inPrepStatusRect.setFill(Color.web("0x012d5a"));
-      mealPreppedStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
+      inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
 
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
+      doneStatus.setFill(Color.web("0x98aabc"));
+    } else if (MealSingleton.INSTANCE.getValue().getStatus().equals("done")) {
       System.out.println("delivered status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      inPrepStatusRect.setFill(Color.web("0x012d5a"));
-      mealPreppedStatusRect.setFill(Color.web("0x012d5a"));
-      deliveredStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
+      inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
+      doneStatus.setFill(Color.web("0x012d5a"));
     }
   }
 
