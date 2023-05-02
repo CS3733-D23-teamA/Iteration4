@@ -96,11 +96,11 @@ public class LevelEntity {
     return getOrderedLevel(levelIndex);
   }
 
-  Boolean hasNext(Level level) {
-    return levelOrder.indexOf(level) < getTotalLevels() - 1;
+  Boolean hasNext() {
+    return levelIndex < levelOrder.size() - 1;
   }
 
-  Boolean hasPrev(Level level) {
-    return levelOrder.indexOf(level) > 0;
+  Boolean hasPrev() {
+    return levelIndex > 0;
   }
 }

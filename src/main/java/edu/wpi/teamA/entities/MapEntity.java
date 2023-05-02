@@ -597,8 +597,8 @@ public class MapEntity {
     return levels.getNext();
   }
 
-  public Boolean nextLevelExists(Level level) {
-    return levels.hasNext(level);
+  public Boolean nextLevelExists() {
+    return levels.hasNext();
   }
 
   /** @returns previous level from set level, returns given level if it's the first level */
@@ -606,8 +606,8 @@ public class MapEntity {
     return levels.getPrev();
   }
 
-  public Boolean prevLevelExists(Level level) {
-    return levels.hasPrev(level);
+  public Boolean prevLevelExists() {
+    return levels.hasPrev();
   }
 
   /** @returns first level in order */

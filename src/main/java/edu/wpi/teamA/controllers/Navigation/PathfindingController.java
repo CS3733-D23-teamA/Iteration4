@@ -208,14 +208,14 @@ public class PathfindingController {
    */
   private void setPaginator() {
     // set next to blue if next level exists
-    if (mapEntity.nextLevelExists(currentLevel)) {
+    if (mapEntity.nextLevelExists()) {
       nextLevel.setStyle("-fx-fill: #012D5A");
     } else { // else set next to grey
       nextLevel.setStyle("-fx-fill: #98AABC");
     }
 
     // set prev blue as we paginate next
-    if (mapEntity.prevLevelExists(currentLevel)) {
+    if (mapEntity.prevLevelExists()) {
       prevLevel.setStyle("-fx-fill: #012D5A");
     } else { // else set next to grey
       prevLevel.setStyle("-fx-fill: #98AABC");
