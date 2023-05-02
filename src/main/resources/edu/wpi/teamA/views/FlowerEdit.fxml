@@ -28,7 +28,7 @@
             <Insets />
          </BorderPane.margin>
          <children>
-            <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+            <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="statusBarHBox" alignment="CENTER" fillHeight="false" maxHeight="100.0" maxWidth="1000.0" spacing="40.0" style="-fx-border-color: bblue; -fx-border-radius: 70; -fx-border-width: 3; -fx-effect: dropshadow( gaussian , #012D5A , 0,0,0,1);">
                      <children>

@@ -588,7 +588,7 @@
                         <Insets top="50.0" />
                     </padding>
                 </VBox>
-                <MFXGenericDialog fx:id="confirmationDialog" visible="false">
+                <MFXGenericDialog fx:id="confirmationDialog">
                     <top>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: bblue;" text="Service Request Edit" textAlignment="CENTER" BorderPane.alignment="CENTER">
                             <font>
@@ -608,7 +608,7 @@
                                     </VBox.margin>
                                 </Text>
                                 <TextField fx:id="nameField" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="31.0" prefWidth="302.0" />
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comment" wrappingWidth="102.908935546875">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comment" wrappingWidth="157.908935546875">
                                     <font>
                                         <Font size="24.0" />
                                     </font>
