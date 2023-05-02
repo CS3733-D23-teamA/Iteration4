@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="700.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.CreditsController">
+    <top>
+        <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+              <StackPane alignment="TOP_LEFT">
+               <children>
+                  <VBox alignment="TOP_CENTER" spacing="20.0">
+                     <children>
+                        <Label fx:id="title" text="Credits" underline="true">
+                           <VBox.margin>
+                              <Insets top="-100.0" />
+                           </VBox.margin>
+                        </Label>
+                        <VBox alignment="TOP_CENTER" spacing="5.0">
+                           <children>
+                              <Label fx:id="aboutTeamMembers" text="           API's">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Jira Software" wrappingWidth="78.60009288787842" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GitHuib" wrappingWidth="44.20019054412842" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IntelliJ IDEA" wrappingWidth="67.40014171600342" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PostgreSQL" wrappingWidth="67.40014171600342" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IntelliJ IDEA" wrappingWidth="67.40014171600342" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JUnit4" wrappingWidth="39.40014135837555" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Scene Builder" wrappingWidth="78.60009288787842" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="       MaterialFX - UI Framework" wrappingWidth="185.80028784275055" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" spacing="10.0">
+                           <children>
+                              <Label fx:id="aboutTeamMembers1" text="           Image URL's" textAlignment="CENTER">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="50.0" />
+                                 </padding>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Label>
+                              <VBox fx:id="imageURLs" maxWidth="2000.0" style="-fx-max-width: 1000;" VBox.vgrow="NEVER">
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" />
+                                 </padding>
+                              </VBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="https://www.hcinnovationgroup.com/policy-value-based-care/article/13028910/at-brigham-and-womens-hospital-plunging-ahead-into-wearable-technology-and-care-redesign" wrappingWidth="700.9999159574509" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <StackPane.margin>
+                        <Insets />
+                     </StackPane.margin>
+                     <padding>
+                        <Insets top="100.0" />
+                     </padding>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </VBox>
+               </children>
+              </StackPane>
+         </content>
+      </ScrollPane>
+    </center>
+</BorderPane>

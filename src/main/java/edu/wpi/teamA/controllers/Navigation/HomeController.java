@@ -9,51 +9,43 @@ import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.awt.*;
 import java.time.LocalDate;
+import edu.wpi.teamA.navigation.Navigation;
+import edu.wpi.teamA.navigation.Screen;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javax.swing.text.html.ImageView;
 
 public class HomeController {
 
   @FXML private VBox alertsContainer;
-  @FXML private MFXGenericDialog aboutDialog;
-  @FXML private MFXGenericDialog creditDialog;
+  @FXML private ImageView imageCredits;
 
   @FXML private VBox serviceRequestsContainer;
 
   @FXML
   public void initialize() {
 
-    // aboutDialog.setDisable(true);
-    // creditDialog.setVisible(false);
+    List<String> alerts = getAlerts(); // Get your alerts here
 
-    // aboutDialog.setOnClose(
-    //    event -> {
-    //      aboutDialog.setDisable(true);
-    //      aboutDialog.setVisible(false);
-    //    });
-
-    // creditDialog.setOnClose(
-    //   event -> {
-    //     creditDialog.setDisable(true);
-    //     creditDialog.setVisible(false);
-    //    });
+    // Reverse the list to display in reverse chronological order
+    Collections.reverse(alerts);
 
     getAlerts(alertsContainer);
     loadServiceRequests(serviceRequestsContainer);
   }
 
   public void openAbout() {
-    aboutDialog.setDisable(false);
-    aboutDialog.setVisible(true);
+    Navigation.navigate(Screen.ABOUT_HOME);
   }
 
   public void openCredits() {
-    creditDialog.setDisable(false);
-    creditDialog.setVisible(true);
+    Navigation.navigate(Screen.ABOUT_CREDITPAGE);
   }
 
   private void getAlerts(VBox alertsContainer) {
