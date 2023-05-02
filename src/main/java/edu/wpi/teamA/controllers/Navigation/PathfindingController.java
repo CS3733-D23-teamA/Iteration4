@@ -296,19 +296,31 @@ public class PathfindingController {
   private void setTurnDirections() {
     turnDirections.getChildren().clear();
 
-    ImageView icon = new ImageView();
-    icon.setFitHeight(50);
-    icon.setFitWidth(50);
-    Label directions = new Label();
-    HBox turn = new HBox(15);
-    turn.setStyle(
-        "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
 
     // loop through array of directions
-    icon.setImage(App.getUp());
-    directions.setText("testing turn directions");
-    turn.getChildren().addAll(icon, directions);
-    turnDirections.getChildren().add(turn);
+    ArrayList<String> path = SearchSingleton.simplePathArray(secondNameToggle.isSelected());
+    for (int i = 0; i < path.size(); i++) {
+      ImageView icon = new ImageView();
+      icon.setFitHeight(50);
+      icon.setFitWidth(50);
+      Label directions = new Label();
+      HBox turn = new HBox(15);
+      turn.setStyle(
+              "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+      if (path.get(i).contains("up")) {
+        icon.setImage(App.getUp());
+      } else if (path.get(i).contains("down")) {
+        icon.setImage(App.getDown());
+      } else if (path.get(i).contains("left")) {
+        icon.setImage(App.getLeft());
+      } else {
+        icon.setImage(App.getRight());
+      }
+
+      directions.setText(path.get(i));
+      turn.getChildren().addAll(icon, directions);
+      turnDirections.getChildren().add(turn);
+    }
   }
 
   /** Helper method for submit sends text directions to the user */
