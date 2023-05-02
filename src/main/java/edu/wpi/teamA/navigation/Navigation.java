@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 public class Navigation {
   private static IdleChecker idleMonitor =
-      new IdleChecker(Duration.seconds(60), () -> Navigation.navigate(Screen.SCREEN_SAVER), true);
+      new IdleChecker(Duration.seconds(120), () -> Navigation.navigate(Screen.SCREEN_SAVER), true);
 
   public static void navigate(final Screen screen) {
     final String filename = screen.getFilename();
