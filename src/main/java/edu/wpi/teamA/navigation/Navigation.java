@@ -9,7 +9,7 @@ import javafx.util.Duration;
 
 public class Navigation {
   private static IdleChecker idleMonitor =
-      new IdleChecker(Duration.seconds(60), () -> Navigation.navigate(Screen.SCREEN_SAVER), true);
+      new IdleChecker(Duration.seconds(10), () -> Navigation.navigate(Screen.SCREEN_SAVER), true);
 
   public static void navigate(final Screen screen) {
     final String filename = screen.getFilename();
@@ -23,8 +23,12 @@ public class Navigation {
       App.getPrimaryStage().setTitle(String.valueOf(screen));
 
       App.getRootPane().setCenter(loader.load());
-      if (!screen.getFilename().equals("views/ScreenSaver.fxml")) {
+      System.out.println(screen.getFilename());
+      if (screen.getFilename().equals("views/ScreenSaver.fxml")) {
+        idleMonitor.stopMonitoring();
+      } else {
         idleMonitor.register(App.getPrimaryStage().getScene(), Event.ANY);
+        idleMonitor.startMonitoring();
       }
     } catch (IOException | NullPointerException e) {
       e.printStackTrace();

@@ -2,148 +2,473 @@ package edu.wpi.teamA.controllers.Navigation.Requests;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.ConferenceRoomResRequest;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.database.Singletons.CRRRSingleton;
+import edu.wpi.teamA.database.Singletons.CalendarSingleton;
+import edu.wpi.teamA.database.Singletons.DateSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 public class CRRequestEditController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
-  @FXML private MFXButton updateButton;
-  @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox<String> roomCombo;
-  @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox<String> endCombo;
-  @FXML private MFXComboBox<String> startCombo;
-  @FXML private MFXTextField commentField;
+  @FXML DatePicker dp;
+  @FXML Label dl;
+  @FXML TextField nameField;
+  @FXML TextArea commentField;
+  @FXML
+  Rectangle r1c11,
+      r1c12,
+      r1c13,
+      r1c14,
+      r1c21,
+      r1c22,
+      r1c23,
+      r1c24,
+      r1c31,
+      r1c32,
+      r1c33,
+      r1c34,
+      r1c41,
+      r1c42,
+      r1c43,
+      r1c44,
+      r1c51,
+      r1c52,
+      r1c53,
+      r1c54,
+      r1c61,
+      r1c62,
+      r1c63,
+      r1c64;
+  @FXML
+  Rectangle r2c11,
+      r2c12,
+      r2c13,
+      r2c14,
+      r2c21,
+      r2c22,
+      r2c23,
+      r2c24,
+      r2c31,
+      r2c32,
+      r2c33,
+      r2c34,
+      r2c41,
+      r2c42,
+      r2c43,
+      r2c44,
+      r2c51,
+      r2c52,
+      r2c53,
+      r2c54,
+      r2c61,
+      r2c62,
+      r2c63,
+      r2c64;
+  @FXML
+  Rectangle r3c11,
+      r3c12,
+      r3c13,
+      r3c14,
+      r3c21,
+      r3c22,
+      r3c23,
+      r3c24,
+      r3c31,
+      r3c32,
+      r3c33,
+      r3c34,
+      r3c41,
+      r3c42,
+      r3c43,
+      r3c44,
+      r3c51,
+      r3c52,
+      r3c53,
+      r3c54,
+      r3c61,
+      r3c62,
+      r3c63,
+      r3c64;
+  @FXML
+  Rectangle r4c11,
+      r4c12,
+      r4c13,
+      r4c14,
+      r4c21,
+      r4c22,
+      r4c23,
+      r4c24,
+      r4c31,
+      r4c32,
+      r4c33,
+      r4c34,
+      r4c41,
+      r4c42,
+      r4c43,
+      r4c44,
+      r4c51,
+      r4c52,
+      r4c53,
+      r4c54,
+      r4c61,
+      r4c62,
+      r4c63,
+      r4c64;
+  @FXML
+  Rectangle r5c11,
+      r5c12,
+      r5c13,
+      r5c14,
+      r5c21,
+      r5c22,
+      r5c23,
+      r5c24,
+      r5c31,
+      r5c32,
+      r5c33,
+      r5c34,
+      r5c41,
+      r5c42,
+      r5c43,
+      r5c44,
+      r5c51,
+      r5c52,
+      r5c53,
+      r5c54,
+      r5c61,
+      r5c62,
+      r5c63,
+      r5c64;
+  @FXML
+  Rectangle r6c11,
+      r6c12,
+      r6c13,
+      r6c14,
+      r6c21,
+      r6c22,
+      r6c23,
+      r6c24,
+      r6c31,
+      r6c32,
+      r6c33,
+      r6c34,
+      r6c41,
+      r6c42,
+      r6c43,
+      r6c44,
+      r6c51,
+      r6c52,
+      r6c53,
+      r6c54,
+      r6c61,
+      r6c62,
+      r6c63,
+      r6c64;
+  @FXML
+  Rectangle r7c11,
+      r7c12,
+      r7c13,
+      r7c14,
+      r7c21,
+      r7c22,
+      r7c23,
+      r7c24,
+      r7c31,
+      r7c32,
+      r7c33,
+      r7c34,
+      r7c41,
+      r7c42,
+      r7c43,
+      r7c44,
+      r7c51,
+      r7c52,
+      r7c53,
+      r7c54,
+      r7c61,
+      r7c62,
+      r7c63,
+      r7c64;
 
-  public void initialize() {
-    updateButton.setDisable(false);
-    populateCombos();
-    populateFields();
-  }
-
-  public void populateCombos() {
-    startCombo
-        .getItems()
-        .addAll(
-            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-            "19:00", "20:00", "21:00", "22:00", "23:00");
-    endCombo
-        .getItems()
-        .addAll(
-            "00:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00",
-            "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00",
-            "19:00", "20:00", "21:00", "22:00", "23:00");
-
-    ArrayList<String> allRooms = new ArrayList<>();
-    allRooms.addAll(databaseRepo.filterLocType("CONF"));
-    Collections.sort(allRooms);
-    roomCombo.getItems().addAll(allRooms);
-  }
-
-  public void populateFields() {
-    nameField.setText(CRRRSingleton.INSTANCE.getValue().getName());
-    commentField.setText(CRRRSingleton.INSTANCE.getValue().getComment());
-    roomCombo.setText(CRRRSingleton.INSTANCE.getValue().getRoom());
-    endCombo.setText(convertInt(CRRRSingleton.INSTANCE.getValue().getEndTime()));
-    datePicker.setValue(CRRRSingleton.INSTANCE.getValue().getDate().toLocalDate());
-    startCombo.setText(convertInt(CRRRSingleton.INSTANCE.getValue().getStartTime()));
-  }
-
-  public void back() {
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
+  ArrayList<Rectangle> blocks;
+  @FXML private MFXGenericDialog confirmationDialog;
+  @FXML private MFXButton submitButton;
 
   @FXML
-  public void validateButton() {
-    if (nameField.getText().isEmpty()
-        || datePicker.getValue() == null
-        || checkAvailible(
-            Date.valueOf(datePicker.getValue()),
-            startCombo.getSelectionModel().getSelectedItem(),
-            endCombo.getSelectionModel().getSelectedItem(),
-            roomCombo.getSelectionModel().getSelectedItem())) {
-      updateButton.setDisable(true);
-    } else {
-      updateButton.setDisable(false);
+  public void initialize() {
+    LocalDate ld = LocalDate.now();
+    Date d = Date.valueOf(ld);
+    DateSingleton.INSTANCE.setValue(d);
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
+    setColors();
+  }
+
+  public void setColors() {
+    blocks = allBlocks();
+    for (int count = 0; count < 168; count++) {
+      blocks.get(count).setDisable(false);
+      blocks.get(count).setFill(Paint.valueOf("#FFFFFF"));
     }
-  }
-
-  public void edit() {
-    ConferenceRoomResRequest crrr =
-        new ConferenceRoomResRequest(
-            CRRRSingleton.INSTANCE.getValue().getId(),
-            nameField.getText(),
-            roomCombo.getText(),
-            Date.valueOf(datePicker.getValue()),
-            convertTime(startCombo.getText()),
-            convertTime(endCombo.getText()),
-            commentField.getText(),
-            CRRRSingleton.INSTANCE.getValue().getEmployee(),
-            CRRRSingleton.INSTANCE.getValue().getStatus(),
-            CRRRSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.updateCRRR(crrr);
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(3);
-    }
-    num = Integer.parseInt(newString);
-    return num;
-  }
-
-  public String convertInt(int num) {
-    String time = "";
-
-    if (num < 100) {
-      time += "00";
-    } else {
-      time += (num / 100);
-    }
-    time += ":00";
-    return time;
-  }
-
-  public void delete() {
-    databaseRepo.deleteCRRR(CRRRSingleton.INSTANCE.getValue());
-    Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public boolean checkAvailible(Date date, String st, String et, String room) {
-    boolean taken = false;
-    int startInt = convertTime(st);
-    int endInt = convertTime(et);
-    ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(date);
-    for (ConferenceRoomResRequest cr : rr) {
-      if (cr.getRoom().equals(room)) {
-        if ((startInt < cr.getStartTime() && endInt > cr.getStartTime())
-            || (startInt < cr.getEndTime() && endInt > cr.getEndTime())
-            || (startInt >= cr.getStartTime() && endInt <= cr.getEndTime())) {
-          taken = true;
+    int time = 0, rNum = 0, st, et, i, e, tFactor;
+    String confName;
+    Date d = DateSingleton.INSTANCE.getValue();
+    dl.setText(d.toString());
+    ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(d);
+    while (rNum < rr.size()) {
+      i = 0;
+      e = 0;
+      confName = rr.get(rNum).getRoom();
+      st = rr.get(rNum).getStartTime();
+      et = rr.get(rNum).getEndTime();
+      if (confName.equals("Abrams Conference Room")) {
+        i = 0;
+      } else if (confName.equals("Anesthesia Conf Floor L1")) {
+        i = 24;
+      } else if (confName.equals("Carrie M. Hall Conference Center Floor 2")) {
+        i = 48;
+      } else if (confName.equals("Medical Records Conference Room Floor L1")) {
+        i = 72;
+      } else if (confName.equals("Shapiro Board Room MapNode 20 Floor 1")) {
+        i = 96;
+      } else if (confName.equals("BTM Conference Center")) {
+        i = 120;
+      } else if (confName.equals("Duncan Reid Conference Room")) {
+        i = 144;
+      }
+      e = i + 24;
+      tFactor = 0;
+      while (i < e) {
+        time = 100 * tFactor;
+        if (st <= time && et > time) {
+          blocks.get(i).setFill(Paint.valueOf("#FF0000"));
+          blocks.get(i).setDisable(true);
+        } else if (!blocks.get(i).isDisable()) {
+          blocks.get(i).setFill(Paint.valueOf("#FFFFFF"));
         }
+        i++;
+        tFactor++;
+      }
+      rNum++;
+    }
+    setEditColors();
+  }
+
+  public void changeDate() {
+    DateSingleton.INSTANCE.setValue(Date.valueOf(dp.getValue()));
+    setColors();
+  }
+
+  public ArrayList<Rectangle> allBlocks() {
+    ArrayList<Rectangle> temp = new ArrayList<>();
+    Collections.addAll(
+        temp, r1c11, r1c12, r1c13, r1c14, r1c21, r1c22, r1c23, r1c24, r1c31, r1c32, r1c33, r1c34,
+        r1c41, r1c42, r1c43, r1c44, r1c51, r1c52, r1c53, r1c54, r1c61, r1c62, r1c63, r1c64, r2c11,
+        r2c12, r2c13, r2c14, r2c21, r2c22, r2c23, r2c24, r2c31, r2c32, r2c33, r2c34, r2c41, r2c42,
+        r2c43, r2c44, r2c51, r2c52, r2c53, r2c54, r2c61, r2c62, r2c63, r2c64, r3c11, r3c12, r3c13,
+        r3c14, r3c21, r3c22, r3c23, r3c24, r3c31, r3c32, r3c33, r3c34, r3c41, r3c42, r3c43, r3c44,
+        r3c51, r3c52, r3c53, r3c54, r3c61, r3c62, r3c63, r3c64, r4c11, r4c12, r4c13, r4c14, r4c21,
+        r4c22, r4c23, r4c24, r4c31, r4c32, r4c33, r4c34, r4c41, r4c42, r4c43, r4c44, r4c51, r4c52,
+        r4c53, r4c54, r4c61, r4c62, r4c63, r4c64, r5c11, r5c12, r5c13, r5c14, r5c21, r5c22, r5c23,
+        r5c24, r5c31, r5c32, r5c33, r5c34, r5c41, r5c42, r5c43, r5c44, r5c51, r5c52, r5c53, r5c54,
+        r5c61, r5c62, r5c63, r5c64, r6c11, r6c12, r6c13, r6c14, r6c21, r6c22, r6c23, r6c24, r6c31,
+        r6c32, r6c33, r6c34, r6c41, r6c42, r6c43, r6c44, r6c51, r6c52, r6c53, r6c54, r6c61, r6c62,
+        r6c63, r6c64, r7c11, r7c12, r7c13, r7c14, r7c21, r7c22, r7c23, r7c24, r7c31, r7c32, r7c33,
+        r7c34, r7c41, r7c42, r7c43, r7c44, r7c51, r7c52, r7c53, r7c54, r7c61, r7c62, r7c63, r7c64);
+    return temp;
+  }
+
+  public void selectSquare(MouseEvent event) {
+    Rectangle r = (Rectangle) event.getSource();
+    ArrayList<Rectangle> test = CalendarSingleton.INSTANCE.getValue();
+    if (test.contains(r)) {
+      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dl.getText()));
+      popUp();
+    } else if (checkConnected(r, test)) {
+      r.setFill(Paint.valueOf("00ff00"));
+      CalendarSingleton.INSTANCE.addValue(r);
+    } else {
+      r.setFill(Paint.valueOf("00ff00"));
+      for (Rectangle or : CalendarSingleton.INSTANCE.getValue()) {
+        or.setFill(Paint.valueOf("#FFFFFF"));
+      }
+      CalendarSingleton.INSTANCE.setNull();
+      CalendarSingleton.INSTANCE.addValue(r);
+    }
+  }
+
+  public boolean checkConnected(Rectangle r, ArrayList<Rectangle> rs) {
+    if (rs.size() == 0) {
+      return false;
+    }
+    Rectangle first = rs.get(0);
+    Rectangle last = rs.get((rs.size() - 1));
+    if (r.getId().charAt(1) != first.getId().charAt(1)) {
+      return false;
+    }
+    if (r.getId().charAt(3) == first.getId().charAt(3)) {
+      int rlast = (int) r.getId().charAt(4);
+      int flast = (int) first.getId().charAt(4);
+      if ((rlast + 1) == flast) {
+        return true;
       }
     }
-    if (startInt >= endInt) {
-      taken = true;
+    if (r.getId().charAt(3) == last.getId().charAt(3)) {
+      int rlast = (int) r.getId().charAt(4);
+      int llast = (int) last.getId().charAt(4);
+      if ((rlast - 1) == llast) {
+        return true;
+      }
     }
-    return taken;
+    if (r.getId().charAt(3) != first.getId().charAt(3)) {
+      int rmid = (int) r.getId().charAt(3); // 1
+      int fmid = (int) first.getId().charAt(3); // 2
+      int rlast = (int) r.getId().charAt(4); // 4
+      int flast = (int) first.getId().charAt(4); // 1
+      if ((rlast == 52) && (flast == 49) && ((rmid + 1) == fmid)) {
+        return true;
+      }
+    }
+    if (r.getId().charAt(3) != last.getId().charAt(3)) {
+      int rmid = (int) r.getId().charAt(3);
+      int lmid = (int) last.getId().charAt(3);
+      int rlast = (int) r.getId().charAt(4);
+      int llast = (int) last.getId().charAt(4);
+
+      if ((rlast == 49) && (llast == 52) && ((rmid - 1) == lmid)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void validateButton() {
+    if (nameField.getText().equals("")) {
+      submitButton.setDisable(true);
+    } else {
+      submitButton.setDisable(false);
+    }
+  }
+
+  public void submit() {
+    ArrayList<Rectangle> list = CalendarSingleton.INSTANCE.getValue();
+    try {
+      ConferenceRoomResRequest crrr =
+          new ConferenceRoomResRequest(
+              CRRRSingleton.INSTANCE.getValue().getId(),
+              nameField.getText(),
+              rowConvert(list.get(0).getId().charAt(1)),
+              CalendarSingleton.INSTANCE.getDate(),
+              extractTime(list.get(0).getId()),
+              extractTime((list.get(list.size() - 1).getId())) + 100,
+              commentField.getText(),
+                  CRRRSingleton.INSTANCE.getValue().getEmployee(),
+                  CRRRSingleton.INSTANCE.getValue().getStatus(),
+              AccountSingleton.INSTANCE.getValue().getUserName());
+      databaseRepo.updateCRRR(crrr);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    setColors();
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
+    Navigation.navigate(Screen.SERVICE_REQUEST);
+  }
+
+  public void cancel() {
+    confirmationDialog.setVisible(false);
+    confirmationDialog.setDisable(true);
+    confirmationDialog.setOnClose(
+        event -> {
+          confirmationDialog.setVisible(false);
+          confirmationDialog.setDisable(true);
+        });
+  }
+
+  public String rowConvert(char x) {
+    String name = null;
+    if (x == '1') {
+      name = "Abrams Conference Room";
+    } else if (x == '2') {
+      name = "Anesthesia Conf Floor L1";
+    } else if (x == '3') {
+      name = "Carrie M. Hall Conference Center Floor 2";
+    } else if (x == '4') {
+      name = "Medical Records Conference Room Floor L1";
+    } else if (x == '5') {
+      name = "Shapiro Board Room MapNode 20 Floor 1";
+    } else if (x == '6') {
+      name = "BTM Conference Center";
+    } else if (x == '7') {
+      name = "Duncan Reid Conference Room";
+    }
+    return name;
+  }
+
+  public int extractTime(String x) {
+    int num1 = (int) x.charAt(3);
+    int num2 = (int) x.charAt(4);
+    return ((((num1 - 49) * 4) + (num2 - 49)) * 100);
+  }
+
+  public void setEditColors() {
+    ConferenceRoomResRequest edit = CRRRSingleton.INSTANCE.getValue();
+    String confName = edit.getName();
+    int timeDif = (edit.getEndTime() - edit.getStartTime()) / 100;
+    int i = 0;
+    if (confName.equals("Abrams Conference Room")) {
+      i = 0;
+    } else if (confName.equals("Anesthesia Conf Floor L1")) {
+      i = 24;
+    } else if (confName.equals("Carrie M. Hall Conference Center Floor 2")) {
+      i = 48;
+    } else if (confName.equals("Medical Records Conference Room Floor L1")) {
+      i = 72;
+    } else if (confName.equals("Shapiro Board Room MapNode 20 Floor 1")) {
+      i = 96;
+    } else if (confName.equals("BTM Conference Center")) {
+      i = 120;
+    } else if (confName.equals("Duncan Reid Conference Room")) {
+      i = 144;
+    }
+    int last = i + timeDif;
+    for (int x = i; x < last; x++) {
+      blocks.get(x).setDisable(false);
+      blocks.get(x).setFill(Paint.valueOf("00ff00"));
+      CalendarSingleton.INSTANCE.addValue(blocks.get(x));
+    }
+  }
+
+  public void popUp() {
+    confirmationDialog.setVisible(true);
+    confirmationDialog.setDisable(false);
+    submitButton.setDisable(true);
+    nameField.setText(CRRRSingleton.INSTANCE.getValue().getName());
+    commentField.setText(CRRRSingleton.INSTANCE.getValue().getComment());
   }
 }

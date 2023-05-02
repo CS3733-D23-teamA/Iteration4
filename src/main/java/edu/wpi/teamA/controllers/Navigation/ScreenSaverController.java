@@ -3,7 +3,6 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +26,11 @@ import lombok.SneakyThrows;
 
 public class ScreenSaverController {
   Random rand = new Random();
-  @FXML private Image mapImage;
-  @FXML private ImageView iv = new ImageView(mapImage);
+  @FXML private ImageView iv = new ImageView();
   @FXML private Circle circle;
   @FXML private Rectangle paddle;
   @FXML private Rectangle bottomZone;
-  @FXML private MFXButton startButton;
   @FXML private AnchorPane scene;
-  @FXML private Rectangle rightPane, leftPane;
   Robot robot = new Robot();
   ArrayList<Rectangle> bricks = new ArrayList<>();
   ArrayList<Rectangle> bricksTest = new ArrayList<>();
@@ -196,8 +192,9 @@ public class ScreenSaverController {
               }));
 
   public void initialize() {
+    Image image = App.getMapL1();
+    iv.setImage(image);
     hideBricks();
-    mapImage = App.getMapL1();
     brickTimeline.setCycleCount(Animation.INDEFINITE);
     timeline.setCycleCount(Animation.INDEFINITE);
   }
@@ -246,11 +243,9 @@ public class ScreenSaverController {
       boolean topBorder = circle.getCenterY() <= (brick.getY() + circle.getRadius());
 
       if (rightBorder || leftBorder) {
-        System.out.println("lr");
         deltaX *= -1;
       }
       if (bottomBorder || topBorder) {
-        System.out.println("tb");
         deltaY *= -1;
       }
 
