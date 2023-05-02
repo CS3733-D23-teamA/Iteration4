@@ -23,17 +23,23 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-            <HBox fx:id="statusBarHBox" alignment="CENTER" maxHeight="-Infinity" prefHeight="100.0" prefWidth="200.0" StackPane.alignment="TOP_CENTER">
+            <HBox fx:id="statusBarHBox" alignment="CENTER" maxHeight="-Infinity" StackPane.alignment="TOP_CENTER">
                <children>
-                  <Rectangle fx:id="newStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#012d5a" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-                  <Rectangle fx:id="orderBeginStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-                  <Rectangle fx:id="pickFlowersStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-                  <Rectangle fx:id="flowersReadyStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-                  <Rectangle fx:id="deliveredStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
+                  <Rectangle fx:id="newStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#012d5a" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Rectangle>
+                  <Rectangle fx:id="orderBeginStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" HBox.hgrow="ALWAYS" />
+                  <Rectangle fx:id="pickFlowersStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" HBox.hgrow="ALWAYS" />
+                  <Rectangle fx:id="flowersReadyStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" HBox.hgrow="ALWAYS" />
+                  <Rectangle fx:id="deliveredStatusRect" arcHeight="5.0" arcWidth="5.0" fill="#98aabc" height="50.0" stroke="BLACK" strokeType="INSIDE" width="200.0" HBox.hgrow="ALWAYS" />
                </children>
                <StackPane.margin>
                   <Insets top="20.0" />
                </StackPane.margin>
+               <padding>
+                  <Insets left="50.0" right="50.0" />
+               </padding>
             </HBox>
             <StackPane fx:id="cartDisplay" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="-Infinity" prefHeight="600.0" prefWidth="1248.0" translateY="150.0" StackPane.alignment="TOP_CENTER">
                <children>
