@@ -87,10 +87,10 @@ public class Dijkstra extends Search {
         }
         otherGNode = graph.getGraphNode(otherNodeID);
         int gCost =
-                currentNode.getgCost()
-                        + (int)
-                        Math.hypot(
-                                currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+            currentNode.getgCost()
+                + (int)
+                    Math.hypot(
+                        currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
         if (accessibilityCheck(otherNodeID)) {
           if (!otherGNode.isVisited()) {
 
@@ -130,5 +130,4 @@ public class Dijkstra extends Search {
 
     return path;
   }
-
 }

@@ -114,6 +114,7 @@ public class PathfindingController {
     searchOptions.add("A*");
     searchOptions.add("Breadth-First Search");
     searchOptions.add("Depth-First Search");
+    searchOptions.add("Dijkstra");
 
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(locationOptions));

@@ -87,14 +87,14 @@ public class AStar extends Search {
         }
         otherGNode = graph.getGraphNode(otherNodeID);
         int gCost =
-                currentNode.getgCost()
-                        + (int)
-                        Math.hypot(
-                                currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+            currentNode.getgCost()
+                + (int)
+                    Math.hypot(
+                        currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
         if (accessibilityCheck(otherNodeID)) {
           if (!otherGNode.isVisited()) {
             int hCost =
-                    (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
+                (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
             if (otherGNode.getPrev().getNodeID() == otherNodeID) {
               otherGNode.setgCost(gCost);
               otherGNode.sethCost(hCost);

@@ -41,6 +41,9 @@ public class SearchSingleton {
       case "A*":
         setSearchAlgorithm(SearchAlgorithm.ASTAR);
         break;
+      case "Dijkstra":
+        setSearchAlgorithm(SearchAlgorithm.DIJKSTRA);
+        break;
     }
   }
 
@@ -61,6 +64,8 @@ public class SearchSingleton {
       searchEntity = new BFS(startID, endID, accessiblity);
     } else if (getSearchAlgorithm() == SearchAlgorithm.DFS) {
       searchEntity = new DFS(startID, endID, accessiblity);
+    } else if (getSearchAlgorithm() == SearchAlgorithm.DIJKSTRA) {
+      searchEntity = new Dijkstra(startID, endID, accessiblity);
     } else {
       searchEntity = new AStar(startID, endID, accessiblity);
     }
