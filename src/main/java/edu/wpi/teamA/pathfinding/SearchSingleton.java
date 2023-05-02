@@ -139,9 +139,17 @@ public class SearchSingleton {
         String newDir = getDirection(prevNode, currNode);
 
         if (newDir.equals("u")) {
-          simplePath.add("Go up to floor " + currNode.getFloor());
+          if (mapEd.getLocationName(currID, second).getNodeType().equals("ELEV")) {
+            simplePath.add("Go up the elevator to floor " + currNode.getFloor());
+          } else {
+            simplePath.add("Go up the stairs to floor " + currNode.getFloor());
+          }
         } else if (newDir.equals("d")) {
-          simplePath.add("Go down to floor " + currNode.getFloor());
+          if (mapEd.getLocationName(currID, second).getNodeType().equals("ELEV")) {
+            simplePath.add("Go down the elevator to floor " + currNode.getFloor());
+          } else {
+            simplePath.add("Go down the stairs to floor " + currNode.getFloor());
+          }
         } else {
 
           String turn = getTurn(currDir, newDir);
