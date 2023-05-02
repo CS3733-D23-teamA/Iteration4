@@ -382,8 +382,8 @@ public class CRRequestEditController {
               extractTime(list.get(0).getId()),
               extractTime((list.get(list.size() - 1).getId())) + 100,
               commentField.getText(),
-                  CRRRSingleton.INSTANCE.getValue().getEmployee(),
-                  CRRRSingleton.INSTANCE.getValue().getStatus(),
+              CRRRSingleton.INSTANCE.getValue().getEmployee(),
+              CRRRSingleton.INSTANCE.getValue().getStatus(),
               AccountSingleton.INSTANCE.getValue().getUserName());
       databaseRepo.updateCRRR(crrr);
     } catch (Exception e) {
