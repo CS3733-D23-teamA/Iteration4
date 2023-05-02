@@ -21,9 +21,7 @@ public class Navigation {
 
       // sets stage title to title of screen
       App.getPrimaryStage().setTitle(String.valueOf(screen));
-
       App.getRootPane().setCenter(loader.load());
-      System.out.println(screen.getFilename());
       if (screen.getFilename().equals("views/ScreenSaver.fxml")) {
         idleMonitor.stopMonitoring();
       } else {
