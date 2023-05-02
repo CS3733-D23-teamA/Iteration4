@@ -296,7 +296,6 @@ public class PathfindingController {
   private void setTurnDirections() {
     turnDirections.getChildren().clear();
 
-
     // loop through array of directions
     ArrayList<String> path = SearchSingleton.simplePathArray(secondNameToggle.isSelected());
     for (int i = 0; i < path.size(); i++) {
@@ -306,7 +305,7 @@ public class PathfindingController {
       Label directions = new Label();
       HBox turn = new HBox(15);
       turn.setStyle(
-              "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+          "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
       if (path.get(i).contains("up")) {
         icon.setImage(App.getUp());
       } else if (path.get(i).contains("down")) {
@@ -318,6 +317,7 @@ public class PathfindingController {
       }
 
       directions.setText(path.get(i));
+      directions.setWrapText(true);
       turn.getChildren().addAll(icon, directions);
       turnDirections.getChildren().add(turn);
     }
