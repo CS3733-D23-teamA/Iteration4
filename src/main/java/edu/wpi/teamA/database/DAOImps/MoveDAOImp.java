@@ -244,11 +244,9 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       if (!move.getDate().isAfter(App.getCurrentDate()) // if move is before current date
           && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
           && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))) {
-        System.out.println("move returned");
         return move;
       }
     }
-    System.out.println("move returned null");
     return null;
   }
 
