@@ -19,14 +19,15 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class FurnitureEditController {
-  @FXML private StackPane infoDisplay;
-  @FXML private StackPane cartDisplay;
+  @FXML private AnchorPane infoDisplay;
+  @FXML private AnchorPane cartDisplay;
   private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
   private final ServiceRequestEntity entity = App.getServiceRequestEntity();
 
