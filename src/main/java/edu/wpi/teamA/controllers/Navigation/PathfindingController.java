@@ -487,7 +487,8 @@ public class PathfindingController {
 
     PathTransition animation = new PathTransition();
     animation.setPath(path);
-    animation.setDuration(Duration.millis(1000));
+    double distance = Math.hypot(endX - startX, endY - startY);
+    animation.setDuration(Duration.millis(distance * 40));
     animation.setNode(pathDashedLine);
     animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
     animation.setCycleCount(Timeline.INDEFINITE);
