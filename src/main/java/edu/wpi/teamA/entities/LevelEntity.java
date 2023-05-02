@@ -13,6 +13,7 @@ public class LevelEntity {
 
   /** Level entity sets a default level order corresponding to the floor maps */
   void setOrder() {
+    levelIndex = 0;
     levelOrder = new ArrayList<Level>();
     levelOrder.add(Level.LOWERLEVELL1);
     levelOrder.add(Level.LOWERLEVELL2);

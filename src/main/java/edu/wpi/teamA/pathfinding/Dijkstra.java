@@ -3,13 +3,13 @@ package edu.wpi.teamA.pathfinding;
 import edu.wpi.teamA.database.ORMclasses.Edge;
 import java.util.ArrayList;
 
-public class AStar extends Search {
+public class Dijkstra extends Search {
 
-  public AStar(int startID, int endID) {
+  public Dijkstra(int startID, int endID) {
     this(startID, endID, false);
   }
 
-  public AStar(int startID, int endID, boolean accessiblitySetting) {
+  public Dijkstra(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
@@ -17,7 +17,7 @@ public class AStar extends Search {
     setPath();
   }
 
-  public AStar(Graph graph, int startID, int endID) {
+  public Dijkstra(Graph graph, int startID, int endID) {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
@@ -54,6 +54,7 @@ public class AStar extends Search {
    */
   protected ArrayList<Integer> setPath() {
     ArrayList<Integer> queue = new ArrayList<>();
+
     ArrayList<Integer> nodesToReset = new ArrayList<>();
 
     nodesToReset.add(startID);
@@ -70,7 +71,6 @@ public class AStar extends Search {
 
     // currentNode info
     currentNode.setgCost(0);
-    currentNode.sethCost((int) (Math.hypot(endX - currentX, endX - currentX)));
 
     while (currentNode.getNodeID() != endID) {
       for (int i = 0; i < currentNode.edgeCount(); i++) {
@@ -93,20 +93,14 @@ public class AStar extends Search {
                         currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
         if (accessibilityCheck(otherNodeID)) {
           if (!otherGNode.isVisited()) {
-            int hCost =
-                (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
+
             if (otherGNode.getPrev().getNodeID() == otherNodeID) {
               otherGNode.setgCost(gCost);
-              otherGNode.sethCost(hCost);
+
               otherGNode.setPrev(currentNode);
-              insertIntoPQ(queue, otherGNode); // Not implemented yet
+              queue.add(otherNodeID);
+              otherGNode.setVisited(true);
               nodesToReset.add(currentNode.getNodeID());
-            } else if (otherGNode.getfCost() > (gCost + hCost)) {
-              removeFromPQ(queue, otherNodeID);
-              otherGNode.setgCost(gCost);
-              otherGNode.sethCost(hCost);
-              otherGNode.setPrev(currentNode);
-              insertIntoPQ(queue, otherGNode); // Not implemented yet
             }
           } else {
             if (gCost < otherGNode.getgCost()) {
@@ -135,29 +129,5 @@ public class AStar extends Search {
     this.path = path;
 
     return path;
-  }
-
-  private void insertIntoPQ(ArrayList<Integer> pQ, GraphNode node) {
-    boolean isAdded = false;
-    for (int i = 0; i < pQ.size(); i++) {
-      if (graph.getGraphNode(pQ.get(i)).getfCost() > node.getfCost()) {
-        pQ.add(i, node.getNodeID());
-        isAdded = true;
-        break;
-      }
-    }
-    if (!isAdded) {
-      pQ.add(node.getNodeID());
-    }
-  }
-
-  private void removeFromPQ(ArrayList<Integer> pQ, int nodeID) {
-
-    for (int i = 0; i < pQ.size(); i++) {
-      if (pQ.get(i) == nodeID) {
-        pQ.remove(i);
-        break;
-      }
-    }
   }
 }

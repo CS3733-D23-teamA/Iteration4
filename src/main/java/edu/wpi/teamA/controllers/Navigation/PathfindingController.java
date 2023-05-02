@@ -114,6 +114,7 @@ public class PathfindingController {
     searchOptions.add("A*");
     searchOptions.add("Breadth-First Search");
     searchOptions.add("Depth-First Search");
+    searchOptions.add("Dijkstra");
 
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(locationOptions));
@@ -283,7 +284,7 @@ public class PathfindingController {
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
     if (setTurnDirections()) {
-
+      isSubmitted = true;
       // Sets the Order for paginator
       mapEntity.setLevelOrder(SearchSingleton.getPath());
       levelButtonIndicator(SearchSingleton.getPath());
@@ -297,7 +298,43 @@ public class PathfindingController {
           1);
 
       drawPath();
+    } else {
+      isSubmitted = false;
+      clearPath();
+      resetPaginator();
     }
+  }
+
+  private void resetPaginator() {
+    mapEntity.setLevelOrder();
+    switch (currentLevel) {
+      case LOWERLEVELL1:
+        setCurrentLevel(Level.LOWERLEVELL1);
+        break;
+      case LOWERLEVELL2:
+        setCurrentLevel(Level.LOWERLEVELL2);
+        getNextLevel();
+        break;
+      case LEVEL1:
+        setCurrentLevel(Level.LEVEL1);
+        getNextLevel();
+        getNextLevel();
+        break;
+      case LEVEL2:
+        setCurrentLevel(Level.LEVEL2);
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        break;
+      case LEVEL3:
+        setCurrentLevel(Level.LEVEL3);
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        getNextLevel();
+        break;
+    }
+    setPaginator();
   }
 
   private boolean setTurnDirections() {
@@ -321,7 +358,7 @@ public class PathfindingController {
       turn.getChildren().addAll(icon, directions);
       turnDirections.getChildren().add(turn);
       return false;
-    } else if (path.size() == 1) {
+    } else if (SearchSingleton.getPath().size() == 1) {
       ImageView icon = new ImageView();
       icon.setFitHeight(50);
       icon.setFitWidth(50);
@@ -331,7 +368,7 @@ public class PathfindingController {
       turn.setStyle(
           "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
 
-      directions.setText(path.get(0));
+      directions.setText("Wow! You're already there! Good Job!");
       directions.setWrapText(true);
       turn.getChildren().addAll(icon, directions);
       turnDirections.getChildren().add(turn);
@@ -376,13 +413,11 @@ public class PathfindingController {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
         if (startSelection.getValue() != null && endSelection.getValue() != null) {
           submit();
-          isSubmitted = true;
         }
       }
     } else {
       if (startSelection.getValue() != null && endSelection.getValue() != null) {
         submit();
-        isSubmitted = true;
       }
     }
   }

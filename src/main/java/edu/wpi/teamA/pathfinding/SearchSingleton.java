@@ -41,6 +41,9 @@ public class SearchSingleton {
       case "A*":
         setSearchAlgorithm(SearchAlgorithm.ASTAR);
         break;
+      case "Dijkstra":
+        setSearchAlgorithm(SearchAlgorithm.DIJKSTRA);
+        break;
     }
   }
 
@@ -61,6 +64,8 @@ public class SearchSingleton {
       searchEntity = new BFS(startID, endID, accessiblity);
     } else if (getSearchAlgorithm() == SearchAlgorithm.DFS) {
       searchEntity = new DFS(startID, endID, accessiblity);
+    } else if (getSearchAlgorithm() == SearchAlgorithm.DIJKSTRA) {
+      searchEntity = new Dijkstra(startID, endID, accessiblity);
     } else {
       searchEntity = new AStar(startID, endID, accessiblity);
     }
@@ -118,9 +123,7 @@ public class SearchSingleton {
 
     if (pathIDs == null) {
       return null;
-    } else if (pathIDs.size() == 1) {
-      simplePath.add("Wow! You're already there! Good Job!");
-    } else {
+    } else if (pathIDs.size() != 1) {
 
       // Setting some variables to represent the previous node
       int prevID = pathIDs.get(0);
