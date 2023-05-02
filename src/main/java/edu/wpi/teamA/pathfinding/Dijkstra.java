@@ -6,9 +6,14 @@ import java.util.ArrayList;
 public class Dijkstra extends Search {
 
   public Dijkstra(int startID, int endID) {
+    this(startID, endID, false);
+  }
+
+  public Dijkstra(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = accessiblitySetting;
     setPath();
   }
 
@@ -16,6 +21,7 @@ public class Dijkstra extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = false;
     setPath();
   }
 
@@ -65,7 +71,6 @@ public class Dijkstra extends Search {
 
     // currentNode info
     currentNode.setgCost(0);
-    currentNode.sethCost((int) (Math.hypot(endX - currentX, endX - currentX)));
 
     while (currentNode.getNodeID() != endID) {
       for (int i = 0; i < currentNode.edgeCount(); i++) {
@@ -81,27 +86,38 @@ public class Dijkstra extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         otherGNode = graph.getGraphNode(otherNodeID);
-        if (!otherGNode.isVisited()) {
-          int gCost =
-              currentNode.getgCost()
-                  + (int)
-                      Math.hypot(
-                          currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+        int gCost =
+                currentNode.getgCost()
+                        + (int)
+                        Math.hypot(
+                                currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+        if (accessibilityCheck(otherNodeID)) {
+          if (!otherGNode.isVisited()) {
 
-          if (otherGNode.getPrev().getNodeID() == otherNodeID) {
-            otherGNode.setgCost(gCost);
+            if (otherGNode.getPrev().getNodeID() == otherNodeID) {
+              otherGNode.setgCost(gCost);
 
-            otherGNode.setPrev(currentNode);
-            queue.add(otherNodeID);
-            otherGNode.setVisited(true);
-            nodesToReset.add(currentNode.getNodeID());
+              otherGNode.setPrev(currentNode);
+              queue.add(otherNodeID);
+              otherGNode.setVisited(true);
+              nodesToReset.add(currentNode.getNodeID());
+            }
+          } else {
+            if (gCost < otherGNode.getgCost()) {
+              otherGNode.setgCost(gCost);
+              otherGNode.setPrev(currentNode);
+            }
           }
         }
       }
 
       currentNode.setVisited(true);
 
-      currentNode = graph.getGraphNode(queue.remove(0));
+      try {
+        currentNode = graph.getGraphNode(queue.remove(0));
+      } catch (Exception e) {
+        return null;
+      }
       currentX = currentNode.getXcoord();
       currentY = currentNode.getYcoord();
     }
@@ -115,27 +131,4 @@ public class Dijkstra extends Search {
     return path;
   }
 
-  private void insertIntoPQ(ArrayList<Integer> pQ, GraphNode node) {
-    boolean isAdded = false;
-    for (int i = 0; i < pQ.size(); i++) {
-      if (graph.getGraphNode(pQ.get(i)).getfCost() > node.getfCost()) {
-        pQ.add(i, node.getNodeID());
-        isAdded = true;
-        break;
-      }
-    }
-    if (!isAdded) {
-      pQ.add(node.getNodeID());
-    }
-  }
-
-  private void removeFromPQ(ArrayList<Integer> pQ, int nodeID) {
-
-    for (int i = 0; i < pQ.size(); i++) {
-      if (pQ.get(i) == nodeID) {
-        pQ.remove(i);
-        break;
-      }
-    }
-  }
 }

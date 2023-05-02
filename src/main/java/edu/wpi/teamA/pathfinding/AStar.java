@@ -86,26 +86,33 @@ public class AStar extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         otherGNode = graph.getGraphNode(otherNodeID);
-        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) {
-          int gCost =
-              currentNode.getgCost()
-                  + (int)
-                      Math.hypot(
-                          currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
-          int hCost =
-              (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
-          if (otherGNode.getPrev().getNodeID() == otherNodeID) {
-            otherGNode.setgCost(gCost);
-            otherGNode.sethCost(hCost);
-            otherGNode.setPrev(currentNode);
-            insertIntoPQ(queue, otherGNode); // Not implemented yet
-            nodesToReset.add(currentNode.getNodeID());
-          } else if (otherGNode.getfCost() > (gCost + hCost)) {
-            removeFromPQ(queue, otherNodeID);
-            otherGNode.setgCost(gCost);
-            otherGNode.sethCost(hCost);
-            otherGNode.setPrev(currentNode);
-            insertIntoPQ(queue, otherGNode); // Not implemented yet
+        int gCost =
+                currentNode.getgCost()
+                        + (int)
+                        Math.hypot(
+                                currentX - otherGNode.getXcoord(), currentY - otherGNode.getYcoord());
+        if (accessibilityCheck(otherNodeID)) {
+          if (!otherGNode.isVisited()) {
+            int hCost =
+                    (int) Math.hypot(endX - otherGNode.getXcoord(), endY - otherGNode.getYcoord());
+            if (otherGNode.getPrev().getNodeID() == otherNodeID) {
+              otherGNode.setgCost(gCost);
+              otherGNode.sethCost(hCost);
+              otherGNode.setPrev(currentNode);
+              insertIntoPQ(queue, otherGNode); // Not implemented yet
+              nodesToReset.add(currentNode.getNodeID());
+            } else if (otherGNode.getfCost() > (gCost + hCost)) {
+              removeFromPQ(queue, otherNodeID);
+              otherGNode.setgCost(gCost);
+              otherGNode.sethCost(hCost);
+              otherGNode.setPrev(currentNode);
+              insertIntoPQ(queue, otherGNode); // Not implemented yet
+            }
+          } else {
+            if (gCost < otherGNode.getgCost()) {
+              otherGNode.setgCost(gCost);
+              otherGNode.setPrev(currentNode);
+            }
           }
         }
       }
