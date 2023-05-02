@@ -32,7 +32,6 @@ public abstract class Search {
 
   protected void resetNodes(ArrayList<Integer> resetList) {
     for (int i : resetList) {
-      System.out.println("RESET NODES: i-" + i);
       graph.getGraphNode(i).reset();
     }
   }
