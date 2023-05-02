@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,6 +26,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import net.kurobako.gesturefx.GesturePane;
 
 public class PathfindingController {
@@ -453,10 +456,8 @@ public class PathfindingController {
       GraphNode pastNode = SearchSingleton.getGraphNode(pathIDs.get(i - 1));
       if (currentLevel.toString().equals(gNode.getFloor())
           && currentLevel.toString().equals(pastNode.getFloor())) {
-        line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
-        line.setFill(Color.web("#012D5A"));
-        line.setStrokeWidth(7);
-        topPane.getChildren().add(line);
+        Circle circle = drawAnimatedLine(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
+        topPane.getChildren().add(circle);
       }
       lastX = gNode.getXcoord();
       lastY = gNode.getYcoord();
@@ -473,6 +474,33 @@ public class PathfindingController {
     if (currentLevel.toString().equals(startFloor)) {
       topPane.getChildren().add(new Circle(startX, startY, 8, Color.web("#151515")));
     }
+  }
+
+  private Circle drawAnimatedLine(int startX, int startY, int endX, int endY) {
+    Circle pathDashedLine = new Circle();
+    pathDashedLine.setRadius(8);
+    pathDashedLine.setFill(Color.web("#012D5A"));
+
+    Path path = new Path();
+    path.getElements().add(new MoveTo(startX, startY));
+    path.getElements().add(new LineTo(endX, endY));
+
+    PathTransition animation = new PathTransition();
+    animation.setPath(path);
+    animation.setDuration(Duration.millis(1000));
+    animation.setNode(pathDashedLine);
+    animation.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+    animation.setCycleCount(Timeline.INDEFINITE);
+    animation.play();
+
+    return pathDashedLine;
+  }
+
+  private Line drawRegularLine(int startX, int startY, int endX, int endY) {
+    Line line = new Line(startX, startY, endX, endY);
+    line.setFill(Color.web("#012D5A"));
+    line.setStrokeWidth(7);
+    return line;
   }
 
   @FXML
