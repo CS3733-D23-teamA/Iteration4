@@ -41,6 +41,7 @@ public class SignageAdminController {
   @FXML private TableColumn<SignageComponent, String> locationNameCol;
   @FXML private TableColumn<SignageComponent, String> directionCol;
   @FXML private TableColumn<SignageComponent, String> dateCol;
+  @FXML private TableColumn<SignageComponent, Integer> screenCol;
 
   public void initialize() {
     // ArrayList<String> allSignageLocationNames = new ArrayList<>();
@@ -72,6 +73,7 @@ public class SignageAdminController {
     locationNameCol.setCellValueFactory(new PropertyValueFactory<>("locationName"));
     directionCol.setCellValueFactory(new PropertyValueFactory<>("direction"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
+    screenCol.setCellValueFactory(new PropertyValueFactory<>("screen"));
 
     signageTableView.setItems(
         FXCollections.observableArrayList(databaseRepo.getSignageMap().values()));
