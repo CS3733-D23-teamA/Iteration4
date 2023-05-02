@@ -142,6 +142,8 @@ public class AlertDAOImp implements IAlertDAO {
       ps.setString(3, message);
       ps.setInt(4, ticketNum);
 
+      ps.executeUpdate();
+
       alertMap.put(
           alert.getTicketNum(),
           new Alert(alert.getTicketNum(), username, date.toLocalDate(), message));
