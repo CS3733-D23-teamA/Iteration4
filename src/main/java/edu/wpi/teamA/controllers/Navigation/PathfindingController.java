@@ -1,6 +1,7 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.App;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.entities.Level;
@@ -46,6 +47,8 @@ public class PathfindingController {
   // Current Level Object
   private Level currentLevel = Level.LOWERLEVELL1;
 
+  private DataBaseRepository db = DataBaseRepository.getInstance();
+
   // level pagination
   @FXML private Label currentLevelLabel;
   @FXML private SVGPath nextLevel;
@@ -72,6 +75,8 @@ public class PathfindingController {
   // vbox containing all search algo UI for !admin disable
   @FXML private VBox searchAlgorithmVbox;
 
+  @FXML private VBox errorMessage;
+
   // vbox for admin messaging
   @FXML private HBox adminMessageInput;
   @FXML private Label adminMessage;
@@ -83,14 +88,23 @@ public class PathfindingController {
   // location toggle
   @FXML private MFXToggleButton locationToggle;
   @FXML private MFXToggleButton secondNameToggle;
+  @FXML private MFXToggleButton noStairs;
+
+  private boolean accessibilityLevel = false;
+
+  @FXML ImageView locationImage;
+  @FXML VBox turnDirections;
 
   public void initialize() {
+
+    locationImage.setImage(App.getLocationPF());
 
     // setting search algortihm selection visibility based on access level
     if (!isAdmin) {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
     }
+    errorMessage.setVisible(false);
 
     // Getting LongNames from Database
     locationOptions = mapEntity.makeListOfLongNames();
@@ -103,6 +117,8 @@ public class PathfindingController {
 
     // Setting ComboBox Selection Options (for start + end locations)
     startSelection.setItems(FXCollections.observableArrayList(locationOptions));
+    startSelection.setText(App.getCurrentLocation().getLongName());
+    startSelection.setValue(App.getCurrentLocation().getLongName());
     endSelection.setItems(FXCollections.observableArrayList(locationOptions));
     searchAlgorithmSelection.setItems(FXCollections.observableArrayList(searchOptions));
     searchAlgorithmSelection.setText(SearchSingleton.getSearchAlgorithm().toString());
@@ -121,10 +137,12 @@ public class PathfindingController {
     level1Toggle.setOnAction(event -> changeLevel(level1Toggle.getText()));
     level2Toggle.setOnAction(event -> changeLevel(level2Toggle.getText()));
     level3Toggle.setOnAction(event -> changeLevel(level3Toggle.getText()));
+    levelL1Toggle.setSelected(true);
 
     // Pagination buttons setup
     nextLevel.setOnMouseClicked(event -> changeLevel(getNextLevel()));
     prevLevel.setOnMouseClicked(event -> changeLevel(getPrevLevel()));
+    mapEntity.setLevelOrder();
 
     // Set up Map in Gesture pane using a StackPane
     changeLevel(String.valueOf(currentLevel));
@@ -135,6 +153,19 @@ public class PathfindingController {
     centerMap(2265, 950, 0.5);
 
     locationToggle.setOnAction(event -> toggleNodeNames());
+    noStairs.setOnAction(event -> setAccessibility());
+  }
+
+  /**
+   * sets the accessibility for the path
+   *
+   * <p>elevator, 2 = no stairs
+   */
+  private void setAccessibility() {
+    accessibilityLevel = !accessibilityLevel;
+    if (isSubmitted) {
+      submit();
+    }
   }
 
   /**
@@ -143,9 +174,6 @@ public class PathfindingController {
    * @return String of next level using shortened level name
    */
   private String getNextLevel() {
-    if (isSubmitted) {
-      return mapEntity.getNextLevel().toString();
-    }
     return mapEntity.getNextLevel().toString();
   }
 
@@ -155,23 +183,42 @@ public class PathfindingController {
    * @return String of next prev using shortened level name
    */
   private String getPrevLevel() {
-    if (isSubmitted) {
-      return mapEntity.getPrevLevel().toString();
-    }
     return mapEntity.getPrevLevel().toString();
   }
 
   /**
-   * Helper for change level Updates map image, current level, and label
+   * Helper for change level Updates map image, current level, disabling paginators, and label
    *
    * @param level takes the current user selected level
    */
   private void setCurrentLevel(Level level) {
     currentLevel = level;
     mapImage = currentLevel.getMapImage(); // set image
-    currentLevelLabel.setText("Level " + currentLevel); // set current level
+    setPaginator();
+    currentLevelLabel.setText("Level " + currentLevel); // set current level label
+    // draws path for each level if submitted
     if (isSubmitted) {
       drawPath();
+    }
+  }
+
+  /**
+   * Helper for set current level, disables paginators when user paginates to end or beginning of
+   * the path
+   */
+  private void setPaginator() {
+    // set next to blue if next level exists
+    if (mapEntity.nextLevelExists()) {
+      nextLevel.setStyle("-fx-fill: #012D5A");
+    } else { // else set next to grey
+      nextLevel.setStyle("-fx-fill: #98AABC");
+    }
+
+    // set prev blue as we paginate next
+    if (mapEntity.prevLevelExists()) {
+      prevLevel.setStyle("-fx-fill: #012D5A");
+    } else { // else set next to grey
+      prevLevel.setStyle("-fx-fill: #98AABC");
     }
   }
 
@@ -187,26 +234,26 @@ public class PathfindingController {
     switch (level) {
       case "L1":
         setCurrentLevel(Level.LOWERLEVELL1);
-        levelToggles.selectToggle(levelL1Toggle);
+        levelL1Toggle.setSelected(true);
         break;
       case "L2":
         setCurrentLevel(Level.LOWERLEVELL2);
-        levelToggles.selectToggle(levelL2Toggle);
+        levelL2Toggle.setSelected(true);
         break;
       case "1":
         setCurrentLevel(Level.LEVEL1);
-        levelToggles.selectToggle(level1Toggle);
+        level1Toggle.setSelected(true);
         break;
       case "2":
         setCurrentLevel(Level.LEVEL2);
-        levelToggles.selectToggle(level2Toggle);
-        // levelL1Toggle.setEffect(new ColorAdjust(0, 0, 0.5, 0));
+        level2Toggle.setSelected(true);
         break;
       case "3":
         setCurrentLevel(Level.LEVEL3);
-        levelToggles.selectToggle(level3Toggle);
+        level3Toggle.setSelected(true);
         break;
     }
+
     toggleNodeNames();
 
     // set map image in image view
@@ -219,6 +266,8 @@ public class PathfindingController {
    */
   public void submit() {
 
+    resetButtonIndicator();
+
     // get user input for start and end
     String startName = startSelection.getValue();
     String endName = endSelection.getValue();
@@ -228,30 +277,90 @@ public class PathfindingController {
 
     // sends user input starting and ending IDs and set search algorithm to singleton
     SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-    SearchSingleton.createSearch(startID, endID);
+    SearchSingleton.createSearch(startID, endID, accessibilityLevel);
 
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    setTextDirections();
-    setPaginator(startID);
-    drawPath();
+    if (setTurnDirections()) {
+
+      // Sets the Order for paginator
+      mapEntity.setLevelOrder(SearchSingleton.getPath());
+      levelButtonIndicator(SearchSingleton.getPath());
+      // Changes the levels for pathfinding globally
+      changeLevel(mapEntity.getFirstLevel().toString());
+
+      // centers map on path
+      centerMap(
+          mapEntity.getNodeInfo(startID).getXcoord(),
+          mapEntity.getNodeInfo(startID).getYcoord(),
+          1);
+
+      drawPath();
+    }
   }
 
-  /** Helper method for submit sends text directions to the user */
-  private void setTextDirections() {
-    directions.setText(SearchSingleton.pathString(secondNameToggle.isSelected()));
-    searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
-    directions.setFill(Color.web("#151515"));
-  }
+  private boolean setTurnDirections() {
+    turnDirections.getChildren().clear();
+    errorMessage.setVisible(false);
 
-  /** Helper method for submit sets up paginator */
-  private void setPaginator(int startID) {
-    // Sets the paginator
-    mapEntity.setOrder(SearchSingleton.getPath());
-    changeLevel(mapEntity.getFirstLevel().toString());
-    centerMap(
-        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
+    // loop through array of directions
+    ArrayList<String> path = SearchSingleton.simplePathArray(secondNameToggle.isSelected());
+    if (path == null) {
+      ImageView icon = new ImageView();
+      icon.setFitHeight(50);
+      icon.setFitWidth(50);
+      icon.setImage(App.getFrown());
+      Label directions = new Label();
+      HBox turn = new HBox(15);
+      turn.setStyle(
+          "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+
+      directions.setText("There is no available path.");
+      directions.setWrapText(true);
+      turn.getChildren().addAll(icon, directions);
+      turnDirections.getChildren().add(turn);
+      return false;
+    } else if (path.size() == 1) {
+      ImageView icon = new ImageView();
+      icon.setFitHeight(50);
+      icon.setFitWidth(50);
+      icon.setImage(App.getSmile());
+      Label directions = new Label();
+      HBox turn = new HBox(15);
+      turn.setStyle(
+          "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+
+      directions.setText(path.get(0));
+      directions.setWrapText(true);
+      turn.getChildren().addAll(icon, directions);
+      turnDirections.getChildren().add(turn);
+    } else {
+      for (int i = 0; i < path.size(); i++) {
+        ImageView icon = new ImageView();
+        icon.setFitHeight(50);
+        icon.setFitWidth(50);
+        Label directions = new Label();
+        HBox turn = new HBox(15);
+        turn.setStyle(
+            "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+        if (path.get(i).contains("up")) {
+          icon.setImage(App.getUp());
+        } else if (path.get(i).contains("down")) {
+          icon.setImage(App.getDown());
+        } else if (path.get(i).contains("left")) {
+          icon.setImage(App.getLeft());
+        } else {
+          icon.setImage(App.getRight());
+        }
+
+        directions.setText(path.get(i));
+        directions.setWrapText(true);
+        turn.getChildren().addAll(icon, directions);
+        turnDirections.getChildren().add(turn);
+      }
+    }
+    return true;
   }
 
   /**
@@ -265,13 +374,13 @@ public class PathfindingController {
     if (isAdmin) {
       if (searchAlgorithmSelection.getValue() != null) {
         SearchSingleton.setSearchAlgorithm(searchAlgorithmSelection.getValue());
-        if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+        if (startSelection.getValue() != null && endSelection.getValue() != null) {
           submit();
           isSubmitted = true;
         }
       }
     } else {
-      if (startSelection.getSelectedItem() != null && endSelection.getSelectedItem() != null) {
+      if (startSelection.getValue() != null && endSelection.getValue() != null) {
         submit();
         isSubmitted = true;
       }
@@ -284,14 +393,13 @@ public class PathfindingController {
    */
   public void drawPath() {
 
-    if (isAdmin) {
+    if (isAdmin && isSubmitted) {
       resetAdminMessageInput();
     }
 
     // get list of node IDs and set graph node to gnode from search and indicate levels
     ArrayList<Integer> pathIDs = SearchSingleton.getPath();
     GraphNode gNode = SearchSingleton.getGraphNode(pathIDs.get(0));
-    levelButtonIndicator(pathIDs);
 
     // set last x and y coords from gnode
     int lastX = gNode.getXcoord();
@@ -308,7 +416,9 @@ public class PathfindingController {
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
       gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
-      if (currentLevel.toString().equals(gNode.getFloor())) {
+      GraphNode pastNode = SearchSingleton.getGraphNode(pathIDs.get(i - 1));
+      if (currentLevel.toString().equals(gNode.getFloor())
+          && currentLevel.toString().equals(pastNode.getFloor())) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
         line.setStrokeWidth(7);
@@ -331,7 +441,6 @@ public class PathfindingController {
     }
   }
 
-  // TODO change falses to something
   @FXML
   private void toggleNodeNames() {
     clearPath();
@@ -359,26 +468,33 @@ public class PathfindingController {
    */
   private void levelButtonIndicator(ArrayList<Integer> nodeIDS) {
     // set up a highlight object
-    BorderStroke highlight =
-        new BorderStroke(
-            Color.web("3788C8"), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(5));
+    String highlight = "-fx-border-width: 5; -fx-border-color: #F0C747; -fx-border-radius: 3";
 
     ArrayList<String> stringList = mapEntity.floorsTravelledTo(nodeIDS);
     if (stringList.contains("L1")) {
-      levelL1Toggle.setBorder(new Border(highlight));
+      levelL1Toggle.setStyle(highlight);
     }
     if (stringList.contains("L2")) {
-      levelL2Toggle.setBorder(new Border(highlight));
+      levelL2Toggle.setStyle(highlight);
     }
     if (stringList.contains("1")) {
-      level1Toggle.setBorder(new Border(highlight));
+      level1Toggle.setStyle(highlight);
     }
     if (stringList.contains("2")) {
-      level2Toggle.setBorder(new Border(highlight));
+      level2Toggle.setStyle(highlight);
     }
     if (stringList.contains("3")) {
-      level3Toggle.setBorder(new Border(highlight));
+      level3Toggle.setStyle(highlight);
     }
+  }
+
+  private void resetButtonIndicator() {
+    String highlight = "-fx-border-width: 5; -fx-border-color: TRANSPARENT; -fx-border-radius: 3";
+    levelL1Toggle.setStyle(highlight);
+    levelL2Toggle.setStyle(highlight);
+    level1Toggle.setStyle(highlight);
+    level2Toggle.setStyle(highlight);
+    level3Toggle.setStyle(highlight);
   }
 
   /**

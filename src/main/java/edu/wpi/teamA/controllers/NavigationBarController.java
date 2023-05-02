@@ -73,7 +73,7 @@ public class NavigationBarController {
     if (App.getPrimaryStage().getTitle().contains("REQUEST")) {
       serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
     } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
-      profile.setStyle("-fx-border-width: 5; -fx-border-color: #F0C747; -fx-border-insets: -5;");
+      profile.setStyle("-fx-border-width: 7; -fx-border-color: #F0C747; -fx-border-insets: -5;");
     } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
       homeIcon.setImage(App.getHomeYello());
     }

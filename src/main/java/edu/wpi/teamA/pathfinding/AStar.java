@@ -6,9 +6,14 @@ import java.util.ArrayList;
 public class AStar extends Search {
 
   public AStar(int startID, int endID) {
+    this(startID, endID, false);
+  }
+
+  public AStar(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = accessiblitySetting;
     setPath();
   }
 
@@ -16,6 +21,7 @@ public class AStar extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = false;
     setPath();
   }
 
@@ -80,7 +86,7 @@ public class AStar extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         otherGNode = graph.getGraphNode(otherNodeID);
-        if (!otherGNode.isVisited()) {
+        if (!otherGNode.isVisited() && accessibilityCheck(otherNodeID)) {
           int gCost =
               currentNode.getgCost()
                   + (int)
@@ -106,7 +112,11 @@ public class AStar extends Search {
 
       currentNode.setVisited(true);
 
-      currentNode = graph.getGraphNode(queue.remove(0));
+      try {
+        currentNode = graph.getGraphNode(queue.remove(0));
+      } catch (Exception e) {
+        return null;
+      }
       currentX = currentNode.getXcoord();
       currentY = currentNode.getYcoord();
     }
