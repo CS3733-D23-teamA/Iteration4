@@ -25,6 +25,22 @@ public class AlertDAOImp implements IAlertDAO {
     return alertMap.get(ticketNum);
   }
 
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+              "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Alert\" ("
+                      + "ticket_num INTEGER PRIMARY KEY,"
+                      + "username VARCHAR(255) NOT NULL,"
+                      + "date DATE NOT NULL,"
+                      + "message VARCHAR(600) NOT NULL"
+                      + ")");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
     try {
       Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();

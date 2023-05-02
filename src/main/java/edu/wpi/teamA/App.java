@@ -84,6 +84,7 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    databaseRepo.createSignageTable();
     databaseRepo.createNodeTable();
     databaseRepo.createEdgeTable();
     databaseRepo.createLocNameTable();

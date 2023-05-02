@@ -26,8 +26,8 @@ public class SignageAdminController {
   @FXML private MFXFilterComboBox<String> directionAddInputCombo;
   @FXML private MFXFilterComboBox<Integer> screenAddInputCombo;
   @FXML private DatePicker dateAddInput;
-  @FXML private MFXComboBox<String> SignageIDRemoveCombo;
-  @FXML private MFXComboBox<String> signageIDModifyCombo;
+  @FXML private MFXComboBox<Integer> SignageIDRemoveCombo;
+  @FXML private MFXComboBox<Integer> signageIDModifyCombo;
   @FXML private MFXTextField locNameModifyText;
   @FXML private MFXComboBox<String> directionModifyCombo;
   @FXML private MFXComboBox<Integer> screenModifyCombo;
@@ -37,14 +37,15 @@ public class SignageAdminController {
   @FXML private MFXButton modifyButton;
 
   @FXML private TableView<SignageComponent> signageTableView;
+  @FXML private TableColumn<SignageComponent, Integer> signageIDCol;
   @FXML private TableColumn<SignageComponent, String> locationNameCol;
   @FXML private TableColumn<SignageComponent, String> directionCol;
   @FXML private TableColumn<SignageComponent, String> dateCol;
 
   public void initialize() {
     // ArrayList<String> allSignageLocationNames = new ArrayList<>();
-    ArrayList<String> allSignageIDs = new ArrayList<>();
-    for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
+    ArrayList<Integer> allSignageIDs = new ArrayList<>();
+    for (Map.Entry<Integer, SignageComponent> entry : db.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
       // allSignageLocationNames.add(signage.getLocationName());
       allSignageIDs.add(signage.getSignageID());
@@ -67,6 +68,7 @@ public class SignageAdminController {
   }
 
   public void displaySignages() {
+    signageIDCol.setCellValueFactory(new PropertyValueFactory<>("signageID"));
     locationNameCol.setCellValueFactory(new PropertyValueFactory<>("locationName"));
     directionCol.setCellValueFactory(new PropertyValueFactory<>("direction"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -76,7 +78,7 @@ public class SignageAdminController {
   }
 
   public void addSignage() {
-    String signageID = locNameAddInput.getText() + Date.valueOf(dateAddInput.getValue()).toString();
+    int signageID = db.getNextSignageID();
     SignageComponent signage =
         new SignageComponent(
             locNameAddInput.getText(),
@@ -105,8 +107,6 @@ public class SignageAdminController {
     if (modifyDateInput.getValue() != null) {
       signage.setDate(Date.valueOf(modifyDateInput.getValue()));
     }
-    signage.setSignageID(signage.getLocationName() + signage.getDate().toString());
-    // signage.setDirection(modifyDirectionInput.getText()); for date
     db.modifySignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
