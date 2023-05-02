@@ -35,11 +35,30 @@
                         <Label style="-fx-font-size: 20;" text="Request Progress:" />
                         <HBox alignment="TOP_CENTER" style="-fx-background-color: bblack; -fx-background-radius: 50;">
                            <children>
-                              <SVGPath fx:id="newStatus" content="M20,10 a30,30 0 0,1 30,-30 h100 v60 h-100 a30,30 0 0,1 -30,-30 v-10 z" style="-fx-fill: bblue;" />
-                              <VBox fx:id="orderBeginStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <VBox fx:id="pickFlowersStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <VBox fx:id="flowersReadyStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <SVGPath fx:id="deliveredStatus" content="M120,10 a30,30 0 0,0 -30,-30 h-100 v60 h100 a30,30 0 0,0 30,-30 v-10 z" style="-fx-fill: blightblue;" />
+                              <StackPane>
+                                 <children>
+                                    <SVGPath fx:id="newStatus" content="M20,10 a30,30 0 0,1 30,-30 h100 v60 h-100 a30,30 0 0,1 -30,-30 v-10 z" style="-fx-fill: bblue;" />
+                                    <Label style="-fx-text-fill: bwhite;" text="New" />
+                                 </children>
+                              </StackPane>
+                              <VBox fx:id="assignedStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="Assigned" />
+                                 </children></VBox>
+                              <VBox fx:id="inProgressStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="In Progress" />
+                                 </children></VBox>
+                              <VBox fx:id="inDeliveryStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="Out for Delivery" />
+                                 </children></VBox>
+                              <StackPane>
+                                 <children>
+                                    <SVGPath fx:id="doneStatus" content="M120,10 a30,30 0 0,0 -30,-30 h-100 v60 h100 a30,30 0 0,0 30,-30 v-10 z" style="-fx-fill: blightblue;" />
+                                    <Label style="-fx-text-fill: bwhite;" text="Done" />
+                                 </children>
+                              </StackPane>
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

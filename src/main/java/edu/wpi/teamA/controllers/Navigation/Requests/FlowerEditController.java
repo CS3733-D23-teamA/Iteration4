@@ -48,10 +48,10 @@ public class FlowerEditController {
 
   @FXML private HBox statusBarHBox;
   @FXML private SVGPath newStatus;
-  @FXML private VBox orderBeginStatus;
-  @FXML private VBox pickFlowersStatus;
-  @FXML private VBox flowersReadyStatus;
-  @FXML private SVGPath deliveredStatus;
+  @FXML private VBox assignedStatus;
+  @FXML private VBox inProgressStatus;
+  @FXML private VBox inDeliveryStatus;
+  @FXML private SVGPath doneStatus;
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -70,51 +70,51 @@ public class FlowerEditController {
     updateProgressBar();
     statusBarHBox.setVisible(true);
     newStatus.setVisible(true);
-    orderBeginStatus.setVisible(true);
-    pickFlowersStatus.setVisible(true);
-    flowersReadyStatus.setVisible(true);
-    deliveredStatus.setVisible(true);
+    assignedStatus.setVisible(true);
+    inProgressStatus.setVisible(true);
+    inDeliveryStatus.setVisible(true);
+    doneStatus.setVisible(true);
   }
 
   public void updateProgressBar() {
     if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("new")) {
       newStatus.setFill(Color.web("0x012d5a"));
 
-      orderBeginStatus.setStyle("-fx-background-color: #98AABC");
-      pickFlowersStatus.setStyle("-fx-background-color: #98AABC");
-      flowersReadyStatus.setStyle("-fx-background-color: #98AABC");
-      deliveredStatus.setFill(Color.web("0x98aabc"));
+      assignedStatus.setStyle("-fx-background-color: #98AABC");
+      inProgressStatus.setStyle("-fx-background-color: #98AABC");
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
 
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("assigned")) {
       newStatus.setFill(Color.web("0x012d5a"));
-      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
       ;
 
-      pickFlowersStatus.setStyle("-fx-background-color: #98AABC");
-      flowersReadyStatus.setStyle("-fx-background-color: #98AABC");
-      deliveredStatus.setFill(Color.web("0x98aabc"));
+      inProgressStatus.setStyle("-fx-background-color: #98AABC");
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
 
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
       newStatus.setFill(Color.web("0x012d5a"));
-      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
-      pickFlowersStatus.setStyle("-fx-background-color: #012D5A");
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
 
-      flowersReadyStatus.setStyle("-fx-background-color: #98AABC");
-      deliveredStatus.setFill(Color.web("0x98aabc"));
+      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
+      doneStatus.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in delivery")) {
       newStatus.setFill(Color.web("0x012d5a"));
-      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
-      pickFlowersStatus.setStyle("-fx-background-color: #012D5A");
-      flowersReadyStatus.setStyle("-fx-background-color: #012D5A");
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
+      inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
 
-      deliveredStatus.setFill(Color.web("0x98aabc"));
+      doneStatus.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("done")) {
       System.out.println("delivered status");
       newStatus.setFill(Color.web("0x012d5a"));
-      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
-      pickFlowersStatus.setStyle("-fx-background-color: #012D5A");
-      flowersReadyStatus.setStyle("-fx-background-color: #012D5A");
-      deliveredStatus.setFill(Color.web("0x98aabc"));
+      assignedStatus.setStyle("-fx-background-color: #012D5A");
+      inProgressStatus.setStyle("-fx-background-color: #012D5A");
+      inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
+      doneStatus.setFill(Color.web("0x98aabc"));
     }
   }
 

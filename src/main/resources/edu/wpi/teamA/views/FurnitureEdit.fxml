@@ -39,11 +39,33 @@
                         <Label style="-fx-font-size: 20;" text="Request Progress:" />
                         <HBox alignment="TOP_CENTER" style="-fx-background-color: bblack; -fx-background-radius: 50;">
                            <children>
-                              <SVGPath fx:id="newStatus" content="M20,10 a30,30 0 0,1 30,-30 h100 v60 h-100 a30,30 0 0,1 -30,-30 v-10 z" style="-fx-fill: bblue;" />
-                              <VBox fx:id="orderBeginStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <VBox fx:id="packedStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <VBox fx:id="shippedStatus" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;" />
-                              <SVGPath fx:id="deliveredStatus" content="M120,10 a30,30 0 0,0 -30,-30 h-100 v60 h100 a30,30 0 0,0 30,-30 v-10 z" style="-fx-fill: blightblue;" />
+                              <StackPane>
+                                 <children>
+                                    <SVGPath fx:id="newStatus" content="M20,10 a30,30 0 0,1 30,-30 h100 v60 h-100 a30,30 0 0,1 -30,-30 v-10 z" style="-fx-fill: bblue;" />
+                                    <Label style="-fx-text-fill: bwhite;" text="New" />
+                                 </children>
+                              </StackPane>
+                              <VBox fx:id="assignedStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="Assigned" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="inProgressStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="In Progress" />
+                                 </children>
+                              </VBox>
+                              <VBox fx:id="inDeliveryStatus" alignment="CENTER" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: blightblue; -fx-border-color: bblack;">
+                                 <children>
+                                    <Label style="-fx-text-fill: bwhite; -fx-font-size: 15;" text="Out for Delivery" />
+                                 </children>
+                              </VBox>
+                              <StackPane>
+                                 <children>
+                                    <SVGPath fx:id="doneStatus" content="M120,10 a30,30 0 0,0 -30,-30 h-100 v60 h100 a30,30 0 0,0 30,-30 v-10 z" style="-fx-fill: blightblue;" />
+                                    <Label style="-fx-text-fill: bwhite;" text="Done" />
+                                 </children>
+                              </StackPane>
                            </children>
                            <padding>
                               <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -56,22 +78,22 @@
                   </HBox>
                   <StackPane>
                      <children>
-                        <AnchorPane fx:id="infoDisplay" visible="false">
+                        <AnchorPane fx:id="infoDisplay">
                            <children>
                               <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT">
+                                    <HBox alignment="CENTER_LEFT" spacing="20.0">
                                        <children>
-                                          <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Furniture Delivery - Edit View" wrappingWidth="512.8674926757812" x="290.0" y="100.0">
-                                             <font>
-                                                <Font name="Open Sans Bold" size="48.0" />
-                                             </font>
-                                          </Text>
                                           <MFXButton defaultButton="true" mnemonicParsing="false" onAction="#back" prefHeight="58.0" prefWidth="120.0" rippleAnimateBackground="false" style="-fx-background-radius: 10;" styleClass="clear-mfx-button" text="Back" textFill="#eebd28">
                                              <font>
                                                 <Font name="System Bold" size="20.0" />
                                              </font>
                                           </MFXButton>
+                                          <Text fx:id="title" fill="#eebd28" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #012D5A;" text="Furniture Delivery - Edit View" wrappingWidth="512.8674926757812" x="290.0" y="100.0">
+                                             <font>
+                                                <Font name="Open Sans Bold" size="48.0" />
+                                             </font>
+                                          </Text>
                                        </children>
                                     </HBox>
                                     <VBox alignment="CENTER" minHeight="500.0" spacing="20.0" style="-fx-background-color: D9D9D9;">
@@ -170,7 +192,7 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="cartDisplay">
+                        <AnchorPane fx:id="cartDisplay" visible="false">
                            <children>
                               <VBox alignment="TOP_CENTER" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
