@@ -21,12 +21,15 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
   @Getter @Setter private HashMap<String, Edge> EdgeMap = new HashMap<>();
 
   public EdgeDAOImp() {
+    createTable();
     this.EdgeMap = loadDataFromDatabaseInMap();
   }
 
   public void createTable() {
     try {
-      String sqlCreateEdge =
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
           "Create Table if not exists \"Teama_schema\".\"Edge\""
               + "(startNode   int,"
               + "endNode    int,"
@@ -37,19 +40,13 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
               + "CONSTRAINT fk_endnode "
               + "FOREIGN KEY(endNode)"
               + "REFERENCES \"Teama_schema\".\"Node\"(nodeid)"
-              + "ON DELETE CASCADE)";
-
-      Statement stmtEdge =
-          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      stmtEdge.execute(sqlCreateEdge);
+              + "ON DELETE CASCADE)");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
   public HashMap<String, Edge> loadDataFromDatabaseInMap() {
-    // HashMap<String, Edge> edges = new HashMap<String, Edge>();
-
     try {
       Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Edge\"");
@@ -131,8 +128,8 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
       csvWriter.append("startnode,endode\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("startnode")) + (","));
-        csvWriter.append((rs.getInt("endnode")) + ("\n"));
+        csvWriter.append(String.valueOf((rs.getInt("startnode")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("endnode")))).append("\n");
       }
 
       csvWriter.flush();
@@ -212,7 +209,8 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
 
       for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
         Edge edge = entry.getValue();
-        if (edge.getStartNode() == node.getNodeID() || edge.getEndNode() == node.getNodeID()) {
+        if (Objects.equals(edge.getStartNode(), node.getNodeID())
+            || Objects.equals(edge.getEndNode(), node.getNodeID())) {
           EdgeMap.remove(edge.getStartNode() + edge.getEndNode().toString());
           edgesToRemove.add(edge);
         }

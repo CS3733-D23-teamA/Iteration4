@@ -18,11 +18,28 @@ public class AlertDAOImp implements IAlertDAO {
   @Getter @Setter private HashMap<Integer, Alert> alertMap = new HashMap<>();
 
   public AlertDAOImp() {
+    createTable();
     this.alertMap = loadAlertsFromDatabaseInMap();
   }
 
   public Alert getAlert(int ticketNum) {
     return alertMap.get(ticketNum);
+  }
+
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Alert\" ("
+              + "ticket_num INTEGER PRIMARY KEY,"
+              + "username VARCHAR(255) NOT NULL,"
+              + "date DATE NOT NULL,"
+              + "message VARCHAR(600) NOT NULL"
+              + ")");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
@@ -92,10 +109,10 @@ public class AlertDAOImp implements IAlertDAO {
       csvWriter.append("ticket_num,username,date,message\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("ticket_num")) + (","));
-        csvWriter.append((rs.getString("username")) + (","));
-        csvWriter.append((rs.getDate("date").toLocalDate()) + (","));
-        csvWriter.append((rs.getString("message")) + "\n");
+        csvWriter.append(String.valueOf((rs.getInt("ticket_num")))).append(",");
+        csvWriter.append(rs.getString("username")).append(",");
+        csvWriter.append(String.valueOf(rs.getDate("date").toLocalDate())).append(",");
+        csvWriter.append(rs.getString("message")).append("\n");
       }
 
       csvWriter.flush();
@@ -121,7 +138,7 @@ public class AlertDAOImp implements IAlertDAO {
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Alert\" SET username = ?, date = ?, message = ? WHERE ticketNum = ?");
       ps.setString(1, username);
-      ps.setDate(2, Date.valueOf(date.now())); // date object
+      ps.setDate(2, Date.valueOf(LocalDate.now())); // date object
       ps.setString(3, message);
       ps.setInt(4, ticketNum);
 

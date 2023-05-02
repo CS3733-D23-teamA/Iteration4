@@ -1,6 +1,7 @@
 package edu.wpi.teamA;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
+import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.IncorrectLengthException;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
@@ -18,7 +19,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +38,15 @@ public class App extends Application {
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
   @Getter private static Image map2 = new Image("edu/wpi/teamA/images/map-page/Level 2.png");
   @Getter private static Image map3 = new Image("edu/wpi/teamA/images/map-page/Level 3.png");
+  @Getter private static Image up = new Image("edu/wpi/teamA/images/icons/up.png");
+  @Getter private static Image down = new Image("edu/wpi/teamA/images/icons/down.png");
+  @Getter private static Image left = new Image("edu/wpi/teamA/images/icons/left.png");
+  @Getter private static Image right = new Image("edu/wpi/teamA/images/icons/right.png");
+  @Getter private static Image smile = new Image("edu/wpi/teamA/images/icons/SmileyFace.png");
+  @Getter private static Image frown = new Image("edu/wpi/teamA/images/icons/frown.png");
+
+  @Getter
+  private static Image locationPF = new Image("edu/wpi/teamA/images/icons/pathfindingLoc.png");
 
   @Getter
   private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");
@@ -59,11 +68,6 @@ public class App extends Application {
   @Getter
   private static Image signageStop = new Image("edu/wpi/teamA/images/icons/signage-stop.png");
 
-  // BWH Colors
-  @Getter private static Color YELLOWBWH = Color.web("F0C747");
-  @Getter private static Color BLUEBWH = Color.web("012D5A");
-  @Getter private static Color LIGHTBLUEBWH = Color.web("98AABC");
-
   // entities + repository initiated - CALL LAST
   @Getter private static LevelEntity levelEntity = new LevelEntity();
   @Getter private static MapEntity mapEntity = new MapEntity();
@@ -75,14 +79,6 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
-    databaseRepo.createNodeTable();
-    databaseRepo.createEdgeTable();
-    databaseRepo.createLocNameTable();
-    databaseRepo.createMoveTable();
-    databaseRepo.createFlowerTable();
-    databaseRepo.createCRRRTable();
-    databaseRepo.createFurnitureTable();
-    databaseRepo.createMealTable();
 
     executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }

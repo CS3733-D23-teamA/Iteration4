@@ -6,9 +6,14 @@ import java.util.ArrayList;
 public class BFS extends Search {
 
   public BFS(int startID, int endID) {
+    this(startID, endID, false);
+  }
+
+  public BFS(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = accessiblitySetting;
     setPath();
   }
 
@@ -16,6 +21,7 @@ public class BFS extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = false;
     setPath();
   }
 
@@ -58,7 +64,9 @@ public class BFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited()) { // if not visited, add to queue and add to wrapping queue
+        if (!otherGNode.isVisited()
+            && accessibilityCheck(
+                otherNodeID)) { // if not visited, add to queue and add to wrapping queue
           otherGNode.setPrev(currentGNode);
           nodesToReset.add(otherNodeID);
           queue.add(otherNodeID);
@@ -67,7 +75,11 @@ public class BFS extends Search {
       }
 
       currentGNode.setVisited(true);
-      currentID = queue.remove(0);
+      try {
+        currentID = queue.remove(0);
+      } catch (Exception e) {
+        return null;
+      }
       currentGNode = graph.getGraphNode(currentID);
     }
 

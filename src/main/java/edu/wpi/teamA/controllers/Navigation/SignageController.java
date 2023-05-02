@@ -30,19 +30,14 @@ public class SignageController {
     ScreenVBox.setVisible(false);
     screenHBox.setVisible(true);
 
-    for (Map.Entry<String, SignageComponent> entry : db.getSignageMap().entrySet()) {
+    for (Map.Entry<Integer, SignageComponent> entry : db.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
-      System.out.println("signage.getScreen(): " + signage.getScreen());
 
       if (signage.getScreen() == 1) {
         allSignageScreen1.add(signage);
-        System.out.println("screen1");
 
       } else if (signage.getScreen() == 2) {
         allSignageScreen2.add(signage);
-        System.out.println("screen2");
-      } else {
-        System.out.println("k");
       }
     }
   }
@@ -60,8 +55,6 @@ public class SignageController {
   }
 
   public void screenDisplay(boolean screen1) {
-    // screenDialog.setBackground(Background.fill(Color.web("0x98AABC")));
-    System.out.println("in screen display");
     ArrayList<SignageComponent> signageToDisplay = new ArrayList<>();
     if (screen1) {
       signageToDisplay.addAll(allSignageScreen1);

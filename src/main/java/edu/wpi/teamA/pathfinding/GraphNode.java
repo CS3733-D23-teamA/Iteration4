@@ -1,6 +1,7 @@
 package edu.wpi.teamA.pathfinding;
 
 import edu.wpi.teamA.database.ORMclasses.Edge;
+import java.util.*;
 import java.util.ArrayList;
 
 public class GraphNode {
@@ -12,10 +13,21 @@ public class GraphNode {
   private ArrayList<Edge> edgeList; // change to Edge
   private boolean visited;
   private GraphNode prev;
+
+  private int distance;
   private int gCost;
   private int hCost;
+  private ArrayList<GraphNode> shortestPath;
+  Map<GraphNode, Integer> neighborNodes = new HashMap<>();
 
-  public GraphNode(int nodeID, int xcoord, int ycoord, String floor, String building) {
+  public GraphNode(
+      int nodeID,
+      int xcoord,
+      int ycoord,
+      String floor,
+      String
+          building) { // , ArrayList<GraphNode> shortestPath, Map<GraphNode, Integer> neighborNode)
+    // {
     this.nodeID = nodeID;
     this.xcoord = xcoord;
     this.ycoord = ycoord;
@@ -28,8 +40,31 @@ public class GraphNode {
     this.hCost = -1;
   }
 
+  // Dijkstra Constructor
+  public GraphNode(
+      int nodeID,
+      int xcoord,
+      int ycoord,
+      String floor,
+      String building,
+      ArrayList<GraphNode> shortestPath,
+      ArrayList<Edge> edgeList) {
+    this.nodeID = nodeID;
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.floor = floor;
+    this.building = building;
+    this.edgeList = edgeList; // Neighbor nodes
+    this.distance = Integer.MAX_VALUE; // analogous to cost
+    this.shortestPath = shortestPath;
+  }
+
   public void setNodeID(int nodeID) {
     this.nodeID = nodeID;
+  }
+
+  public void addDestination(GraphNode destination, int distance) {
+    this.neighborNodes.put(destination, distance);
   }
 
   public int getXcoord() {

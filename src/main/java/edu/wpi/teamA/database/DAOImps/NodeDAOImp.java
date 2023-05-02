@@ -19,21 +19,21 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
   @Getter @Setter private HashMap<Integer, Node> NodeMap = new HashMap<>();
 
   public NodeDAOImp() {
+    createTable();
     this.NodeMap = loadDataFromDatabaseInMap();
   }
 
   public void createTable() {
     try {
-      String sqlCreateNode =
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
           "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Node\""
               + "(nodeID   INT PRIMARY KEY,"
-              + "xcoord    INT,"
-              + "ycoord    INT,"
-              + "floor     VARCHAR(600),"
-              + "building  VARCHAR(600))";
-      Statement stmtNode =
-          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      stmtNode.execute(sqlCreateNode);
+              + "xcoord    INT NOT NULL,"
+              + "ycoord    INT NOT NULL,"
+              + "floor     VARCHAR(600) NOT NULL,"
+              + "building  VARCHAR(600) NOT NULL)");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -133,9 +133,9 @@ public class NodeDAOImp implements IDatabaseDAO<Node> {
       csvWriter.append("nodeid,xcoord,ycoord,floor,building\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("nodeid")) + (","));
-        csvWriter.append((rs.getInt("xcoord")) + (","));
-        csvWriter.append((rs.getInt("ycoord")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("nodeid")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("xcoord")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("ycoord")))).append(",");
         csvWriter.append(rs.getString("floor")).append(",");
         csvWriter.append(rs.getString("building")).append("\n");
       }

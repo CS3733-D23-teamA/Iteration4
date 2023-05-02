@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public interface ISignageDAO {
 
-  public SignageComponent getSignage(String locationName);
+  public SignageComponent getSignage(int locationName);
 
-  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap();
+  public HashMap<Integer, SignageComponent> loadSignagesFromDatabaseInMap();
 
   public void modifySignage(SignageComponent signage);
 

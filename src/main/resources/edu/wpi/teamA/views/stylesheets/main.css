@@ -23,6 +23,10 @@
     -fx-text-fill: #151515;
 }
 
+.mfx-ripple-generator {
+    -mfx-ripple-color:transparent;
+}
+
 .label{
     -fx-font-size: 18;
     -fx-font-weight: bold;
@@ -200,10 +204,10 @@
 }
 #ojButton:hover {
     -fx-background-color:
-            linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
-            #9d4024,
-            #d86e3a,
-            radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+            linear-gradient(from 0% 93% to 0% 100%, #01254A 0%, #011122 100%),
+            #01254A,
+            #012D5A,
+            radial-gradient(center 50% 50%, radius 100%, #7089A2, #012D5A);
 }
 #ojButton:pressed {
     -fx-padding: 10 15 13 15;
@@ -211,5 +215,5 @@
 }
 #ojButton Text {
     -fx-fill: white;
-    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+    -fx-effect: dropshadow( gaussian , #012D5A , 0,0,0,2 );
 }

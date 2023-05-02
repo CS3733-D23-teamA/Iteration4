@@ -6,13 +6,13 @@ import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.util.Duration;
+import lombok.Getter;
 
 public class IdleChecker {
   private final Timeline idleTimeline;
-  private final EventHandler<Event> userEventHandler;
+  @Getter private final EventHandler<Event> userEventHandler;
 
   public IdleChecker(Duration idleTime, Runnable notifier, boolean startMonitoring) {
     idleTimeline = new Timeline(new KeyFrame(idleTime, e -> notifier.run()));
@@ -28,16 +28,8 @@ public class IdleChecker {
     scene.addEventFilter(eventType, userEventHandler);
   }
 
-  public void register(Node node, EventType<? extends Event> eventType) {
-    node.addEventFilter(eventType, userEventHandler);
-  }
-
   public void unregister(Scene scene, EventType<? extends Event> eventType) {
     scene.removeEventFilter(eventType, userEventHandler);
-  }
-
-  public void unregister(Node node, EventType<? extends Event> eventType) {
-    node.removeEventFilter(eventType, userEventHandler);
   }
 
   public void notIdle() {
@@ -48,5 +40,9 @@ public class IdleChecker {
 
   public void startMonitoring() {
     idleTimeline.playFromStart();
+  }
+
+  public void stopMonitoring() {
+    idleTimeline.stop();
   }
 }

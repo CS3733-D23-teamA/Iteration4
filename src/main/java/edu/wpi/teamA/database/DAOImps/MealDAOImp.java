@@ -129,11 +129,11 @@ public class MealDAOImp implements IServiceDAO<Meal> {
       csvWriter.append("id,name,room,date,time,items,comment,employee,status,creator\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("id")) + (","));
-        csvWriter.append((rs.getString("name")) + (","));
-        csvWriter.append((rs.getString("room")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("id")))).append(",");
+        csvWriter.append(rs.getString("name")).append(",");
+        csvWriter.append(rs.getString("room")).append(",");
         csvWriter.append(rs.getString("date")).append(",");
-        csvWriter.append((rs.getInt("time")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("time")))).append(",");
         csvWriter.append(rs.getString("items")).append(",");
         csvWriter.append(rs.getString("comment")).append(",");
         csvWriter.append(rs.getString("employee")).append(",");
@@ -152,7 +152,6 @@ public class MealDAOImp implements IServiceDAO<Meal> {
   }
 
   public void add(Meal meal) {
-    /** Insert new node object to the existing node table */
     try {
       int id = meal.getId();
       String name = meal.getName();

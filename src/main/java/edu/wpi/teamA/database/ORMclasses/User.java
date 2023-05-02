@@ -6,17 +6,17 @@ import lombok.Setter;
 
 public class User {
 
-  @Getter @Setter int accessLevel;
+  @Getter @Setter private int accessLevel;
 
-  @Getter @Setter String userName;
+  @Getter @Setter private String userName;
 
-  @Getter @Setter String password;
+  @Getter @Setter private String password;
 
-  @Getter @Setter String firstName;
+  @Getter @Setter private String firstName;
 
-  @Getter @Setter String lastName;
+  @Getter @Setter private String lastName;
 
-  @Getter @Setter String userID;
+  @Getter @Setter private String userID;
 
   public User(
       int adminYes,

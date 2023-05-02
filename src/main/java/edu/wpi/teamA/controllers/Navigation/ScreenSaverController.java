@@ -3,7 +3,6 @@ package edu.wpi.teamA.controllers.Navigation;
 import edu.wpi.teamA.App;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +17,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
 import javafx.scene.shape.Circle;
@@ -27,14 +27,12 @@ import lombok.SneakyThrows;
 
 public class ScreenSaverController {
   Random rand = new Random();
-  @FXML private Image mapImage;
-  @FXML private ImageView iv = new ImageView(mapImage);
+  @FXML private ImageView iv = new ImageView();
   @FXML private Circle circle;
   @FXML private Rectangle paddle;
   @FXML private Rectangle bottomZone;
-  @FXML private MFXButton startButton;
   @FXML private AnchorPane scene;
-  @FXML private Rectangle rightPane, leftPane;
+  @FXML private BorderPane background;
   Robot robot = new Robot();
   ArrayList<Rectangle> bricks = new ArrayList<>();
   ArrayList<Rectangle> bricksTest = new ArrayList<>();
@@ -175,8 +173,8 @@ public class ScreenSaverController {
                     postGame();
                   }
 
-                  checkCollisionScene(scene);
-                  checkCollisionBottomZone();
+                  checkCollisionScene(iv);
+                  checkCollisionBottomZone(iv);
                 }
               }));
   Timeline brickTimeline =
@@ -196,8 +194,10 @@ public class ScreenSaverController {
               }));
 
   public void initialize() {
+    background.setStyle("-fx-background-color: #012D5A;");
+    Image image = App.getMapL1();
+    iv.setImage(image);
     hideBricks();
-    mapImage = App.getMapL1();
     brickTimeline.setCycleCount(Animation.INDEFINITE);
     timeline.setCycleCount(Animation.INDEFINITE);
   }
@@ -211,26 +211,20 @@ public class ScreenSaverController {
 
   @SneakyThrows
   public void startGame(AnchorPane node) {
-    Bounds bounds = node.getBoundsInLocal();
     createBricks();
     timeline.play();
   }
 
-  public void checkCollisionScene(AnchorPane node) {
+  public void checkCollisionScene(ImageView node) {
     Bounds bounds = node.getBoundsInLocal();
-    int right = 1165;
-    int left = 115;
-    int top = 720;
     boolean rightBorder = circle.getCenterX() >= (bounds.getMaxX() - circle.getRadius());
     boolean leftBorder = circle.getCenterX() <= (bounds.getMinX() + circle.getRadius());
     boolean topBorder = circle.getCenterY() <= (bounds.getMinY() + circle.getRadius());
 
     if (rightBorder || leftBorder) {
-      System.out.println(circle.getCenterX() + " side");
       deltaX *= -1;
     }
     if (topBorder) {
-      System.out.println(circle.getCenterY() + " top");
       deltaY *= -1;
     }
   }
@@ -246,11 +240,9 @@ public class ScreenSaverController {
       boolean topBorder = circle.getCenterY() <= (brick.getY() + circle.getRadius());
 
       if (rightBorder || leftBorder) {
-        System.out.println("lr");
         deltaX *= -1;
       }
       if (bottomBorder || topBorder) {
-        System.out.println("tb");
         deltaY *= -1;
       }
 
@@ -310,7 +302,6 @@ public class ScreenSaverController {
   }
 
   public void checkCollisionPaddle(Rectangle paddle) {
-
     if (circle.getBoundsInParent().intersects(paddle.getBoundsInParent())) {
 
       boolean rightBorder =
@@ -324,13 +315,15 @@ public class ScreenSaverController {
         deltaX *= -1;
       }
       if (bottomBorder || topBorder) {
+        deltaX = ((circle.getCenterX() - (paddle.getLayoutX() + 50)) / 15);
         deltaY *= -1;
       }
     }
   }
 
-  public void checkCollisionBottomZone() {
-    if (circle.getBoundsInParent().intersects(bottomZone.getBoundsInParent())) {
+  public void checkCollisionBottomZone(ImageView node) {
+    Bounds bounds = node.getBoundsInLocal();
+    if (circle.getCenterY() > (bounds.getMaxY() - 5)) {
       postGame();
     }
   }

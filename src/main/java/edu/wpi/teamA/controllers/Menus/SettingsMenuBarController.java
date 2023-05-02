@@ -7,15 +7,9 @@ import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
 
 public class SettingsMenuBarController {
-  @FXML private MFXButton exitApplicationButton;
-  @FXML private MFXButton logoutButton;
-  @FXML private MFXButton accountSettingsButton;
-  @FXML private MFXButton employeeSettingsButton;
   @FXML private MFXButton alertSettingsButton;
-  @FXML public VBox AccountSettingsDropdown;
   @FXML private MFXButton dataSettingsButton;
   @FXML private MFXButton userSettingsButton;
   @FXML private MFXButton locationSettingsButton;
@@ -23,8 +17,6 @@ public class SettingsMenuBarController {
   @FXML
   public void initialize() {
     if (!AccountSingleton.isAdmin()) {
-      employeeSettingsButton.setVisible(false);
-      employeeSettingsButton.setManaged(false);
       alertSettingsButton.setVisible(false);
       alertSettingsButton.setManaged(false);
       dataSettingsButton.setVisible(false);
