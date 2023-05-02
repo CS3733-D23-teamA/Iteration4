@@ -7,20 +7,20 @@ import java.sql.Statement;
 import lombok.SneakyThrows;
 
 public class DBConnectionProvider {
-  private static DBConnectionProvider instance = null;
-  private static Connection connection;
+  private static Connection instance = null;
 
-  public static DBConnectionProvider getInstance() {
+  public static Connection getInstance() {
     if (instance == null) {
-      instance = new DBConnectionProvider();
-      instance.createConnection();
+      // instance = new DBConnectionProvider();
+      instance = createLocalConnection();
     }
     return instance;
   }
 
   @SneakyThrows
-  public static Connection createConnection() {
-    if (connection == null || connection.isClosed()) {
+  public static Connection createLocalConnection() {
+    closeConnection();
+    if (instance == null || instance.isClosed()) {
 
       String url = "jdbc:postgresql://database.cs.wpi.edu:5432/teamadb";
       String user = "teama";
@@ -28,7 +28,8 @@ public class DBConnectionProvider {
 
       try {
         Class.forName("org.postgresql.Driver");
-        connection = DriverManager.getConnection(url, user, password);
+        instance = DriverManager.getConnection(url, user, password);
+        System.out.println("Local connection created");
       } catch (SQLException e) {
         e.printStackTrace();
         return null;
@@ -36,12 +37,36 @@ public class DBConnectionProvider {
         throw new RuntimeException(e);
       }
     }
-    return connection;
+    return instance;
+  }
+
+  @SneakyThrows
+  public static Connection createAWSConnection() {
+    closeConnection();
+    if (instance == null || instance.isClosed()) {
+
+      String url =
+          "jdbc:postgresql://cs3733-d23-teama.coiigqxuofye.us-east-2.rds.amazonaws.com:5432/postgres";
+      String user = "teama";
+      String password = "teamaiswongsfavoriteteam";
+
+      try {
+        Class.forName("org.postgresql.Driver");
+        instance = DriverManager.getConnection(url, user, password);
+        System.out.println("AWS connection created");
+      } catch (SQLException e) {
+        e.printStackTrace();
+        return null;
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return instance;
   }
 
   public static void createSchema() {
     try {
-      Statement stmtSchema = instance.createConnection().createStatement();
+      Statement stmtSchema = instance.createStatement();
       String sqlCreateSchema = "CREATE SCHEMA IF NOT EXISTS \"Teama_schema\"";
       stmtSchema.execute(sqlCreateSchema);
     } catch (SQLException e) {
@@ -52,10 +77,15 @@ public class DBConnectionProvider {
   // close the connection and exit
   public static void closeConnection() {
     try {
-      if (connection != null && !connection.isClosed()) {
-        connection.close();
+      if (instance != null && !instance.isClosed()) {
+        instance.close();
+        System.out.println("Connection closed");
+      } else {
+        System.out.println("Connection already closed");
       }
+
     } catch (SQLException e) {
+      System.out.println("Connection already closed");
       e.printStackTrace();
     }
   }

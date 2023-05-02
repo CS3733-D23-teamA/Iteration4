@@ -1,33 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AccountSettingsWelcomeController">
+<BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AccountSettingsController">
     <top>
         <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
     </top>
     <center>
-        <StackPane BorderPane.alignment="CENTER">
-         <children>
-            <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
+      <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+         <content>
+              <StackPane>
                <children>
-                  <Label text="Account Settings">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </Label>
-                  <Label fx:id="welcomeMessage" />
+                  <VBox prefHeight="750.0" prefWidth="868.0" spacing="30.0">
+                     <children>
+                        <Label fx:id="title" style="-fx-font-weight: bolder;" text="Account Settings">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="welcomeMessage" style="-fx-font-weight: normal;">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin></Label>
+                        <Label text="Change Password" />
+                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <MFXPasswordField fx:id="password1" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Current Password" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <MFXPasswordField fx:id="password2" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Re-enter Current Password" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="37.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <MFXPasswordField fx:id="newPassword1" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="New Password" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <MFXPasswordField fx:id="newPassword2" onAction="#validateUpdate" onKeyReleased="#validateUpdate" prefWidth="300.0" promptText="Re-enter New Password" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_RIGHT">
+                                 <children>
+                                    <MFXButton fx:id="updateButton" onAction="#updatePassword" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="submit-mfx-button" text="Update" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="37.0" />
+                           </padding>
+                        </HBox>
+                        <Label text="Update Name" />
+                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <MFXTextField fx:id="oldFirst" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="Current Name" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <MFXTextField fx:id="oldLast" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="Re-enter Current Name" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="37.0" />
+                           </padding>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="100.0">
+                           <children>
+                              <VBox>
+                                 <children>
+                                    <MFXTextField fx:id="newFirst" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="New First Name" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <MFXTextField fx:id="newLast" onAction="#validateChangeName" onKeyReleased="#validateChangeName" prefWidth="300.0" promptText="New Last Name" style="-fx-border-radius: 10;" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="BOTTOM_RIGHT">
+                                 <children>
+                                    <MFXButton fx:id="updateButton1" onAction="#updateName" style="-fx-background-color: bblue; -fx-text-fill: bwhite;" styleClass="submit-mfx-button" text="Update" />
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets left="37.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="50.0" right="50.0" top="70.0" />
+                     </padding>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets left="50.0" top="70.0" />
-               </padding>
-            </VBox>
-         </children>
-        </StackPane>
+              </StackPane>
+         </content>
+      </ScrollPane>
     </center>
    <left>
       <fx:include fx:id="settingsmenu" source="SettingsMenuBar.fxml" />

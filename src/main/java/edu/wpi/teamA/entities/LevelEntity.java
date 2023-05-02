@@ -13,6 +13,7 @@ public class LevelEntity {
 
   /** Level entity sets a default level order corresponding to the floor maps */
   void setOrder() {
+    levelIndex = 0;
     levelOrder = new ArrayList<Level>();
     levelOrder.add(Level.LOWERLEVELL1);
     levelOrder.add(Level.LOWERLEVELL2);
@@ -96,11 +97,11 @@ public class LevelEntity {
     return getOrderedLevel(levelIndex);
   }
 
-  Boolean hasNext(Level level) {
-    return levelOrder.indexOf(level) < getTotalLevels() - 1;
+  Boolean hasNext() {
+    return levelIndex < levelOrder.size() - 1;
   }
 
-  Boolean hasPrev(Level level) {
-    return levelOrder.indexOf(level) > 0;
+  Boolean hasPrev() {
+    return levelIndex > 0;
   }
 }

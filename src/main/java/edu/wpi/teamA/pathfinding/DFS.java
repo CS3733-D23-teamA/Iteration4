@@ -7,9 +7,14 @@ import java.util.ArrayList;
 public class DFS extends Search {
 
   public DFS(int startID, int endID) {
+    this(startID, endID, false);
+  }
+
+  public DFS(int startID, int endID, boolean accessiblitySetting) {
     this.graph.prepGraph();
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = accessiblitySetting;
     setPath();
   }
 
@@ -17,6 +22,7 @@ public class DFS extends Search {
     this.graph = graph;
     this.startID = startID;
     this.endID = endID;
+    this.accessibilitySetting = false;
     setPath();
   }
 
@@ -49,7 +55,6 @@ public class DFS extends Search {
           otherNodeID = currentEdge.getStartNode();
         }
         GraphNode otherGNode = graph.getGraphNode(otherNodeID);
-
         //                boolean otherVisited = false;
         //                for (int j = 0; j < visited.size(); j++) {
         //                    if (otherNode
@@ -59,7 +64,9 @@ public class DFS extends Search {
         //                    }
         //                }
 
-        if (!otherGNode.isVisited()) { // if not visited, add to queue and add to wrapping queue
+        if (!otherGNode.isVisited()
+            && accessibilityCheck(
+                otherNodeID)) { // if not visited, add to queue and add to wrapping queue
           otherGNode.setPrev(currentGNode);
           nodesToReset.add(otherNodeID);
           queue.add(otherNodeID);
@@ -68,7 +75,11 @@ public class DFS extends Search {
       }
 
       currentGNode.setVisited(true);
-      currentID = queue.remove(queue.size() - 1);
+      try {
+        currentID = queue.remove(queue.size() - 1);
+      } catch (Exception e) {
+        return null;
+      }
       currentGNode = graph.getGraphNode(currentID);
     }
 

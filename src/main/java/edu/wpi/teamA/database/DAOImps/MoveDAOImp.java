@@ -18,18 +18,13 @@ import lombok.Setter;
 public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   // Used to store all moves
-  @Getter @Setter private HashMap<Integer, LinkedList<Move>> MoveMap = new HashMap<>();
-  // Used to store current moves that are being used
-  @Getter @Setter private HashMap<Integer, Move> currentMoveMap = new HashMap<>();
-  // @Getter @Setter private LocalDate currentDate = LocalDate.now();
-
-  public MoveDAOImp(HashMap<Integer, LinkedList<Move>> MoveMap) {
-    this.MoveMap = MoveMap;
-  }
+  @Getter @Setter private HashMap<Integer, LinkedList<Move>> nodeMoveMap = new HashMap<>();
+  // Used to store current moves that are being used by location name
+  @Getter @Setter private HashMap<String, Move> currentMoveMap = new HashMap<>();
 
   public MoveDAOImp() {
-    this.MoveMap = loadDataFromDatabaseInMap();
-    this.currentMoveMap = loadCurrentMoveMap();
+    loadDataFromDatabaseInMap();
+    this.currentMoveMap = loadCurrentMoveMap(App.getCurrentDate());
   }
 
   public void createTable() {
@@ -48,7 +43,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
               + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
               + "ON UPDATE CASCADE)";
       Statement stmtMove =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       stmtMove.execute(sqlCreateEdge);
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -57,8 +52,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
 
   public HashMap<Integer, LinkedList<Move>> loadDataFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -66,25 +60,32 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         String longName = rs.getString("longName");
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
-        if (!MoveMap.containsKey(localDate.hashCode())) {
+        Move move = new Move(nodeID, longName, localDate);
+
+        if (!nodeMoveMap.containsKey(nodeID)) {
           // create new linkedlist
-          MoveMap.put(localDate.hashCode(), new LinkedList<>());
+          nodeMoveMap.put(nodeID, new LinkedList<>());
         }
-        MoveMap.get(localDate.hashCode()).add(new Move(nodeID, longName, localDate));
+        nodeMoveMap.get(nodeID).add(move);
       }
       checkDuplicateLocationNames();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    return MoveMap;
+    return nodeMoveMap;
   }
 
-  public HashMap<Integer, Move> loadCurrentMoveMap() {
-    currentMoveMap = new HashMap<>();
+  /**
+   * Loads the currentMoveMap hashmap
+   *
+   * @param date the current date
+   * @return the currentMoveMap hashmap
+   */
+  public HashMap<String, Move> loadCurrentMoveMap(LocalDate date) {
+    HashMap<String, Move> map = new HashMap<>();
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       while (rs.next()) {
@@ -92,13 +93,14 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         String longName = rs.getString("longName");
         LocalDate localDate = rs.getDate("localDate").toLocalDate();
 
-        updateCurrentMove(nodeID, longName, localDate);
+        updateCurrentMove(map, nodeID, longName, localDate, date);
       }
       checkDuplicateLocationNames();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return currentMoveMap;
+    // printMap();
+    return map;
   }
 
   public HashMap<Integer, LinkedList<Move>> Import(String filePath) {
@@ -116,32 +118,33 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
         LocalDate localDate = LocalDate.parse(data[2], formatter);
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
         ps.setInt(1, nodeID);
         ps.setString(2, longName);
         ps.setString(3, java.sql.Date.valueOf(localDate).toString());
         ps.executeUpdate();
 
-        if (!MoveMap.containsKey(localDate.hashCode())) {
+        Move move = new Move(nodeID, longName, localDate);
+
+        if (!nodeMoveMap.containsKey(nodeID)) {
           // create new linkedlist
-          MoveMap.put(localDate.hashCode(), new LinkedList<>());
+          nodeMoveMap.put(nodeID, new LinkedList<>());
         }
-        MoveMap.get(localDate.hashCode()).add(new Move(nodeID, longName, localDate));
+        nodeMoveMap.get(nodeID).add(move);
       }
       csvReader.close();
     } catch (SQLException | IOException e) {
 
       throw new RuntimeException(e);
     }
-    return MoveMap;
+    return nodeMoveMap;
   }
 
   public void Export(String filePath) {
     try {
       String newFile = filePath + "/Move.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Move\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -170,20 +173,21 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     LocalDate localDate = move.getDate();
     try {
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Move\" VALUES (?, ?, ?)");
       ps.setInt(1, nodeID);
       ps.setString(2, longName);
       ps.setString(3, java.sql.Date.valueOf(localDate).toString());
       ps.executeUpdate();
       move = new Move(nodeID, longName, localDate);
-      if (!MoveMap.containsKey(localDate.hashCode())) {
-        // create new linkedlist
-        MoveMap.put(localDate.hashCode(), new LinkedList<>());
-      }
-      MoveMap.get(localDate.hashCode()).add(move);
 
-      updateCurrentMove(nodeID, longName, localDate);
+      if (!nodeMoveMap.containsKey(nodeID)) {
+        // create new linkedlist
+        nodeMoveMap.put(nodeID, new LinkedList<>());
+      }
+      nodeMoveMap.get(nodeID).add(move);
+
+      updateCurrentMove(currentMoveMap, nodeID, longName, localDate, App.getCurrentDate());
       checkDuplicateLocationNames();
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -198,7 +202,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
     try {
 
       PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
+          Objects.requireNonNull(DBConnectionProvider.getInstance())
               .prepareStatement(
                   "DELETE FROM \"Teama_schema\".\"Move\" WHERE nodeid = ? AND longname = ? AND localdate = ?");
       ps.setInt(1, nodeID);
@@ -206,10 +210,14 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       ps.setString(3, java.sql.Date.valueOf(localDate).toString());
       ps.executeUpdate();
 
-      // MoveMap.remove(nodeID);
-      // TODO check to see if works
-      currentMoveMap.remove(move.getNodeID());
-      MoveMap.get(localDate.hashCode()).remove(move);
+      Move currentMove = currentMoveMap.get(move.getLongName());
+      if (currentMove != null) {
+        if (Objects.equals(currentMove.getNodeID(), move.getNodeID())
+            && currentMove.getDate().equals(move.getDate())) {
+          currentMoveMap.remove(move.getLongName());
+        }
+      }
+      nodeMoveMap.get(nodeID).remove(move);
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
@@ -220,109 +228,95 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   public void Update(Move obj) {}
 
   public void Update(Move oldMove, Move newMove) {
-    LocalDate localDate = newMove.getDate();
-    try {
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Move\" SET longname = ?, localdate = ?, nodeid = ?");
-      ps.setString(1, newMove.getLongName());
-      ps.setString(2, java.sql.Date.valueOf(newMove.getDate()).toString());
-      ps.setInt(3, newMove.getNodeID());
-      ps.executeUpdate();
-
-      // TODO check to see if works
-      MoveMap.get(localDate.hashCode()).remove(oldMove);
-      // MoveMap.put(move.getNodeID(), move);
-      if (!MoveMap.containsKey(localDate.hashCode())) {
-        // create new linkedlist
-        MoveMap.put(localDate.hashCode(), new LinkedList<>());
-      }
-      MoveMap.get(localDate.hashCode()).add(newMove);
-      checkDuplicateLocationNames();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
+    Delete(oldMove);
+    Add(newMove);
   }
 
-  public Move getMoveForNodeSlow(int nodeID) {
-    Move move = null;
-
-    try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
-      PreparedStatement ps =
-          Objects.requireNonNull(DBConnectionProvider.createConnection())
-              .prepareStatement(
-                  "SELECT * FROM \"Teama_schema\".\"Move\" WHERE localdate <= ? AND nodeid = ? ORDER BY localdate DESC LIMIT 1");
-      ps.setString(1, App.getCurrentDate().toString());
-      ps.setInt(2, nodeID);
-      // ps.executeUpdate();
-      ps.execute();
-      ps.getResultSet().next();
-
-      move =
-          new Move(
-              ps.getResultSet().getInt("nodeid"),
-              ps.getResultSet().getString("longname"),
-              LocalDate.parse(
-                  ps.getResultSet().getString("localdate"), DateTimeFormatter.ISO_DATE));
-
-    } catch (SQLException e) {
-      throw new RuntimeException("SQLException in MoveDAOImp.getMoveForNode()");
-    }
-
-    return move;
-  }
-
-  public Move getMoveForNode(int nodeID) {
-    return currentMoveMap.get(nodeID);
-  }
-
-  public Move getMoveForLocName(String longname) {
-    for (Map.Entry<Integer, Move> entry : currentMoveMap.entrySet()) {
-      if (entry.getValue().getLongName().equals(longname)) {
-        return entry.getValue();
+  /**
+   * Gets the first move associated to the node
+   *
+   * @param nodeID the node
+   * @return the move
+   */
+  public Move getFirstMoveForNode(int nodeID) {
+    LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
+    for (Move move : movesForNode) {
+      if (!move.getDate().isAfter(App.getCurrentDate()) // if move is before current date
+          && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
+          && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))) {
+        return move;
       }
     }
     return null;
   }
 
-  private void updateCurrentMove(int nodeID, String longName, LocalDate localDate) {
+  /**
+   * Gets the second move associated to the node if it exists
+   *
+   * @param nodeID the node
+   * @return the second move or the first move if no second move exists
+   */
+  public Move getSecondMoveForNode(int nodeID) {
+    Move firstMove = getFirstMoveForNode(nodeID);
+    LinkedList<Move> movesForNode = nodeMoveMap.get(nodeID);
+    for (Move move : movesForNode) {
+      if (!move.getDate().isAfter(App.getCurrentDate())
+          && (Objects.equals(currentMoveMap.get(move.getLongName()).getNodeID(), move.getNodeID()))
+          && (currentMoveMap.get(move.getLongName()).getDate().isEqual(move.getDate()))
+          && !move.getLongName().equals(firstMove.getLongName())) {
+        return move;
+      }
+    }
+    return firstMove;
+  }
+
+  /**
+   * Checks to see if the move provided can be added into the currentMoveMap
+   *
+   * @param map map to check
+   * @param nodeID nodeID for move
+   * @param longName longName for move
+   * @param localDate localDate for move
+   * @param currentDate currentDate to check for
+   */
+  private void updateCurrentMove(
+      HashMap<String, Move> map,
+      int nodeID,
+      String longName,
+      LocalDate localDate,
+      LocalDate currentDate) {
     // check if in future
-    if (localDate.isBefore(App.getCurrentDate()) || localDate.isEqual(App.getCurrentDate())) {
-      if (currentMoveMap.containsKey(nodeID)) {
+    if (!localDate.isAfter(currentDate)) {
+      if (map.containsKey(longName)) {
         // compare the value and the possible new one to see which should be there
-        if (currentMoveMap.get(nodeID).getDate().isBefore(localDate)) {
-          currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+        if (map.get(longName).getDate().isBefore(localDate)) {
+          map.put(longName, new Move(nodeID, longName, localDate));
         }
       } else {
-        currentMoveMap.put(nodeID, new Move(nodeID, longName, localDate));
+        map.put(longName, new Move(nodeID, longName, localDate));
       }
-    } else {
-      // currentMoveMap.remove(nodeID);
     }
   }
 
-  private HashMap<Integer, Move> checkDuplicateLocationNames() {
+  /** Checks if a location name shows mutliple times in the current move map */
+  private void checkDuplicateLocationNames() {
     HashMap<String, Move> locationNamesMap = new HashMap<>();
-    HashMap<Integer, Move> currentMoveMapCopy = new HashMap<>(currentMoveMap);
-    for (Map.Entry<Integer, Move> entry : currentMoveMapCopy.entrySet()) {
+    HashMap<String, Move> currentMoveMapCopy = new HashMap<>(currentMoveMap);
+    for (Map.Entry<String, Move> entry : currentMoveMapCopy.entrySet()) {
       String longname = entry.getValue().getLongName();
       if (locationNamesMap.containsKey(longname)) {
         // if current entry is a later date and not in the future, replace location name
         if (entry.getValue().getDate().isAfter(locationNamesMap.get(longname).getDate())
             && (entry.getValue().getDate().isBefore(App.getCurrentDate())
                 || entry.getValue().getDate().isEqual(App.getCurrentDate()))) {
-          currentMoveMap.remove(locationNamesMap.get(longname).getNodeID());
+          currentMoveMap.remove(locationNamesMap.get(longname).getLongName());
           locationNamesMap.put(longname, entry.getValue());
         } else {
-          currentMoveMap.remove(entry.getValue().getNodeID());
+          currentMoveMap.remove(entry.getValue().getLongName());
         }
       } else {
         locationNamesMap.put(entry.getValue().getLongName(), entry.getValue());
       }
     }
-    return currentMoveMap;
   }
 }

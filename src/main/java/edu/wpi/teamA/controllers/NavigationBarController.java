@@ -19,7 +19,7 @@ public class NavigationBarController {
   @FXML private Button mapEditorButton;
   @FXML private Button movesButton;
 
-  @FXML private MenuButton profileButton;
+  @FXML private MenuButton profile;
 
   @FXML private Boolean isAdmin = AccountSingleton.isAdmin();
 
@@ -36,7 +36,7 @@ public class NavigationBarController {
     // get first and last initial for user and set label over profile avatar
     char a = AccountSingleton.INSTANCE.getValue().getFirstName().charAt(0);
     char b = AccountSingleton.INSTANCE.getValue().getLastName().charAt(0);
-    profileButton.setText(new StringBuilder().append(a).append(b).toString());
+    profile.setText(new StringBuilder().append(a).append(b).toString());
     // sets isAdmin to true if admin value is set to 1 in singleton
 
     homeIcon.setImage(App.getHomeWhite());
@@ -73,7 +73,9 @@ public class NavigationBarController {
     if (App.getPrimaryStage().getTitle().contains("REQUEST")) {
       serviceRequestsButton.setStyle("-fx-background-color: #F0C747");
     } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
-      profileButton.setStyle("-fx-border-width: 5; -fx-border-color: #F0C747");
+      profile.setStyle("-fx-border-width: 7; -fx-border-color: #F0C747; -fx-border-insets: -5;");
+    } else if (App.getPrimaryStage().getTitle().contains("SETTINGS")) {
+      homeIcon.setImage(App.getHomeYello());
     }
   }
 
@@ -122,9 +124,13 @@ public class NavigationBarController {
   }
 
   public void logout() {
-    User loggedOut = new User(2, "N", "N", "N", "N");
+    User loggedOut = new User(2, "N", "N", "N", "N", "N");
     AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
+  }
+
+  public void game() {
+    Navigation.navigate(Screen.SCREEN_SAVER);
   }
 
   public void openSettings() {

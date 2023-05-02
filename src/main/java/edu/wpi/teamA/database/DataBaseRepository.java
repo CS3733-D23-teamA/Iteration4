@@ -2,7 +2,9 @@ package edu.wpi.teamA.database;
 
 import edu.wpi.teamA.database.DAOImps.*;
 import edu.wpi.teamA.database.ORMclasses.*;
+import java.awt.*;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,6 +23,7 @@ public class DataBaseRepository {
   private UserDAOImp userDAOImp;
   private EmployeeDAOImp employeeDAOImp;
   private SignageDAOImp signageDAOImp;
+  private AlertDAOImp alertDAOImp;
 
   public DataBaseRepository() {
     nodeDAOImp = new NodeDAOImp();
@@ -34,6 +37,7 @@ public class DataBaseRepository {
     userDAOImp = new UserDAOImp();
     employeeDAOImp = new EmployeeDAOImp();
     signageDAOImp = new SignageDAOImp();
+    alertDAOImp = new AlertDAOImp();
   }
 
   public static DataBaseRepository getInstance() {
@@ -41,6 +45,22 @@ public class DataBaseRepository {
       instance = new DataBaseRepository();
     }
     return instance;
+  }
+
+  /** Resets all the DAO's hashmaps (called every minute) */
+  public void updateCache() {
+    nodeDAOImp = new NodeDAOImp();
+    edgeDAOImp = new EdgeDAOImp();
+    locNameDAOImp = new LocNameDAOImp();
+    moveDAOImp = new MoveDAOImp();
+    flowerDAOImp = new FlowerDAOImp();
+    crrrDAOImp = new CRRRDAOImp();
+    furnitureDAOImp = new FurnitureDAOImp();
+    mealDAOImp = new MealDAOImp();
+    userDAOImp = new UserDAOImp();
+    employeeDAOImp = new EmployeeDAOImp();
+    signageDAOImp = new SignageDAOImp();
+    alertDAOImp = new AlertDAOImp();
   }
 
   // Node related methods
@@ -154,12 +174,20 @@ public class DataBaseRepository {
 
   // Move related methods
 
-  public HashMap<Integer, LinkedList<Move>> getMoveMap() {
-    return moveDAOImp.getMoveMap();
+  public HashMap<Integer, LinkedList<Move>> getNodeMoveMap() {
+    return moveDAOImp.getNodeMoveMap();
   }
 
-  public HashMap<Integer, Move> getCurrentMoveMap() {
+  //  public HashMap<String, LinkedList<Move>> getLocationMoveMap() {
+  //    return moveDAOImp.getLocationMoveMap();
+  //  }
+
+  public HashMap<String, Move> getCurrentMoveMap() {
     return moveDAOImp.getCurrentMoveMap();
+  }
+
+  public void setCurrentMoveMap(HashMap<String, Move> currentMoveMap) {
+    moveDAOImp.setCurrentMoveMap(currentMoveMap);
   }
 
   public void createMoveTable() {
@@ -170,8 +198,8 @@ public class DataBaseRepository {
     return moveDAOImp.loadDataFromDatabaseInMap();
   }
 
-  public HashMap<Integer, Move> loadCurrentMovesMap() {
-    return moveDAOImp.loadCurrentMoveMap();
+  public HashMap<String, Move> loadCurrentMovesMap(LocalDate date) {
+    return moveDAOImp.loadCurrentMoveMap(date);
   }
 
   public void addMove(Move move) {
@@ -186,16 +214,12 @@ public class DataBaseRepository {
     moveDAOImp.Update(oldMove, newMove);
   }
 
-  public Move getMoveForNodeSlow(int nodeID) {
-    return moveDAOImp.getMoveForNodeSlow(nodeID);
+  public Move getFirstMoveForNode(int nodeID) {
+    return moveDAOImp.getFirstMoveForNode(nodeID);
   }
 
-  public Move getMoveForNode(int nodeID) {
-    return moveDAOImp.getMoveForNode(nodeID);
-  }
-
-  public Move getMoveForLocName(String longname) {
-    return moveDAOImp.getMoveForLocName(longname);
+  public Move getSecondMoveForNode(int nodeID) {
+    return moveDAOImp.getSecondMoveForNode(nodeID);
   }
 
   // Import and Export methods
@@ -222,6 +246,8 @@ public class DataBaseRepository {
       userDAOImp.Import(filepath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Import(filepath);
+    } else if (type.equals("Alert")) {
+      alertDAOImp.Import(filepath);
     }
   }
 
@@ -248,12 +274,18 @@ public class DataBaseRepository {
       userDAOImp.Export(folderExportPath);
     } else if (type.equals("Signage")) {
       signageDAOImp.Export(folderExportPath);
+    } else if (type.equals("Alert")) {
+      alertDAOImp.Export(folderExportPath);
     }
   }
 
   // Flower related methods
   public HashMap<Integer, Flower> getFlowerMap() {
     return flowerDAOImp.getFlowerMap();
+  }
+
+  public void createFlowerTable() {
+    flowerDAOImp.createTable();
   }
 
   public HashMap<Integer, Flower> loadFlowersFromDatabaseInMap() {
@@ -334,12 +366,20 @@ public class DataBaseRepository {
     return furnitureDAOImp.getFurnitureMap();
   }
 
+  public void createCRRRTable() {
+    crrrDAOImp.createTable();
+  }
+
   public HashMap<Integer, FurnitureRequest> loadFurnitureFromDatabaseInMap() {
     return furnitureDAOImp.loadDataFromDatabaseInMap();
   }
 
   public void addFurniture(FurnitureRequest furniture) {
     furnitureDAOImp.add(furniture);
+  }
+
+  public void createFurnitureTable() {
+    furnitureDAOImp.createTable();
   }
 
   public void deleteFurniture(FurnitureRequest furniture) {
@@ -369,6 +409,10 @@ public class DataBaseRepository {
   // Meal related methods
   public HashMap<Integer, Meal> getMealMap() {
     return mealDAOImp.getMealMap();
+  }
+
+  public void createMealTable() {
+    mealDAOImp.createTable();
   }
 
   public HashMap<Integer, Meal> loadMealsFromDatabaseInMap() {
@@ -404,27 +448,36 @@ public class DataBaseRepository {
   }
 
   // user dao functions
+  public HashMap<String, User> getUserMap() {
+    return userDAOImp.getUserMap();
+  }
+
   public void createUserTable() {
     userDAOImp.createUserTable();
   }
 
+  public HashMap<String, User> loadUsersFromDatabaseInMap() {
+    return userDAOImp.loadUsersFromDatabaseInMap();
+  }
+
   public void addUser(
-      int adminYes, String userName, String password, String firstName, String lastName) {
-    if (userName.length() < 3) {
-      System.out.println("username is too short");
-    } else if (password.length() < 5) {
-      System.out.println("password is too short, " + "must be more than 5 characters");
-    } else if (firstName.length() < 1) {
-      System.out.println("Please enter a first name");
-    } else if (lastName.length() < 1) {
-      System.out.println("please enter a last name");
-    }
-    userDAOImp.addUser(adminYes, userName, password, firstName, lastName);
+      int adminYes,
+      String userName,
+      String password,
+      String firstName,
+      String lastName,
+      String userID) {
+    userDAOImp.addUser(adminYes, userName, password, firstName, lastName, userID);
   }
 
   public User checkUser(String userName, String password) {
 
     return userDAOImp.checkUser(userName, password);
+  }
+
+  public User checkUserByID(String userID) {
+
+    return userDAOImp.checkUserByID(userID);
   }
 
   public void updatePassword(
@@ -485,5 +538,33 @@ public class DataBaseRepository {
 
   public void removeSignage(SignageComponent signage) {
     signageDAOImp.removeSignage(signage);
+  }
+
+  public HashMap<Integer, Alert> getAlertMap() {
+    return alertDAOImp.getAlertMap();
+  }
+
+  public HashMap<Integer, Alert> loadAlertsFromDatabaseInMap() {
+    return alertDAOImp.loadAlertsFromDatabaseInMap();
+  }
+
+  public Alert getAlert(int ticketNum) {
+    return alertDAOImp.getAlert(ticketNum);
+  }
+
+  public void modifyAlert(Alert alert) {
+    alertDAOImp.modifyAlert(alert);
+  }
+
+  public void addAlert(Alert alert) {
+    alertDAOImp.addAlert(alert);
+  }
+
+  public void removeAlert(Alert alert) {
+    alertDAOImp.removeAlert(alert);
+  }
+
+  public int getNextAlertTicket() {
+    return alertDAOImp.getNextID();
   }
 }

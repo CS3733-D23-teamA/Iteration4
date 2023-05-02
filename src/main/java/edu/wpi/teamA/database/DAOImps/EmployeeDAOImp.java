@@ -16,14 +16,9 @@ import lombok.Setter;
 public class EmployeeDAOImp implements IEmployeeDAO {
 
   @Getter @Setter private HashMap<String, Employee> employeeMap = new HashMap<>();
-  static DBConnectionProvider employeeProvider = new DBConnectionProvider();
 
   public EmployeeDAOImp() {
     this.employeeMap = loadEmployeesFromDatabaseInMap();
-  }
-
-  public EmployeeDAOImp(HashMap<String, Employee> employeeMap) {
-    this.employeeMap = employeeMap;
   }
 
   @Override
@@ -33,8 +28,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
 
   public HashMap<String, Employee> loadEmployeesFromDatabaseInMap() {
     try {
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Employee\"");
 
       while (rs.next()) {
@@ -66,7 +60,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
         String password = data[2];
 
         PreparedStatement ps =
-            Objects.requireNonNull(DBConnectionProvider.createConnection())
+            Objects.requireNonNull(DBConnectionProvider.getInstance())
                 .prepareStatement("INSERT INTO \"Teama_schema\".\"Employee\" VALUES (?, ?, ?)");
         ps.setString(1, name);
         ps.setString(2, username);
@@ -87,8 +81,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
   public void Export(String folderExportPath) {
     try {
       String newFile = folderExportPath + "/Employee.csv";
-      Statement st =
-          Objects.requireNonNull(DBConnectionProvider.createConnection()).createStatement();
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
       ResultSet rs = st.executeQuery("SELECT * FROM \"Teama_schema\".\"Employee\"");
 
       FileWriter csvWriter = new FileWriter(newFile);
@@ -119,8 +112,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
       String password = employee.getPassword();
 
       PreparedStatement ps =
-          employeeProvider
-              .createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement(
                   "UPDATE \"Teama_schema\".\"Employee\" SET name = ?, password = ? WHERE username = ?");
       ps.setString(1, name);
@@ -146,12 +138,11 @@ public class EmployeeDAOImp implements IEmployeeDAO {
               + "(namee     Varchar(600),"
               + "username    Varchar(600),"
               + "password    VarChar(600))";
-      Statement stmtEmployee = employeeProvider.createConnection().createStatement();
+      Statement stmtEmployee = DBConnectionProvider.getInstance().createStatement();
       stmtEmployee.execute(sqlCreateEdge);
 
       PreparedStatement ps =
-          employeeProvider
-              .createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement("INSERT INTO \"Teama_schema\".\"Employee\" VALUES (?, ?, ?)");
       ps.setString(1, name);
       ps.setString(2, username);
@@ -168,8 +159,7 @@ public class EmployeeDAOImp implements IEmployeeDAO {
   public void removeEmployee(Employee employee) {
     try {
       PreparedStatement ps =
-          employeeProvider
-              .createConnection()
+          DBConnectionProvider.getInstance()
               .prepareStatement("DELETE FROM \"Teama_schema\".\"Employee\" WHERE username = ?");
       ps.setString(1, employee.getUsername());
       ps.executeUpdate();

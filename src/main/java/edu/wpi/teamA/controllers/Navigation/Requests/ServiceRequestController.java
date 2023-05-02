@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.ArrayList;
 import java.util.Map;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
@@ -33,7 +34,7 @@ public class ServiceRequestController {
   @FXML private MFXButton submitButtonStatus;
   @FXML private VBox employeeVbox;
   @FXML private VBox statusVbox;
-
+  @FXML private MFXComboBox<String> acCombo;
   @FXML private TableView<Flower> flowerTable;
   @FXML private TableColumn<Flower, Integer> flowerIDCol;
   @FXML private TableColumn<Flower, String> flowerNameCol;
@@ -82,6 +83,35 @@ public class ServiceRequestController {
   @FXML private TableColumn<Meal, String> mealStatusCol;
   @FXML private TableColumn<Flower, String> mealCreatorCol;
 
+  ChangeListener<Flower> flowerSelectionListener =
+      (obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+          FlowerSingleton.INSTANCE.setValue(newSelection);
+          Navigation.navigate(Screen.FLOWER_REQUEST_EDIT);
+        }
+      };
+  ChangeListener<ConferenceRoomResRequest> CRSelectionListener =
+      (obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+          CRRRSingleton.INSTANCE.setValue(newSelection);
+          Navigation.navigate(Screen.CR_REQUEST_EDIT);
+        }
+      };
+  ChangeListener<FurnitureRequest> FurnitureSelectionListener =
+      (obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+          FurnitureSingleton.INSTANCE.setValue(newSelection);
+          Navigation.navigate(Screen.FURNITURE_REQUEST_EDIT);
+        }
+      };
+  ChangeListener<Meal> MealSelectionListener =
+      (obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+          MealSingleton.INSTANCE.setValue(newSelection);
+          Navigation.navigate(Screen.MEAL_REQUEST_EDIT);
+        }
+      };
+
   @FXML
   public void initialize() {
     // requestCombo.setPromptText("Select Request");
@@ -93,49 +123,14 @@ public class ServiceRequestController {
             "Meal Delivery Request",
             "Furniture Delivery Request");
     requestCombo.getSelectionModel().selectItem("Flower Request");
-    displayFlowerRequests();
+    if (AccountSingleton.isAdmin()) {
+      acCombo.hide();
+      acCombo.setDisable(true);
+    }
+    acCombo.getItems().addAll("Created", "Assigned");
+    acCombo.getSelectionModel().selectItem("Created");
+    displayFlowerRequests(acCombo.getSelectedItem());
     flowerTable.toFront();
-
-    flowerTable
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (obs, oldSelection, newSelection) -> {
-              if (newSelection != null) {
-                FlowerSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.FLOWER_REQUEST_EDIT);
-              }
-            });
-    roomTable
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (obs, oldSelection, newSelection) -> {
-              if (newSelection != null) {
-                CRRRSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.CR_REQUEST);
-              }
-            });
-    mealTable
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (obs, oldSelection, newSelection) -> {
-              if (newSelection != null) {
-                MealSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.MEAL_REQUEST_EDIT);
-              }
-            });
-    furnitureTable
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (obs, oldSelection, newSelection) -> {
-              if (newSelection != null) {
-                FurnitureSingleton.INSTANCE.setValue(newSelection);
-                Navigation.navigate(Screen.FURNITURE_REQUEST_EDIT);
-              }
-            });
 
     if (AccountSingleton.isAdmin()) {
       title.setText("Open Service Requests");
@@ -175,7 +170,8 @@ public class ServiceRequestController {
       chooseEmployee.getItems().addAll(allEmployeeUsernames);
 
       chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
-      chooseStatus.getItems().addAll("new", "in progress", "done");
+
+      // chooseStatus.getItems().addAll("new", "in progress", "done");
     } else {
       employeeVbox.setVisible(false);
       employeeVbox.setManaged(false);
@@ -222,7 +218,7 @@ public class ServiceRequestController {
       databaseRepo.updateFlower(flower);
 
       // update display
-      displayFlowerRequests();
+      displayFlowerRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Conference")) {
       // use service request type and name to get the service request
       ConferenceRoomResRequest crrr = databaseRepo.getCRRR(id);
@@ -232,7 +228,7 @@ public class ServiceRequestController {
       databaseRepo.updateCRRR(crrr);
 
       // update display
-      displayCRRRRequests();
+      displayCRRRRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Furniture")) {
       // use service request type and name to get the service request
       FurnitureRequest furniture = databaseRepo.getFurniture(id);
@@ -242,7 +238,7 @@ public class ServiceRequestController {
       databaseRepo.updateFurniture(furniture);
 
       // update display
-      displayFurnitureRequests();
+      displayFurnitureRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Meal")) {
       // use service request type and name to get the service request
       Meal meal = databaseRepo.getMeal(id);
@@ -252,7 +248,7 @@ public class ServiceRequestController {
       databaseRepo.updateMeal(meal);
 
       // update display
-      displayMealRequests();
+      displayMealRequests(acCombo.getSelectedItem());
     }
   }
 
@@ -274,7 +270,7 @@ public class ServiceRequestController {
       databaseRepo.updateFlower(flower);
 
       // update display
-      displayFlowerRequests();
+      displayFlowerRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Conference")) {
       // use service request type and name to get the service request
       ConferenceRoomResRequest crrr = databaseRepo.getCRRR(id);
@@ -284,7 +280,7 @@ public class ServiceRequestController {
       databaseRepo.updateCRRR(crrr);
 
       // update display
-      displayCRRRRequests();
+      displayCRRRRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Furniture")) {
       // use service request type and name to get the service request
       FurnitureRequest furniture = databaseRepo.getFurniture(id);
@@ -294,7 +290,7 @@ public class ServiceRequestController {
       databaseRepo.updateFurniture(furniture);
 
       // update display
-      displayFurnitureRequests();
+      displayFurnitureRequests(acCombo.getSelectedItem());
     } else if (serviceRequest.substring(0, serviceRequest.indexOf(" ")).equals("Meal")) {
       // use service request type and name to get the service request
       Meal meal = databaseRepo.getMeal(id);
@@ -304,11 +300,12 @@ public class ServiceRequestController {
       databaseRepo.updateMeal(meal);
 
       // update display
-      displayMealRequests();
+      displayMealRequests(acCombo.getSelectedItem());
     }
   }
 
-  public void displayFlowerRequests() {
+  public void displayFlowerRequests(String x) {
+    flowerTable.getSelectionModel().selectedItemProperty().removeListener(flowerSelectionListener);
     flowerIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     flowerNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     flowerRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
@@ -322,17 +319,31 @@ public class ServiceRequestController {
 
     if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
       flowerTable.setItems(FXCollections.observableArrayList(databaseRepo.getFlowerMap().values()));
+      flowerTable.getSelectionModel().selectedItemProperty().addListener(flowerSelectionListener);
     } else {
-      ArrayList<Flower> items =
-          databaseRepo.getCreatedFlower(AccountSingleton.INSTANCE.getValue().getUserName());
+      ArrayList<Flower> items = new ArrayList<>();
+      if (x.equals("Created")) {
+        items = databaseRepo.getCreatedFlower(AccountSingleton.INSTANCE.getValue().getUserName());
+      } else if (x.equals("Assigned")) {
+        items = databaseRepo.getAssignedFlower(AccountSingleton.INSTANCE.getValue().getUserName());
+      }
       if (!items.isEmpty()) {
         flowerTable.setItems(FXCollections.observableArrayList(items));
+        if (x.equals("Created")) {
+          flowerTable
+              .getSelectionModel()
+              .selectedItemProperty()
+              .addListener(flowerSelectionListener);
+        }
+      } else {
+        flowerTable.getItems().clear();
       }
     }
     flowerTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
-  public void displayCRRRRequests() {
+  public void displayCRRRRequests(String x) {
+    roomTable.getSelectionModel().selectedItemProperty().removeListener(CRSelectionListener);
     roomIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     roomNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     roomRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
@@ -346,17 +357,31 @@ public class ServiceRequestController {
 
     if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
       roomTable.setItems(FXCollections.observableArrayList(databaseRepo.getCrrrMap().values()));
+      roomTable.getSelectionModel().selectedItemProperty().addListener(CRSelectionListener);
     } else {
-      ArrayList<ConferenceRoomResRequest> items =
-          databaseRepo.getCreatedCRR(AccountSingleton.INSTANCE.getValue().getUserName());
+      ArrayList<ConferenceRoomResRequest> items = new ArrayList<>();
+      if (x.equals("Created")) {
+        items = databaseRepo.getCreatedCRR(AccountSingleton.INSTANCE.getValue().getUserName());
+      } else if (x.equals("Assigned")) {
+        items = databaseRepo.getAssignedCRRR(AccountSingleton.INSTANCE.getValue().getUserName());
+      }
       if (!items.isEmpty()) {
         roomTable.setItems(FXCollections.observableArrayList(items));
+        if (x.equals("Created")) {
+          roomTable.getSelectionModel().selectedItemProperty().addListener(CRSelectionListener);
+        }
+      } else {
+        roomTable.getItems().clear();
       }
     }
     roomTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
-  public void displayFurnitureRequests() {
+  public void displayFurnitureRequests(String x) {
+    furnitureTable
+        .getSelectionModel()
+        .selectedItemProperty()
+        .removeListener(FurnitureSelectionListener);
     furnitureIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     furnitureNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     furnitureRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
@@ -371,17 +396,40 @@ public class ServiceRequestController {
     if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
       furnitureTable.setItems(
           FXCollections.observableArrayList(databaseRepo.getFurnitureMap().values()));
+      furnitureTable
+          .getSelectionModel()
+          .selectedItemProperty()
+          .addListener(FurnitureSelectionListener);
     } else {
-      ArrayList<FurnitureRequest> items =
-          databaseRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
+      ArrayList<FurnitureRequest> items = new ArrayList<>();
+      if (x.equals("Created")) {
+        items =
+            databaseRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
+      } else if (x.equals("Assigned")) {
+        items =
+            databaseRepo.getAssignedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
+        furnitureTable
+            .getSelectionModel()
+            .selectedItemProperty()
+            .removeListener(FurnitureSelectionListener);
+      }
       if (!items.isEmpty()) {
         furnitureTable.setItems(FXCollections.observableArrayList(items));
+        if (x.equals("Created")) {
+          furnitureTable
+              .getSelectionModel()
+              .selectedItemProperty()
+              .addListener(FurnitureSelectionListener);
+        }
+      } else {
+        furnitureTable.getItems().clear();
       }
     }
     furnitureTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
   }
 
-  public void displayMealRequests() {
+  public void displayMealRequests(String x) {
+    mealTable.getSelectionModel().selectedItemProperty().removeListener(MealSelectionListener);
     mealIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
     mealNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
     mealRoomCol.setCellValueFactory(new PropertyValueFactory<>("room"));
@@ -395,11 +443,22 @@ public class ServiceRequestController {
 
     if (AccountSingleton.INSTANCE.getValue().isAdmin()) {
       mealTable.setItems(FXCollections.observableArrayList(databaseRepo.getMealMap().values()));
+      mealTable.getSelectionModel().selectedItemProperty().addListener(MealSelectionListener);
     } else {
-      ArrayList<Meal> items =
-          databaseRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
+      ArrayList<Meal> items = new ArrayList<>();
+      if (x.equals("Created")) {
+        items = databaseRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
+      } else if (x.equals("Assigned")) {
+        items = databaseRepo.getAssignedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
+        mealTable.getSelectionModel().selectedItemProperty().removeListener(MealSelectionListener);
+      }
       if (!items.isEmpty()) {
         mealTable.setItems(FXCollections.observableArrayList(items));
+        if (x.equals("Created")) {
+          mealTable.getSelectionModel().selectedItemProperty().addListener(MealSelectionListener);
+        }
+      } else {
+        mealTable.getItems().clear();
       }
     }
     mealTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -408,17 +467,33 @@ public class ServiceRequestController {
   public void updateTable() {
     int request = requestCombo.getSelectedIndex();
     if (request <= 0) {
-      displayFlowerRequests();
+      displayFlowerRequests(acCombo.getSelectedItem());
+      chooseStatus
+          .getItems()
+          .addAll("new", "in progress", "picking flowers", "flowers ready", "delivered!");
       flowerTable.toFront();
     } else if (request == 1) {
-      displayCRRRRequests();
+      displayCRRRRequests(acCombo.getSelectedItem());
       roomTable.toFront();
     } else if (request == 2) {
-      displayMealRequests();
+      displayMealRequests(acCombo.getSelectedItem());
+      chooseStatus
+          .getItems()
+          .addAll("new", "in progress", "in preparation", "meal prepared", "delivered!");
       mealTable.toFront();
     } else if (request == 3) {
-      displayFurnitureRequests();
+      displayFurnitureRequests(acCombo.getSelectedItem());
+      chooseStatus
+          .getItems()
+          .addAll("new", "in progress", "furniture packed", "being shipped", "delivered!");
       furnitureTable.toFront();
     }
+  }
+
+  public void updateType() {
+    displayFlowerRequests(acCombo.getSelectedItem());
+    displayCRRRRequests(acCombo.getSelectedItem());
+    displayMealRequests(acCombo.getSelectedItem());
+    displayFurnitureRequests(acCombo.getSelectedItem());
   }
 }

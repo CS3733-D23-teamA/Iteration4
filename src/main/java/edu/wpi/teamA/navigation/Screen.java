@@ -11,7 +11,8 @@ public enum Screen {
   MOVES("views/Moves.fxml"),
   FLOWER_REQUEST("views/FlowerRequest.fxml"),
   FLOWER_REQUEST_EDIT("views/FlowerEdit.fxml"),
-  CR_REQUEST("views/CRResquest.fxml"),
+  CR_REQUEST("views/CRRequest.fxml"),
+  CR_REQUEST_EDIT("views/CRRequestEdit.fxml"),
   FURNITURE_REQUEST("views/FurnitureRequest.fxml"),
   FURNITURE_REQUEST_EDIT("views/FurnitureEdit.fxml"),
   MEAL_REQUEST("views/MealRequest.fxml"),
@@ -21,9 +22,13 @@ public enum Screen {
   CHANGE_PASSWORD_SETTINGS("views/ChangePassword.fxml"),
   UPDATE_NAME_SETTINGS("views/UpdateName.fxml"),
   SIGNAGE_ADMIN("views/SignageAdmin.fxml"),
-  IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
+  DATA_SETTINGS("views/DataSettings.fxml"),
   USER_SETTINGS("views/UserSettings.fxml"),
-  LOCATION_SETTINGS("views/LocationSettings.fxml");
+  LOCATION_SETTINGS("views/LocationSettings.fxml"),
+  IMPORT_EXPORT_SETTINGS("views/ImportExport.fxml"),
+  ALERT_SETTINGS("views/AlertSettings.fxml"),
+  ADD_USER("views/AddUser.fxml"),
+  SCREEN_SAVER("views/ScreenSaver.fxml");
 
   private final String filename;
 

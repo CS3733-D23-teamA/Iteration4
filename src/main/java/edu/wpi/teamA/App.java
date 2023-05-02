@@ -11,6 +11,8 @@ import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,12 +38,35 @@ public class App extends Application {
   @Getter private static Image map1 = new Image("edu/wpi/teamA/images/map-page/Level 1.png");
   @Getter private static Image map2 = new Image("edu/wpi/teamA/images/map-page/Level 2.png");
   @Getter private static Image map3 = new Image("edu/wpi/teamA/images/map-page/Level 3.png");
+  @Getter private static Image up = new Image("edu/wpi/teamA/images/icons/up.png");
+  @Getter private static Image down = new Image("edu/wpi/teamA/images/icons/down.png");
+  @Getter private static Image left = new Image("edu/wpi/teamA/images/icons/left.png");
+  @Getter private static Image right = new Image("edu/wpi/teamA/images/icons/right.png");
+  @Getter private static Image smile = new Image("edu/wpi/teamA/images/icons/SmileyFace.png");
+  @Getter private static Image frown = new Image("edu/wpi/teamA/images/icons/frown.png");
+
+  @Getter
+  private static Image locationPF = new Image("edu/wpi/teamA/images/icons/pathfindingLoc.png");
 
   @Getter
   private static Image homeWhite = new Image("edu/wpi/teamA/images/icons/bwh-logo-white.png");
 
   @Getter
   private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
+
+  @Getter
+  private static Image signageRight = new Image("edu/wpi/teamA/images/icons/signage-right.png");
+
+  @Getter
+  private static Image signageLeft = new Image("edu/wpi/teamA/images/icons/signage-left.png");
+
+  @Getter private static Image signageUp = new Image("edu/wpi/teamA/images/icons/signage-up.png");
+
+  @Getter
+  private static Image signageDown = new Image("edu/wpi/teamA/images/icons/signage-down.png");
+
+  @Getter
+  private static Image signageStop = new Image("edu/wpi/teamA/images/icons/signage-stop.png");
 
   // BWH Colors
   @Getter private static Color YELLOWBWH = Color.web("F0C747");
@@ -54,14 +79,21 @@ public class App extends Application {
   @Getter private static ServiceRequestEntity serviceRequestEntity = new ServiceRequestEntity();
   @Getter private static DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
+  private final ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+
   @Override
   public void init() {
     log.info("Starting Up");
-    // currentDate = LocalDate.now();
     databaseRepo.createNodeTable();
     databaseRepo.createEdgeTable();
     databaseRepo.createLocNameTable();
     databaseRepo.createMoveTable();
+    databaseRepo.createFlowerTable();
+    databaseRepo.createCRRRTable();
+    databaseRepo.createFurnitureTable();
+    databaseRepo.createMealTable();
+
+    executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }
 
   @Override
@@ -97,5 +129,6 @@ public class App extends Application {
 
     log.info("Shutting Down");
     DBConnectionProvider.closeConnection();
+    executor.shutdown();
   }
 }

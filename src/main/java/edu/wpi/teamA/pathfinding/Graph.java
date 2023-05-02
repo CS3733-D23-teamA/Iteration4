@@ -2,25 +2,18 @@ package edu.wpi.teamA.pathfinding;
 
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.Edge;
+import edu.wpi.teamA.database.ORMclasses.LocationName;
+import edu.wpi.teamA.database.ORMclasses.Move;
 import edu.wpi.teamA.database.ORMclasses.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Graph {
   private HashMap<Integer, GraphNode> pathfindingArea;
-  private int numNodes;
-  private int[] distances; // ArrayList<Integer> distances;
-
-  /*public Graph() {
-    this.pathfindingArea = new HashMap<Integer, GraphNode>();
-  }*/
+  DataBaseRepository databaseRepo;
 
   public Graph() {
     this.pathfindingArea = new HashMap<Integer, GraphNode>();
-  }
-
-  public int getNumNodes() {
-    return this.pathfindingArea.size();
   }
 
   public void prepGraph() {
@@ -28,7 +21,7 @@ public class Graph {
     //    NodeDAOImp nodeDAO = new NodeDAOImp();
     //    EdgeDAOImp edgeDAO = new EdgeDAOImp();
 
-    DataBaseRepository databaseRepo = new DataBaseRepository();
+    databaseRepo = new DataBaseRepository();
 
     ArrayList<Node> allNodes = databaseRepo.loadNodesFromDatabaseInArray();
     ArrayList<Edge> allEdges = databaseRepo.loadEdgesFromDatabaseInArray();
@@ -58,5 +51,16 @@ public class Graph {
 
   public GraphNode getGraphNode(int key) {
     return pathfindingArea.get(key);
+  }
+
+  public String getNodeType(int key) {
+
+    Move move = databaseRepo.getFirstMoveForNode(key);
+    if (move == null) {
+      return "";
+    }
+
+    LocationName locName = databaseRepo.getLocName(move.getLongName());
+    return locName.getNodeType();
   }
 }

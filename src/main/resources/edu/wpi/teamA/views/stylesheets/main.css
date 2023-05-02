@@ -23,6 +23,10 @@
     -fx-text-fill: #151515;
 }
 
+.mfx-ripple-generator {
+    -mfx-ripple-color:transparent;
+}
+
 .label{
     -fx-font-size: 18;
     -fx-font-weight: bold;
@@ -60,14 +64,14 @@
     -fx-text-fill: #f1f1f1;
     -fx-font-weight: bold;
     -fx-background-color: #012D5A;
-    -fx-background-radius: 15;
-    -fx-border-radius: 13;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
 }
 
 .submit-mfx-button:hover {
     -fx-font-size: 20;
-    -fx-background-radius: 20;
-    -fx-border-radius: 19;
+    -fx-background-radius: 9;
+    -fx-border-radius: 9;
     /*-fx-border-color: #3788C8;*/
 }
 
@@ -79,17 +83,17 @@
     -fx-text-fill: #012D5A;
     -fx-font-weight: bold;
     -fx-background-color: #f1f1f1;
-    -fx-background-radius: 15;
-    -fx-border-radius: 13;
-    -fx-border-width: 2;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 3;
     -fx-border-color: #012D5A;
 }
 
 .clear-mfx-button:hover {
     -fx-font-size: 18;
     -fx-border-color: #012D5A;
-    -fx-background-radius: 20;
-    -fx-border-radius: 19;
+    -fx-background-radius: 9;
+    -fx-border-radius: 9;
 }
 
 .delete-mfx-button {
@@ -100,16 +104,16 @@
     -fx-text-fill: #AA4A44;
     -fx-font-weight: bold;
     -fx-background-color: #f1f1f1;
-    -fx-background-radius: 15;
-    -fx-border-radius: 13;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
     -fx-border-width: 2;
     -fx-border-color: #AA4A44;
 }
 
 .delete-mfx-button:hover {
     -fx-font-size: 18;
-    -fx-background-radius: 20;
-    -fx-border-radius: 19;
+    -fx-background-radius: 9;
+    -fx-border-radius: 9;
 }
 
 
@@ -149,7 +153,17 @@
 .mfx-toggle-node:selected {
     -fx-background-color: #F0C747;
     -fx-text-fill: #012D5A;
-    -fx-font-size: 18;
+}
+
+.mfx-toggle-node:hover {
+    -fx-background-color: #F0C747;
+    -fx-text-fill: #012D5A;
+    -fx-font-size: 20;
+}
+
+.mfx-toggle-node{
+    -fx-border-color: #f1f1f1;
+    -fx-background-radius: 11;
 }
 
 .mfx-toggle-button {
