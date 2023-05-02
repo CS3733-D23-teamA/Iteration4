@@ -145,6 +145,7 @@ public class PathfindingController {
     changeLevel(String.valueOf(currentLevel));
     gesturePane.setContent(stackPane);
     gesturePane.setGestureEnabled(true);
+    gesturePane.setScrollMode(GesturePane.ScrollMode.ZOOM);
 
     // center and zoom onto map content
     centerMap(2265, 950, 0.5);
