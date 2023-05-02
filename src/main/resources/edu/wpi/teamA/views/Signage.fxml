@@ -11,16 +11,15 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.SignageController">
    <top>
        <fx:include fx:id="navbar" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
    </top>
    <center>
-      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+      <ScrollPane fitToHeight="true" maxWidth="-Infinity" BorderPane.alignment="CENTER">
          <content>
-            <StackPane alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity">
+            <StackPane alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="1000.0">
                <children>
                   <HBox fx:id="screenHBox" alignment="CENTER" spacing="10.0" StackPane.alignment="CENTER">
                      <children>
@@ -39,34 +38,17 @@
                         </MFXButton>
                      </children>
                   </HBox>
-                  <VBox fx:id="ScreenVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="600.0" prefHeight="512.0" prefWidth="1500.0">
+                  <VBox fx:id="ScreenVBox" alignment="TOP_CENTER" StackPane.alignment="CENTER">
                      <children>
-                        <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" VBox.vgrow="SOMETIMES">
-                           <children>
-                              <GridPane fx:id="screenDialog" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" HBox.hgrow="SOMETIMES">
-                                <columnConstraints>
-                                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
-                                  <ColumnConstraints fx:id="locationCol" halignment="CENTER" hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="600.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints maxHeight="75.0" minHeight="0.0" prefHeight="75.0" valignment="CENTER" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Signage" textAlignment="CENTER" wrappingWidth="325.71514892578125" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
-                                       <font>
-                                          <Font name="Open Sans Regular" size="35.0" />
-                                       </font>
-                                       <GridPane.margin>
-                                          <Insets bottom="75.0" top="15.0" />
-                                       </GridPane.margin>
-                                    </Text>
-                                 </children>
-                              </GridPane>
-                           </children>
-                           <VBox.margin>
-                              <Insets top="100.0" />
-                           </VBox.margin>
-                        </HBox>
+                        <GridPane fx:id="screenDialog" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="10.0" prefWidth="150.0" />
+                            <ColumnConstraints fx:id="locationCol" halignment="CENTER" hgrow="SOMETIMES" maxWidth="550.0" minWidth="10.0" prefWidth="600.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="75.0" minHeight="0.0" prefHeight="75.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
                      </children>
                      <StackPane.margin>
                         <Insets />
