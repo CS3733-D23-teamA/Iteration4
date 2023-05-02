@@ -170,6 +170,12 @@
                                     </children>
                                 </VBox>
                             </center>
+                     <top>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER" />
+                     </top>
+                     <bottom>
+                        <MFXButton fx:id="XButton" alignment="BOTTOM_RIGHT" onAction="#ExitDialog" onMouseClicked="#ExitDialog" text="X" BorderPane.alignment="CENTER" />
+                     </bottom>
                         </MFXGenericDialog>
                     </children>
                     <padding>
