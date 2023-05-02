@@ -30,7 +30,7 @@ public class HomeController {
   }
 
   public void openAbout() {
-    Navigation.navigate(Screen.ABOUT_HOME);
+    // Navigation.navigate(Screen.ABOUT_HOME);
   }
 
   public void openCredits() {
