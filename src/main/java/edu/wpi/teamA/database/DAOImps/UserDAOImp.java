@@ -20,22 +20,22 @@ public class UserDAOImp {
   @Getter @Setter private HashMap<String, User> userMap = new HashMap<>();
 
   public UserDAOImp() {
+    createUserTable();
     this.userMap = loadUsersFromDatabaseInMap();
   }
 
   // Create database table for User
   public void createUserTable() {
     try {
-      Statement stmtUser = DBConnectionProvider.getInstance().createStatement();
-      String sqlCreateUser =
+      Statement st = DBConnectionProvider.getInstance().createStatement();
+      st.execute(
           "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Users\" ("
-              + "adminYes   int,"
+              + "adminYes   int NOT NULL,"
               + "userName   VARCHAR(255) PRIMARY KEY,"
-              + "password   VARCHAR(255),"
-              + "firstName  VARCHAR(255),"
-              + "lastName   VARCHAR(255),"
-              + "userID VARCHAR(255) PRIMARY KEY)";
-      stmtUser.execute(sqlCreateUser);
+              + "password   VARCHAR(255) NOT NULL,"
+              + "firstName  VARCHAR(255) NOT NULL,"
+              + "lastName   VARCHAR(255) NOT NULL,"
+              + "userID VARCHAR(255))");
     } catch (SQLException e) {
       e.printStackTrace();
       throw new RuntimeException(e);

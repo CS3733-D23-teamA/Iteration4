@@ -516,15 +516,21 @@ public class DataBaseRepository {
     employeeDAOImp.removeEmployee(employee);
   }
 
-  public HashMap<String, SignageComponent> getSignageMap() {
+  // signage
+  public void createSignageTable() {
+    System.out.println("AHHHHHHHHHHHHHHHH");
+    signageDAOImp.createTable();
+  }
+
+  public HashMap<Integer, SignageComponent> getSignageMap() {
     return signageDAOImp.getSignageMap();
   }
 
-  public HashMap<String, SignageComponent> loadSignagesFromDatabaseInMap() {
+  public HashMap<Integer, SignageComponent> loadSignagesFromDatabaseInMap() {
     return signageDAOImp.loadSignagesFromDatabaseInMap();
   }
 
-  public SignageComponent getSignage(String signageID) {
+  public SignageComponent getSignage(int signageID) {
     return signageDAOImp.getSignage(signageID);
   }
 
@@ -539,6 +545,12 @@ public class DataBaseRepository {
   public void removeSignage(SignageComponent signage) {
     signageDAOImp.removeSignage(signage);
   }
+
+  public int getNextSignageID() {
+    return signageDAOImp.getNextID();
+  }
+
+  // Alerts
 
   public HashMap<Integer, Alert> getAlertMap() {
     return alertDAOImp.getAlertMap();

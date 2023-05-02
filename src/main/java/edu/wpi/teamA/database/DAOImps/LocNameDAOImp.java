@@ -20,19 +20,19 @@ public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
 
   public LocNameDAOImp() {
+    createTable();
     this.LocNameMap = loadDataFromDatabaseInMap();
   }
 
   public void createTable() {
     try {
-      String sqlCreateEdge =
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
           "Create Table if not exists \"Teama_schema\".\"LocationName\""
               + "(longName     Varchar(600) PRIMARY KEY,"
-              + "shortName     Varchar(600),"
-              + "nodeType      Varchar(600))";
-      Statement stmtLocName =
-          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      stmtLocName.execute(sqlCreateEdge);
+              + "shortName     Varchar(600) NOT NULL,"
+              + "nodeType      Varchar(600) NOT NULL)");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
