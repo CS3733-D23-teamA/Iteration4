@@ -61,7 +61,10 @@
                                     </Label>
                                     <StackPane>
                                        <children>
-                                          <TextField fx:id="userIDField" maxWidth="200.0" onAction="#login" style="-fx-background-color: transparent;" />
+                                          <TextField fx:id="userIDField" maxWidth="200.0" onAction="#login" style="-fx-background-color: transparent;">
+                                             <StackPane.margin>
+                                                <Insets />
+                                             </StackPane.margin></TextField>
                                           <MFXButton onAction="#showLogin" onKeyTyped="#login" prefHeight="43.0" prefWidth="259.0" style="-fx-background-color: #012D5A; -fx-text-fill: #F1F1F1; -fx-font-weight: BOLD;" text="Forgot Your ID?" textFill="WHITE">
                                              <font>
                                                 <Font name="Open Sans Bold" size="14.0" />

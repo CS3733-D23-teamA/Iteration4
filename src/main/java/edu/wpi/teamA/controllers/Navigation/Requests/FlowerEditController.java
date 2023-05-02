@@ -80,41 +80,28 @@ public class FlowerEditController {
     if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("new")) {
       newStatus.setFill(Color.web("0x012d5a"));
 
-      assignedStatus.setStyle("-fx-background-color: #98AABC");
-      inProgressStatus.setStyle("-fx-background-color: #98AABC");
-      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
-      doneStatus.setFill(Color.web("0x98aabc"));
-
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("assigned")) {
       newStatus.setFill(Color.web("0x012d5a"));
       assignedStatus.setStyle("-fx-background-color: #012D5A");
-      ;
-
-      inProgressStatus.setStyle("-fx-background-color: #98AABC");
-      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
-      doneStatus.setFill(Color.web("0x98aabc"));
 
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
       newStatus.setFill(Color.web("0x012d5a"));
       assignedStatus.setStyle("-fx-background-color: #012D5A");
       inProgressStatus.setStyle("-fx-background-color: #012D5A");
 
-      inDeliveryStatus.setStyle("-fx-background-color: #98AABC");
-      doneStatus.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in delivery")) {
       newStatus.setFill(Color.web("0x012d5a"));
       assignedStatus.setStyle("-fx-background-color: #012D5A");
       inProgressStatus.setStyle("-fx-background-color: #012D5A");
       inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
 
-      doneStatus.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("done")) {
       System.out.println("delivered status");
       newStatus.setFill(Color.web("0x012d5a"));
       assignedStatus.setStyle("-fx-background-color: #012D5A");
       inProgressStatus.setStyle("-fx-background-color: #012D5A");
       inDeliveryStatus.setStyle("-fx-background-color: #012D5A");
-      doneStatus.setFill(Color.web("0x98aabc"));
+      doneStatus.setStyle("-fx-fill: #012D5A");
     }
   }
 

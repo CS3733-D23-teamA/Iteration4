@@ -19,6 +19,7 @@ public class LoginController {
   @FXML private Button loginButton;
   @FXML private Button exitButton;
   @FXML private Label loginMessageLabel;
+  @FXML private Label swipeMessageLabel;
   @FXML private TextField usernameTextField;
   @FXML private PasswordField passwordTextField;
   @FXML private TextField userIDField;
@@ -61,8 +62,8 @@ public class LoginController {
         AccountSingleton.INSTANCE.setValue(user);
         Navigation.navigate(Screen.HOME);
       } else {
-        loginMessageLabel.setText("User ID doesn't exist, swipe again");
-        //        userIDField.clear();
+        swipeMessageLabel.setText("User ID doesn't exist, swipe again");
+        userIDField.clear();
       }
     } else {
       // Setting up User
