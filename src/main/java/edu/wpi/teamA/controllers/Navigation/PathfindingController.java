@@ -388,7 +388,9 @@ public class PathfindingController {
     // draw the path
     for (int i = 1; i < pathIDs.size(); i++) {
       gNode = SearchSingleton.getGraphNode(pathIDs.get(i));
-      if (currentLevel.toString().equals(gNode.getFloor())) {
+      GraphNode pastNode = SearchSingleton.getGraphNode(pathIDs.get(i - 1));
+      if (currentLevel.toString().equals(gNode.getFloor())
+          && currentLevel.toString().equals(pastNode.getFloor())) {
         line = new Line(lastX, lastY, gNode.getXcoord(), gNode.getYcoord());
         line.setFill(Color.web("#012D5A"));
         line.setStrokeWidth(7);
