@@ -24,13 +24,12 @@ public class HomeController {
 
   @FXML
   public void initialize() {
+
     getAlerts();
     loadServiceRequests();
   }
 
-  public void openAbout() {
-    // Navigation.navigate(Screen.ABOUT_HOME);
-  }
+  public void openAbout() {}
 
   public void openCredits() {
     Navigation.navigate(Screen.CREDIT_HOME);

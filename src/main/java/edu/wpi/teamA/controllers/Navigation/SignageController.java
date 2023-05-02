@@ -66,8 +66,6 @@ public class SignageController {
     for (SignageComponent signage : signageToDisplay) {
       screenDialog.addRow(numRow);
       Text locName = new Text(signage.getLocationName());
-      System.out.println(signage.getLocationName());
-      System.out.println(locName.getText());
 
       ImageView imgView = new ImageView();
       if (signage.getDirection().equals("right")) {

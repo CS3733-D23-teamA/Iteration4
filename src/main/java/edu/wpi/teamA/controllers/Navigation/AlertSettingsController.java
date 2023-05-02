@@ -92,7 +92,7 @@ public class AlertSettingsController {
   public void modifyAlert() {
     Alert alert = db.getAlert(TicketNumModifyCombo.getSelectedItem());
     alert.setMessage(messageModifyText.getText());
-    alert.setDate(Date.valueOf(modifyDateInput.getValue()).toLocalDate());
+    alert.setDate(modifyDateInput.getValue());
     db.modifyAlert(alert);
     Navigation.navigate(Screen.ALERT_SETTINGS);
   }

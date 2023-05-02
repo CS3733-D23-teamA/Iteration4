@@ -153,6 +153,8 @@ public class SignageDAOImp implements ISignageDAO {
       ps.setString(4, locationName);
       ps.setInt(5, signageID);
 
+      ps.executeUpdate();
+
       signageMap.put(
           signageID, new SignageComponent(locationName, direction, date, screen, signageID));
 
