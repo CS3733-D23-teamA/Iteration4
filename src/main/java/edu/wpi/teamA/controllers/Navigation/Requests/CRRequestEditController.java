@@ -438,7 +438,7 @@ public class CRRequestEditController {
 
   public void setEditColors() {
     ConferenceRoomResRequest edit = CRRRSingleton.INSTANCE.getValue();
-    String confName = edit.getName();
+    String confName = edit.getRoom();
     int timeDif = (edit.getEndTime() - edit.getStartTime()) / 100;
     int i = 0;
     if (confName.equals("Abrams Conference Room")) {
@@ -456,8 +456,8 @@ public class CRRequestEditController {
     } else if (confName.equals("Duncan Reid Conference Room")) {
       i = 144;
     }
-    int last = i + timeDif;
-    for (int x = i; x < last; x++) {
+    int last = i + (edit.getStartTime() / 100) + timeDif;
+    for (int x = i + (edit.getStartTime() / 100); x < last; x++) {
       blocks.get(x).setDisable(false);
       blocks.get(x).setFill(Paint.valueOf("00ff00"));
       CalendarSingleton.INSTANCE.addValue(blocks.get(x));
@@ -467,7 +467,7 @@ public class CRRequestEditController {
   public void popUp() {
     confirmationDialog.setVisible(true);
     confirmationDialog.setDisable(false);
-    submitButton.setDisable(true);
+    submitButton.setDisable(false);
     nameField.setText(CRRRSingleton.INSTANCE.getValue().getName());
     commentField.setText(CRRRSingleton.INSTANCE.getValue().getComment());
   }
