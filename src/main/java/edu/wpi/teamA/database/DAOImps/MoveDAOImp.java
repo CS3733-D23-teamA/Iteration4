@@ -147,7 +147,7 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
       csvWriter.append("nodeid,longname,localdate\n");
 
       while (rs.next()) {
-        csvWriter.append(rs.getInt("nodeid") + ",");
+        csvWriter.append(String.valueOf(rs.getInt("nodeid"))).append(",");
         csvWriter.append(rs.getString("longname")).append(",");
         csvWriter.append(rs.getString("localdate")).append("\n");
       }

@@ -24,8 +24,8 @@ import javafx.scene.shape.Rectangle;
 
 public class CRRequestCalendarController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
-  @FXML DatePicker dp;
-  @FXML Label dl;
+  @FXML DatePicker datePicker;
+  @FXML Label dateLabel;
   @FXML TextField nameField;
   @FXML TextArea commentField;
   @FXML
@@ -204,7 +204,7 @@ public class CRRequestCalendarController {
       r7c63,
       r7c64;
 
-  ArrayList<Rectangle> blocks;
+  private ArrayList<Rectangle> blocks;
   @FXML private MFXGenericDialog confirmationDialog;
   @FXML private MFXButton submitButton;
 
@@ -232,7 +232,7 @@ public class CRRequestCalendarController {
     int time = 0, rNum = 0, st, et, i, e, tFactor;
     String confName;
     Date d = DateSingleton.INSTANCE.getValue();
-    dl.setText(d.toString());
+    dateLabel.setText(d.toString());
     ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(d);
     while (rNum < rr.size()) {
       i = 0;
@@ -273,7 +273,7 @@ public class CRRequestCalendarController {
   }
 
   public void changeDate() {
-    DateSingleton.INSTANCE.setValue(Date.valueOf(dp.getValue()));
+    DateSingleton.INSTANCE.setValue(Date.valueOf(datePicker.getValue()));
     setColors();
   }
 
@@ -300,7 +300,7 @@ public class CRRequestCalendarController {
     Rectangle r = (Rectangle) event.getSource();
     ArrayList<Rectangle> test = CalendarSingleton.INSTANCE.getValue();
     if (test.contains(r)) {
-      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dl.getText()));
+      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dateLabel.getText()));
       confirmationDialog.setVisible(true);
       confirmationDialog.setDisable(false);
       submitButton.setDisable(true);
@@ -362,7 +362,7 @@ public class CRRequestCalendarController {
     return false;
   }
 
-  public void validateButton() {
+  public void validateSubmit() {
     if (nameField.getText().equals("")) {
       submitButton.setDisable(true);
     } else {

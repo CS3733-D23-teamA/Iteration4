@@ -24,7 +24,6 @@ public class HomeController {
 
   @FXML
   public void initialize() {
-
     getAlerts();
     loadServiceRequests();
   }
@@ -88,20 +87,6 @@ public class HomeController {
         dbRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
     ArrayList<Meal> createdMeals =
         dbRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
-
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-    FlowerDAOImp flowerDAOImp = new FlowerDAOImp();
-    HashMap<Integer, Flower> flowerMap = flowerDAOImp.getFlowerMap();
-
-    CRRRDAOImp crrrDAOImp = new CRRRDAOImp();
-    HashMap<Integer, ConferenceRoomResRequest> crrrMap = crrrDAOImp.getCrrrMap();
-
-    FurnitureDAOImp furnitureDAOImp = new FurnitureDAOImp();
-    HashMap<Integer, FurnitureRequest> furnitureMap = furnitureDAOImp.getFurnitureMap();
-
-    MealDAOImp mealDAOImp = new MealDAOImp();
-    HashMap<Integer, Meal> mealMap = mealDAOImp.getMealMap();
 
     // Load Flower Requests
     for (Flower flower : createdFlowers) {

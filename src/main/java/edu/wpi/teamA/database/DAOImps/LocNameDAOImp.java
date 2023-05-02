@@ -2,7 +2,6 @@ package edu.wpi.teamA.database.DAOImps;
 
 import edu.wpi.teamA.database.Connection.DBConnectionProvider;
 import edu.wpi.teamA.database.Interfaces.IDatabaseDAO;
-import edu.wpi.teamA.database.Interfaces.ILocNameDAO;
 import edu.wpi.teamA.database.ORMclasses.LocationName;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -15,7 +14,7 @@ import java.util.Objects;
 import lombok.Getter;
 import lombok.Setter;
 
-public class LocNameDAOImp implements IDatabaseDAO<LocationName>, ILocNameDAO {
+public class LocNameDAOImp implements IDatabaseDAO<LocationName> {
 
   @Getter @Setter private HashMap<String, LocationName> LocNameMap = new HashMap<>();
 

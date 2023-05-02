@@ -20,7 +20,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class SignageAdminController {
-  private DataBaseRepository db = DataBaseRepository.getInstance();
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
 
   @FXML private MFXTextField locNameAddInput;
   @FXML private MFXFilterComboBox<String> directionAddInputCombo;
@@ -45,7 +45,7 @@ public class SignageAdminController {
   public void initialize() {
     // ArrayList<String> allSignageLocationNames = new ArrayList<>();
     ArrayList<Integer> allSignageIDs = new ArrayList<>();
-    for (Map.Entry<Integer, SignageComponent> entry : db.getSignageMap().entrySet()) {
+    for (Map.Entry<Integer, SignageComponent> entry : databaseRepo.getSignageMap().entrySet()) {
       SignageComponent signage = entry.getValue();
       // allSignageLocationNames.add(signage.getLocationName());
       allSignageIDs.add(signage.getSignageID());
@@ -73,12 +73,13 @@ public class SignageAdminController {
     directionCol.setCellValueFactory(new PropertyValueFactory<>("direction"));
     dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-    signageTableView.setItems(FXCollections.observableArrayList(db.getSignageMap().values()));
+    signageTableView.setItems(
+        FXCollections.observableArrayList(databaseRepo.getSignageMap().values()));
     signageTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
   public void addSignage() {
-    int signageID = db.getNextSignageID();
+    int signageID = databaseRepo.getNextSignageID();
     SignageComponent signage =
         new SignageComponent(
             locNameAddInput.getText(),
@@ -86,18 +87,18 @@ public class SignageAdminController {
             Date.valueOf(dateAddInput.getValue()),
             screenAddInputCombo.getValue(),
             signageID);
-    db.addSignage(signage);
+    databaseRepo.addSignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void removeSignage() {
-    SignageComponent signage = db.getSignage(SignageIDRemoveCombo.getSelectedItem());
-    db.removeSignage(signage);
+    SignageComponent signage = databaseRepo.getSignage(SignageIDRemoveCombo.getSelectedItem());
+    databaseRepo.removeSignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 
   public void modifySignage() {
-    SignageComponent signage = db.getSignage(signageIDModifyCombo.getSelectedItem());
+    SignageComponent signage = databaseRepo.getSignage(signageIDModifyCombo.getSelectedItem());
     if (!locNameModifyText.getText().isEmpty()) {
       signage.setLocationName(locNameModifyText.getText());
     }
@@ -107,7 +108,7 @@ public class SignageAdminController {
     if (modifyDateInput.getValue() != null) {
       signage.setDate(Date.valueOf(modifyDateInput.getValue()));
     }
-    db.modifySignage(signage);
+    databaseRepo.modifySignage(signage);
     Navigation.navigate(Screen.SIGNAGE_ADMIN);
   }
 

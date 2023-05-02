@@ -9,15 +9,14 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 
 public class LocationSettingsController {
-  @FXML private MFXFilterComboBox locationComboBox;
-  private MapEntity mapEntity = App.getMapEntity();
-  private ArrayList<String> locationOptions;
+  @FXML private MFXFilterComboBox<String> locationComboBox;
+  private final MapEntity mapEntity = App.getMapEntity();
 
-  private DataBaseRepository db = DataBaseRepository.getInstance();
+  private final DataBaseRepository db = DataBaseRepository.getInstance();
 
   public void initialize() {
     // Getting LongNames from Database
-    locationOptions = mapEntity.makeListOfLongNames();
+    ArrayList<String> locationOptions = mapEntity.makeListOfLongNames();
     mapEntity.initializeNameIDHashMap();
 
     // setting combobox items
@@ -29,6 +28,6 @@ public class LocationSettingsController {
   }
 
   public void setLocation() {
-    App.setCurrentLocation(db.getLocName(locationComboBox.getValue().toString()));
+    App.setCurrentLocation(db.getLocName(locationComboBox.getValue()));
   }
 }
