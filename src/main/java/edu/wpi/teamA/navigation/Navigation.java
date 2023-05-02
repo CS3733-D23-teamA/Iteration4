@@ -21,10 +21,12 @@ public class Navigation {
 
       // sets stage title to title of screen
       App.getPrimaryStage().setTitle(String.valueOf(screen));
-
       App.getRootPane().setCenter(loader.load());
-      if (!screen.getFilename().equals("views/ScreenSaver.fxml")) {
+      if (screen.getFilename().equals("views/ScreenSaver.fxml")) {
+        idleMonitor.stopMonitoring();
+      } else {
         idleMonitor.register(App.getPrimaryStage().getScene(), Event.ANY);
+        idleMonitor.startMonitoring();
       }
     } catch (IOException | NullPointerException e) {
       e.printStackTrace();

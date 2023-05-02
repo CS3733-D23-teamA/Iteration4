@@ -129,6 +129,10 @@ public class NavigationBarController {
     Navigation.navigate(Screen.LOGIN);
   }
 
+  public void game() {
+    Navigation.navigate(Screen.SCREEN_SAVER);
+  }
+
   public void openSettings() {
     Navigation.navigate(Screen.ACCOUNT_SETTINGS);
   }
