@@ -99,12 +99,12 @@
                   </ImageView>
                </children>
             </VBox>
-            <VBox alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="60.0" onMouseClicked="#openAbout" StackPane.alignment="BOTTOM_RIGHT">
+            <VBox alignment="BOTTOM_RIGHT" maxHeight="60.0" maxWidth="60.0" StackPane.alignment="BOTTOM_RIGHT" onMouseClicked="#openAbout">
                <StackPane.margin>
                   <Insets bottom="60.0" left="60.0" right="60.0" top="60.0" />
                </StackPane.margin>
                <children>
-                  <ImageView fx:id="aboutButton" fitHeight="60.0" fitWidth="60.0" onMouseClicked="#openAbout">
+                  <ImageView fx:id="aboutButton" fitHeight="60.0" fitWidth="60.0">
                      <image>
                         <Image url="@../images/icons/help.png" />
                      </image>

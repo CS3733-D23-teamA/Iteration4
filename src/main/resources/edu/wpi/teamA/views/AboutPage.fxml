@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.dialogs.MFXGenericDialog?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane minHeight="700.0" stylesheets="@stylesheets/main.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamA.controllers.Navigation.AboutController">
+    <top>
+        <fx:include fx:id="navbar" prefHeight="100.0" prefWidth="1600.0" source="NavigationBar.fxml" BorderPane.alignment="TOP_CENTER" />
+    </top>
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+            <content>
+                <StackPane prefHeight="150.0" prefWidth="200.0">
+                    <children>
+                        <VBox alignment="TOP_CENTER">
+                            <children>
+                                <Label fx:id="title" alignment="CENTER" text="About Our Team" underline="true">
+                                    <VBox.margin>
+                                        <Insets bottom="30.0" top="30.0" />
+                                    </VBox.margin>
+                                </Label>
+                                <Label fx:id="aboutTeamMembers" alignment="CENTER" text="Team Coach: Nini Acquista">
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Label>
+                                <VBox alignment="CENTER" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #98AABC;">
+                                    <children>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Seth Frank- Lead Software Engineer" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Xiao Xiao- Asst Lead Software Engineer" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Vincent Boothroyd- Asst Lead Software Engineer" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Ayden Duncan- Project Manager" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Ryan Suarez- Product Owner" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Ashleigh Perez- Scrum Master" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Alex Samra- Fulltime Software Engineer" />
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Pooja Kawatkar- Fulltime Software Engineer" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="Click on the team member to learn more about them!" />
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets bottom="20.0" left="600.0" right="600.0" top="10.0" />
+                                    </VBox.margin>
+                           <padding>
+                              <Insets bottom="20.0" top="20.0" />
+                           </padding>
+                                </VBox>
+                                <BorderPane maxWidth="-Infinity" prefHeight="350.0" prefWidth="650.0" style="-fx-border-color: bblue;" styleClass="borderpane">
+                                    <opaqueInsets>
+                                        <Insets right="-500.0" />
+                                    </opaqueInsets>
+                                    <effect>
+                                        <DropShadow />
+                                    </effect>
+                                    <center>
+                                        <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="ALWAYS" />
+                                                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="ALWAYS" />
+                                            </rowConstraints>
+                                            <children>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#seth" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/seth.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" onMouseClicked="#pooja" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/pooja.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="200.0" fitWidth="146.0" onMouseClicked="#ashleigh" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/ashleigh.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView onMouseClicked="#maryna" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/maryna.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="200.0" fitWidth="141.0" onMouseClicked="#ayden" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/ayden.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView onMouseClicked="#xiao" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/xiao.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="200.0" fitWidth="123.0" onMouseClicked="#ryan" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/Ryan.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="200.0" fitWidth="179.0" onMouseClicked="#alex" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/alex.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="197.0" fitWidth="200.0" onMouseClicked="#vincent" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                                    <image>
+                                                        <Image url="@../images/abouts/vincent.png" />
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </GridPane>
+                                    </center>
+                                </BorderPane>
+                        <VBox alignment="BOTTOM_CENTER">
+                           <children>
+                                      <Label fx:id="title1" style="-fx-font-size: 13;" text="Special thanks to Andrew Shinn for their time and input!" textAlignment="CENTER">
+                                          <font>
+                                              <Font size="13.0" />
+                                          </font>
+                                      </Label>
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="WPI Computer Science Department, CS 3733-D23 Software Engineering, Prof. Wilson Wong" textAlignment="CENTER" />
+                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="The Brigham &amp; Women’s Hospital maps and data used in this application are copyrighted and provided for the sole use of educational purposes." textAlignment="CENTER" wrappingWidth="771.0835876464844">
+                                 <font>
+                                    <Font size="12.0" />
+                                 </font>
+                                      </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="50.0" />
+                           </VBox.margin>
+                        </VBox>
+                            </children>
+                            <effect>
+                                <Blend />
+                            </effect>
+                        </VBox>
+                        <MFXGenericDialog fx:id="pop">
+                            <center>
+                                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Label fx:id="name" text="Name">
+                                 <font>
+                                    <Font name="Open Sans Regular" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Text fx:id="major" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                        <Text fx:id="funFactText" strokeType="OUTSIDE" strokeWidth="0.0" />
+                                    </children>
+                                </VBox>
+                            </center>
+                        </MFXGenericDialog>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </StackPane>
+            </content>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <MFXButton fx:id="funFacts" onAction="#allFunFacts" prefHeight="40.0" prefWidth="198.0" style="-fx-pref-width: 200;" styleClass="submit-mfx-button" text="Fun Facts" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+        </MFXButton>
+    </bottom>
+</BorderPane>
