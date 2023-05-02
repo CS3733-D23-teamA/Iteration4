@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class LevelEntity {
   private ArrayList<Level> levelOrder;
 
-  int levelIndex = 0;
+  private int levelIndex = 0;
 
   public LevelEntity() {
     setOrder();

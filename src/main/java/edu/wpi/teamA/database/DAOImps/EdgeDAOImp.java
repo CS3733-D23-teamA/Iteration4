@@ -209,7 +209,8 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
 
       for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
         Edge edge = entry.getValue();
-        if (Objects.equals(edge.getStartNode(), node.getNodeID()) || Objects.equals(edge.getEndNode(), node.getNodeID())) {
+        if (Objects.equals(edge.getStartNode(), node.getNodeID())
+            || Objects.equals(edge.getEndNode(), node.getNodeID())) {
           EdgeMap.remove(edge.getStartNode() + edge.getEndNode().toString());
           edgesToRemove.add(edge);
         }
