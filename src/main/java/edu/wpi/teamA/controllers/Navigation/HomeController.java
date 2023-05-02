@@ -11,10 +11,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javax.swing.text.html.ImageView;
 
 public class HomeController {
 
   @FXML private VBox alertsContainer;
+  @FXML private ImageView imageCredits;
 
   @FXML
   public void initialize() {
@@ -31,6 +33,8 @@ public class HomeController {
 
       alertsContainer.getChildren().add(alertLabel);
     }
+
+    // imageCredits.setImage(App.get(mapL1));
   }
 
   public void openAbout() {
@@ -38,7 +42,7 @@ public class HomeController {
   }
 
   public void openCredits() {
-     Navigation.navigate(Screen.ABOUT_CREDITPAGE);
+    Navigation.navigate(Screen.ABOUT_CREDITPAGE);
   }
 
   private List<String> getAlerts() {

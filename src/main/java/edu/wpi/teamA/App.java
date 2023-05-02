@@ -18,7 +18,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,10 +44,7 @@ public class App extends Application {
   @Getter
   private static Image homeYello = new Image("edu/wpi/teamA/images/icons/bwh-logo-yello.png");
 
-  // BWH Colors
-  @Getter private static Color YELLOWBWH = Color.web("F0C747");
-  @Getter private static Color BLUEBWH = Color.web("012D5A");
-  @Getter private static Color LIGHTBLUEBWH = Color.web("98AABC");
+  // @Getter private Image testing = new Image("edu/wpi/teamA/images/about-page/ryan.png");
 
   // entities + repository initiated - CALL LAST
   @Getter private static LevelEntity levelEntity = new LevelEntity();
