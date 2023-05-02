@@ -33,7 +33,7 @@
                                 <Font size="60.0" />
                             </font>
                         </Text>
-                        <Label fx:id="dl" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="334.0" text="Date">
+                        <Label fx:id="dateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="334.0" text="Date">
                             <font>
                                 <Font size="24.0" />
                             </font>
@@ -646,7 +646,7 @@
                 </MFXGenericDialog>
                 <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
                     <children>
-                        <DatePicker fx:id="dp" onAction="#changeDate" />
+                        <DatePicker fx:id="datePicker" onAction="#changeDate" />
                     </children>
                     <StackPane.margin>
                         <Insets right="50.0" top="50.0" />

@@ -11,7 +11,6 @@ public class DBConnectionProvider {
 
   public static Connection getInstance() {
     if (instance == null) {
-      // instance = new DBConnectionProvider();
       instance = createLocalConnection();
     }
     return instance;

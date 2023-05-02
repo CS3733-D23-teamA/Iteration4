@@ -250,20 +250,6 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
     }
   }
 
-  public void edit(ConferenceRoomResRequest o, ConferenceRoomResRequest n) {
-    int id = o.getId();
-    String employee = o.getEmployee();
-    String status = o.getStatus();
-    String creator = o.getCreator();
-
-    delete(o);
-    n.setId(id);
-    n.setStatus(status);
-    n.setEmployee(employee);
-    n.setCreator(creator);
-    add(n);
-  }
-
   @Override
   public ArrayList<ConferenceRoomResRequest> getAssigned(String username) {
     ArrayList<ConferenceRoomResRequest> rooms = new ArrayList<>();
@@ -398,9 +384,5 @@ public class CRRRDAOImp implements IServiceDAO<ConferenceRoomResRequest> {
       throw new RuntimeException(e);
     }
     return rooms;
-  }
-
-  public BufferedReader getBufferedReader(String filePath) throws FileNotFoundException {
-    return new BufferedReader(new FileReader(filePath));
   }
 }

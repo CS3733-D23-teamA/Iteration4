@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Edge {
-  @Getter @Setter Integer startNode;
-  @Getter @Setter Integer endNode;
+  @Getter @Setter private Integer startNode;
+  @Getter @Setter private Integer endNode;
 
   public Edge(Integer startNode, Integer endNode) {
     this.startNode = startNode;

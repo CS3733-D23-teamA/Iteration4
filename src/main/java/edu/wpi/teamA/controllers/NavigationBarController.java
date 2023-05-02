@@ -36,7 +36,7 @@ public class NavigationBarController {
     // get first and last initial for user and set label over profile avatar
     char a = AccountSingleton.INSTANCE.getValue().getFirstName().charAt(0);
     char b = AccountSingleton.INSTANCE.getValue().getLastName().charAt(0);
-    profile.setText(new StringBuilder().append(a).append(b).toString());
+    profile.setText(String.valueOf(a) + b);
     // sets isAdmin to true if admin value is set to 1 in singleton
 
     homeIcon.setImage(App.getHomeWhite());

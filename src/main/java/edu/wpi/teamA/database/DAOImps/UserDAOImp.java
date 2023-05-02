@@ -116,11 +116,11 @@ public class UserDAOImp {
       csvWriter.append("adminyes,username,password,firstname,lastname,userid\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("adminyes")) + (","));
-        csvWriter.append((rs.getString("username")) + (","));
-        csvWriter.append((rs.getString("password")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("adminyes")))).append(",");
+        csvWriter.append(rs.getString("username")).append(",");
+        csvWriter.append(rs.getString("password")).append(",");
         csvWriter.append(rs.getString("firstname")).append(",");
-        csvWriter.append((rs.getInt("userid")) + (","));
+        csvWriter.append(String.valueOf((rs.getInt("userid")))).append(",");
         csvWriter.append(rs.getString("lastname")).append("\n");
       }
 
@@ -147,18 +147,15 @@ public class UserDAOImp {
       if (rs.next()) {
         String storedPassword = rs.getString("password");
         if (password.equals(storedPassword)) {
-          User returnUser =
-              new User(
-                  rs.getInt("adminyes"),
-                  rs.getString("username"),
-                  rs.getString("password"),
-                  rs.getString("firstname"),
-                  rs.getString("lastname"),
-                  rs.getString("userid"));
-          return returnUser;
+          return new User(
+              rs.getInt("adminyes"),
+              rs.getString("username"),
+              rs.getString("password"),
+              rs.getString("firstname"),
+              rs.getString("lastname"),
+              rs.getString("userid"));
         } else {
-          User returnNoUser = new User(2, "N", "N", "N", "N", "N");
-          return returnNoUser;
+          return new User(2, "N", "N", "N", "N", "N");
         }
       }
     } catch (SQLException e) {
