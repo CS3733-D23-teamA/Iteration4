@@ -23,28 +23,24 @@ public class MoveDAOImp implements IDatabaseDAO<Move> {
   @Getter @Setter private HashMap<String, Move> currentMoveMap = new HashMap<>();
 
   public MoveDAOImp() {
+    createTable();
     loadDataFromDatabaseInMap();
     this.currentMoveMap = loadCurrentMoveMap(App.getCurrentDate());
   }
 
   public void createTable() {
     try {
-      String sqlCreateEdge =
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
           "Create Table if not exists \"Teama_schema\".\"Move\""
-              + "(nodeID   int,"
-              + "longName  Varchar(600),"
-              + "localDate     Varchar(600),"
+              + "(nodeID   int NOT NULL,"
+              + "longName  Varchar(600) NOT NULL,"
+              + "localDate     Varchar(600) NOT NULL,"
               + "CONSTRAINT fk_longname "
               + "FOREIGN KEY(longname) "
               + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
-              + "ON DELETE CASCADE,"
-              + "CONSTRAINT fk_longname "
-              + "FOREIGN KEY(longname) "
-              + "REFERENCES \"Teama_schema\".\"LocationName\"(longname)"
-              + "ON UPDATE CASCADE)";
-      Statement stmtMove =
-          Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
-      stmtMove.execute(sqlCreateEdge);
+              + "ON DELETE CASCADE)");
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }

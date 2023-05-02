@@ -84,15 +84,6 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
-    databaseRepo.createSignageTable();
-    databaseRepo.createNodeTable();
-    databaseRepo.createEdgeTable();
-    databaseRepo.createLocNameTable();
-    databaseRepo.createMoveTable();
-    databaseRepo.createFlowerTable();
-    databaseRepo.createCRRRTable();
-    databaseRepo.createFurnitureTable();
-    databaseRepo.createMealTable();
 
     executor.scheduleAtFixedRate(() -> databaseRepo.updateCache(), 0, 60, TimeUnit.SECONDS);
   }

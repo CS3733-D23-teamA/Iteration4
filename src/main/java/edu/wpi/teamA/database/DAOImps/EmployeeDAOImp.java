@@ -18,7 +18,23 @@ public class EmployeeDAOImp implements IEmployeeDAO {
   @Getter @Setter private HashMap<String, Employee> employeeMap = new HashMap<>();
 
   public EmployeeDAOImp() {
+    createTable();
     this.employeeMap = loadEmployeesFromDatabaseInMap();
+  }
+
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Employee\" ("
+              + "name VARCHAR(255) NOT NULL,"
+              + "username VARCHAR(255) PRIMARY KEY,"
+              + "password VARCHAR(255) NOT NULL"
+              + ")");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
