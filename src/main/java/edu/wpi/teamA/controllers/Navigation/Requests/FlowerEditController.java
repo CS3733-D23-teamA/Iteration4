@@ -21,9 +21,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
 
 public class FlowerEditController {
   @FXML private AnchorPane infoDisplay;
@@ -47,11 +47,11 @@ public class FlowerEditController {
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
 
   @FXML private HBox statusBarHBox;
-  @FXML private Rectangle newStatusRect;
-  @FXML private Rectangle orderBeginStatusRect;
-  @FXML private Rectangle pickFlowersStatusRect;
-  @FXML private Rectangle flowersReadyStatusRect;
-  @FXML private Rectangle deliveredStatusRect;
+  @FXML private SVGPath newStatus;
+  @FXML private VBox orderBeginStatus;
+  @FXML private VBox pickFlowersStatus;
+  @FXML private VBox flowersReadyStatus;
+  @FXML private SVGPath deliveredStatusRect;
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -69,53 +69,54 @@ public class FlowerEditController {
     populateTable();
     updateProgressBar();
     statusBarHBox.setVisible(true);
-    newStatusRect.setVisible(true);
-    orderBeginStatusRect.setVisible(true);
-    pickFlowersStatusRect.setVisible(true);
-    flowersReadyStatusRect.setVisible(true);
+    newStatus.setVisible(true);
+    orderBeginStatus.setVisible(true);
+    pickFlowersStatus.setVisible(true);
+    flowersReadyStatus.setVisible(true);
     deliveredStatusRect.setVisible(true);
   }
 
   public void updateProgressBar() {
     if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("new")) {
       System.out.println("new status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
 
-      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
-      pickFlowersStatusRect.setFill(Color.web("0x98aabc"));
-      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+      orderBeginStatus.setStyle("-fx-background-color: #98AABC");
+      pickFlowersStatus.setStyle("-fx-background-color: #98AABC");
+      flowersReadyStatus.setStyle("-fx-background-color: #98AABC");
+      deliveredStatusRect.setStyle("-fx-background-color: #98AABC");
 
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
       System.out.println("in progress status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setStyle("-fx-background-color: #012D5A");;
 
-      pickFlowersStatusRect.setFill(Color.web("0x98aabc"));
-      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+      pickFlowersStatus.setStyle("-fx-background-color: #98AABC");
+      flowersReadyStatus.setStyle("-fx-background-color: #98AABC");
+      deliveredStatusRect.setStyle("-fx-background-color: #98AABC");
+
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("picking flowers")) {
       System.out.println("picking flowers status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setFill(Color.web("0x012d5a"));
+      pickFlowersStatus.setFill(Color.web("0x012d5a"));
 
-      flowersReadyStatusRect.setFill(Color.web("0x98aabc"));
+      flowersReadyStatus.setFill(Color.web("0x98aabc"));
       deliveredStatusRect.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("flowers ready")) {
       System.out.println("flowers ready status");
       newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
-      flowersReadyStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setFill(Color.web("0x012d5a"));
+      pickFlowersStatus.setFill(Color.web("0x012d5a"));
+      flowersReadyStatus.setFill(Color.web("0x012d5a"));
 
       deliveredStatusRect.setFill(Color.web("0x98aabc"));
     } else if (FlowerSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
       System.out.println("delivered status");
       newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      pickFlowersStatusRect.setFill(Color.web("0x012d5a"));
-      flowersReadyStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setFill(Color.web("0x012d5a"));
+      pickFlowersStatus.setFill(Color.web("0x012d5a"));
+      flowersReadyStatus.setFill(Color.web("0x012d5a"));
       deliveredStatusRect.setFill(Color.web("0x012d5a"));
     }
   }

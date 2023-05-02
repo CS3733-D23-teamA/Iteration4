@@ -14,4 +14,8 @@ public enum FlowerSingleton implements IRequestSingleton<Flower> {
   public void setValue(Flower f1) {
     this.f = f1;
   }
+
+  public String getStatus() {
+    return f.getStatus();
+  }
 }
