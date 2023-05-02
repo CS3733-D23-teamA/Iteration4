@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Objects;
 import lombok.Getter;
@@ -130,19 +129,22 @@ public class AlertDAOImp implements IAlertDAO {
     try {
       int ticketNum = alert.getTicketNum();
       String username = alert.getUsername();
-      LocalDate date = alert.getDate(); // local date object
+      Date date = Date.valueOf(alert.getDate()); // local localDate object
       String message = alert.getMessage();
 
+      System.out.println("AHHHH");
       PreparedStatement ps =
           DBConnectionProvider.getInstance()
               .prepareStatement(
-                  "UPDATE \"Teama_schema\".\"Alert\" SET username = ?, date = ?, message = ? WHERE ticketNum = ?");
+                  "UPDATE \"Teama_schema\".\"Alert\" SET username = ?, date = ?, message = ? WHERE ticket_num = ?");
       ps.setString(1, username);
-      ps.setDate(2, Date.valueOf(LocalDate.now())); // date object
+      ps.setDate(2, date); // localDate object
       ps.setString(3, message);
       ps.setInt(4, ticketNum);
 
-      alertMap.put(alert.getTicketNum(), new Alert(alert.getTicketNum(), username, date, message));
+      alertMap.put(
+          alert.getTicketNum(),
+          new Alert(alert.getTicketNum(), username, date.toLocalDate(), message));
 
     } catch (SQLException e) {
       throw new RuntimeException(e);
