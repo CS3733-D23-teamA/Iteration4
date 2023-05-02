@@ -128,8 +128,8 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
       csvWriter.append("startnode,endode\n");
 
       while (rs.next()) {
-        csvWriter.append((rs.getInt("startnode")) + (","));
-        csvWriter.append((rs.getInt("endnode")) + ("\n"));
+        csvWriter.append(String.valueOf((rs.getInt("startnode")))).append(",");
+        csvWriter.append(String.valueOf((rs.getInt("endnode")))).append("\n");
       }
 
       csvWriter.flush();
@@ -209,7 +209,7 @@ public class EdgeDAOImp implements IDatabaseDAO<Edge> {
 
       for (Map.Entry<String, Edge> entry : copiedEdgeMap.entrySet()) {
         Edge edge = entry.getValue();
-        if (edge.getStartNode() == node.getNodeID() || edge.getEndNode() == node.getNodeID()) {
+        if (Objects.equals(edge.getStartNode(), node.getNodeID()) || Objects.equals(edge.getEndNode(), node.getNodeID())) {
           EdgeMap.remove(edge.getStartNode() + edge.getEndNode().toString());
           edgesToRemove.add(edge);
         }
