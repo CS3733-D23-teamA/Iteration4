@@ -33,7 +33,7 @@
                         <Font size="60.0" />
                      </font>
                   </Text>
-                  <Label fx:id="dl" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="334.0" text="Date">
+                  <Label fx:id="dateLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="47.0" prefWidth="334.0" text="Date">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -607,7 +607,7 @@
                               <Insets top="10.0" />
                            </VBox.margin>
                         </Text>
-                        <TextField fx:id="nameField" onAction="#validateButton" onKeyReleased="#validateButton" prefHeight="31.0" prefWidth="302.0" />
+                        <TextField fx:id="nameField" onAction="#validateSubmit" onKeyReleased="#validateSubmit" prefHeight="31.0" prefWidth="302.0" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Comment" wrappingWidth="102.908935546875">
                            <font>
                               <Font size="24.0" />
@@ -646,7 +646,7 @@
             </MFXGenericDialog>
             <HBox alignment="TOP_RIGHT" maxHeight="100.0" spacing="10.0" StackPane.alignment="TOP_RIGHT">
                <children>
-                  <DatePicker fx:id="dp" onAction="#changeDate" />
+                  <DatePicker fx:id="datePicker" onAction="#changeDate" />
                </children>
                <StackPane.margin>
                   <Insets right="50.0" top="50.0" />

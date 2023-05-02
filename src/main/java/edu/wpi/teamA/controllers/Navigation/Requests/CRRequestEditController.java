@@ -25,8 +25,8 @@ import javafx.scene.shape.Rectangle;
 
 public class CRRequestEditController {
   private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
-  @FXML DatePicker dp;
-  @FXML Label dl;
+  @FXML DatePicker datePicker;
+  @FXML Label dateLabel;
   @FXML TextField nameField;
   @FXML TextArea commentField;
   @FXML
@@ -205,7 +205,7 @@ public class CRRequestEditController {
       r7c63,
       r7c64;
 
-  ArrayList<Rectangle> blocks;
+  private ArrayList<Rectangle> blocks;
   @FXML private MFXGenericDialog confirmationDialog;
   @FXML private MFXButton submitButton;
 
@@ -233,7 +233,7 @@ public class CRRequestEditController {
     int time = 0, rNum = 0, st, et, i, e, tFactor;
     String confName;
     Date d = DateSingleton.INSTANCE.getValue();
-    dl.setText(d.toString());
+    dateLabel.setText(d.toString());
     ArrayList<ConferenceRoomResRequest> rr = databaseRepo.filterDateCRRR(d);
     while (rNum < rr.size()) {
       i = 0;
@@ -275,7 +275,7 @@ public class CRRequestEditController {
   }
 
   public void changeDate() {
-    DateSingleton.INSTANCE.setValue(Date.valueOf(dp.getValue()));
+    DateSingleton.INSTANCE.setValue(Date.valueOf(datePicker.getValue()));
     setColors();
   }
 
@@ -302,7 +302,7 @@ public class CRRequestEditController {
     Rectangle r = (Rectangle) event.getSource();
     ArrayList<Rectangle> test = CalendarSingleton.INSTANCE.getValue();
     if (test.contains(r)) {
-      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dl.getText()));
+      CalendarSingleton.INSTANCE.setDate(Date.valueOf(dateLabel.getText()));
       popUp();
     } else if (checkConnected(r, test)) {
       r.setFill(Paint.valueOf("00ff00"));

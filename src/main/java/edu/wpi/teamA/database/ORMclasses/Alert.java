@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class Alert {
-  @Getter @Setter int ticketNum;
-  @Getter @Setter String username;
-  @Getter @Setter LocalDate date;
-  @Getter @Setter String message;
+  @Getter @Setter private int ticketNum;
+  @Getter @Setter private String username;
+  @Getter @Setter private LocalDate date;
+  @Getter @Setter private String message;
 
   public Alert(int ticketNum, String username, LocalDate date, String message) {
     this.ticketNum = ticketNum;
