@@ -21,8 +21,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.SVGPath;
 
 public class FurnitureEditController {
   @FXML private AnchorPane infoDisplay;
@@ -46,11 +47,11 @@ public class FurnitureEditController {
   @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
   @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
   @FXML private HBox statusBarHBox;
-  @FXML private Rectangle newStatusRect;
-  @FXML private Rectangle orderBeginStatusRect;
-  @FXML private Rectangle packedStatusRect;
-  @FXML private Rectangle shippedStatusRect;
-  @FXML private Rectangle deliveredStatusRect;
+  @FXML private SVGPath newStatus;
+  @FXML private VBox orderBeginStatus;
+  @FXML private VBox packedStatus;
+  @FXML private VBox shippedStatus;
+  @FXML private SVGPath deliveredStatus;
 
   public void initialize() {
     cartDisplay.setDisable(true);
@@ -72,44 +73,44 @@ public class FurnitureEditController {
   public void updateProgressBar() {
     if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("new")) {
       System.out.println("new status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
 
-      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
-      packedStatusRect.setFill(Color.web("0x98aabc"));
-      shippedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+      orderBeginStatus.setStyle("-fx-background-color: #98AABC");
+      packedStatus.setStyle("-fx-background-color: #98AABC");
+      shippedStatus.setStyle("-fx-background-color: #98AABC");
+      deliveredStatus.setFill(Color.web("0x98aabc"));
 
-    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("assigned")) {
       System.out.println("in progress status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
 
-      packedStatusRect.setFill(Color.web("0x98aabc"));
-      shippedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("furniture packed")) {
+      packedStatus.setStyle("-fx-background-color: #98AABC");
+      shippedStatus.setStyle("-fx-background-color: #98AABC");
+      deliveredStatus.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
       System.out.println("in preparation status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      packedStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
+      packedStatus.setStyle("-fx-background-color: #012D5A");
 
-      shippedStatusRect.setFill(Color.web("0x98aabc"));
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("being shipped")) {
+      shippedStatus.setStyle("-fx-background-color: #98AABC");
+      deliveredStatus.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("in delivery")) {
       System.out.println("meal prepared");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      packedStatusRect.setFill(Color.web("0x012d5a"));
-      shippedStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
+      packedStatus.setStyle("-fx-background-color: #012D5A");
+      shippedStatus.setStyle("-fx-background-color: #012D5A");
 
-      deliveredStatusRect.setFill(Color.web("0x98aabc"));
-    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
+      deliveredStatus.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("done")) {
       System.out.println("delivered status");
-      newStatusRect.setFill(Color.web("0x012d5a"));
-      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
-      packedStatusRect.setFill(Color.web("0x012d5a"));
-      shippedStatusRect.setFill(Color.web("0x012d5a"));
-      deliveredStatusRect.setFill(Color.web("0x012d5a"));
+      newStatus.setFill(Color.web("0x012d5a"));
+      orderBeginStatus.setStyle("-fx-background-color: #012D5A");
+      packedStatus.setStyle("-fx-background-color: #012D5A");
+      shippedStatus.setStyle("-fx-background-color: #012D5A");
+      deliveredStatus.setFill(Color.web("0x012d5a"));
     }
   }
 

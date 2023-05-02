@@ -171,7 +171,7 @@ public class ServiceRequestController {
 
       chooseServiceRequestStatus.getItems().addAll(allServiceRequests);
 
-      // chooseStatus.getItems().addAll("new", "in progress", "done");
+      chooseStatus.getItems().addAll("new", "assigned", "in progress", "in delivery", "done");
     } else {
       employeeVbox.setVisible(false);
       employeeVbox.setManaged(false);
@@ -466,26 +466,30 @@ public class ServiceRequestController {
 
   public void updateTable() {
     int request = requestCombo.getSelectedIndex();
-    if (request <= 0) {
+    if (request == 0) {
       displayFlowerRequests(acCombo.getSelectedItem());
-      chooseStatus
-          .getItems()
-          .addAll("new", "in progress", "picking flowers", "flowers ready", "delivered!");
+      //      chooseStatus
+      //          .getItems()
+      //          .addAll("new", "in progress", "picking flowers", "flowers ready", "delivered!");
       flowerTable.toFront();
+
     } else if (request == 1) {
       displayCRRRRequests(acCombo.getSelectedItem());
       roomTable.toFront();
+
     } else if (request == 2) {
       displayMealRequests(acCombo.getSelectedItem());
-      chooseStatus
-          .getItems()
-          .addAll("new", "in progress", "in preparation", "meal prepared", "delivered!");
+      //      chooseStatus
+      //          .getItems()
+      //          .addAll("new", "in progress", "in preparation", "meal prepared", "delivered!");
       mealTable.toFront();
+
     } else if (request == 3) {
+      //      chooseStatus.getItems().removeAll();
       displayFurnitureRequests(acCombo.getSelectedItem());
-      chooseStatus
-          .getItems()
-          .addAll("new", "in progress", "furniture packed", "being shipped", "delivered!");
+      //      chooseStatus
+      //          .getItems()
+      //          .addAll("new", "in progress", "furniture packed", "being shipped", "delivered!");
       furnitureTable.toFront();
     }
   }
