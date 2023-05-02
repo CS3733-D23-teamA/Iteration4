@@ -124,7 +124,7 @@ public class NavigationBarController {
   }
 
   public void logout() {
-    User loggedOut = new User(2, "N", "N", "N", "N");
+    User loggedOut = new User(2, "N", "N", "N", "N", "N");
     AccountSingleton.INSTANCE.setValue(loggedOut);
     Navigation.navigate(Screen.LOGIN);
   }

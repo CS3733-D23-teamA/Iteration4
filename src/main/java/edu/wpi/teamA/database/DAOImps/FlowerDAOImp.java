@@ -16,7 +16,30 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
   @Getter @Setter private HashMap<Integer, Flower> flowerMap = new HashMap<>();
 
   public FlowerDAOImp() {
+    createTable();
     this.flowerMap = loadDataFromDatabaseInMap();
+  }
+
+  public void createTable() {
+    try {
+      Statement st = Objects.requireNonNull(DBConnectionProvider.getInstance()).createStatement();
+
+      st.execute(
+          "CREATE TABLE IF NOT EXISTS \"Teama_schema\".\"Flower\" ("
+              + "id INTEGER PRIMARY KEY,"
+              + "name VARCHAR(255) NOT NULL,"
+              + "room VARCHAR(255) NOT NULL,"
+              + "date DATE NOT NULL,"
+              + "time INTEGER NOT NULL,"
+              + "items VARCHAR(255) NOT NULL,"
+              + "comment VARCHAR(255) NOT NULL,"
+              + "employee VARCHAR(255) NOT NULL,"
+              + "status VARCHAR(255) NOT NULL,"
+              + "creator VARCHAR(255) NOT NULL"
+              + ")");
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public HashMap<Integer, Flower> loadDataFromDatabaseInMap() {
@@ -229,8 +252,11 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getEmployee().equals(username)) {
-        flowers.add(entry.getValue());
+      if (!entry.getValue().getEmployee().isEmpty()) {
+        if (entry.getValue().getEmployee().equals(username)
+            && !entry.getValue().getStatus().equals("done")) {
+          flowers.add(entry.getValue());
+        }
       }
     }
 
@@ -242,7 +268,8 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
     ArrayList<Flower> flowers = new ArrayList<>();
 
     for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      if (entry.getValue().getCreator().equals(username)) {
+      if (entry.getValue().getCreator().equals(username)
+          && !entry.getValue().getStatus().equals("done")) {
         flowers.add(entry.getValue());
       }
     }
@@ -277,7 +304,10 @@ public class FlowerDAOImp implements IServiceDAO<Flower> {
       throw new RuntimeException(e);
     }
 
-    assert largestID != null;
-    return largestID.getId() + 1;
+    if (largestID == null) {
+      return 1;
+    } else {
+      return largestID.getId() + 1;
+    }
   }
 }

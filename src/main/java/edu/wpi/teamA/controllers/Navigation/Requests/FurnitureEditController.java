@@ -1,8 +1,11 @@
 package edu.wpi.teamA.controllers.Navigation.Requests;
 
+import edu.wpi.teamA.App;
 import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.FurnitureRequest;
 import edu.wpi.teamA.database.Singletons.FurnitureSingleton;
+import edu.wpi.teamA.entities.ServiceRequestEntity;
+import edu.wpi.teamA.entities.ServiceRequestItem;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -13,25 +16,104 @@ import java.util.ArrayList;
 import java.util.Collections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class FurnitureEditController {
-  private DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  @FXML private StackPane infoDisplay;
+  @FXML private StackPane cartDisplay;
+  private final DataBaseRepository databaseRepo = DataBaseRepository.getInstance();
+  private final ServiceRequestEntity entity = App.getServiceRequestEntity();
+
+  @FXML private MFXButton nextButton;
   @FXML private MFXButton updateButton;
   @FXML private MFXTextField nameField;
-  @FXML private MFXComboBox roomCombo;
+  @FXML private MFXComboBox<String> roomCombo;
   @FXML private DatePicker datePicker;
-  @FXML private MFXComboBox timeCombo;
-  @FXML private MFXComboBox furnitureCombo;
+  @FXML private MFXComboBox<String> timeCombo;
   @FXML private MFXTextField commentField;
 
+  @FXML private MFXComboBox<String> furnitureCombo;
+  @FXML private MFXComboBox<Integer> furnitureQuantity;
+  @FXML private MFXButton addFurniture;
+
+  @FXML private TableView<ServiceRequestItem> itemsTable;
+  @FXML private TableColumn<ServiceRequestItem, String> itemsCol;
+  @FXML private TableColumn<ServiceRequestItem, Integer> quantityCol;
+  @FXML private HBox statusBarHBox;
+  @FXML private Rectangle newStatusRect;
+  @FXML private Rectangle orderBeginStatusRect;
+  @FXML private Rectangle packedStatusRect;
+  @FXML private Rectangle shippedStatusRect;
+  @FXML private Rectangle deliveredStatusRect;
+
   public void initialize() {
+    cartDisplay.setDisable(true);
+    cartDisplay.setVisible(false);
+    infoDisplay.setDisable(false);
+    infoDisplay.setVisible(true);
+
+    itemsCol.setCellValueFactory(new PropertyValueFactory<>("item"));
+    quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+    nextButton.setDisable(false);
     updateButton.setDisable(false);
     populateCombos();
     populateFields();
+    populateTable();
+    updateProgressBar();
+  }
+
+  public void updateProgressBar() {
+    if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("new")) {
+      System.out.println("new status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+
+      orderBeginStatusRect.setFill(Color.web("0x98aabc"));
+      packedStatusRect.setFill(Color.web("0x98aabc"));
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("in progress")) {
+      System.out.println("in progress status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+
+      packedStatusRect.setFill(Color.web("0x98aabc"));
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("furniture packed")) {
+      System.out.println("in preparation status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+
+      shippedStatusRect.setFill(Color.web("0x98aabc"));
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("being shipped")) {
+      System.out.println("meal prepared");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+      shippedStatusRect.setFill(Color.web("0x012d5a"));
+
+      deliveredStatusRect.setFill(Color.web("0x98aabc"));
+    } else if (FurnitureSingleton.INSTANCE.getValue().getStatus().equals("delivered!")) {
+      System.out.println("delivered status");
+      newStatusRect.setFill(Color.web("0x012d5a"));
+      orderBeginStatusRect.setFill(Color.web("0x012d5a"));
+      packedStatusRect.setFill(Color.web("0x012d5a"));
+      shippedStatusRect.setFill(Color.web("0x012d5a"));
+      deliveredStatusRect.setFill(Color.web("0x012d5a"));
+    }
   }
 
   public void populateCombos() {
-    furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
     timeCombo
         .getItems()
         .addAll(
@@ -45,76 +127,104 @@ public class FurnitureEditController {
     allRooms.addAll(databaseRepo.filterLocType("LABS"));
     Collections.sort(allRooms);
     roomCombo.getItems().addAll(allRooms);
+
+    furnitureCombo.getItems().addAll("Arm Chair", "Couch", "Coffee Table");
+    furnitureQuantity.getItems().addAll(-3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }
 
   public void populateFields() {
     nameField.setText(FurnitureSingleton.INSTANCE.getValue().getName());
     commentField.setText(FurnitureSingleton.INSTANCE.getValue().getComment());
     roomCombo.setText(FurnitureSingleton.INSTANCE.getValue().getRoom());
-    furnitureCombo.setText(FurnitureSingleton.INSTANCE.getValue().getItems());
     datePicker.setValue(FurnitureSingleton.INSTANCE.getValue().getDate().toLocalDate());
-    timeCombo.setText(convertInt(FurnitureSingleton.INSTANCE.getValue().getTime()));
+    timeCombo.setText(entity.convertInt(FurnitureSingleton.INSTANCE.getValue().getTime()));
+  }
+
+  public void populateTable() {
+    String items = FurnitureSingleton.INSTANCE.getValue().getItems();
+    String[] parts = items.split(",");
+    for (String item : parts) {
+      if (item.length() > 2) {
+        String[] subParts = item.split(" ");
+        String name = "";
+        for (int i = 0; i < subParts.length - 1; i++) {
+          if (!subParts[i].equals(" ")) {
+            name = name.concat(subParts[i] + " ");
+          }
+        }
+        itemsTable
+            .getItems()
+            .add(
+                new ServiceRequestItem(
+                    name.substring(0, name.length() - 1),
+                    Integer.parseInt(subParts[subParts.length - 1])));
+      }
+    }
   }
 
   public void back() {
     Navigation.navigate(Screen.SERVICE_REQUEST);
   }
 
-  @FXML
-  public void validateButton() {
-    if (nameField.getText().isEmpty() || datePicker.getValue() == null) {
-      updateButton.setDisable(true);
-    } else {
-      updateButton.setDisable(false);
-    }
+  public void backFirstPage() {
+    cartDisplay.setDisable(true);
+    cartDisplay.setVisible(false);
+    infoDisplay.setDisable(false);
+    infoDisplay.setVisible(true);
   }
 
-  public void edit() {
-    FurnitureRequest fr =
+  @FXML
+  public void validateNext() {
+    nextButton.setDisable(nameField.getText().isEmpty() || datePicker.getValue() == null);
+  }
+
+  @FXML
+  public void validateAddFurniture() {
+    addFurniture.setDisable(
+        furnitureCombo.getSelectedIndex() == -1 || furnitureQuantity.getSelectedIndex() == -1);
+  }
+
+  @FXML
+  public void validateUpdate() {
+    updateButton.setDisable(itemsTable.getItems().isEmpty());
+  }
+
+  public void update() {
+    String items = entity.appendItemsIntoString(itemsTable);
+    FurnitureRequest furniture =
         new FurnitureRequest(
             FurnitureSingleton.INSTANCE.getValue().getId(),
             nameField.getText(),
             roomCombo.getText(),
             Date.valueOf(datePicker.getValue()),
-            convertTime(timeCombo.getText()),
-            furnitureCombo.getText(),
+            entity.convertTime(timeCombo.getText()),
+            items,
             commentField.getText(),
             FurnitureSingleton.INSTANCE.getValue().getEmployee(),
             FurnitureSingleton.INSTANCE.getValue().getStatus(),
             FurnitureSingleton.INSTANCE.getValue().getCreator());
-    databaseRepo.updateFurniture(fr);
+    databaseRepo.updateFurniture(furniture);
     Navigation.navigate(Screen.SERVICE_REQUEST);
-  }
-
-  public int convertTime(String time) {
-    int num;
-    String newString;
-    int length = time.length();
-    if (time.equals("00:00")) {
-      return 0;
-    } else if (length == 4) {
-      newString = time.charAt(0) + time.substring(2);
-    } else {
-      newString = time.substring(0, 2) + time.substring(3);
-    }
-    num = Integer.parseInt(newString);
-    return num;
-  }
-
-  public String convertInt(int num) {
-    String time = "";
-
-    if (num < 100) {
-      time += "00";
-    } else {
-      time += (num / 100);
-    }
-    time += ":00";
-    return time;
   }
 
   public void delete() {
     databaseRepo.deleteFurniture(FurnitureSingleton.INSTANCE.getValue());
     Navigation.navigate(Screen.SERVICE_REQUEST);
+  }
+
+  @FXML
+  public void next() {
+    infoDisplay.setDisable(true);
+    infoDisplay.setVisible(false);
+    cartDisplay.setDisable(false);
+    cartDisplay.setVisible(true);
+  }
+
+  @FXML
+  public void addFurniture() {
+    String furniture = furnitureCombo.getSelectedItem();
+    int quantity = furnitureQuantity.getSelectedItem();
+    entity.addItemsToTable(itemsTable, furniture, quantity);
+    validateUpdate();
   }
 }

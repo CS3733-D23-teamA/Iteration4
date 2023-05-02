@@ -45,7 +45,7 @@ public class DataSettingsController {
 
   @FXML
   public void changeAWSDatabase() {
-    // DBConnectionProvider.createAWSConnection();
+    DBConnectionProvider.createAWSConnection();
   }
 
   @FXML
