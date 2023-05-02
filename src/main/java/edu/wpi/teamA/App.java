@@ -42,6 +42,8 @@ public class App extends Application {
   @Getter private static Image down = new Image("edu/wpi/teamA/images/icons/down.png");
   @Getter private static Image left = new Image("edu/wpi/teamA/images/icons/left.png");
   @Getter private static Image right = new Image("edu/wpi/teamA/images/icons/right.png");
+  @Getter private static Image smile = new Image("edu/wpi/teamA/images/icons/SmileyFace.png");
+  @Getter private static Image frown = new Image("edu/wpi/teamA/images/icons/frown.png");
 
   @Getter
   private static Image locationPF = new Image("edu/wpi/teamA/images/icons/pathfindingLoc.png");

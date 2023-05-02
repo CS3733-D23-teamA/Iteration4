@@ -75,6 +75,8 @@ public class PathfindingController {
   // vbox containing all search algo UI for !admin disable
   @FXML private VBox searchAlgorithmVbox;
 
+  @FXML private VBox errorMessage;
+
   // vbox for admin messaging
   @FXML private HBox adminMessageInput;
   @FXML private Label adminMessage;
@@ -102,6 +104,7 @@ public class PathfindingController {
       searchAlgorithmVbox.setVisible(false);
       searchAlgorithmVbox.setManaged(false);
     }
+    errorMessage.setVisible(false);
 
     // Getting LongNames from Database
     locationOptions = mapEntity.makeListOfLongNames();
@@ -263,6 +266,8 @@ public class PathfindingController {
    */
   public void submit() {
 
+    resetButtonIndicator();
+
     // get user input for start and end
     String startName = startSelection.getValue();
     String endName = endSelection.getValue();
@@ -277,62 +282,85 @@ public class PathfindingController {
     // set algorithm text
     searchAlgorithmSelection.setValue(SearchSingleton.getSearchAlgorithm().toString());
 
-    setTextDirections();
-    setTurnDirections();
+    if (setTurnDirections()) {
 
-    // Sets the Order for paginator
-    mapEntity.setLevelOrder(SearchSingleton.getPath());
-    levelButtonIndicator(SearchSingleton.getPath());
-    // Changes the levels for pathfinding globally
-    changeLevel(mapEntity.getFirstLevel().toString());
+      // Sets the Order for paginator
+      mapEntity.setLevelOrder(SearchSingleton.getPath());
+      levelButtonIndicator(SearchSingleton.getPath());
+      // Changes the levels for pathfinding globally
+      changeLevel(mapEntity.getFirstLevel().toString());
 
-    // centers map on path
-    centerMap(
-        mapEntity.getNodeInfo(startID).getXcoord(), mapEntity.getNodeInfo(startID).getYcoord(), 1);
+      // centers map on path
+      centerMap(
+          mapEntity.getNodeInfo(startID).getXcoord(),
+          mapEntity.getNodeInfo(startID).getYcoord(),
+          1);
 
-    drawPath();
+      drawPath();
+    }
   }
 
-  private void setTurnDirections() {
+  private boolean setTurnDirections() {
     turnDirections.getChildren().clear();
+    errorMessage.setVisible(false);
 
     // loop through array of directions
     ArrayList<String> path = SearchSingleton.simplePathArray(secondNameToggle.isSelected());
-    for (int i = 0; i < path.size(); i++) {
+    if (path == null) {
       ImageView icon = new ImageView();
       icon.setFitHeight(50);
       icon.setFitWidth(50);
+      icon.setImage(App.getFrown());
       Label directions = new Label();
       HBox turn = new HBox(15);
       turn.setStyle(
           "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
-      if (path.get(i).contains("up")) {
-        icon.setImage(App.getUp());
-      } else if (path.get(i).contains("down")) {
-        icon.setImage(App.getDown());
-      } else if (path.get(i).contains("left")) {
-        icon.setImage(App.getLeft());
-      } else {
-        icon.setImage(App.getRight());
-      }
 
-      directions.setText(path.get(i));
+      directions.setText("There is no available path.");
       directions.setWrapText(true);
       turn.getChildren().addAll(icon, directions);
       turnDirections.getChildren().add(turn);
-    }
-  }
+      return false;
+    } else if (path.size() == 1) {
+      ImageView icon = new ImageView();
+      icon.setFitHeight(50);
+      icon.setFitWidth(50);
+      icon.setImage(App.getSmile());
+      Label directions = new Label();
+      HBox turn = new HBox(15);
+      turn.setStyle(
+          "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
 
-  /** Helper method for submit sends text directions to the user */
-  private void setTextDirections() {
-    directions.setText(SearchSingleton.simplePathString(secondNameToggle.isSelected()));
-    searchAlgorithmTextDisplay.setText("Path found using " + SearchSingleton.getSearchAlgorithm());
-    if (SearchSingleton.getPath() == null) {
-      directions.setStyle("-fx-font-weight: bold;");
-      directions.setFill(Color.web("#AA4A44"));
+      directions.setText(path.get(0));
+      directions.setWrapText(true);
+      turn.getChildren().addAll(icon, directions);
+      turnDirections.getChildren().add(turn);
     } else {
-      directions.setFill(Color.web("#151515"));
+      for (int i = 0; i < path.size(); i++) {
+        ImageView icon = new ImageView();
+        icon.setFitHeight(50);
+        icon.setFitWidth(50);
+        Label directions = new Label();
+        HBox turn = new HBox(15);
+        turn.setStyle(
+            "-fx-background-color: #f1f1f1; -fx-background-radius: 10; -fx-padding: 10; -fx-alignment: center-left");
+        if (path.get(i).contains("up")) {
+          icon.setImage(App.getUp());
+        } else if (path.get(i).contains("down")) {
+          icon.setImage(App.getDown());
+        } else if (path.get(i).contains("left")) {
+          icon.setImage(App.getLeft());
+        } else {
+          icon.setImage(App.getRight());
+        }
+
+        directions.setText(path.get(i));
+        directions.setWrapText(true);
+        turn.getChildren().addAll(icon, directions);
+        turnDirections.getChildren().add(turn);
+      }
     }
+    return true;
   }
 
   /**
@@ -458,6 +486,15 @@ public class PathfindingController {
     if (stringList.contains("3")) {
       level3Toggle.setStyle(highlight);
     }
+  }
+
+  private void resetButtonIndicator() {
+    String highlight = "-fx-border-width: 5; -fx-border-color: TRANSPARENT; -fx-border-radius: 3";
+    levelL1Toggle.setStyle(highlight);
+    levelL2Toggle.setStyle(highlight);
+    level1Toggle.setStyle(highlight);
+    level2Toggle.setStyle(highlight);
+    level3Toggle.setStyle(highlight);
   }
 
   /**
