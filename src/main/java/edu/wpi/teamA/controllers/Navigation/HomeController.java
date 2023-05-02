@@ -1,7 +1,9 @@
 package edu.wpi.teamA.controllers.Navigation;
 
 import edu.wpi.teamA.database.DAOImps.*;
+import edu.wpi.teamA.database.DataBaseRepository;
 import edu.wpi.teamA.database.ORMclasses.*;
+import edu.wpi.teamA.database.Singletons.AccountSingleton;
 import edu.wpi.teamA.navigation.Navigation;
 import edu.wpi.teamA.navigation.Screen;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
@@ -94,6 +96,18 @@ public class HomeController {
   private void loadServiceRequests(VBox serviceRequestsContainer) {
     serviceRequestsContainer.getChildren().clear();
 
+    DataBaseRepository dbRepo = new DataBaseRepository();
+
+    // Get service requests created by the logged-in user
+    ArrayList<Flower> createdFlowers =
+        dbRepo.getCreatedFlower(AccountSingleton.INSTANCE.getValue().getUserName());
+    ArrayList<ConferenceRoomResRequest> createdCRRs =
+        dbRepo.getCreatedCRR(AccountSingleton.INSTANCE.getValue().getUserName());
+    ArrayList<FurnitureRequest> createdFurniture =
+        dbRepo.getCreatedFurniture(AccountSingleton.INSTANCE.getValue().getUserName());
+    ArrayList<Meal> createdMeals =
+        dbRepo.getCreatedMeal(AccountSingleton.INSTANCE.getValue().getUserName());
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     FlowerDAOImp flowerDAOImp = new FlowerDAOImp();
@@ -109,8 +123,7 @@ public class HomeController {
     HashMap<Integer, Meal> mealMap = mealDAOImp.getMealMap();
 
     // Load Flower Requests
-    for (Map.Entry<Integer, Flower> entry : flowerMap.entrySet()) {
-      Flower flower = entry.getValue();
+    for (Flower flower : createdFlowers) {
 
       // Create content container for each request
       VBox content = new VBox(5);
@@ -130,8 +143,7 @@ public class HomeController {
     }
 
     // Load CRRR Requests
-    for (Map.Entry<Integer, ConferenceRoomResRequest> entry : crrrMap.entrySet()) {
-      ConferenceRoomResRequest crrr = entry.getValue();
+    for (ConferenceRoomResRequest crrr : createdCRRs) {
 
       // Create content container for each request
       VBox content = new VBox(5);
@@ -151,8 +163,7 @@ public class HomeController {
     }
 
     // Load Furniture Requests
-    for (Map.Entry<Integer, FurnitureRequest> entry : furnitureMap.entrySet()) {
-      FurnitureRequest furniture = entry.getValue();
+    for (FurnitureRequest furniture : createdFurniture) {
 
       // Create content container for each request
       VBox content = new VBox(5);
@@ -170,8 +181,7 @@ public class HomeController {
           });
     }
     // Load Meal Requests
-    for (Map.Entry<Integer, Meal> entry : mealMap.entrySet()) {
-      Meal meal = entry.getValue();
+    for (Meal meal : createdMeals) {
       // Create content container for each request
       VBox content = new VBox(5);
       content.setStyle(
