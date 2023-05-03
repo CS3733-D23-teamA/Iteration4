@@ -110,8 +110,6 @@ public class AboutController {
     pop.setVisible(false);
   }
 
-  public void allFunFacts() {}
-
   public void ExitDialog() {
     pop.setVisible(false);
     pop.setDisable(true);
