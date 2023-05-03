@@ -45,6 +45,16 @@ public class App extends Application {
   @Getter private static Image smile = new Image("edu/wpi/teamA/images/icons/SmileyFace.png");
   @Getter private static Image frown = new Image("edu/wpi/teamA/images/icons/frown.png");
 
+  @Getter private static Image alex = new Image("edu/wpi/teamA/images/abouts/alex.png");
+  @Getter private static Image ashleigh = new Image("edu/wpi/teamA/images/abouts/ashleigh.png");
+  @Getter private static Image ayden = new Image("edu/wpi/teamA/images/abouts/ayden.png");
+  @Getter private static Image maryna = new Image("edu/wpi/teamA/images/abouts/maryna.png");
+  @Getter private static Image pooja = new Image("edu/wpi/teamA/images/abouts/pooja.png");
+  @Getter private static Image ryan = new Image("edu/wpi/teamA/images/abouts/Ryan.png");
+  @Getter private static Image seth = new Image("edu/wpi/teamA/images/abouts/seth.png");
+  @Getter private static Image vincent = new Image("edu/wpi/teamA/images/abouts/vincent.png");
+  @Getter private static Image xiao = new Image("edu/wpi/teamA/images/abouts/xiao.png");
+
   @Getter
   private static Image locationPF = new Image("edu/wpi/teamA/images/icons/pathfindingLoc.png");
 

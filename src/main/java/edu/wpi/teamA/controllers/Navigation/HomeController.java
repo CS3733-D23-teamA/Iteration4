@@ -12,24 +12,26 @@ import java.util.*;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javax.swing.text.html.ImageView;
 
 public class HomeController {
 
   @FXML private VBox alertsContainer;
   @FXML private ImageView imageCredits;
+  @FXML private ImageView aboutButton;
 
   @FXML private VBox serviceRequestsContainer;
 
   @FXML
   public void initialize() {
-
     getAlerts();
     loadServiceRequests();
   }
 
-  public void openAbout() {}
+  public void openAbout() {
+    Navigation.navigate(Screen.ABOUT_HOME);
+  }
 
   public void openCredits() {
     Navigation.navigate(Screen.CREDIT_HOME);

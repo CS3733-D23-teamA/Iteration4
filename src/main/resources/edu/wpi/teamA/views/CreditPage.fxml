@@ -85,7 +85,7 @@
                         <Blend />
                      </effect>
                   </VBox>
-                  <MFXButton styleClass="clear-mfx-button" text="Back" StackPane.alignment="TOP_LEFT">
+                  <MFXButton onAction="#back" styleClass="clear-mfx-button" text="Back" StackPane.alignment="TOP_LEFT">
                      <StackPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </StackPane.margin>
